@@ -74,7 +74,7 @@
                 <p class="text-xs sm:text-sm text-indigo-600 font-bold">Nhà sáng lập: Mai Chí Khanh</p>
             </div>
             <div class="flex flex-wrap gap-2">
-                <button onclick="backupData()" class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-2 rounded-xl text-xs font-bold">📥 Sao Lưu Dữ Liệu</button>
+                <button onclick="backupData()" class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-2 rounded-xl text-xs font-bold">📥 Sao Lưu</button>
                 <label class="bg-purple-50 text-purple-700 border border-purple-200 px-3 py-2 rounded-xl text-xs font-bold cursor-pointer">
                     📤 Phục Hồi <input type="file" id="restoreFile" accept=".json" onchange="restoreData(event)" class="hidden">
                 </label>
@@ -374,7 +374,6 @@
     <script>
         const STEPS = ["1. Học lý thuyết (25 ngày)", "2. Học lái xe trong sân thô (2 ngày)", "3. Học online hệ thống (25 ngày)", "4. Chạy DAT đường trường (4 ngày)", "5. Tập sa hình (2 ngày)", "6. Thi tốt nghiệp (2 ngày)", "7. Thi sát hạch (1 ngày)"];
 
-        // Cố định khóa lưu trữ (Storage Key) để không bao giờ mất dữ liệu khi cập nhật code
         const STORAGE_KEY_STUDENTS = 'driving_system_students_stable';
         const STORAGE_KEY_TEACHERS = 'driving_system_teachers_stable';
 
@@ -382,7 +381,6 @@
         let students = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS)) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
         const coursePrices = { "B (Số tự động)": 19500000, "B (Cơ khí)": 19500000, "C1": 21500000 };
 
-        // Chức năng Sao lưu dữ liệu ra file JSON
         function backupData() {
             const data = { students, teachers };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -393,7 +391,6 @@
             a.click();
         }
 
-        // Chức năng Phục hồi dữ liệu từ file JSON
         function restoreData(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -906,6 +903,10 @@
                 tbody.innerHTML += `<tr class="border-b"><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.phone || 'N/A'}</td><td class="p-3">${s.gender || 'Nam'}</td><td class="p-3 text-amber-600 font-bold">${formatDate(s.receiveDate)}</td><td class="p-3">${s.course}</td><td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex]}</span></td></tr>`;
             });
         }
+
+    // 7. HƯỚNG DẪN QUẢN LÝ TÀI KHOẢN VÀ DỮ LIỆU
+    // Dữ liệu học viên và giáo viên được bảo vệ an toàn qua các thao tác cập nhật code nhờ vào STORAGE_KEY_STUDENTS và STORAGE_KEY_TEACHERS.
+    // Nếu bạn muốn cấu hình thêm các thiết lập giao diện hoặc quy tắc hiển thị, bạn có thể truy cập mục Chỉ dẫn của bạn dành cho Gemini tại: https://gemini.google.com/saved-info
 
         window.onload = function() {
             const role = localStorage.getItem('current_role');
