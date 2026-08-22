@@ -75,7 +75,7 @@
             </div>
             <div class="flex flex-wrap gap-2">
                 <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-emerald-100">💰 Báo Cáo Tài Chính</button>
-                <button onclick="openTeacherTab()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-100">👨‍🏫 Quản Lý Giáo Viên</button>
+                <button onclick="openTeacherTab()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-100">👨‍🏫 Quản Lý Giáo Viên & Lương</button>
                 <button onclick="openStudentTab()" class="bg-blue-50 text-blue-700 border border-blue-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-blue-100">🎓 Quản Lý Học Viên</button>
                 <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">Đăng Xuất</button>
             </div>
@@ -108,7 +108,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày sinh</label>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày sinh (dd/mm/yyyy)</label>
                             <input type="date" id="addDob" class="border p-3 rounded-xl bg-white text-sm w-full">
                         </div>
                         <div>
@@ -116,11 +116,11 @@
                             <input type="text" id="addAddress" placeholder="Địa chỉ thường trú" class="border p-3 rounded-xl bg-white text-sm w-full">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày nhận hồ sơ *</label>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày nhận hồ sơ * (dd/mm/yyyy)</label>
                             <input type="date" id="addReceiveDate" class="border p-3 rounded-xl bg-white text-sm w-full">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày bắt đầu học *</label>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày bắt đầu học * (dd/mm/yyyy)</label>
                             <input type="date" id="addStartDate" class="border p-3 rounded-xl bg-white text-sm w-full">
                         </div>
                         <div>
@@ -173,10 +173,10 @@
             </div>
         </div>
 
-        <!-- TAB 2: QUẢN LÝ GIÁO VIÊN RIÊNG & CẤU HÌNH LƯƠNG -->
+        <!-- TAB 2: QUẢN LÝ GIÁO VIÊN & LƯƠNG THƯỞNG -->
         <div id="adminTeacherSection" class="hidden space-y-6">
             <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 space-y-4">
-                <h3 class="font-bold text-slate-800 text-sm">👨‍🏫 Thêm Giáo Viên Mới & Định Mức Lương Thưởng Chi Tiết</h3>
+                <h3 class="font-bold text-slate-800 text-sm">👨‍🏫 Thêm Giáo Viên Mới & Cấu Hình Định Mức Lương</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                     <div>
                         <label class="block text-[11px] font-bold text-slate-600 mb-1">Tên giáo viên *</label>
@@ -195,33 +195,34 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Số km DAT thực tế</label>
-                        <input type="number" id="newTeacherDatKm" value="0" placeholder="Số km chạy DAT" class="border p-3 rounded-xl bg-white text-sm w-full">
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Số km chạy DAT</label>
+                        <input type="number" id="newTeacherDatKm" value="0" class="border p-3 rounded-xl bg-white text-sm w-full">
                     </div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                     <div>
                         <label class="block text-[11px] font-bold text-slate-600 mb-1">Số buổi tập sa hình (80k/buổi)</label>
-                        <input type="number" id="newTeacherSahinhSessions" value="0" placeholder="Số buổi sa hình" class="border p-3 rounded-xl bg-white text-sm w-full">
+                        <input type="number" id="newTeacherSahinhSessions" value="0" class="border p-3 rounded-xl bg-white text-sm w-full">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày tập sa hình gần nhất</label>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày tập sa hình (dd/mm/yyyy)</label>
                         <input type="date" id="newTeacherSahinhDate" class="border p-3 rounded-xl bg-white text-sm w-full">
                     </div>
                     <div class="flex items-end">
-                        <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3 rounded-xl font-bold text-sm shadow hover:bg-indigo-700">Lưu Giáo Viên (Tự động cấp mã GV)</button>
+                        <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3 rounded-xl font-bold text-sm shadow hover:bg-indigo-700">Lưu Giáo Viên (Tự động cấp mã)</button>
                     </div>
                 </div>
             </div>
 
             <div class="overflow-x-auto w-full">
-                <table class="w-full text-left border-collapse min-w-[1000px]">
+                <table class="w-full text-left border-collapse min-w-[1100px]">
                     <thead>
                         <tr class="bg-slate-100 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
                             <th class="p-4 rounded-l-xl">Mã GV & Thông tin</th>
                             <th class="p-4">Học viên phụ trách</th>
-                            <th class="p-4">Chi tiết Lương Thưởng (Lý thuyết + Sa hình + Nhận HV + DAT)</th>
-                            <th class="p-4">Tổng thu nhập</th>
+                            <th class="p-4">Chi tiết Lương Thưởng (Lý thuyết, Sa hình, HV mới, DAT)</th>
+                            <th class="p-4">Khoản trừ khác</th>
+                            <th class="p-4">Tổng nhận & Xuất Phiếu Lương PDF</th>
                             <th class="p-4 rounded-r-xl">Thao tác</th>
                         </tr>
                     </thead>
@@ -356,7 +357,7 @@
             <div><span class="text-xs text-indigo-600 block font-bold">Tổng HV phụ trách:</span><strong class="text-slate-900 text-lg" id="tTotalStudents">0</strong></div>
             <div><span class="text-xs text-indigo-600 block font-bold">Lý thuyết (300k/HV):</span><strong class="text-slate-900 text-lg" id="tTheoryBonus">0đ</strong></div>
             <div><span class="text-xs text-indigo-600 block font-bold">Sa hình (80k/buổi):</span><strong class="text-slate-900 text-lg" id="tSahinhBonus">0đ</strong></div>
-            <div><span class="text-xs text-indigo-200 block font-bold">Tổng thu nhập dự kiến:</span><strong class="text-emerald-600 text-xl" id="tTotalIncome">0đ</strong></div>
+            <div><span class="text-xs text-indigo-600 block font-bold">Tổng thu nhập ròng:</span><strong class="text-emerald-600 text-xl" id="tTotalIncome">0đ</strong></div>
         </div>
 
         <table class="w-full text-left border-collapse text-sm">
@@ -369,9 +370,19 @@
     <script>
         const STEPS = ["1. Học lý thuyết (25 ngày)", "2. Học lái xe trong sân thô (2 ngày)", "3. Học online hệ thống (25 ngày)", "4. Chạy DAT đường trường (4 ngày)", "5. Tập sa hình (2 ngày)", "6. Thi tốt nghiệp (2 ngày)", "7. Thi sát hạch (1 ngày)"];
 
-        let teachers = JSON.parse(localStorage.getItem('erp_teachers_v13')) || [{ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', paidBonus: 0 }];
-        let students = JSON.parse(localStorage.getItem('erp_students_v13')) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
+        let teachers = JSON.parse(localStorage.getItem('erp_teachers_v14')) || [{ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', deductions: 0, paidBonus: 0 }];
+        let students = JSON.parse(localStorage.getItem('erp_students_v14')) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
         const coursePrices = { "B (Số tự động)": 19500000, "B (Cơ khí)": 19500000, "C1": 21500000 };
+
+        // Hàm chuyển đổi định dạng ngày sang dd/mm/yyyy
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            let parts = dateStr.split('-');
+            if (parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            return dateStr;
+        }
 
         function generateTeacherCode() {
             if (teachers.length === 0) return 'GV01';
@@ -464,8 +475,8 @@
             if (!name) return alert('Vui lòng nhập tên giáo viên!');
             const code = generateTeacherCode();
 
-            teachers.push({ id: Date.now(), name, code, phone, gender, datKm, sahinhSessions, sahinhDate, paidBonus: 0 });
-            localStorage.setItem('erp_teachers_v13', JSON.stringify(teachers));
+            teachers.push({ id: Date.now(), name, code, phone, gender, datKm, sahinhSessions, sahinhDate, deductions: 0, paidBonus: 0 });
+            localStorage.setItem('erp_teachers_v14', JSON.stringify(teachers));
             renderAdminTeacherTable();
             updateTeacherSelect();
             
@@ -478,12 +489,13 @@
 
         function calculateTeacherIncome(t) {
             const myStudents = students.filter(s => s.teacherCode === t.code);
-            const theory = myStudents.length * 300000; // 300k/HV lý thuyết
-            const sahinh = (t.sahinhSessions || 0) * 80000; // 80k/buổi sa hình
-            const receiveStudent = myStudents.length * 1500000; // 1.5tr/HV nhận hồ sơ
-            const dat = (t.datKm || 0) * 1500; // 1.5k/km DAT
-            const total = theory + sahinh + receiveStudent + dat;
-            return { count: myStudents.length, theory, sahinh, receiveStudent, dat, total };
+            const theory = myStudents.length * 300000;
+            const sahinh = (t.sahinhSessions || 0) * 80000;
+            const receiveStudent = myStudents.length * 1500000;
+            const dat = (t.datKm || 0) * 1500;
+            const deductions = t.deductions || 0;
+            const total = theory + sahinh + receiveStudent + dat - deductions;
+            return { count: myStudents.length, theory, sahinh, receiveStudent, dat, deductions, total };
         }
 
         function renderAdminTeacherTable() {
@@ -497,21 +509,79 @@
                         <td class="p-4 font-bold text-indigo-600">${inc.count} học viên</td>
                         <td class="p-4 text-xs space-y-1">
                             <div>- Lý thuyết (300k x ${inc.count}): <strong>${inc.theory.toLocaleString()}đ</strong></div>
-                            <div>- Sa hình (${t.sahinhSessions || 0} buổi x 80k, ngày ${t.sahinhDate || 'N/A'}): <strong>${inc.sahinh.toLocaleString()}đ</strong></div>
+                            <div>- Sa hình (${t.sahinhSessions || 0} buổi x 80k, ngày ${formatDate(t.sahinhDate)}): <strong>${inc.sahinh.toLocaleString()}đ</strong></div>
                             <div>- Nhận HV (1.5tr x ${inc.count}): <strong>${inc.receiveStudent.toLocaleString()}đ</strong></div>
                             <div>- Chạy DAT (${t.datKm || 0} km x 1.5k): <strong>${inc.dat.toLocaleString()}đ</strong></div>
                         </td>
-                        <td class="p-4 text-emerald-600 font-black text-base">${inc.total.toLocaleString()}đ</td>
+                        <td class="p-4"><input type="number" value="${t.deductions || 0}" onchange="updateDeduction(${t.id}, this.value)" class="w-24 border p-1 rounded text-sm text-red-600 font-bold" title="Khoản trừ khác"></td>
+                        <td class="p-4 text-emerald-600 font-black text-base">${inc.total.toLocaleString()}đ<br>
+                            <button onclick="printSalaryPDF(${t.id})" class="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-xl font-bold mt-1 shadow hover:bg-blue-700">🖨️ Xuất Phiếu Lương PDF</button>
+                        </td>
                         <td class="p-4"><button onclick="deleteTeacher(${t.id})" class="text-red-500 font-bold">Xóa</button></td>
                     </tr>
                 `;
             });
         }
 
+        function updateDeduction(id, val) {
+            const t = teachers.find(x => x.id === id);
+            t.deductions = Number(val);
+            localStorage.setItem('erp_teachers_v14', JSON.stringify(teachers));
+            renderAdminTeacherTable();
+        }
+
+        function printSalaryPDF(id) {
+            const t = teachers.find(x => x.id === id);
+            const inc = calculateTeacherIncome(t);
+            const win = window.open('', '_blank', 'width=800,height=600');
+            win.document.write(`
+                <html><head><title>Phiếu Lương - ${t.name}</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 40px; color: #333; }
+                    .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
+                    .info { margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+                    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+                    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+                    th { background-color: #f4f4f4; }
+                    .text-right { text-align: right; }
+                    .total { font-weight: bold; color: #2563eb; font-size: 16px; }
+                    .footer { display: flex; justify-content: space-between; margin-top: 40px; font-size: 14px; }
+                    .sign { text-align: center; }
+                </style>
+                </head><body>
+                <div class="header">
+                    <h2>HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2>
+                    <p><strong>PHIẾU THANH TOÁN LƯƠNG GIÁO VIÊN</strong></p>
+                    <p style="font-size: 12px; color: #666;">Ngày lập: ${new Date().toLocaleDateString('vi-VN')}</p>
+                </div>
+                <div class="info">
+                    <p><strong>Họ và tên giáo viên:</strong> ${t.name} (Mã: ${t.code})</p>
+                    <p><strong>Số điện thoại:</strong> ${t.phone || 'N/A'} | <strong>Giới tính:</strong> ${t.gender || 'Nam'}</p>
+                </div>
+                <table>
+                    <tr><th>Nội dung thu nhập / Khấu trừ</th><th class="text-right">Thành tiền</th></tr>
+                    <tr><td>Dạy lý thuyết (${inc.count} học viên x 300.000đ)</td><td class="text-right">${inc.theory.toLocaleString()}đ</td></tr>
+                    <tr><td>Tập sa hình (${t.sahinhSessions || 0} buổi x 80.000đ, ngày tập: ${formatDate(t.sahinhDate)})</td><td class="text-right">${inc.sahinh.toLocaleString()}đ</td></tr>
+                    <tr><td>Nhận học viên mới (${inc.count} học viên x 1.500.000đ)</td><td class="text-right">${inc.receiveStudent.toLocaleString()}đ</td></tr>
+                    <tr><td>Chạy DAT đường trường (${t.datKm || 0} km x 1.500đ)</td><td class="text-right">${inc.dat.toLocaleString()}đ</td></tr>
+                    <tr style="color: #dc2626;"><td>Khấu trừ các khoản khác (Phạt / Ứng lương)</td><td class="text-right">-${(t.deductions || 0).toLocaleString()}đ</td></tr>
+                    <tr class="total"><td>TỔNG THỰC NHẬN</td><td class="text-right">${inc.total.toLocaleString()} VNĐ</td></tr>
+                </table>
+                <div class="footer">
+                    <div class="sign"><p><strong>Kế toán trung tâm</strong></p><br><br><p>(Ký, ghi rõ họ tên)</p></div>
+                    <div class="sign"><p><strong>Giáo viên nhận tiền</strong></p><br><br><p>(Ký, ghi rõ họ tên)</p></div>
+                </div>
+                <script>window.onload = function() { window.print(); window.close(); }</script>
+                </body></html>
+            `);
+            win.document.close();
+        }
+
         function deleteTeacher(id) {
             teachers = teachers.filter(t => t.id !== id);
-            localStorage.setItem('erp_teachers_v13', JSON.stringify(teachers));
+            localStorage.setItem('erp_teachers_v14', JSON.stringify(teachers));
             renderAdminTeacherTable();
+            updateTeacherSelect();
         }
 
         function addStudent() {
@@ -579,7 +649,7 @@
         }
 
         function saveAndSync() {
-            localStorage.setItem('erp_students_v13', JSON.stringify(students));
+            localStorage.setItem('erp_students_v14', JSON.stringify(students));
         }
 
         function renderAdminStudentTable() {
@@ -598,8 +668,8 @@
                             <div class="text-[11px] text-emerald-600 font-mono mt-0.5">📍 ${s.gps}</div>
                         </td>
                         <td class="p-4 text-xs">
-                            <div>Sinh: ${s.dob || 'N/A'} (${s.gender || 'Nam'})</div>
-                            <div class="text-amber-600 font-bold mt-1">Nhận HS: ${s.receiveDate || 'N/A'}</div>
+                            <div>Sinh: ${formatDate(s.dob)} (${s.gender || 'Nam'})</div>
+                            <div class="text-amber-600 font-bold mt-1">Nhận HS: ${formatDate(s.receiveDate)}</div>
                         </td>
                         <td class="p-4 text-xs font-bold">${s.course}<br><span class="text-indigo-600 font-normal">GV: ${t ? t.name : 'N/A'}</span></td>
                         <td class="p-4"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex] || 'Hoàn thành'}</span></td>
@@ -634,7 +704,7 @@
             let amt = feeType === 1 ? s.totalPrice * 0.5 : s.totalPrice * 0.25;
             let title = `Học phí Đợt ${feeType}`;
             const printWindow = window.open('', '_blank', 'width=800,height=600');
-            printWindow.document.write(`<html><head><title>Hóa Đơn</title></head><body><h2>HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2><p><strong>Nhà sáng lập:</strong> Mai Chí Khanh</p><hr><p>Học viên: ${s.name} - CCCD: ${s.cccd} - SĐT: ${s.phone || 'N/A'}</p><p>Ngày nhận hồ sơ: ${s.receiveDate || 'N/A'}</p><p>Nội dung thanh toán: ${title}</p><p>Số tiền: <strong>${amt.toLocaleString()} VNĐ</strong></p><script>window.onload=function(){window.print();window.close();}<\/script></body></html>`);
+            printWindow.document.write(`<html><head><title>Hóa Đơn</title></head><body><h2>HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2><p><strong>Nhà sáng lập:</strong> Mai Chí Khanh</p><hr><p>Học viên: ${s.name} - CCCD: ${s.cccd} - SĐT: ${s.phone || 'N/A'}</p><p>Ngày nhận hồ sơ: ${formatDate(s.receiveDate)}</p><p>Nội dung thanh toán: ${title}</p><p>Số tiền: <strong>${amt.toLocaleString()} VNĐ</strong></p><script>window.onload=function(){window.print();window.close();}<\/script></body></html>`);
             printWindow.document.close();
         }
 
@@ -665,9 +735,9 @@
             document.getElementById('sCccdDisplay').innerText = s.cccd;
             document.getElementById('sPhoneDisplay').innerText = s.phone || 'N/A';
             document.getElementById('sGenderDisplay').innerText = s.gender || 'Nam';
-            document.getElementById('sDobDisplay').innerText = s.dob || 'N/A';
+            document.getElementById('sDobDisplay').innerText = formatDate(s.dob);
             document.getElementById('sAddressDisplay').innerText = s.address || 'N/A';
-            document.getElementById('sReceiveDateDisplay').innerText = s.receiveDate || 'N/A';
+            document.getElementById('sReceiveDateDisplay').innerText = formatDate(s.receiveDate);
             document.getElementById('sTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
             document.getElementById('sCourseBadge').innerText = s.course;
 
@@ -730,9 +800,9 @@
             document.getElementById('modalCccdDisplay').innerText = s.cccd;
             document.getElementById('modalPhoneDisplay').innerText = s.phone || 'N/A';
             document.getElementById('modalGenderDisplay').innerText = s.gender || 'Nam';
-            document.getElementById('modalDobDisplay').innerText = s.dob || 'N/A';
+            document.getElementById('modalDobDisplay').innerText = formatDate(s.dob);
             document.getElementById('modalAddressDisplay').innerText = s.address || 'N/A';
-            document.getElementById('modalReceiveDateDisplay').innerText = s.receiveDate || 'N/A';
+            document.getElementById('modalReceiveDateDisplay').innerText = formatDate(s.receiveDate);
             document.getElementById('modalTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
             document.getElementById('modalCourseBadge').innerText = s.course;
             
@@ -786,7 +856,7 @@
             const tbody = document.getElementById('tStudentTableBody');
             tbody.innerHTML = '';
             my.forEach(s => {
-                tbody.innerHTML += `<tr class="border-b"><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.phone || 'N/A'}</td><td class="p-3">${s.gender || 'Nam'}</td><td class="p-3 text-amber-600 font-bold">${s.receiveDate || 'N/A'}</td><td class="p-3">${s.course}</td><td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex]}</span></td></tr>`;
+                tbody.innerHTML += `<tr class="border-b"><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.phone || 'N/A'}</td><td class="p-3">${s.gender || 'Nam'}</td><td class="p-3 text-amber-600 font-bold">${formatDate(s.receiveDate)}</td><td class="p-3">${s.course}</td><td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex]}</span></td></tr>`;
             });
         }
 
@@ -796,6 +866,7 @@
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('adminDashboard').classList.remove('hidden');
                 renderAdminStudentTable();
+                updateTeacherSelect();
             } else if (role === 'teacher') {
                 const t = teachers.find(x => x.code === localStorage.getItem('current_teacher_code'));
                 if (t) { document.getElementById('loginScreen').classList.add('hidden'); document.getElementById('teacherDashboard').classList.remove('hidden'); renderTeacherPortal(t); }
