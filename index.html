@@ -45,7 +45,7 @@
                 <div id="studentLoginGroup" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Số CCCD học viên <span class="text-red-500">*</span>:</label>
-                        <input type="text" id="loginCCCD" placeholder="Nhập số CCCD" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                        <input type="text" id="loginCCCD" value="12345" placeholder="Nhập số CCCD" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu <span class="text-red-500">*</span>:</label>
@@ -57,7 +57,7 @@
                 <div id="teacherLoginGroup" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mã Giáo Viên <span class="text-red-500">*</span>:</label>
-                        <input type="text" id="loginTeacherCode" placeholder="Nhập mã GV (VD: GV01)" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                        <input type="text" id="loginTeacherCode" value="GV01" placeholder="Nhập mã GV (VD: GV01)" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu <span class="text-red-500">*</span>:</label>
@@ -69,11 +69,11 @@
                 <div id="adminLoginGroup" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Tài khoản Quản trị <span class="text-red-500">*</span>:</label>
-                        <input type="text" id="adminUser" placeholder="Tài khoản admin" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                        <input type="text" id="adminUser" value="admin" placeholder="Tài khoản admin" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu Quản trị <span class="text-red-500">*</span>:</label>
-                        <input type="password" id="adminPass" placeholder="Mật khẩu admin" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                        <input type="password" id="adminPass" value="admin123" placeholder="Mật khẩu admin" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
                     </div>
                 </div>
 
@@ -483,15 +483,18 @@
             const role = document.getElementById('loginRole').value;
             captureGPS(gps => {
                 if (role === 'admin') {
-                    if (document.getElementById('adminUser').value.trim() !== 'admin' || document.getElementById('adminPass').value.trim() !== 'admin123') return alert('Sai tài khoản Admin!');
+                    const user = document.getElementById('adminUser').value.trim();
+                    const pass = document.getElementById('adminPass').value.trim();
+                    if (user !== 'admin' || pass !== 'admin123') return alert('Sai tài khoản hoặc mật khẩu Quản trị!');
                     localStorage.setItem('current_role', 'admin');
                     document.getElementById('loginScreen').classList.add('hidden');
                     document.getElementById('adminDashboard').classList.remove('hidden');
                     renderAdminStudentTable();
                     updateTeacherSelect();
                 } else if (role === 'teacher') {
-                    const t = teachers.find(x => x.code.toLowerCase() === document.getElementById('loginTeacherCode').value.trim().toLowerCase());
-                    if (!t) return alert('Sai mã giáo viên!');
+                    const code = document.getElementById('loginTeacherCode').value.trim();
+                    const t = teachers.find(x => x.code.toLowerCase() === code.toLowerCase());
+                    if (!t) return alert('Không tìm thấy mã giáo viên!');
                     localStorage.setItem('current_role', 'teacher');
                     localStorage.setItem('current_teacher_code', t.code);
                     document.getElementById('loginScreen').classList.add('hidden');
