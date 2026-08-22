@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống ERP & CRM Doanh Nghiệp Lái Xe</title>
+    <title>DriveERP - Phần Mềm Quản Trị Trung Tâm Đào Tạo Lái Xe Chuyên Nghiệp</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -12,17 +12,17 @@
     <!-- KHUNG ĐĂNG NHẬP CHUẨN DOANH NGHIỆP -->
     <div id="loginScreen" class="max-w-md w-full bg-white rounded-3xl shadow-2xl p-6 sm:p-8 mx-auto mt-12 md:mt-20 border border-slate-200">
         <div class="text-center mb-6">
-            <span class="text-4xl">🏢</span>
-            <h2 class="text-2xl font-black text-slate-900 mt-2">Hệ Thống Quản Trị Doanh Nghiệp</h2>
-            <p class="text-xs text-slate-500 mt-1">Phần mềm quản lý đào tạo & tài chính tự động</p>
+            <span class="text-4xl">🚗</span>
+            <h2 class="text-2xl font-black text-slate-900 mt-2">DriveERP Enterprise</h2>
+            <p class="text-xs text-slate-500 mt-1">Hệ thống quản lý trung tâm đào tạo lái xe toàn diện</p>
         </div>
         <div class="space-y-4">
             <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Chọn vai trò truy cập:</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Chọn vai trò truy cập hệ thống:</label>
                 <select id="loginRole" class="w-full border border-slate-300 p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none bg-slate-50 font-medium text-sm" onchange="toggleLoginInput()">
                     <option value="student">🎓 Học viên (Tra cứu lộ trình & học phí)</option>
                     <option value="teacher">👨‍🏫 Giáo viên (Quản lý lớp & lương thưởng)</option>
-                    <option value="admin">🔒 Quản trị viên (Admin Doanh Nghiệp)</option>
+                    <option value="admin">🔒 Quản trị viên (Chủ trung tâm / Admin)</option>
                 </select>
             </div>
 
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-3.5 rounded-2xl hover:from-blue-700 hover:to-indigo-800 font-bold shadow-lg shadow-blue-500/30 text-sm transition-all">🚀 Đăng Nhập Hệ Thống</button>
+            <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-3.5 rounded-2xl hover:from-blue-700 hover:to-indigo-800 font-bold shadow-lg shadow-blue-500/30 text-sm transition-all">🚀 Truy Cập Hệ Thống</button>
         </div>
     </div>
 
@@ -70,11 +70,11 @@
     <div id="adminDashboard" class="hidden w-full max-w-full bg-white rounded-3xl shadow-xl p-4 sm:p-6 md:p-8">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b">
             <div>
-                <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900">📊 ERP Doanh Nghiệp - Quản Trị Trung Tâm Lái Xe</h1>
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900">📊 Quản Trị Trung Tâm Đào Tạo Lái Xe (ERP)</h1>
                 <p class="text-xs sm:text-sm text-slate-500">Giám sát học viên, giáo viên, định vị GPS và kiểm soát lợi nhuận tài chính tự động.</p>
             </div>
             <div class="flex flex-wrap gap-2">
-                <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-emerald-100 transition-all">💰 Báo Cáo Thu - Chi & Lợi Nhuận</button>
+                <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-emerald-100 transition-all">💰 Báo Cáo Tài Chính & Lợi Nhuận</button>
                 <button onclick="openTeacherManageModal()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-100 transition-all">👨‍🏫 Quản Lý Giáo Viên & Lương</button>
                 <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-red-100 transition-all">Đăng Xuất</button>
             </div>
@@ -82,15 +82,15 @@
         
         <!-- Form thêm học viên & chú thích rõ ràng -->
         <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 mb-6 space-y-4">
-            <h3 class="font-bold text-slate-800 text-sm">➕ Thêm Hồ Sơ Học Viên Mới (Tự động tính học phí & phân công giáo viên)</h3>
+            <h3 class="font-bold text-slate-800 text-sm">➕ Thêm Hồ Sơ Học Viên Mới (Hệ thống tự động tính học phí và phân công)</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
                 <div>
                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Họ và tên học viên <span class="text-red-500">*</span></label>
                     <input type="text" id="addName" placeholder="Ví dụ: Nguyễn Văn A" class="w-full border p-3 rounded-xl bg-white text-sm">
                 </div>
                 <div>
-                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Số CCCD <span class="text-red-500">*</span></label>
-                    <input type="text" id="addCCCD" placeholder="Số CCCD định danh" class="w-full border p-3 rounded-xl bg-white text-sm">
+                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Số CCCD định danh <span class="text-red-500">*</span></label>
+                    <input type="text" id="addCCCD" placeholder="Số CCCD" class="w-full border p-3 rounded-xl bg-white text-sm">
                 </div>
                 <div>
                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày bắt đầu khóa học <span class="text-red-500">*</span></label>
@@ -106,9 +106,7 @@
                 </div>
                 <div>
                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Giáo viên phụ trách <span class="text-red-500">*</span></label>
-                    <select id="addTeacher" class="w-full border p-3 rounded-xl bg-white text-sm">
-                        <!-- Render danh sách giáo viên -->
-                    </select>
+                    <select id="addTeacher" class="w-full border p-3 rounded-xl bg-white text-sm"></select>
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-2 border-t border-slate-200">
@@ -116,9 +114,7 @@
                     <input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600">
                     <label for="addIsStudent" class="text-xs sm:text-sm font-bold text-slate-700">Áp dụng chính sách giảm 1.000.000đ cho Học sinh - Sinh viên</label>
                 </div>
-                <div class="flex gap-2 w-full sm:w-auto">
-                    <button onclick="addStudent()" class="flex-1 sm:flex-none bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 font-bold shadow text-sm">Lưu Hồ Sơ Học Viên</button>
-                </div>
+                <button onclick="addStudent()" class="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 font-bold shadow text-sm">Lưu Hồ Sơ & Tạo Tài Khoản</button>
             </div>
         </div>
 
@@ -243,6 +239,19 @@
         </div>
     </div>
 
+    <!-- MODAL XUẤT THÔNG TIN ĐĂNG NHẬP CHO HỌC VIÊN -->
+    <div id="credentialsModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 md:p-8 space-y-4">
+            <h3 class="text-xl font-black text-slate-900">🎉 Tạo Tài Khoản Thành Công!</h3>
+            <p class="text-xs text-slate-500">Sao chép nội dung bên dưới để gửi qua Zalo/Messenger cho học viên:</p>
+            <textarea id="credentialText" rows="6" readonly class="w-full border p-3 rounded-xl bg-slate-50 text-xs font-mono outline-none"></textarea>
+            <div class="flex gap-3">
+                <button onclick="copyCredentials()" class="flex-1 bg-blue-600 text-white p-3 rounded-xl font-bold text-sm hover:bg-blue-700 shadow">📋 Sao chép nội dung</button>
+                <button onclick="closeCredentialsModal()" class="bg-slate-200 text-slate-700 px-5 py-3 rounded-xl font-bold text-sm hover:bg-slate-300">Đóng</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL FOLDER XEM CHI TIẾT HỒ SƠ HỌC VIÊN -->
     <div id="studentModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 relative">
@@ -318,7 +327,6 @@
             "C1": 21500000
         };
 
-        // Tự động định vị GPS khi đăng nhập thành công
         function captureGPS(callback) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -326,13 +334,9 @@
                         const coords = `${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`;
                         callback(coords);
                     },
-                    error => {
-                        callback('Không thể lấy tọa độ (Từ chối quyền GPS)');
-                    }
+                    error => { callback('Không thể lấy tọa độ (Từ chối quyền GPS)'); }
                 );
-            } else {
-                callback('Trình duyệt không hỗ trợ GPS');
-            }
+            } else { callback('Trình duyệt không hỗ trợ GPS'); }
         }
 
         function toggleLoginInput() {
@@ -378,7 +382,6 @@
                     const student = students.find(s => s.cccd === cccd && s.pass === pass);
                     if (!student) return alert('Sai số CCCD hoặc mật khẩu học viên (Mặc định: 123)!');
 
-                    // Cập nhật GPS mới nhất cho học viên
                     student.gps = gpsCoord;
                     saveAndSync();
 
@@ -498,18 +501,30 @@
 
             const newStudent = {
                 id: Date.now(), name, cccd, pass: '123', startDate, course, teacherCode, stepIndex: 0, totalPrice, isStudent,
-                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa xác định'
+                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị'
             };
 
             students.push(newStudent);
             saveAndSync();
-            alert('Thêm học viên thành công!');
+            showCredentialsModal(newStudent);
 
             document.getElementById('addName').value = '';
             document.getElementById('addCCCD').value = '';
             document.getElementById('addStartDate').value = '';
             document.getElementById('addIsStudent').checked = false;
         }
+
+        function showCredentialsModal(s) {
+            const text = `🚗 TRUNG TÂM ĐÀO TẠO LÁI XE\n\nThông tin tài khoản học viên:\n- Họ tên: ${s.name}\n- Hạng: ${s.course}\n- Link: ${window.location.href}\n- Tên đăng nhập (CCCD): ${s.cccd}\n- Mật khẩu: 123`;
+            document.getElementById('credentialText').value = text;
+            document.getElementById('credentialsModal').classList.remove('hidden');
+        }
+        function copyCredentials() {
+            document.getElementById('credentialText').select();
+            document.execCommand('copy');
+            alert('Đã sao chép!');
+        }
+        function closeCredentialsModal() { document.getElementById('credentialsModal').classList.add('hidden'); }
 
         function toggleFee(id, feeType) {
             students = students.map(s => {
