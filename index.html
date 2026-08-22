@@ -7,228 +7,263 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
-<body class="bg-slate-100 min-h-screen p-2 sm:p-4 md:p-6 font-sans text-slate-800">
+<body class="bg-slate-100 min-h-screen font-sans text-slate-800">
 
-    <!-- MÀN HÌNH ĐĂNG NHẬP -->
-    <div id="loginScreen" class="max-w-md w-full bg-white rounded-3xl shadow-2xl p-6 sm:p-8 mx-auto mt-12 md:mt-20 border border-slate-200">
-        <div class="text-center mb-6">
-            <span class="text-4xl">🚗</span>
-            <h2 class="text-2xl font-black text-slate-900 mt-2">HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2>
-            <p class="text-xs text-indigo-600 font-bold mt-1">Nhà sáng lập: Mai Chí Khanh</p>
-        </div>
-        <div class="space-y-4">
+    <!-- GIAO DIỆN ĐĂNG NHẬP CHUẨN ENTERPRISE (SPLIT SCREEN) -->
+    <div id="loginScreen" class="min-h-screen flex flex-col md:flex-row">
+        <!-- Banner bên trái -->
+        <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-8 md:p-16 flex flex-col justify-between text-white">
             <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Chọn vai trò truy cập:</label>
-                <select id="loginRole" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 font-medium text-sm" onchange="toggleLoginInput()">
-                    <option value="student">🎓 Học viên</option>
-                    <option value="teacher">👨‍🏫 Giáo viên</option>
-                    <option value="admin">🔒 Quản trị viên</option>
-                </select>
+                <span class="text-4xl">🚗</span>
+                <span class="ml-2 font-bold tracking-wider uppercase text-xs bg-white/10 px-3 py-1 rounded-full">DriveERP v2.0</span>
             </div>
-
-            <div id="studentLoginGroup" class="space-y-3">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Số CCCD học viên <span class="text-red-500">*</span>:</label>
-                    <input type="text" id="loginCCCD" placeholder="Nhập số CCCD" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu <span class="text-red-500">*</span>:</label>
-                    <input type="password" id="loginPass" value="123" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
-                </div>
+            <div class="space-y-4 my-auto">
+                <h1 class="text-3xl md:text-5xl font-black leading-tight">HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h1>
+                <p class="text-indigo-200 text-sm md:text-base">Giải pháp chuyển đổi số toàn diện cho các trung tâm sát hạch và đào tạo lái xe chuyên nghiệp.</p>
+                <div class="pt-4 text-xs font-bold text-amber-300">Nhà sáng lập: Mai Chí Khanh</div>
             </div>
+            <div class="text-xs text-slate-400">© 2026 Enterprise SaaS Architecture. All rights reserved.</div>
+        </div>
 
-            <div id="teacherLoginGroup" class="space-y-3 hidden">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mã Giáo Viên <span class="text-red-500">*</span>:</label>
-                    <input type="text" id="loginTeacherCode" placeholder="Nhập mã GV (VD: GV01)" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu <span class="text-red-500">*</span>:</label>
-                    <input type="password" id="loginTeacherPass" value="123" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
-                </div>
+        <!-- Form đăng nhập bên phải -->
+        <div class="md:w-1/2 bg-white p-8 md:p-16 flex flex-col justify-center max-w-xl mx-auto w-full shadow-2xl">
+            <div class="mb-8">
+                <h2 class="text-2xl font-black text-slate-900">Đăng Nhập Hệ Thống</h2>
+                <p class="text-xs text-slate-500 mt-1">Vui lòng chọn vai trò và nhập thông tin xác thực.</p>
             </div>
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Vai trò truy cập:</label>
+                    <select id="loginRole" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 font-medium text-sm focus:ring-2 focus:ring-blue-600" onchange="toggleLoginInput()">
+                        <option value="student">🎓 Học viên</option>
+                        <option value="teacher">👨‍🏫 Giáo viên</option>
+                        <option value="admin">🔒 Quản trị viên (Admin)</option>
+                    </select>
+                </div>
 
-            <div id="adminLoginGroup" class="space-y-3 hidden">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Tài khoản Quản trị <span class="text-red-500">*</span>:</label>
-                    <input type="text" id="adminUser" placeholder="Tài khoản admin" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
+                <div id="studentLoginGroup" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Số CCCD học viên <span class="text-red-500">*</span>:</label>
+                        <input type="text" id="loginCCCD" placeholder="Nhập số CCCD" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu <span class="text-red-500">*</span>:</label>
+                        <input type="password" id="loginPass" value="123" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu Quản trị <span class="text-red-500">*</span>:</label>
-                    <input type="password" id="adminPass" placeholder="Mật khẩu admin" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
+
+                <div id="teacherLoginGroup" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mã Giáo Viên <span class="text-red-500">*</span>:</label>
+                        <input type="text" id="loginTeacherCode" placeholder="Nhập mã GV (VD: GV01)" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu <span class="text-red-500">*</span>:</label>
+                        <input type="password" id="loginTeacherPass" value="123" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                    </div>
                 </div>
+
+                <div id="adminLoginGroup" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Tài khoản Quản trị <span class="text-red-500">*</span>:</label>
+                        <input type="text" id="adminUser" placeholder="Tài khoản admin" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu Quản trị <span class="text-red-500">*</span>:</label>
+                        <input type="password" id="adminPass" placeholder="Mật khẩu admin" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                    </div>
+                </div>
+
+                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-4 rounded-xl hover:bg-blue-700 font-bold shadow-lg shadow-blue-500/30 text-sm transition-all">🚀 Truy Cập Hệ Thống</button>
             </div>
-
-            <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-3.5 rounded-2xl hover:from-blue-700 hover:to-indigo-800 font-bold shadow-lg text-sm transition-all">🚀 Truy Cập Hệ Thống</button>
         </div>
     </div>
 
-    <!-- GIAO DIỆN ADMIN -->
-    <div id="adminDashboard" class="hidden w-full max-w-full bg-white rounded-3xl shadow-xl p-4 sm:p-6 md:p-8">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b">
-            <div>
-                <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900">HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h1>
-                <p class="text-xs sm:text-sm text-indigo-600 font-bold">Nhà sáng lập: Mai Chí Khanh</p>
+    <!-- GIAO DIỆN QUẢN TRỊ ADMIN (SIDEBAR & HEADER LAYOUT) -->
+    <div id="adminDashboard" class="hidden min-h-screen flex flex-col md:flex-row">
+        <!-- Sidebar Menu -->
+        <div class="md:w-64 bg-slate-900 text-slate-300 p-6 flex flex-col justify-between">
+            <div class="space-y-6">
+                <div>
+                    <h2 class="text-white font-black text-lg">DriveERP</h2>
+                    <p class="text-[11px] text-indigo-400 font-bold">Quản Trị Trung Tâm Lái Xe</p>
+                </div>
+                <nav class="space-y-1 text-sm font-medium">
+                    <a href="#" onclick="openStudentTab()" class="block px-4 py-3 rounded-xl bg-blue-600 text-white font-bold shadow">🎓 Quản Lý Học Viên</a>
+                    <a href="#" onclick="openTeacherTab()" class="block px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition">👨‍🏫 Quản Lý Giáo Viên & Lương</a>
+                    <a href="#" onclick="openFinanceModal()" class="block px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition">💰 Báo Cáo Tài Chính</a>
+                </nav>
             </div>
-            <div class="flex flex-wrap gap-2">
-                <button onclick="backupData()" class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-2 rounded-xl text-xs font-bold">📥 Sao Lưu</button>
-                <label class="bg-purple-50 text-purple-700 border border-purple-200 px-3 py-2 rounded-xl text-xs font-bold cursor-pointer">
-                    📤 Phục Hồi <input type="file" id="restoreFile" accept=".json" onchange="restoreData(event)" class="hidden">
+            <div class="pt-6 border-t border-slate-800 space-y-2">
+                <button onclick="backupData()" class="w-full bg-amber-500/20 text-amber-300 border border-amber-500/30 py-2.5 rounded-xl text-xs font-bold">📥 Sao Lưu Dữ Liệu</button>
+                <label class="block w-full text-center bg-purple-500/20 text-purple-300 border border-purple-500/30 py-2.5 rounded-xl text-xs font-bold cursor-pointer">
+                    📤 Phục Hồi Dữ Liệu <input type="file" id="restoreFile" accept=".json" onchange="restoreData(event)" class="hidden">
                 </label>
-                <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">💰 Tài Chính</button>
-                <button onclick="openTeacherTab()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">👨‍🏫 Giáo Viên</button>
-                <button onclick="openStudentTab()" class="bg-blue-50 text-blue-700 border border-blue-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">🎓 Học Viên</button>
-                <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs font-bold">Đăng Xuất</button>
+                <button onclick="logout()" class="w-full bg-red-500/20 text-red-300 border border-red-500/30 py-2.5 rounded-xl text-xs font-bold">Đăng Xuất</button>
             </div>
         </div>
 
-        <!-- TAB QUẢN LÝ HỌC VIÊN -->
-        <div id="adminStudentSection" class="space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 sm:p-6 bg-slate-50 rounded-2xl border border-slate-200">
-                <div class="lg:col-span-2 space-y-4">
-                    <h3 class="font-bold text-slate-800 text-sm">➕ Thêm Hồ Sơ Học Viên Mới</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Họ và tên học viên *</label>
-                            <input type="text" id="addName" placeholder="Nhập họ và tên" class="border p-3 rounded-xl bg-white text-sm w-full">
+        <!-- Main Content Area -->
+        <div class="flex-1 p-4 md:p-8 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b">
+                <div>
+                    <h1 class="text-2xl font-black text-slate-900">HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h1>
+                    <p class="text-xs text-indigo-600 font-bold">Nhà sáng lập: Mai Chí Khanh</p>
+                </div>
+            </div>
+
+            <!-- TAB HỌC VIÊN -->
+            <div id="adminStudentSection" class="space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 bg-white rounded-3xl shadow-sm border border-slate-200">
+                    <div class="lg:col-span-2 space-y-4">
+                        <h3 class="font-bold text-slate-800 text-sm">➕ Thêm Hồ Sơ Học Viên Mới</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Họ và tên học viên *</label>
+                                <input type="text" id="addName" placeholder="Nhập họ và tên" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Số CCCD *</label>
+                                <input type="text" id="addCCCD" placeholder="Số CCCD định danh" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Số điện thoại (SĐT)</label>
+                                <input type="text" id="addPhone" placeholder="SĐT liên hệ" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Giới tính</label>
+                                <select id="addGender" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày sinh (dd/mm/yyyy)</label>
+                                <input type="date" id="addDob" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Địa chỉ học viên</label>
+                                <input type="text" id="addAddress" placeholder="Địa chỉ thường trú" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày nhận hồ sơ * (dd/mm/yyyy)</label>
+                                <input type="date" id="addReceiveDate" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày bắt đầu học * (dd/mm/yyyy)</label>
+                                <input type="date" id="addStartDate" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Hạng đào tạo *</label>
+                                <select id="addCourse" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                                    <option value="B (Số tự động)">Hạng B (Tự động - 19.5tr)</option>
+                                    <option value="B (Cơ khí)">Hạng B (Cơ khí - 19.5tr)</option>
+                                    <option value="C1">Hạng C1 (21.5tr)</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-3">
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Giáo viên phụ trách *</label>
+                                <select id="addTeacher" class="border p-3 rounded-xl bg-slate-50 text-sm w-full"></select>
+                            </div>
                         </div>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600">
+                                <label for="addIsStudent" class="text-xs font-bold text-slate-700">Giảm 1tr (Sinh viên)</label>
+                            </div>
+                            <button onclick="addStudent()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 shadow">Lưu Hồ Sơ</button>
+                        </div>
+                    </div>
+
+                    <div class="border-t lg:border-t-0 lg:border-l pl-0 lg:pl-6 pt-4 lg:pt-0 space-y-3 flex flex-col justify-between">
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Số CCCD *</label>
-                            <input type="text" id="addCCCD" placeholder="Số CCCD định danh" class="border p-3 rounded-xl bg-white text-sm w-full">
+                            <h3 class="font-bold text-slate-800 text-sm mb-1">📊 Import Excel Hàng Loạt</h3>
+                            <p class="text-[11px] text-slate-500 mb-3">File Excel cần có cột: name, cccd, phone, gender, dob, address, receivedate, course, startdate</p>
+                            <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700">
+                        </div>
+                        <button onclick="importExcel()" class="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold text-sm hover:bg-emerald-700 shadow">Tải lên & Tạo Tự Động</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse min-w-[1100px]">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
+                                    <th class="p-4">Học viên, SĐT & Địa chỉ</th>
+                                    <th class="p-4">Ngày sinh & Ngày nhận hồ sơ</th>
+                                    <th class="p-4">Hạng & Giáo viên</th>
+                                    <th class="p-4">Tiến độ</th>
+                                    <th class="p-4">Tài chính (Đã đóng / Tổng)</th>
+                                    <th class="p-4">Thu học phí & In PDF</th>
+                                    <th class="p-4">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminStudentTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB GIÁO VIÊN & LƯƠNG -->
+            <div id="adminTeacherSection" class="hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="font-bold text-slate-800 text-sm">👨‍🏫 Thêm Giáo Viên Mới & Cấu Hình Định Mức Lương</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Tên giáo viên *</label>
+                            <input type="text" id="newTeacherName" placeholder="Nhập tên" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-slate-600 mb-1">Số điện thoại (SĐT)</label>
-                            <input type="text" id="addPhone" placeholder="Số điện thoại liên hệ" class="border p-3 rounded-xl bg-white text-sm w-full">
+                            <input type="text" id="newTeacherPhone" placeholder="SĐT" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-slate-600 mb-1">Giới tính</label>
-                            <select id="addGender" class="border p-3 rounded-xl bg-white text-sm w-full">
+                            <select id="newTeacherGender" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
                                 <option value="Nam">Nam</option>
                                 <option value="Nữ">Nữ</option>
                                 <option value="Khác">Khác</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày sinh (dd/mm/yyyy)</label>
-                            <input type="date" id="addDob" class="border p-3 rounded-xl bg-white text-sm w-full">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Địa chỉ học viên</label>
-                            <input type="text" id="addAddress" placeholder="Địa chỉ thường trú" class="border p-3 rounded-xl bg-white text-sm w-full">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày nhận hồ sơ * (dd/mm/yyyy)</label>
-                            <input type="date" id="addReceiveDate" class="border p-3 rounded-xl bg-white text-sm w-full">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày bắt đầu học * (dd/mm/yyyy)</label>
-                            <input type="date" id="addStartDate" class="border p-3 rounded-xl bg-white text-sm w-full">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Hạng đào tạo *</label>
-                            <select id="addCourse" class="border p-3 rounded-xl bg-white text-sm w-full">
-                                <option value="B (Số tự động)">Hạng B (Tự động - 19.5tr)</option>
-                                <option value="B (Cơ khí)">Hạng B (Cơ khí - 19.5tr)</option>
-                                <option value="C1">Hạng C1 (21.5tr)</option>
-                            </select>
-                        </div>
-                        <div class="md:col-span-3">
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Giáo viên phụ trách *</label>
-                            <select id="addTeacher" class="border p-3 rounded-xl bg-white text-sm w-full"></select>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Số km chạy DAT</label>
+                            <input type="number" id="newTeacherDatKm" value="0" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
                         </div>
                     </div>
-                    <div class="flex items-center justify-between pt-2">
-                        <div class="flex items-center">
-                            <input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600">
-                            <label for="addIsStudent" class="text-xs font-bold text-slate-700">Giảm 1tr (Sinh viên)</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Số buổi tập sa hình (80k/buổi)</label>
+                            <input type="number" id="newTeacherSahinhSessions" value="0" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
                         </div>
-                        <button onclick="addStudent()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 shadow">Lưu Hồ Sơ</button>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày tập sa hình (dd/mm/yyyy)</label>
+                            <input type="date" id="newTeacherSahinhDate" class="border p-3 rounded-xl bg-slate-50 text-sm w-full">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3 rounded-xl font-bold text-sm shadow hover:bg-indigo-700">Lưu Giáo Viên (Tự động cấp mã)</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="border-t lg:border-t-0 lg:border-l pl-0 lg:pl-6 pt-4 lg:pt-0 space-y-3 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-slate-800 text-sm mb-1">📊 Import Excel Hàng Loạt</h3>
-                        <p class="text-[11px] text-slate-500 mb-3">File Excel cần có cột: name, cccd, phone, gender, dob, address, receivedate, course, startdate</p>
-                        <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700">
-                    </div>
-                    <button onclick="importExcel()" class="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold text-sm hover:bg-emerald-700 shadow">Tải lên & Tạo Tự Động</button>
-                </div>
-            </div>
-
-            <div class="overflow-x-auto w-full">
-                <table class="w-full text-left border-collapse min-w-[1100px]">
-                    <thead>
-                        <tr class="bg-slate-100 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
-                            <th class="p-4 rounded-l-xl">Học viên, SĐT & Địa chỉ</th>
-                            <th class="p-4">Ngày sinh & Ngày nhận hồ sơ</th>
-                            <th class="p-4">Hạng & Giáo viên</th>
-                            <th class="p-4">Tiến độ</th>
-                            <th class="p-4">Tài chính (Đã đóng / Tổng)</th>
-                            <th class="p-4">Thu học phí & In PDF</th>
-                            <th class="p-4 rounded-r-xl">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminStudentTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- TAB QUẢN LÝ GIÁO VIÊN & LƯƠNG -->
-        <div id="adminTeacherSection" class="hidden space-y-6">
-            <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 space-y-4">
-                <h3 class="font-bold text-slate-800 text-sm">👨‍🏫 Thêm Giáo Viên Mới & Cấu Hình Định Mức Lương</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Tên giáo viên *</label>
-                        <input type="text" id="newTeacherName" placeholder="Nhập tên" class="border p-3 rounded-xl bg-white text-sm w-full">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Số điện thoại (SĐT)</label>
-                        <input type="text" id="newTeacherPhone" placeholder="SĐT" class="border p-3 rounded-xl bg-white text-sm w-full">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Giới tính</label>
-                        <select id="newTeacherGender" class="border p-3 rounded-xl bg-white text-sm w-full">
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                            <option value="Khác">Khác</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Số km chạy DAT</label>
-                        <input type="number" id="newTeacherDatKm" value="0" class="border p-3 rounded-xl bg-white text-sm w-full">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse min-w-[1100px]">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
+                                    <th class="p-4">Mã GV & Thông tin</th>
+                                    <th class="p-4">Học viên phụ trách</th>
+                                    <th class="p-4">Chi tiết Lương Thưởng (Lý thuyết, Sa hình, HV mới, DAT)</th>
+                                    <th class="p-4">Khoản trừ khác</th>
+                                    <th class="p-4">Tổng nhận & Xuất Phiếu Lương PDF</th>
+                                    <th class="p-4">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTeacherTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Số buổi tập sa hình (80k/buổi)</label>
-                        <input type="number" id="newTeacherSahinhSessions" value="0" class="border p-3 rounded-xl bg-white text-sm w-full">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày tập sa hình (dd/mm/yyyy)</label>
-                        <input type="date" id="newTeacherSahinhDate" class="border p-3 rounded-xl bg-white text-sm w-full">
-                    </div>
-                    <div class="flex items-end">
-                        <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3 rounded-xl font-bold text-sm shadow hover:bg-indigo-700">Lưu Giáo Viên (Tự động cấp mã)</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="overflow-x-auto w-full">
-                <table class="w-full text-left border-collapse min-w-[1100px]">
-                    <thead>
-                        <tr class="bg-slate-100 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
-                            <th class="p-4 rounded-l-xl">Mã GV & Thông tin</th>
-                            <th class="p-4">Học viên phụ trách</th>
-                            <th class="p-4">Chi tiết Lương Thưởng (Lý thuyết, Sa hình, HV mới, DAT)</th>
-                            <th class="p-4">Khoản trừ khác</th>
-                            <th class="p-4">Tổng nhận & Xuất Phiếu Lương PDF</th>
-                            <th class="p-4 rounded-r-xl">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminTeacherTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
-                </table>
             </div>
         </div>
     </div>
