@@ -11,7 +11,6 @@
 
     <!-- MÀN HÌNH ĐĂNG NHẬP -->
     <div id="loginScreen" class="min-h-screen flex flex-col md:flex-row">
-        <!-- Banner bên trái -->
         <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-8 md:p-16 flex flex-col justify-between text-white">
             <div>
                 <span class="text-4xl">🚗</span>
@@ -25,7 +24,6 @@
             <div class="text-xs text-slate-400">© 2026 Enterprise SaaS Architecture. All rights reserved.</div>
         </div>
 
-        <!-- Form đăng nhập bên phải -->
         <div class="md:w-1/2 bg-white p-8 md:p-16 flex flex-col justify-center max-w-xl mx-auto w-full shadow-2xl">
             <div class="mb-8">
                 <h2 class="text-2xl font-black text-slate-900">Đăng Nhập Hệ Thống</h2>
@@ -41,7 +39,6 @@
                     </select>
                 </div>
 
-                <!-- Đăng nhập Học viên -->
                 <div id="studentLoginGroup" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Số CCCD học viên <span class="text-red-500">*</span>:</label>
@@ -53,11 +50,10 @@
                     </div>
                 </div>
 
-                <!-- Đăng nhập Giáo viên -->
                 <div id="teacherLoginGroup" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mã Giáo Viên <span class="text-red-500">*</span>:</label>
-                        <input type="text" id="loginTeacherCode" value="GV01" placeholder="Nhập mã GV (VD: GV01)" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
+                        <input type="text" id="loginTeacherCode" value="GV01" placeholder="Nhập mã GV" class="w-full border border-slate-300 p-3.5 rounded-xl outline-none bg-slate-50 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu <span class="text-red-500">*</span>:</label>
@@ -65,7 +61,6 @@
                     </div>
                 </div>
 
-                <!-- Đăng nhập Admin -->
                 <div id="adminLoginGroup" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Tài khoản Quản trị <span class="text-red-500">*</span>:</label>
@@ -84,7 +79,6 @@
 
     <!-- GIAO DIỆN QUẢN TRỊ ADMIN -->
     <div id="adminDashboard" class="hidden min-h-screen flex flex-col md:flex-row bg-slate-100">
-        <!-- Sidebar Menu -->
         <div class="md:w-64 bg-slate-900 text-slate-300 p-6 flex flex-col justify-between">
             <div class="space-y-6">
                 <div>
@@ -106,7 +100,6 @@
             </div>
         </div>
 
-        <!-- Main Content Area -->
         <div class="flex-1 p-4 md:p-8 overflow-y-auto">
             <div class="flex justify-between items-center mb-6 pb-4 border-b">
                 <div>
