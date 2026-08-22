@@ -3,161 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phần Mềm Quản Lý Lái Xe CRM Pro</title>
+    <title>Hệ Thống ERP & CRM Doanh Nghiệp Lái Xe</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
-<body class="bg-gray-100 min-h-screen p-2 sm:p-4 md:p-6 font-sans">
+<body class="bg-slate-100 min-h-screen p-2 sm:p-4 md:p-6 font-sans text-slate-800">
 
-    <!-- KHUNG ĐĂNG NHẬP -->
-    <div id="loginScreen" class="max-w-md w-full bg-white rounded-3xl shadow-xl p-6 sm:p-8 mx-auto mt-12 md:mt-20 border border-gray-100">
+    <!-- KHUNG ĐĂNG NHẬP CHUẨN DOANH NGHIỆP -->
+    <div id="loginScreen" class="max-w-md w-full bg-white rounded-3xl shadow-2xl p-6 sm:p-8 mx-auto mt-12 md:mt-20 border border-slate-200">
         <div class="text-center mb-6">
-            <span class="text-4xl">🚗</span>
-            <h2 class="text-2xl font-black text-gray-800 mt-2">Hệ Thống Lái Xe CRM Pro</h2>
-            <p class="text-xs text-gray-500 mt-1">Đăng nhập bảo mật cho Học viên, Giáo viên & Admin</p>
+            <span class="text-4xl">🏢</span>
+            <h2 class="text-2xl font-black text-slate-900 mt-2">Hệ Thống Quản Trị Doanh Nghiệp</h2>
+            <p class="text-xs text-slate-500 mt-1">Phần mềm quản lý đào tạo & tài chính tự động</p>
         </div>
         <div class="space-y-4">
             <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Vai trò đăng nhập:</label>
-                <select id="loginRole" class="w-full border border-gray-300 p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 font-medium text-sm" onchange="toggleLoginInput()">
-                    <option value="student">Học viên (Đăng nhập bằng CCCD)</option>
-                    <option value="teacher">Giáo viên (Đăng nhập mã GV)</option>
-                    <option value="admin">Quản trị viên (Admin)</option>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Chọn vai trò truy cập:</label>
+                <select id="loginRole" class="w-full border border-slate-300 p-3 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none bg-slate-50 font-medium text-sm" onchange="toggleLoginInput()">
+                    <option value="student">🎓 Học viên (Tra cứu lộ trình & học phí)</option>
+                    <option value="teacher">👨‍🏫 Giáo viên (Quản lý lớp & lương thưởng)</option>
+                    <option value="admin">🔒 Quản trị viên (Admin Doanh Nghiệp)</option>
                 </select>
             </div>
 
             <!-- Form Đăng Nhập Học Viên -->
             <div id="studentLoginGroup" class="space-y-3">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Số CCCD học viên:</label>
-                    <input type="text" id="loginCCCD" placeholder="Nhập số CCCD" class="w-full border border-gray-300 p-3 rounded-2xl outline-none bg-gray-50 text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Số CCCD học viên <span class="text-red-500">*</span>:</label>
+                    <input type="text" id="loginCCCD" placeholder="Nhập số CCCD (Ví dụ: 12345)" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Mật khẩu:</label>
-                    <input type="password" id="loginPass" value="123" placeholder="Mật khẩu: 123" class="w-full border border-gray-300 p-3 rounded-2xl outline-none bg-gray-50 text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu truy cập <span class="text-red-500">*</span>:</label>
+                    <input type="password" id="loginPass" value="123" placeholder="Mặc định: 123" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
                 </div>
             </div>
 
             <!-- Form Đăng Nhập Giáo Viên -->
             <div id="teacherLoginGroup" class="space-y-3 hidden">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Mã Giáo Viên (Username):</label>
-                    <input type="text" id="loginTeacherCode" placeholder="Ví dụ: GV01" class="w-full border border-gray-300 p-3 rounded-2xl outline-none bg-gray-50 text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mã định danh Giáo viên <span class="text-red-500">*</span>:</label>
+                    <input type="text" id="loginTeacherCode" placeholder="Nhập mã GV (Ví dụ: GV01)" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Mật khẩu:</label>
-                    <input type="password" id="loginTeacherPass" value="123" placeholder="Mật khẩu: 123" class="w-full border border-gray-300 p-3 rounded-2xl outline-none bg-gray-50 text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu truy cập <span class="text-red-500">*</span>:</label>
+                    <input type="password" id="loginTeacherPass" value="123" placeholder="Mặc định: 123" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
                 </div>
             </div>
 
             <!-- Form Đăng Nhập Admin -->
             <div id="adminLoginGroup" class="space-y-3 hidden">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Tài khoản Admin:</label>
-                    <input type="text" id="adminUser" placeholder="Tài khoản quản trị" class="w-full border border-gray-300 p-3 rounded-2xl outline-none bg-gray-50 text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Tài khoản Quản trị <span class="text-red-500">*</span>:</label>
+                    <input type="text" id="adminUser" placeholder="Nhập tài khoản admin" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Mật khẩu Admin:</label>
-                    <input type="password" id="adminPass" placeholder="Mật khẩu quản trị" class="w-full border border-gray-300 p-3 rounded-2xl outline-none bg-gray-50 text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu Quản trị <span class="text-red-500">*</span>:</label>
+                    <input type="password" id="adminPass" placeholder="Nhập mật khẩu admin" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
                 </div>
             </div>
 
-            <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-3.5 rounded-2xl hover:from-blue-700 hover:to-indigo-700 font-bold shadow-lg shadow-blue-500/30 text-sm transition-all">Đăng Nhập Ngay</button>
+            <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-3.5 rounded-2xl hover:from-blue-700 hover:to-indigo-800 font-bold shadow-lg shadow-blue-500/30 text-sm transition-all">🚀 Đăng Nhập Hệ Thống</button>
         </div>
     </div>
 
-    <!-- GIAO DIỆN ADMIN -->
+    <!-- GIAO DIỆN ADMIN CHUẨN DOANH NGHIỆP -->
     <div id="adminDashboard" class="hidden w-full max-w-full bg-white rounded-3xl shadow-xl p-4 sm:p-6 md:p-8">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b">
             <div>
-                <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-gray-800">🚗 Phần Mềm Quản Trị Khách Hàng (CRM Pro)</h1>
-                <p class="text-xs sm:text-sm text-gray-500">Quản lý học viên, giáo viên, học phí và lương thưởng</p>
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900">📊 ERP Doanh Nghiệp - Quản Trị Trung Tâm Lái Xe</h1>
+                <p class="text-xs sm:text-sm text-slate-500">Giám sát học viên, giáo viên, định vị GPS và kiểm soát lợi nhuận tài chính tự động.</p>
             </div>
-            <div class="flex gap-2">
-                <button onclick="openTeacherManageModal()" class="bg-indigo-50 text-indigo-600 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-100 transition-all">👨‍🏫 Quản lý Giáo Viên</button>
-                <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-red-100 transition-all">Đăng xuất</button>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-emerald-100 transition-all">💰 Báo Cáo Thu - Chi & Lợi Nhuận</button>
+                <button onclick="openTeacherManageModal()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-100 transition-all">👨‍🏫 Quản Lý Giáo Viên & Lương</button>
+                <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-red-100 transition-all">Đăng Xuất</button>
             </div>
         </div>
         
-        <!-- Form thêm học viên -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 p-4 sm:p-6 bg-gray-50 rounded-2xl border">
-            <div class="lg:col-span-2 space-y-3">
-                <h3 class="font-bold text-gray-700 text-sm">➕ Thêm học viên thủ công</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-                    <input type="text" id="addName" placeholder="Họ tên" class="border p-3 rounded-xl bg-white text-sm">
-                    <input type="text" id="addCCCD" placeholder="Số CCCD" class="border p-3 rounded-xl bg-white text-sm">
-                    <input type="date" id="addStartDate" class="border p-3 rounded-xl bg-white text-sm" title="Ngày bắt đầu">
-                    <select id="addCourse" class="border p-3 rounded-xl bg-white text-sm">
+        <!-- Form thêm học viên & chú thích rõ ràng -->
+        <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 mb-6 space-y-4">
+            <h3 class="font-bold text-slate-800 text-sm">➕ Thêm Hồ Sơ Học Viên Mới (Tự động tính học phí & phân công giáo viên)</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Họ và tên học viên <span class="text-red-500">*</span></label>
+                    <input type="text" id="addName" placeholder="Ví dụ: Nguyễn Văn A" class="w-full border p-3 rounded-xl bg-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Số CCCD <span class="text-red-500">*</span></label>
+                    <input type="text" id="addCCCD" placeholder="Số CCCD định danh" class="w-full border p-3 rounded-xl bg-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày bắt đầu khóa học <span class="text-red-500">*</span></label>
+                    <input type="date" id="addStartDate" class="w-full border p-3 rounded-xl bg-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Hạng đào tạo <span class="text-red-500">*</span></label>
+                    <select id="addCourse" class="w-full border p-3 rounded-xl bg-white text-sm">
                         <option value="B (Số tự động)">Hạng B (Tự động - 19.5tr)</option>
                         <option value="B (Cơ khí)">Hạng B (Cơ khí - 19.5tr)</option>
                         <option value="C1">Hạng C1 (21.5tr)</option>
                     </select>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <select id="addTeacher" class="border p-3 rounded-xl bg-white text-sm">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Giáo viên phụ trách <span class="text-red-500">*</span></label>
+                    <select id="addTeacher" class="w-full border p-3 rounded-xl bg-white text-sm">
                         <!-- Render danh sách giáo viên -->
                     </select>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600">
-                            <label for="addIsStudent" class="text-xs sm:text-sm font-bold text-gray-700">Giảm 1tr SV</label>
-                        </div>
-                        <button onclick="addStudent()" class="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 font-bold shadow text-sm">Thêm Học Viên</button>
-                    </div>
                 </div>
             </div>
-
-            <!-- Import Excel -->
-            <div class="border-t lg:border-t-0 lg:border-l pl-0 lg:pl-6 pt-4 lg:pt-0 space-y-3 flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-gray-700 text-sm mb-1">📊 Import danh sách từ Excel</h3>
-                    <p class="text-[11px] text-gray-500 mb-3">File Excel cần có cột: name, cccd, course, startdate.</p>
-                    <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-2 border-t border-slate-200">
+                <div class="flex items-center">
+                    <input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600">
+                    <label for="addIsStudent" class="text-xs sm:text-sm font-bold text-slate-700">Áp dụng chính sách giảm 1.000.000đ cho Học sinh - Sinh viên</label>
                 </div>
-                <button onclick="importExcel()" class="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold text-sm hover:bg-emerald-700 shadow">Tải lên & Tạo tự động</button>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <button onclick="addStudent()" class="flex-1 sm:flex-none bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 font-bold shadow text-sm">Lưu Hồ Sơ Học Viên</button>
+                </div>
             </div>
         </div>
 
         <div class="overflow-x-auto w-full">
             <table class="w-full text-left border-collapse min-w-[1000px] md:min-w-full">
                 <thead>
-                    <tr class="bg-gray-100 text-gray-600 text-xs md:text-sm uppercase tracking-wider">
-                        <th class="p-4 rounded-l-xl">Học viên / CCCD</th>
-                        <th class="p-4">Hạng & GV Phụ Trách</th>
-                        <th class="p-4">Tiến độ</th>
-                        <th class="p-4">Tài chính (Đã / Tổng)</th>
+                    <tr class="bg-slate-100 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
+                        <th class="p-4 rounded-l-xl">Học viên & Định vị GPS</th>
+                        <th class="p-4">Hạng & Giáo viên</th>
+                        <th class="p-4">Tiến độ đào tạo</th>
+                        <th class="p-4">Tài chính (Đã đóng / Tổng)</th>
                         <th class="p-4">Thu học phí & In PDF</th>
-                        <th class="p-4">Giới thiệu</th>
+                        <th class="p-4">Giới thiệu (Hoa hồng)</th>
                         <th class="p-4 rounded-r-xl">Thao tác</th>
                     </tr>
                 </thead>
-                <tbody id="adminTableBody" class="divide-y divide-gray-100 text-sm md:text-base"></tbody>
+                <tbody id="adminTableBody" class="divide-y divide-slate-100 text-sm md:text-base"></tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- MODAL BÁO CÁO THU - CHI & LỢI NHUẬN -->
+    <div id="financeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto relative">
+            <button onclick="closeFinanceModal()" class="absolute top-6 right-6 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">✖ Đóng</button>
+            <h3 class="text-xl font-black text-slate-900">💰 Báo Cáo Tài Chính & Đảm Bảo Lợi Nhuận</h3>
+            <p class="text-xs text-slate-500">Hệ thống tự động hạch toán doanh thu thực tế, trừ chi phí lương giáo viên và hoa hồng để tính lợi nhuận ròng.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                    <span class="text-xs text-blue-600 block font-bold">Tổng doanh thu thực tế (Đã thu):</span>
+                    <strong class="text-blue-900 text-2xl font-black" id="finTotalRevenue">0đ</strong>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                    <span class="text-xs text-emerald-600 block font-bold">Lợi nhuận ròng (Net Profit):</span>
+                    <strong class="text-emerald-900 text-2xl font-black" id="finNetProfit">0đ</strong>
+                </div>
+                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100">
+                    <span class="text-xs text-amber-600 block font-bold">Tổng quỹ lương thưởng giáo viên:</span>
+                    <strong class="text-amber-900 text-xl font-black" id="finTotalTeacherBonus">0đ</strong>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100">
+                    <span class="text-xs text-purple-600 block font-bold">Tổng hoa hồng giới thiệu đã chi:</span>
+                    <strong class="text-purple-900 text-xl font-black" id="finTotalReferral">0đ</strong>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- MODAL QUẢN LÝ GIÁO VIÊN & LƯƠNG THƯỞNG -->
     <div id="teacherManageModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto relative">
-            <button onclick="closeTeacherManageModal()" class="absolute top-6 right-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-4 py-2 rounded-xl text-xs">✖ Đóng</button>
-            <h3 class="text-xl font-black text-gray-800">👨‍🏫 Quản Lý Giáo Viên & Cơ Chế Lương Thưởng</h3>
+            <button onclick="closeTeacherManageModal()" class="absolute top-6 right-6 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">✖ Đóng</button>
+            <h3 class="text-xl font-black text-slate-900">👨‍🏫 Quản Lý Giáo Viên & Cơ Chế Lương Thưởng</h3>
+            <p class="text-xs text-slate-500">Thiết lập mức thưởng trên mỗi học viên phụ trách để hệ thống tự động hạch toán lương.</p>
             
-            <!-- Thêm giáo viên mới -->
-            <div class="bg-gray-50 p-4 rounded-2xl border space-y-3">
-                <h4 class="font-bold text-sm text-gray-700">Thêm giáo viên mới</h4>
+            <div class="bg-slate-50 p-4 rounded-2xl border space-y-3">
+                <h4 class="font-bold text-sm text-slate-700">Thêm giáo viên mới</h4>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <input type="text" id="newTeacherName" placeholder="Tên giáo viên" class="border p-2.5 rounded-xl text-sm bg-white">
-                    <input type="text" id="newTeacherCode" placeholder="Mã GV (VD: GV02)" class="border p-2.5 rounded-xl text-sm bg-white">
-                    <input type="number" id="newTeacherBonus" placeholder="Thưởng/Học viên (VNĐ)" value="500000" class="border p-2.5 rounded-xl text-sm bg-white">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Tên giáo viên</label>
+                        <input type="text" id="newTeacherName" placeholder="Ví dụ: Thầy Nam" class="border p-2.5 rounded-xl text-sm bg-white w-full">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Mã đăng nhập GV</label>
+                        <input type="text" id="newTeacherCode" placeholder="Ví dụ: GV01" class="border p-2.5 rounded-xl text-sm bg-white w-full">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Lương thưởng / Học viên</label>
+                        <input type="number" id="newTeacherBonus" value="500000" class="border p-2.5 rounded-xl text-sm bg-white w-full">
+                    </div>
                 </div>
-                <button onclick="addTeacher()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 shadow">Thêm Giáo Viên</button>
+                <button onclick="addTeacher()" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-indigo-700 shadow">Thêm Giáo Viên Mới</button>
             </div>
 
-            <!-- Danh sách giáo viên -->
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
-                        <tr class="bg-gray-100"><th class="p-3">Mã GV</th><th class="p-3">Họ và tên</th><th class="p-3">Thưởng/HV</th><th class="p-3">Thao tác</th></tr>
+                        <tr class="bg-slate-100"><th class="p-3">Mã GV</th><th class="p-3">Họ và tên</th><th class="p-3">Thưởng/HV</th><th class="p-3">Thao tác</th></tr>
                     </thead>
                     <tbody id="teacherTableBody" class="divide-y"></tbody>
                 </table>
@@ -169,34 +209,33 @@
     <div id="teacherDashboard" class="hidden max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-8 space-y-6">
         <div class="flex justify-between items-center pb-4 border-b">
             <div>
-                <h1 class="text-2xl font-black text-gray-800" id="tNameDisplay">Cổng Giáo Viên</h1>
-                <p class="text-xs text-gray-500 font-mono">Mã GV: <span id="tCodeDisplay" class="font-bold text-indigo-600">--</span></p>
+                <h1 class="text-2xl font-black text-slate-900" id="tNameDisplay">Cổng Giáo Viên</h1>
+                <p class="text-xs text-slate-500 font-mono">Mã định danh: <span id="tCodeDisplay" class="font-bold text-indigo-600">--</span> | 📍 Định vị GPS: <span id="tGpsDisplay" class="text-emerald-600 font-bold">Đang cập nhật...</span></p>
             </div>
-            <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-100 transition-all">Đăng xuất</button>
+            <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-100 transition-all">Đăng Xuất</button>
         </div>
 
-        <!-- Thống kê lương thưởng -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-indigo-50 p-6 rounded-2xl border border-indigo-100 text-sm">
             <div>
-                <span class="text-xs text-indigo-600 block">Tổng học viên phụ trách:</span>
-                <strong class="text-gray-900 text-xl" id="tTotalStudents">0</strong>
+                <span class="text-xs text-indigo-600 block font-bold">Tổng học viên phụ trách trong tháng:</span>
+                <strong class="text-slate-900 text-xl" id="tTotalStudents">0</strong>
             </div>
             <div>
-                <span class="text-xs text-indigo-600 block">Tổng tiền lương/thưởng dự kiến:</span>
+                <span class="text-xs text-indigo-600 block font-bold">Tổng lương thưởng dự kiến:</span>
                 <strong class="text-emerald-600 text-xl" id="tTotalBonus">0đ</strong>
             </div>
             <div>
-                <span class="text-xs text-indigo-600 block">Đã thanh toán / Thực nhận:</span>
+                <span class="text-xs text-indigo-600 block font-bold">Đã thanh toán / Thực nhận:</span>
                 <strong class="text-blue-600 text-xl" id="tPaidBonus">0đ</strong>
             </div>
         </div>
 
         <div>
-            <h3 class="text-lg font-black text-gray-800 mb-4">📋 Danh sách học viên phụ trách</h3>
+            <h3 class="text-lg font-black text-slate-900 mb-4">📋 Danh Sách Học Viên Phụ Trách Đào Tạo</h3>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
-                        <tr class="bg-gray-100"><th class="p-3">Học viên</th><th class="p-3">Hạng</th><th class="p-3">Tiến độ học tập</th><th class="p-3">Thưởng nhận được</th></tr>
+                        <tr class="bg-slate-100"><th class="p-3">Học viên</th><th class="p-3">Hạng</th><th class="p-3">Tiến độ đào tạo</th><th class="p-3">Thưởng nhận được</th></tr>
                     </thead>
                     <tbody id="tStudentTableBody" class="divide-y"></tbody>
                 </table>
@@ -204,29 +243,16 @@
         </div>
     </div>
 
-    <!-- MODAL XUẤT THÔNG TIN ĐĂNG NHẬP CHO HỌC VIÊN -->
-    <div id="credentialsModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-6 md:p-8 space-y-4">
-            <h3 class="text-xl font-black text-gray-800">🎉 Tạo Tài Khoản Thành Công!</h3>
-            <p class="text-xs text-gray-500">Sao chép nội dung bên dưới để gửi qua Zalo/Messenger cho học viên:</p>
-            <textarea id="credentialText" rows="6" readonly class="w-full border p-3 rounded-xl bg-gray-50 text-xs font-mono outline-none"></textarea>
-            <div class="flex gap-3">
-                <button onclick="copyCredentials()" class="flex-1 bg-blue-600 text-white p-3 rounded-xl font-bold text-sm hover:bg-blue-700 shadow">📋 Sao chép nội dung</button>
-                <button onclick="closeCredentialsModal()" class="bg-gray-200 text-gray-700 px-5 py-3 rounded-xl font-bold text-sm hover:bg-gray-300">Đóng</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MODAL FOLDER XEM CHI TIẾT HỒ SƠ HỌC VIÊN -->
     <div id="studentModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 relative">
-            <button onclick="closeStudentModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition-all">✖ Đóng Folder</button>
+            <button onclick="closeStudentModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition-all">✖ Đóng Folder</button>
             
             <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden">
                 <div>
                     <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider" id="modalCourseBadge">Hạng B</span>
                     <h1 class="text-2xl md:text-3xl font-black mt-2" id="modalNameDisplay">--</h1>
-                    <p class="text-xs md:text-sm text-indigo-200 font-mono mt-0.5">CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | GV Phụ trách: <span id="modalTeacherDisplay" class="font-bold text-amber-300">--</span></p>
+                    <p class="text-xs md:text-sm text-indigo-200 font-mono mt-0.5">CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | GV Phụ trách: <span id="modalTeacherDisplay" class="font-bold text-amber-300">--</span> | 📍 GPS: <span id="modalGpsDisplay" class="text-emerald-300 font-bold">--</span></p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/10 backdrop-blur p-4 rounded-2xl border border-white/20 text-sm md:text-base mt-6">
@@ -247,17 +273,17 @@
                 <div id="modalFeeForecast" class="mt-4 p-4 rounded-xl bg-amber-500/20 border border-amber-300/30 text-amber-100 text-xs md:text-sm space-y-1"></div>
             </div>
 
-            <div class="bg-gray-50 rounded-2xl p-4 md:p-6 border">
-                <h3 class="text-base md:text-lg font-black text-gray-800 mb-3">📝 Ghi Chú Chăm Sóc Khách Hàng (CRM Notes)</h3>
+            <div class="bg-slate-50 rounded-2xl p-4 md:p-6 border">
+                <h3 class="text-base md:text-lg font-black text-slate-900 mb-3">📝 Ghi Chú Chăm Sóc Khách Hàng (CRM Notes)</h3>
                 <div class="space-y-3">
                     <textarea id="modalCrmNoteInput" rows="2" placeholder="Nhập ghi chú chăm sóc..." class="w-full border p-3 rounded-xl text-sm md:text-base outline-none bg-white"></textarea>
-                    <button onclick="addModalCrmNote()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-indigo-700 shadow">Lưu ghi chú</button>
+                    <button onclick="addModalCrmNote()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-indigo-700 shadow">Lưu Ghi Chú</button>
                     <div id="modalCrmNotesList" class="mt-3 space-y-2 text-xs md:text-sm"></div>
                 </div>
             </div>
 
             <div class="bg-white rounded-2xl p-4 md:p-6 border">
-                <h3 class="text-lg md:text-xl font-black text-gray-800 mb-4">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
+                <h3 class="text-lg md:text-xl font-black text-slate-900 mb-4">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
                 <div id="modalStepsContainer" class="space-y-4"></div>
             </div>
         </div>
@@ -274,15 +300,15 @@
             "7. Thi sát hạch (1 ngày)"
         ];
 
-        let teachers = JSON.parse(localStorage.getItem('driving_teachers')) || [
-            { id: 1, name: 'Nguyễn Văn Thầy', code: 'GV01', bonusPerStudent: 500000, paidBonus: 1000000 }
+        let teachers = JSON.parse(localStorage.getItem('driving_teachers_v7')) || [
+            { id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', bonusPerStudent: 500000, paidBonus: 1000000 }
         ];
 
-        let students = JSON.parse(localStorage.getItem('driving_students_v6')) || [
+        let students = JSON.parse(localStorage.getItem('driving_students_v7')) || [
             { 
                 id: 1, name: 'Mai Chí Khanh', cccd: '12345', pass: '123', course: 'B (Số tự động)', 
                 teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, 
-                fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [] 
+                fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' 
             }
         ];
 
@@ -291,6 +317,23 @@
             "B (Cơ khí)": 19500000,
             "C1": 21500000
         };
+
+        // Tự động định vị GPS khi đăng nhập thành công
+        function captureGPS(callback) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const coords = `${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`;
+                        callback(coords);
+                    },
+                    error => {
+                        callback('Không thể lấy tọa độ (Từ chối quyền GPS)');
+                    }
+                );
+            } else {
+                callback('Trình duyệt không hỗ trợ GPS');
+            }
+        }
 
         function toggleLoginInput() {
             const role = document.getElementById('loginRole').value;
@@ -306,44 +349,52 @@
         function handleLogin() {
             const role = document.getElementById('loginRole').value;
             
-            if (role === 'admin') {
-                const user = document.getElementById('adminUser').value.trim();
-                const pass = document.getElementById('adminPass').value.trim();
-                if (user !== 'admin' || pass !== 'admin123') return alert('Sai tài khoản hoặc mật khẩu Admin!');
-                
-                localStorage.setItem('current_role', 'admin');
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                renderAdminTable();
-                updateTeacherSelect();
-            } else if (role === 'teacher') {
-                const code = document.getElementById('loginTeacherCode').value.trim();
-                const pass = document.getElementById('loginTeacherPass').value.trim();
-                const teacher = teachers.find(t => t.code.toLowerCase() === code.toLowerCase() && pass === '123');
-                if (!teacher) return alert('Sai mã giáo viên hoặc mật khẩu (Mặc định: 123)!');
+            captureGPS(gpsCoord => {
+                if (role === 'admin') {
+                    const user = document.getElementById('adminUser').value.trim();
+                    const pass = document.getElementById('adminPass').value.trim();
+                    if (user !== 'admin' || pass !== 'admin123') return alert('Sai tài khoản hoặc mật khẩu Quản trị viên!');
+                    
+                    localStorage.setItem('current_role', 'admin');
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    renderAdminTable();
+                    updateTeacherSelect();
+                } else if (role === 'teacher') {
+                    const code = document.getElementById('loginTeacherCode').value.trim();
+                    const pass = document.getElementById('loginTeacherPass').value.trim();
+                    const teacher = teachers.find(t => t.code.toLowerCase() === code.toLowerCase() && pass === '123');
+                    if (!teacher) return alert('Sai mã giáo viên hoặc mật khẩu (Mặc định: 123)!');
 
-                localStorage.setItem('current_role', 'teacher');
-                localStorage.setItem('current_teacher_code', teacher.code);
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('teacherDashboard').classList.remove('hidden');
-                renderTeacherPortal(teacher);
-            } else {
-                const cccd = document.getElementById('loginCCCD').value.trim();
-                const pass = document.getElementById('loginPass').value.trim();
-                const student = students.find(s => s.cccd === cccd && s.pass === pass);
-                if (!student) return alert('Sai số CCCD hoặc mật khẩu học viên (Mặc định: 123)!');
+                    localStorage.setItem('current_role', 'teacher');
+                    localStorage.setItem('current_teacher_code', teacher.code);
+                    localStorage.setItem('current_gps', gpsCoord);
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('teacherDashboard').classList.remove('hidden');
+                    renderTeacherPortal(teacher);
+                } else {
+                    const cccd = document.getElementById('loginCCCD').value.trim();
+                    const pass = document.getElementById('loginPass').value.trim();
+                    const student = students.find(s => s.cccd === cccd && s.pass === pass);
+                    if (!student) return alert('Sai số CCCD hoặc mật khẩu học viên (Mặc định: 123)!');
 
-                localStorage.setItem('current_role', 'student');
-                localStorage.setItem('current_cccd', student.cccd);
-                document.getElementById('loginScreen').classList.add('hidden');
-                openStudentModal(student.cccd);
-            }
+                    // Cập nhật GPS mới nhất cho học viên
+                    student.gps = gpsCoord;
+                    saveAndSync();
+
+                    localStorage.setItem('current_role', 'student');
+                    localStorage.setItem('current_cccd', student.cccd);
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    openStudentModal(student.cccd);
+                }
+            });
         }
 
         function logout() {
             localStorage.removeItem('current_role');
             localStorage.removeItem('current_cccd');
             localStorage.removeItem('current_teacher_code');
+            localStorage.removeItem('current_gps');
             location.reload();
         }
 
@@ -360,15 +411,16 @@
             const code = document.getElementById('newTeacherCode').value.trim();
             const bonusPerStudent = Number(document.getElementById('newTeacherBonus').value) || 500000;
 
-            if (!name || !code) return alert('Nhập đầy đủ tên và mã giáo viên!');
+            if (!name || !code) return alert('Vui lòng nhập đầy đủ tên và mã giáo viên!');
             if (teachers.some(t => t.code.toLowerCase() === code.toLowerCase())) return alert('Mã giáo viên đã tồn tại!');
 
             teachers.push({ id: Date.now(), name, code, bonusPerStudent, paidBonus: 0 });
-            localStorage.setItem('driving_teachers', JSON.stringify(teachers));
+            localStorage.setItem('driving_teachers_v7', JSON.stringify(teachers));
             renderTeacherManageTable();
             updateTeacherSelect();
             document.getElementById('newTeacherName').value = '';
             document.getElementById('newTeacherCode').value = '';
+            alert('Đã thêm giáo viên thành công!');
         }
 
         function renderTeacherManageTable() {
@@ -380,7 +432,7 @@
                         <td class="p-3 font-mono font-bold">${t.code}</td>
                         <td class="p-3">${t.name}</td>
                         <td class="p-3">${t.bonusPerStudent.toLocaleString()}đ</td>
-                        <td class="p-3"><button onclick="deleteTeacher(${t.id})" class="text-red-500 font-bold">Xóa</button></td>
+                        <td class="p-3"><button onclick="deleteTeacher(${t.id})" class="text-red-500 font-bold hover:underline">Xóa</button></td>
                     </tr>
                 `;
             });
@@ -388,7 +440,7 @@
 
         function deleteTeacher(id) {
             teachers = teachers.filter(t => t.id !== id);
-            localStorage.setItem('driving_teachers', JSON.stringify(teachers));
+            localStorage.setItem('driving_teachers_v7', JSON.stringify(teachers));
             renderTeacherManageTable();
             updateTeacherSelect();
         }
@@ -397,10 +449,38 @@
             renderTeacherManageTable();
             document.getElementById('teacherManageModal').classList.remove('hidden');
         }
+        function closeTeacherManageModal() { document.getElementById('teacherManageModal').classList.add('hidden'); }
 
-        function closeTeacherManageModal() {
-            document.getElementById('teacherManageModal').classList.add('hidden');
+        function openFinanceModal() {
+            let totalRevenue = 0;
+            let totalTeacherBonus = 0;
+            let totalReferralCount = 0;
+
+            students.forEach(s => {
+                if (s.fee1 === 'Đã đóng') totalRevenue += s.totalPrice * 0.5;
+                if (s.fee2 === 'Đã đóng') totalRevenue += s.totalPrice * 0.25;
+                if (s.fee3 === 'Đã đóng') totalRevenue += s.totalPrice * 0.25;
+
+                const t = teachers.find(x => x.code === s.teacherCode);
+                if (t) totalTeacherBonus += (t.bonusPerStudent || 500000);
+
+                if (s.referrals) {
+                    s.referrals.forEach(r => {
+                        if (r.option === 'cash') totalReferralCount += 1000000;
+                    });
+                }
+            });
+
+            const netProfit = totalRevenue - totalTeacherBonus - totalReferralCount;
+
+            document.getElementById('finTotalRevenue').innerText = totalRevenue.toLocaleString() + 'đ';
+            document.getElementById('finTotalTeacherBonus').innerText = totalTeacherBonus.toLocaleString() + 'đ';
+            document.getElementById('finTotalReferral').innerText = totalReferralCount.toLocaleString() + 'đ';
+            document.getElementById('finNetProfit').innerText = netProfit.toLocaleString() + 'đ';
+
+            document.getElementById('financeModal').classList.remove('hidden');
         }
+        function closeFinanceModal() { document.getElementById('financeModal').classList.add('hidden'); }
 
         function addStudent() {
             const name = document.getElementById('addName').value.trim();
@@ -410,73 +490,25 @@
             const teacherCode = document.getElementById('addTeacher').value;
             const isStudent = document.getElementById('addIsStudent').checked;
 
-            if (!name || !cccd || !startDate) return alert('Vui lòng điền Họ tên, CCCD và Ngày bắt đầu!');
-            if (students.some(s => s.cccd === cccd)) return alert('CCCD đã tồn tại!');
+            if (!name || !cccd || !startDate || !teacherCode) return alert('Vui lòng điền đầy đủ thông tin bắt buộc và chọn giáo viên phụ trách!');
+            if (students.some(s => s.cccd === cccd)) return alert('Số CCCD học viên này đã tồn tại!');
 
             let totalPrice = coursePrices[course];
             if (isStudent) totalPrice -= 1000000;
 
             const newStudent = {
                 id: Date.now(), name, cccd, pass: '123', startDate, course, teacherCode, stepIndex: 0, totalPrice, isStudent,
-                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: []
+                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa xác định'
             };
 
             students.push(newStudent);
             saveAndSync();
-            showCredentialsModal(newStudent);
+            alert('Thêm học viên thành công!');
 
             document.getElementById('addName').value = '';
             document.getElementById('addCCCD').value = '';
             document.getElementById('addStartDate').value = '';
             document.getElementById('addIsStudent').checked = false;
-        }
-
-        function showCredentialsModal(s) {
-            const text = `🚗 TRUNG TÂM ĐÀO TẠO LÁI XE VINH LONG\n\nThông tin tài khoản học viên:\n- Họ tên: ${s.name}\n- Hạng: ${s.course}\n- Link: ${window.location.href}\n- Tên đăng nhập (CCCD): ${s.cccd}\n- Mật khẩu: 123`;
-            document.getElementById('credentialText').value = text;
-            document.getElementById('credentialsModal').classList.remove('hidden');
-        }
-
-        function copyCredentials() {
-            document.getElementById('credentialText').select();
-            document.execCommand('copy');
-            alert('Đã sao chép!');
-        }
-
-        function closeCredentialsModal() {
-            document.getElementById('credentialsModal').classList.add('hidden');
-        }
-
-        function importExcel() {
-            const fileInput = document.getElementById('excelFile');
-            const file = fileInput.files[0];
-            if (!file) return alert('Chọn file Excel (.xlsx)!');
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-
-                let count = 0;
-                rows.forEach(r => {
-                    const name = r.name || r['Họ tên'];
-                    const cccd = String(r.cccd || r['CCCD'] || '').trim();
-                    const course = r.course || r['Hạng'] || 'B (Số tự động)';
-                    const startDate = r.startdate || r['Ngày bắt đầu'] || new Date().toISOString().split('T')[0];
-
-                    if (name && cccd && !students.some(s => s.cccd === cccd)) {
-                        students.push({
-                            id: Date.now() + Math.random(), name, cccd, pass: '123', startDate, course, teacherCode: teachers[0]?.code || '',
-                            stepIndex: 0, totalPrice: coursePrices[course], isStudent: false, fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: []
-                        });
-                        count++;
-                    }
-                });
-                saveAndSync();
-                alert(`Import thành công ${count} học viên!`);
-            };
-            reader.readAsArrayBuffer(file);
         }
 
         function toggleFee(id, feeType) {
@@ -503,11 +535,11 @@
         }
 
         function deleteStudent(id) {
-            if (confirm('Xóa học viên?')) { students = students.filter(s => s.id !== id); saveAndSync(); }
+            if (confirm('Bạn có chắc chắn muốn xóa học viên này?')) { students = students.filter(s => s.id !== id); saveAndSync(); }
         }
 
         function saveAndSync() {
-            localStorage.setItem('driving_students_v6', JSON.stringify(students));
+            localStorage.setItem('driving_students_v7', JSON.stringify(students));
             if (localStorage.getItem('current_role') === 'admin') renderAdminTable();
         }
 
@@ -519,24 +551,25 @@
                 const paid = calculatePaidAmount(s);
                 const t = teachers.find(x => x.code === s.teacherCode);
                 tbody.innerHTML += `
-                    <tr class="hover:bg-gray-50 align-top border-b">
+                    <tr class="hover:bg-slate-50 align-top border-b">
                         <td class="p-4">
                             <a href="#" onclick="openStudentModal('${s.cccd}')" class="font-bold text-blue-600 hover:underline text-base">${s.name} 📁</a>
-                            <div class="text-xs font-mono text-gray-500">CCCD: ${s.cccd}</div>
+                            <div class="text-xs font-mono text-slate-500">CCCD: ${s.cccd}</div>
+                            <div class="text-[11px] text-emerald-600 font-mono mt-0.5">📍 GPS: ${s.gps || 'Chưa định vị'}</div>
                         </td>
-                        <td class="p-4 text-xs md:text-sm font-bold text-gray-700">${s.course}<br><span class="text-indigo-600 font-normal">GV: ${t ? t.name : 'Chưa phân công'}</span></td>
+                        <td class="p-4 text-xs md:text-sm font-bold text-slate-700">${s.course}<br><span class="text-indigo-600 font-normal">GV: ${t ? t.name : 'Chưa phân công'}</span></td>
                         <td class="p-4"><span class="px-3 py-1 text-xs md:text-sm bg-amber-100 text-amber-800 rounded-full font-bold">${STEPS[s.stepIndex] || 'Hoàn thành'}</span></td>
                         <td class="p-4">
-                            <div class="text-green-600 font-bold text-base">${paid.toLocaleString()}đ</div>
-                            <div class="text-xs text-gray-400">Tổng: ${s.totalPrice.toLocaleString()}đ</div>
+                            <div class="text-emerald-600 font-bold text-base">${paid.toLocaleString()}đ</div>
+                            <div class="text-xs text-slate-400">Tổng: ${s.totalPrice.toLocaleString()}đ</div>
                         </td>
                         <td class="p-4 space-y-2 text-xs md:text-sm">
-                            <div>1: <button onclick="toggleFee(${s.id}, 1)" class="px-2 py-1 rounded font-bold ${s.fee1 === 'Đã đóng' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${s.fee1}</button> <button onclick="printInvoice(${s.id}, 1)" class="text-blue-600 underline">🖨️ PDF</button></div>
-                            <div>2: <button onclick="toggleFee(${s.id}, 2)" class="px-2 py-1 rounded font-bold ${s.fee2 === 'Đã đóng' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${s.fee2}</button> <button onclick="printInvoice(${s.id}, 2)" class="text-blue-600 underline">🖨️ PDF</button></div>
-                            <div>3: <button onclick="toggleFee(${s.id}, 3)" class="px-2 py-1 rounded font-bold ${s.fee3 === 'Đã đóng' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${s.fee3}</button> <button onclick="printInvoice(${s.id}, 3)" class="text-blue-600 underline">🖨️ PDF</button></div>
+                            <div>1: <button onclick="toggleFee(${s.id}, 1)" class="px-2 py-1 rounded font-bold ${s.fee1 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee1}</button> <button onclick="printInvoice(${s.id}, 1)" class="text-blue-600 underline">🖨️ PDF</button></div>
+                            <div>2: <button onclick="toggleFee(${s.id}, 2)" class="px-2 py-1 rounded font-bold ${s.fee2 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee2}</button> <button onclick="printInvoice(${s.id}, 2)" class="text-blue-600 underline">🖨️ PDF</button></div>
+                            <div>3: <button onclick="toggleFee(${s.id}, 3)" class="px-2 py-1 rounded font-bold ${s.fee3 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee3}</button> <button onclick="printInvoice(${s.id}, 3)" class="text-blue-600 underline">🖨️ PDF</button></div>
                         </td>
                         <td class="p-4 text-xs md:text-sm text-indigo-600">${s.referrals?.length ? s.referrals.map(r=>r.name).join(', ') : 'Chưa có'}</td>
-                        <td class="p-4"><button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold text-sm">Xóa</button></td>
+                        <td class="p-4"><button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold text-sm hover:underline">Xóa</button></td>
                     </tr>
                 `;
             });
@@ -545,6 +578,7 @@
         function renderTeacherPortal(t) {
             document.getElementById('tNameDisplay').innerText = `Giáo viên: ${t.name}`;
             document.getElementById('tCodeDisplay').innerText = t.code;
+            document.getElementById('tGpsDisplay').innerText = localStorage.getItem('current_gps') || 'Đang cập nhật...';
 
             const myStudents = students.filter(s => s.teacherCode === t.code);
             const totalBonus = myStudents.length * (t.bonusPerStudent || 500000);
@@ -558,7 +592,7 @@
             myStudents.forEach(s => {
                 tbody.innerHTML += `
                     <tr class="border-b">
-                        <td class="p-3 font-bold">${s.name} <span class="text-xs font-mono text-gray-400">(${s.cccd})</span></td>
+                        <td class="p-3 font-bold">${s.name} <span class="text-xs font-mono text-slate-400">(${s.cccd})</span></td>
                         <td class="p-3">${s.course}</td>
                         <td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex] || 'Hoàn thành'}</span></td>
                         <td class="p-3 text-emerald-600 font-bold">+${(t.bonusPerStudent || 500000).toLocaleString()}đ</td>
@@ -576,6 +610,7 @@
             document.getElementById('modalNameDisplay').innerText = s.name;
             document.getElementById('modalCccdDisplay').innerText = s.cccd;
             document.getElementById('modalTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
+            document.getElementById('modalGpsDisplay').innerText = s.gps || 'Chưa định vị';
             document.getElementById('modalCourseBadge').innerText = s.course;
             
             const paid = calculatePaidAmount(s);
@@ -583,14 +618,14 @@
             document.getElementById('modalPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
             document.getElementById('modalRemainingPrice').innerText = (s.totalPrice - paid).toLocaleString() + ' VNĐ';
 
-            let notesHtml = s.notes?.length ? s.notes.map(n => `<div class="p-2 bg-white rounded border text-xs"><span>${n.text}</span> <span class="text-gray-400">(${n.date})</span></div>`).join('') : '<span class="text-gray-400">Chưa có ghi chú.</span>';
+            let notesHtml = s.notes?.length ? s.notes.map(n => `<div class="p-2 bg-white rounded border text-xs"><span>${n.text}</span> <span class="text-slate-400">(${n.date})</span></div>`).join('') : '<span class="text-slate-400">Chưa có ghi chú.</span>';
             document.getElementById('modalCrmNotesList').innerHTML = notesHtml;
 
             let stepsHTML = '';
             STEPS.forEach((stepName, idx) => {
                 let badge = idx < s.stepIndex ? 'Đã hoàn thành ✅' : (idx === s.stepIndex ? 'Đang học 🎯' : 'Chưa mở khóa 🔒');
-                let action = idx === s.stepIndex ? `<button onclick="studentCompleteStep(${s.id})" class="mt-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Hoàn thành bước này</button>` : '';
-                stepsHTML += `<div class="p-4 rounded-xl border bg-gray-50 flex justify-between items-center"><div><h4 class="font-bold text-sm">${stepName}</h4><span class="text-xs font-bold">${badge}</span></div>${action}</div>`;
+                let action = idx === s.stepIndex ? `<button onclick="studentCompleteStep(${s.id})" class="mt-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700">Hoàn thành bước này</button>` : '';
+                stepsHTML += `<div class="p-4 rounded-xl border bg-slate-50 flex justify-between items-center"><div><h4 class="font-bold text-sm">${stepName}</h4><span class="text-xs font-bold">${badge}</span></div>${action}</div>`;
             });
             document.getElementById('modalStepsContainer').innerHTML = stepsHTML;
 
