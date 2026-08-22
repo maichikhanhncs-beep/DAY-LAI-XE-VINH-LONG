@@ -9,7 +9,7 @@
 </head>
 <body class="bg-slate-100 min-h-screen font-sans text-slate-800">
 
-    <!-- GIAO DIỆN ĐĂNG NHẬP CHUẨN ENTERPRISE (SPLIT SCREEN) -->
+    <!-- MÀN HÌNH ĐĂNG NHẬP -->
     <div id="loginScreen" class="min-h-screen flex flex-col md:flex-row">
         <!-- Banner bên trái -->
         <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-8 md:p-16 flex flex-col justify-between text-white">
@@ -41,6 +41,7 @@
                     </select>
                 </div>
 
+                <!-- Đăng nhập Học viên -->
                 <div id="studentLoginGroup" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Số CCCD học viên <span class="text-red-500">*</span>:</label>
@@ -52,6 +53,7 @@
                     </div>
                 </div>
 
+                <!-- Đăng nhập Giáo viên -->
                 <div id="teacherLoginGroup" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mã Giáo Viên <span class="text-red-500">*</span>:</label>
@@ -63,6 +65,7 @@
                     </div>
                 </div>
 
+                <!-- Đăng nhập Admin -->
                 <div id="adminLoginGroup" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Tài khoản Quản trị <span class="text-red-500">*</span>:</label>
@@ -79,8 +82,8 @@
         </div>
     </div>
 
-    <!-- GIAO DIỆN QUẢN TRỊ ADMIN (SIDEBAR & HEADER LAYOUT) -->
-    <div id="adminDashboard" class="hidden min-h-screen flex flex-col md:flex-row">
+    <!-- GIAO DIỆN QUẢN TRỊ ADMIN -->
+    <div id="adminDashboard" class="hidden min-h-screen flex flex-col md:flex-row bg-slate-100">
         <!-- Sidebar Menu -->
         <div class="md:w-64 bg-slate-900 text-slate-300 p-6 flex flex-col justify-between">
             <div class="space-y-6">
@@ -328,7 +331,7 @@
     </div>
 
     <!-- CỔNG HỌC VIÊN -->
-    <div id="studentDashboard" class="hidden max-w-4xl mx-auto space-y-6">
+    <div id="studentDashboard" class="hidden max-w-4xl mx-auto space-y-6 p-4">
         <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8 border relative overflow-hidden">
             <div class="flex justify-between items-center mb-6 pb-4 border-b">
                 <div>
@@ -370,7 +373,7 @@
     </div>
 
     <!-- CỔNG GIÁO VIÊN -->
-    <div id="teacherDashboard" class="hidden max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-8 space-y-6">
+    <div id="teacherDashboard" class="hidden max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-8 space-y-6 my-6">
         <div class="flex justify-between items-center pb-4 border-b">
             <div>
                 <h1 class="text-2xl font-black text-slate-900" id="tNameDisplay">Cổng Giáo Viên</h1>
