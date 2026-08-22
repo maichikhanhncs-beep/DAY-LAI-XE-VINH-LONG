@@ -20,9 +20,9 @@
             <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Chọn vai trò truy cập:</label>
                 <select id="loginRole" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 font-medium text-sm" onchange="toggleLoginInput()">
-                    <option value="student">🎓 Học viên (Tra cứu lộ trình & học phí)</option>
-                    <option value="teacher">👨‍🏫 Giáo viên (Quản lý lớp & lương)</option>
-                    <option value="admin">🔒 Quản trị viên (Chủ trung tâm / Admin)</option>
+                    <option value="student">🎓 Học viên</option>
+                    <option value="teacher">👨‍🏫 Giáo viên</option>
+                    <option value="admin">🔒 Quản trị viên</option>
                 </select>
             </div>
 
@@ -83,7 +83,6 @@
 
         <!-- TAB 1: QUẢN LÝ HỌC VIÊN -->
         <div id="adminStudentSection" class="space-y-6">
-            <!-- Thêm thủ công & Import Excel -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 sm:p-6 bg-slate-50 rounded-2xl border border-slate-200">
                 <div class="lg:col-span-2 space-y-3">
                     <h3 class="font-bold text-slate-800 text-sm">➕ Thêm Hồ Sơ Học Viên Mới</h3>
