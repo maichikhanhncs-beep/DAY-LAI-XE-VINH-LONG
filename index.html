@@ -13,16 +13,18 @@
         <div class="text-center mb-8">
             <span class="text-4xl">🚗</span>
             <h2 class="text-2xl font-black text-gray-800 mt-2">Hệ Thống Lái Xe CRM Pro</h2>
-            <p class="text-xs text-gray-500 mt-1">Đăng nhập cổng thông tin học viên & quản trị</p>
+            <p class="text-xs text-gray-500 mt-1">Đăng nhập bảo mật cho Học viên & Quản trị viên</p>
         </div>
         <div class="space-y-4">
             <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Vai trò:</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Vai trò đăng nhập:</label>
                 <select id="loginRole" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 font-medium" onchange="toggleLoginInput()">
                     <option value="student">Học viên (Đăng nhập bằng CCCD)</option>
                     <option value="admin">Quản trị viên (Admin)</option>
                 </select>
             </div>
+
+            <!-- Form Đăng Nhập Học Viên -->
             <div id="studentLoginGroup" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Số CCCD học viên:</label>
@@ -33,6 +35,19 @@
                     <input type="password" id="loginPass" value="123" placeholder="Mật khẩu mặc định: 123" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 font-medium">
                 </div>
             </div>
+
+            <!-- Form Đăng Nhập Admin (Bảo Mật) -->
+            <div id="adminLoginGroup" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Tài khoản Admin:</label>
+                    <input type="text" id="adminUser" placeholder="Nhập tài khoản quản trị" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Mật khẩu Admin:</label>
+                    <input type="password" id="adminPass" placeholder="Nhập mật khẩu quản trị" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-gray-50 font-medium">
+                </div>
+            </div>
+
             <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-3.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 font-bold shadow-lg shadow-blue-500/30 transition-all">Đăng Nhập Ngay</button>
         </div>
     </div>
@@ -174,14 +189,35 @@
 
         function toggleLoginInput() {
             const role = document.getElementById('loginRole').value;
-            const group = document.getElementById('studentLoginGroup');
-            if (role === 'admin') group.classList.add('hidden');
-            else group.classList.remove('hidden');
+            const studentGroup = document.getElementById('studentLoginGroup');
+            const adminGroup = document.getElementById('adminLoginGroup');
+
+            if (role === 'admin') {
+                studentGroup.classList.add('hidden');
+                adminGroup.classList.remove('hidden');
+            } else {
+                studentGroup.classList.remove('hidden');
+                adminGroup.classList.add('hidden');
+            }
         }
 
         function handleLogin() {
             const role = document.getElementById('loginRole').value;
+            
             if (role === 'admin') {
+                const user = document.getElementById('adminUser').value.trim();
+                const pass = document.getElementById('adminPass').value.trim();
+
+                // TÀI KHOẢN VÀ MẬT KHẨU QUẢN TRỊ VIÊN
+                // Bạn có thể đổi chữ 'admin' và 'admin123' thành tên đăng nhập và mật khẩu bạn muốn ở đây:
+                const ADMIN_USER = 'admin';
+                const ADMIN_PASS = 'admin123';
+
+                if (user !== ADMIN_USER || pass !== ADMIN_PASS) {
+                    alert('Sai tài khoản hoặc mật khẩu quản trị viên!');
+                    return;
+                }
+
                 localStorage.setItem('current_role', 'admin');
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('adminDashboard').classList.remove('hidden');
@@ -191,7 +227,7 @@
                 const pass = document.getElementById('loginPass').value.trim();
                 const student = students.find(s => s.cccd === cccd && s.pass === pass);
                 if (!student) {
-                    alert('Sai số CCCD hoặc mật khẩu (Mặc định: 123)!');
+                    alert('Sai số CCCD hoặc mật khẩu học viên (Mặc định: 123)!');
                     return;
                 }
                 localStorage.setItem('current_role', 'student');
@@ -208,6 +244,8 @@
             document.getElementById('studentModal').classList.add('hidden');
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('loginCCCD').value = '';
+            document.getElementById('adminUser').value = '';
+            document.getElementById('adminPass').value = '';
         }
 
         function addStudent() {
@@ -247,7 +285,6 @@
             saveAndSync();
         }
 
-        // Tạo hóa đơn PDF chuẩn bằng cửa sổ in độc lập
         function printInvoice(id, feeType) {
             const s = students.find(x => x.id === id);
             if (!s) return;
