@@ -1,1 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Học Viên Lái Xe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-md p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">🚗 Hệ Thống Quản Lý Học Viên Lái Xe</h1>
+        
+        <!-- Form thêm học viên -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+            <input type="text" id="name" placeholder="Họ tên học viên" class="border p-2 rounded">
+            <select id="course" class="border p-2 rounded" onchange="updateDatHint()">
+                <option value="B (Số tự động)">Hạng B (Số tự động)</option>
+                <option value="B (Cơ khí)">Hạng B (Cơ khí)</option>
+                <option value="C1">Hạng C1</option>
+            </select>
+            <select id="progress" class="border p-2 rounded">
+                <option value="1. Học lý thuyết">1. Học lý thuyết</option>
+                <option value="2. Học lái xe trong sân thô">2. Học lái xe trong sân thô</option>
+                <option value="3. Học online hệ thống">3. Học online hệ thống</option>
+                <option value="4. Chạy DAT đường trường">4. Chạy DAT đường trường</option>
+                <option value="5. Tập sa hình">5. Tập sa hình</option>
+                <option value="6. Thi tốt nghiệp">6. Thi tốt nghiệp</option>
+                <option value="7. Thi sát hạch">7. Thi sát hạch</option>
+            </select>
+            <div class="flex items-center">
+                <input type="checkbox" id="isStudent" class="w-5 h-5 mr-2">
+                <label for="isStudent" class="text-sm font-medium">Giảm 1tr (Sinh viên)</label>
+            </div>
+            <button onclick="addStudent()" class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 font-medium">Thêm học viên</button>
+        </div>
 
+        <div id="datHint" class="mb-6 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800"></div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700">
+                        <th class="p-3">Họ và tên</th>
+                        <th class="p-3">Hạng</th>
+                        <th class="p-3">Lộ trình học</th>
+                        <th class="p-3">Tổng học phí (Đã ưu đãi)</th>
+                        <th class="p-3">Đóng học phí (Chia 3 lần)</th>
+                        <th class="p-3">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTable" class="divide-y divide-gray-200"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+
+        const courseData = {
+            "B (Số tự động)": { price: 19500000, dat: "Tối thiểu 12 giờ, 710 km." },
+            "B (Cơ khí)": { price: 19500000, dat: "Tối thiểu 20 giờ, 810 km, học xe số tự động 2-3h." },
+            "C1": { price: 21500000, dat: "Tối thiểu 24 giờ, 825 km, học xe số tự động 2-3h." }
+        };
+
+        function updateDatHint() {
+            const course = document.getElementById('course').value;
+            document.getElementById('datHint').innerHTML = `<strong>Tiêu chuẩn ${course}:</strong> ${courseData[course].dat} (Cam kết trọn gói, không phát sinh).`;
+        }
+        updateDatHint();
+
+        function addStudent() {
+            const name = document.getElementById('name').value;
+            const course = document.getElementById('course').value;
+            const progress = document.getElementById('progress').value;
+            const isStudent = document.getElementById('isStudent').checked;
+
+            if (!name) return alert('Vui lòng nhập tên học viên!');
+
+            let totalPrice = courseData[course].price;
+            if (isStudent) totalPrice -= 1000000; // Giảm trực tiếp 1 triệu cho sinh viên
+
+            students.push({
+                id: Date.now(), name, course, progress, totalPrice, isStudent,
+                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng'
+            });
+            saveAndRender();
+            document.getElementById('name').value = '';
+            document.getElementById('isStudent').checked = false;
+        }
+
+        function toggleFee(id, feeType) {
+            students = students.map(s => {
+                if (s.id === id) {
+                    if (feeType === 1) s.fee1 = s.fee1 === 'Chưa đóng' ? 'Đã đóng' : 'Chưa đóng';
+                    if (feeType === 2) s.fee2 = s.fee2 === 'Chưa đóng' ? 'Đã đóng' : 'Chưa đóng';
+                    if (feeType === 3) s.fee3 = s.fee3 === 'Chưa đóng' ? 'Đã đóng' : 'Chưa đóng';
+                }
+                return s;
+            });
+            saveAndRender();
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('students', JSON.stringify(students));
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('studentTable');
+            tbody.innerHTML = '';
+            
+            if (students.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">Chưa có học viên nào.</td></tr>`;
+                return;
+            }
+
+            students.forEach(s => {
+                const f1 = (s.totalPrice * 0.5).toLocaleString();
+                const f2 = (s.totalPrice * 0.25).toLocaleString();
+                const f3 = (s.totalPrice * 0.25).toLocaleString();
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-3 font-medium">${s.name}</td>
+                        <td class="p-3">${s.course}</td>
+                        <td class="p-3"><span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">${s.progress}</span></td>
+                        <td class="p-3">
+                            <strong>${s.totalPrice.toLocaleString()} VNĐ</strong>
+                            ${s.isStudent ? '<br><span class="text-xs text-green-600 font-semibold">(Đã giảm 1tr SV)</span>' : ''}
+                        </td>
+                        <td class="p-3 text-xs space-y-1">
+                            <div>Lần 1 (50% - Nộp hồ sơ): <button onclick="toggleFee(${s.id}, 1)" class="px-2 py-0.5 rounded font-semibold ${s.fee1 === 'Đã đóng' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${s.fee1} (${f1})</button></div>
+                            <div>Lần 2 (25% - Xong lý thuyết): <button onclick="toggleFee(${s.id}, 2)" class="px-2 py-0.5 rounded font-semibold ${s.fee2 === 'Đã đóng' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${s.fee2} (${f2})</button></div>
+                            <div>Lần 3 (25% - Đủ DAT): <button onclick="toggleFee(${s.id}, 3)" class="px-2 py-0.5 rounded font-semibold ${s.fee3 === 'Đã đóng' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${s.fee3} (${f3})</button></div>
+                        </td>
+                        <td class="p-3"><button onclick="students = students.filter(x => x.id !== ${s.id}); saveAndRender()" class="text-red-500 hover:text-red-700 font-medium">Xóa</button></td>
+                    </tr>
+                `;
+            });
+        }
+        renderTable();
+    </script>
+</body>
+</html>
