@@ -90,13 +90,21 @@
                         <input type="text" id="addName" placeholder="Họ và tên" class="border p-3 rounded-xl bg-white text-sm">
                         <input type="text" id="addCCCD" placeholder="Số CCCD" class="border p-3 rounded-xl bg-white text-sm">
                         <input type="text" id="addPhone" placeholder="Số điện thoại (SĐT)" class="border p-3 rounded-xl bg-white text-sm">
-                        <input type="date" id="addStartDate" class="border p-3 rounded-xl bg-white text-sm">
+                        <select id="addGender" class="border p-3 rounded-xl bg-white text-sm">
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                        <input type="date" id="addDob" placeholder="Ngày sinh" class="border p-3 rounded-xl bg-white text-sm" title="Ngày sinh">
+                        <input type="text" id="addAddress" placeholder="Địa chỉ học viên" class="border p-3 rounded-xl bg-white text-sm">
+                        <input type="date" id="addReceiveDate" placeholder="Ngày nhận hồ sơ" class="border p-3 rounded-xl bg-white text-sm" title="Ngày nhận hồ sơ">
+                        <input type="date" id="addStartDate" placeholder="Ngày bắt đầu học" class="border p-3 rounded-xl bg-white text-sm" title="Ngày bắt đầu học">
                         <select id="addCourse" class="border p-3 rounded-xl bg-white text-sm">
                             <option value="B (Số tự động)">Hạng B (Tự động - 19.5tr)</option>
                             <option value="B (Cơ khí)">Hạng B (Cơ khí - 19.5tr)</option>
                             <option value="C1">Hạng C1 (21.5tr)</option>
                         </select>
-                        <select id="addTeacher" class="border p-3 rounded-xl bg-white text-sm"></select>
+                        <select id="addTeacher" class="border p-3 rounded-xl bg-white text-sm md:col-span-2"></select>
                     </div>
                     <div class="flex items-center justify-between pt-2">
                         <div class="flex items-center">
@@ -110,7 +118,7 @@
                 <div class="border-t lg:border-t-0 lg:border-l pl-0 lg:pl-6 pt-4 lg:pt-0 space-y-3 flex flex-col justify-between">
                     <div>
                         <h3 class="font-bold text-slate-800 text-sm mb-1">📊 Import Excel Hàng Loạt</h3>
-                        <p class="text-[11px] text-slate-500 mb-3">File Excel cần có cột: name, cccd, phone, course, startdate</p>
+                        <p class="text-[11px] text-slate-500 mb-3">File Excel cần có cột: name, cccd, phone, gender, dob, address, receivedate, course, startdate</p>
                         <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700">
                     </div>
                     <button onclick="importExcel()" class="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold text-sm hover:bg-emerald-700 shadow">Tải lên & Tạo Tự Động</button>
@@ -118,15 +126,15 @@
             </div>
 
             <div class="overflow-x-auto w-full">
-                <table class="w-full text-left border-collapse min-w-[1000px]">
+                <table class="w-full text-left border-collapse min-w-[1100px]">
                     <thead>
                         <tr class="bg-slate-100 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
-                            <th class="p-4 rounded-l-xl">Học viên & SĐT / GPS</th>
+                            <th class="p-4 rounded-l-xl">Học viên, SĐT & Địa chỉ</th>
+                            <th class="p-4">Ngày sinh & Ngày nhận hồ sơ</th>
                             <th class="p-4">Hạng & Giáo viên</th>
                             <th class="p-4">Tiến độ</th>
                             <th class="p-4">Tài chính (Đã đóng / Tổng)</th>
                             <th class="p-4">Thu học phí & In PDF</th>
-                            <th class="p-4">Giới thiệu</th>
                             <th class="p-4 rounded-r-xl">Thao tác</th>
                         </tr>
                     </thead>
@@ -139,10 +147,15 @@
         <div id="adminTeacherSection" class="hidden space-y-6">
             <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 space-y-4">
                 <h3 class="font-bold text-slate-800 text-sm">👨‍🏫 Thêm Giáo Viên Mới & Cấu Hình Lương Thưởng</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
                     <input type="text" id="newTeacherName" placeholder="Tên giáo viên" class="border p-3 rounded-xl bg-white text-sm">
                     <input type="text" id="newTeacherCode" placeholder="Mã GV (VD: GV01)" class="border p-3 rounded-xl bg-white text-sm">
                     <input type="text" id="newTeacherPhone" placeholder="Số điện thoại (SĐT)" class="border p-3 rounded-xl bg-white text-sm">
+                    <select id="newTeacherGender" class="border p-3 rounded-xl bg-white text-sm">
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
                     <input type="number" id="newTeacherBonus" value="500000" placeholder="Thưởng/HV" class="border p-3 rounded-xl bg-white text-sm">
                 </div>
                 <button onclick="addTeacher()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow hover:bg-indigo-700">Lưu Thông Tin Giáo Viên</button>
@@ -153,7 +166,7 @@
                     <thead>
                         <tr class="bg-slate-100 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
                             <th class="p-4 rounded-l-xl">Mã GV</th>
-                            <th class="p-4">Họ và tên & SĐT</th>
+                            <th class="p-4">Họ và tên, SĐT & Giới tính</th>
                             <th class="p-4">Thưởng / Học viên</th>
                             <th class="p-4">Học viên phụ trách</th>
                             <th class="p-4 rounded-r-xl">Thao tác</th>
@@ -165,7 +178,70 @@
         </div>
     </div>
 
-    <!-- GIAO DIỆN CỔNG HỌC VIÊN (ĐĂNG NHẬP CÁ NHÂN) -->
+    <!-- MODAL BÁO CÁO TÀI CHÍNH -->
+    <div id="financeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 md:p-8 space-y-6 relative">
+            <button onclick="closeFinanceModal()" class="absolute top-6 right-6 bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">✖ Đóng</button>
+            <h3 class="text-xl font-black text-slate-900">💰 Báo Cáo Tài Chính & Lợi Nhuận</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                    <span class="text-xs text-blue-600 block font-bold">Tổng doanh thu thực tế:</span>
+                    <strong class="text-blue-900 text-2xl font-black" id="finTotalRevenue">0đ</strong>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                    <span class="text-xs text-emerald-600 block font-bold">Lợi nhuận ròng (Net Profit):</span>
+                    <strong class="text-emerald-900 text-2xl font-black" id="finNetProfit">0đ</strong>
+                </div>
+                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100">
+                    <span class="text-xs text-amber-600 block font-bold">Tổng quỹ lương thưởng GV:</span>
+                    <strong class="text-amber-900 text-xl font-black" id="finTotalTeacherBonus">0đ</strong>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100">
+                    <span class="text-xs text-purple-600 block font-bold">Tổng hoa hồng giới thiệu:</span>
+                    <strong class="text-purple-900 text-xl font-black" id="finTotalReferral">0đ</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FOLDER XEM CHI TIẾT HỒ SƠ HỌC VIÊN -->
+    <div id="studentModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 relative">
+            <button onclick="closeStudentModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-slate-100 hover:bg-gray-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm">✖ Đóng Folder</button>
+            
+            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden space-y-2">
+                <div>
+                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase" id="modalCourseBadge">Hạng B</span>
+                    <h1 class="text-2xl md:text-3xl font-black mt-2" id="modalNameDisplay">--</h1>
+                    <p class="text-xs md:text-sm text-indigo-200 font-mono mt-0.5">CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="modalPhoneDisplay" class="font-bold text-emerald-300">--</span> | Giới tính: <span id="modalGenderDisplay" class="font-bold text-purple-300">--</span></p>
+                    <p class="text-xs md:text-sm text-indigo-200 mt-1">Ngày sinh: <span id="modalDobDisplay" class="font-bold text-white">--</span> | Địa chỉ: <span id="modalAddressDisplay" class="font-bold text-white">--</span></p>
+                    <p class="text-xs md:text-sm text-indigo-200 mt-1">Ngày nhận hồ sơ: <span id="modalReceiveDateDisplay" class="font-bold text-amber-300">--</span> | GV phụ trách: <span id="modalTeacherDisplay" class="font-bold text-amber-300">--</span></p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/10 backdrop-blur p-4 rounded-2xl border border-white/20 text-sm mt-4">
+                    <div><span class="text-xs text-indigo-200 block">Tổng học phí:</span><strong class="text-white text-lg" id="modalTotalPrice">--</strong></div>
+                    <div><span class="text-xs text-indigo-200 block">Đã thanh toán:</span><strong class="text-emerald-300 text-lg" id="modalPaidPrice">--</strong></div>
+                    <div><span class="text-xs text-indigo-200 block">Còn lại phải đóng:</span><strong class="text-red-300 text-lg" id="modalRemainingPrice">--</strong></div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-4 md:p-6 border">
+                <h3 class="text-base font-black text-slate-900 mb-3">📝 Ghi Chú Chăm Sóc Khách Hàng (CRM Notes)</h3>
+                <div class="space-y-3">
+                    <textarea id="modalCrmNoteInput" rows="2" placeholder="Nhập ghi chú..." class="w-full border p-3 rounded-xl text-sm outline-none bg-white"></textarea>
+                    <button onclick="addModalCrmNote()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow hover:bg-indigo-700">Lưu Ghi Chú</button>
+                    <div id="modalCrmNotesList" class="mt-3 space-y-2 text-xs"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 md:p-6 border">
+                <h3 class="text-lg font-black text-slate-900 mb-4">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
+                <div id="modalStepsContainer" class="space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GIAO DIỆN CỔNG HỌC VIÊN -->
     <div id="studentDashboard" class="hidden max-w-4xl mx-auto space-y-6">
         <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8 border relative overflow-hidden">
             <div class="flex justify-between items-center mb-6 pb-4 border-b">
@@ -176,12 +252,14 @@
                 <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs font-bold">Đăng Xuất</button>
             </div>
 
-            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 shadow-lg mb-6">
+            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 shadow-lg mb-6 space-y-2">
                 <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase" id="sCourseBadge">Hạng B</span>
                 <h1 class="text-2xl font-black mt-2" id="sNameDisplay">--</h1>
-                <p class="text-xs text-indigo-200 font-mono mt-0.5">CCCD: <span id="sCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="sPhoneDisplay" class="font-bold text-emerald-300">--</span> | GV: <span id="sTeacherDisplay" class="font-bold text-amber-300">--</span></p>
+                <p class="text-xs text-indigo-200 font-mono mt-0.5">CCCD: <span id="sCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="sPhoneDisplay" class="font-bold text-emerald-300">--</span> | Giới tính: <span id="sGenderDisplay" class="font-bold text-purple-300">--</span></p>
+                <p class="text-xs text-indigo-200">Ngày sinh: <span id="sDobDisplay" class="font-bold text-white">--</span> | Địa chỉ: <span id="sAddressDisplay" class="font-bold text-white">--</span></p>
+                <p class="text-xs text-indigo-200">Ngày nhận hồ sơ: <span id="sReceiveDateDisplay" class="font-bold text-amber-300">--</span> | GV: <span id="sTeacherDisplay" class="font-bold text-amber-300">--</span></p>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/10 backdrop-blur p-4 rounded-2xl border border-white/20 text-sm mt-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/10 backdrop-blur p-4 rounded-2xl border border-white/20 text-sm mt-4">
                     <div><span class="text-xs text-indigo-200 block">Tổng học phí:</span><strong class="text-white text-lg" id="sTotalPrice">--</strong></div>
                     <div><span class="text-xs text-indigo-200 block">Đã thanh toán:</span><strong class="text-emerald-300 text-lg" id="sPaidPrice">--</strong></div>
                     <div><span class="text-xs text-indigo-200 block">Còn lại phải đóng:</span><strong class="text-red-300 text-lg" id="sRemainingPrice">--</strong></div>
@@ -211,66 +289,17 @@
         </div>
     </div>
 
-    <!-- MODAL FOLDER XEM CHI TIẾT HỒ SƠ HỌC VIÊN (DÀNH CHO ADMIN BẤM VÀO TÊN) -->
-    <div id="studentModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 relative">
-            <button onclick="closeStudentModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-slate-100 hover:bg-gray-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm">✖ Đóng Folder</button>
-            
-            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden">
-                <div>
-                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase" id="modalCourseBadge">Hạng B</span>
-                    <h1 class="text-2xl md:text-3xl font-black mt-2" id="modalNameDisplay">--</h1>
-                    <p class="text-xs md:text-sm text-indigo-200 font-mono mt-0.5">CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="modalPhoneDisplay" class="font-bold text-emerald-300">--</span> | GV: <span id="modalTeacherDisplay" class="font-bold text-amber-300">--</span></p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/10 backdrop-blur p-4 rounded-2xl border border-white/20 text-sm mt-6">
-                    <div><span class="text-xs text-indigo-200 block">Tổng học phí:</span><strong class="text-white text-lg" id="modalTotalPrice">--</strong></div>
-                    <div><span class="text-xs text-indigo-200 block">Đã thanh toán:</span><strong class="text-emerald-300 text-lg" id="modalPaidPrice">--</strong></div>
-                    <div><span class="text-xs text-indigo-200 block">Còn lại phải đóng:</span><strong class="text-red-300 text-lg" id="modalRemainingPrice">--</strong></div>
-                </div>
-            </div>
-
-            <div class="bg-slate-50 rounded-2xl p-4 md:p-6 border">
-                <h3 class="text-base font-black text-slate-900 mb-3">📝 Ghi Chú Chăm Sóc Khách Hàng (CRM Notes)</h3>
-                <div class="space-y-3">
-                    <textarea id="modalCrmNoteInput" rows="2" placeholder="Nhập ghi chú..." class="w-full border p-3 rounded-xl text-sm outline-none bg-white"></textarea>
-                    <button onclick="addModalCrmNote()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow hover:bg-indigo-700">Lưu Ghi Chú</button>
-                    <div id="modalCrmNotesList" class="mt-3 space-y-2 text-xs"></div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-4 md:p-6 border">
-                <h3 class="text-lg font-black text-slate-900 mb-4">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
-                <div id="modalStepsContainer" class="space-y-4"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL BÁO CÁO TÀI CHÍNH -->
-    <div id="financeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 md:p-8 space-y-6 relative">
-            <button onclick="closeFinanceModal()" class="absolute top-6 right-6 bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">✖ Đóng</button>
-            <h3 class="text-xl font-black text-slate-900">💰 Báo Cáo Tài Chính & Lợi Nhuận</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100"><span class="text-xs text-blue-600 block font-bold">Tổng doanh thu thực tế:</span><strong class="text-blue-900 text-2xl font-black" id="finTotalRevenue">0đ</strong></div>
-                <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100"><span class="text-xs text-emerald-600 block font-bold">Lợi nhuận ròng:</span><strong class="text-emerald-900 text-2xl font-black" id="finNetProfit">0đ</strong></div>
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100"><span class="text-xs text-amber-600 block font-bold">Quỹ lương thưởng GV:</span><strong class="text-amber-900 text-xl font-black" id="finTotalTeacherBonus">0đ</strong></div>
-                <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100"><span class="text-xs text-purple-600 block font-bold">Hoa hồng giới thiệu:</span><strong class="text-purple-900 text-xl font-black" id="finTotalReferral">0đ</strong></div>
-            </div>
-        </div>
-    </div>
-
     <!-- GIAO DIỆN GIÁO VIÊN -->
     <div id="teacherDashboard" class="hidden max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-8 space-y-6">
         <div class="flex justify-between items-center pb-4 border-b">
             <div>
                 <h1 class="text-2xl font-black text-slate-900" id="tNameDisplay">Cổng Giáo Viên</h1>
-                <p class="text-xs text-slate-500 font-mono">Mã: <span id="tCodeDisplay" class="font-bold text-indigo-600">--</span> | SĐT: <span id="tPhoneDisplay" class="font-bold text-emerald-600">--</span></p>
+                <p class="text-xs text-slate-500 font-mono">Mã: <span id="tCodeDisplay" class="font-bold text-indigo-600">--</span> | SĐT: <span id="tPhoneDisplay" class="font-bold text-emerald-600">--</span> | Giới tính: <span id="tGenderDisplay" class="font-bold text-purple-600">--</span></p>
             </div>
             <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs font-bold">Đăng Xuất</button>
         </div>
         <table class="w-full text-left border-collapse text-sm">
-            <thead><tr class="bg-slate-100"><th class="p-3">Học viên</th><th class="p-3">SĐT</th><th class="p-3">Hạng</th><th class="p-3">Tiến độ</th><th class="p-3">Thưởng</th></tr></thead>
+            <thead><tr class="bg-slate-100"><th class="p-3">Học viên</th><th class="p-3">SĐT</th><th class="p-3">Giới tính</th><th class="p-3">Ngày nhận hồ sơ</th><th class="p-3">Hạng</th><th class="p-3">Tiến độ</th><th class="p-3">Thưởng</th></tr></thead>
             <tbody id="tStudentTableBody" class="divide-y"></tbody>
         </table>
     </div>
@@ -279,8 +308,8 @@
     <script>
         const STEPS = ["1. Học lý thuyết (25 ngày)", "2. Học lái xe trong sân thô (2 ngày)", "3. Học online hệ thống (25 ngày)", "4. Chạy DAT đường trường (4 ngày)", "5. Tập sa hình (2 ngày)", "6. Thi tốt nghiệp (2 ngày)", "7. Thi sát hạch (1 ngày)"];
 
-        let teachers = JSON.parse(localStorage.getItem('erp_teachers_v9')) || [{ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', bonusPerStudent: 500000, paidBonus: 0 }];
-        let students = JSON.parse(localStorage.getItem('erp_students_v9')) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
+        let teachers = JSON.parse(localStorage.getItem('erp_teachers_v11')) || [{ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', bonusPerStudent: 500000, paidBonus: 0 }];
+        let students = JSON.parse(localStorage.getItem('erp_students_v11')) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
         const coursePrices = { "B (Số tự động)": 19500000, "B (Cơ khí)": 19500000, "C1": 21500000 };
 
         function captureGPS(cb) {
@@ -356,10 +385,11 @@
             const name = document.getElementById('newTeacherName').value.trim();
             const code = document.getElementById('newTeacherCode').value.trim();
             const phone = document.getElementById('newTeacherPhone').value.trim();
+            const gender = document.getElementById('newTeacherGender').value;
             const bonusPerStudent = Number(document.getElementById('newTeacherBonus').value) || 500000;
             if (!name || !code) return alert('Nhập đủ thông tin giáo viên!');
-            teachers.push({ id: Date.now(), name, code, phone, bonusPerStudent, paidBonus: 0 });
-            localStorage.setItem('erp_teachers_v9', JSON.stringify(teachers));
+            teachers.push({ id: Date.now(), name, code, phone, gender, bonusPerStudent, paidBonus: 0 });
+            localStorage.setItem('erp_teachers_v11', JSON.stringify(teachers));
             renderAdminTeacherTable();
             updateTeacherSelect();
             alert('Thêm giáo viên thành công!');
@@ -373,7 +403,7 @@
                 tbody.innerHTML += `
                     <tr class="border-b">
                         <td class="p-4 font-mono font-bold">${t.code}</td>
-                        <td class="p-4"><strong>${t.name}</strong><br><span class="text-xs text-slate-500">SĐT: ${t.phone || 'N/A'}</span></td>
+                        <td class="p-4"><strong>${t.name}</strong><br><span class="text-xs text-slate-500">SĐT: ${t.phone || 'N/A'} | Giới tính: ${t.gender || 'N/A'}</span></td>
                         <td class="p-4">${t.bonusPerStudent.toLocaleString()}đ</td>
                         <td class="p-4 font-bold text-indigo-600">${count} học viên</td>
                         <td class="p-4"><button onclick="deleteTeacher(${t.id})" class="text-red-500 font-bold">Xóa</button></td>
@@ -384,7 +414,7 @@
 
         function deleteTeacher(id) {
             teachers = teachers.filter(t => t.id !== id);
-            localStorage.setItem('erp_teachers_v9', JSON.stringify(teachers));
+            localStorage.setItem('erp_teachers_v11', JSON.stringify(teachers));
             renderAdminTeacherTable();
         }
 
@@ -392,13 +422,23 @@
             const name = document.getElementById('addName').value.trim();
             const cccd = document.getElementById('addCCCD').value.trim();
             const phone = document.getElementById('addPhone').value.trim();
+            const gender = document.getElementById('addGender').value;
+            const dob = document.getElementById('addDob').value;
+            const address = document.getElementById('addAddress').value.trim();
+            const receiveDate = document.getElementById('addReceiveDate').value;
             const startDate = document.getElementById('addStartDate').value;
             const course = document.getElementById('addCourse').value;
             const teacherCode = document.getElementById('addTeacher').value;
             const isStudent = document.getElementById('addIsStudent').checked;
-            if (!name || !cccd || !startDate || !teacherCode) return alert('Nhập đầy đủ thông tin bắt buộc!');
+
+            if (!name || !cccd || !startDate || !teacherCode || !receiveDate) return alert('Vui lòng nhập đầy đủ thông tin bắt buộc (Họ tên, CCCD, Ngày nhận hồ sơ, Ngày bắt đầu, GV)!');
             let totalPrice = coursePrices[course] - (isStudent ? 1000000 : 0);
-            students.push({ id: Date.now(), name, cccd, phone, pass: '123', startDate, course, teacherCode, stepIndex: 0, totalPrice, isStudent, fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
+            
+            students.push({ 
+                id: Date.now(), name, cccd, phone, gender, dob, address, receiveDate, pass: '123', 
+                startDate, course, teacherCode, stepIndex: 0, totalPrice, isStudent, 
+                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' 
+            });
             saveAndSync();
             renderAdminStudentTable();
             alert('Thêm học viên thành công!');
@@ -418,10 +458,20 @@
                     const name = r.name || r['Họ tên'];
                     const cccd = String(r.cccd || r['CCCD'] || '').trim();
                     const phone = String(r.phone || r['SĐT'] || '').trim();
+                    const gender = r.gender || r['Giới tính'] || 'Nam';
+                    const dob = r.dob || r['Ngày sinh'] || '';
+                    const address = r.address || r['Địa chỉ'] || '';
+                    const receiveDate = r.receivedate || r['Ngày nhận hồ sơ'] || new Date().toISOString().split('T')[0];
                     const course = r.course || r['Hạng'] || 'B (Số tự động)';
                     const startDate = r.startdate || r['Ngày bắt đầu'] || new Date().toISOString().split('T')[0];
+
                     if (name && cccd && !students.some(s => s.cccd === cccd)) {
-                        students.push({ id: Date.now() + Math.random(), name, cccd, phone, pass: '123', startDate, course, teacherCode: teachers[0]?.code || '', stepIndex: 0, totalPrice: coursePrices[course], isStudent: false, fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
+                        students.push({ 
+                            id: Date.now() + Math.random(), name, cccd, phone, gender, dob, address, receiveDate, 
+                            pass: '123', startDate, course, teacherCode: teachers[0]?.code || '', stepIndex: 0, 
+                            totalPrice: coursePrices[course], isStudent: false, fee1: 'Chưa đóng', fee2: 'Chưa đóng', 
+                            fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' 
+                        });
                         count++;
                     }
                 });
@@ -433,7 +483,7 @@
         }
 
         function saveAndSync() {
-            localStorage.setItem('erp_students_v9', JSON.stringify(students));
+            localStorage.setItem('erp_students_v11', JSON.stringify(students));
         }
 
         function renderAdminStudentTable() {
@@ -447,8 +497,13 @@
                     <tr class="border-b">
                         <td class="p-4">
                             <a href="#" onclick="openStudentModal('${s.cccd}')" class="font-bold text-blue-600 hover:underline text-base">${s.name} 📁</a>
-                            <div class="text-xs text-slate-500">CCCD: ${s.cccd} | SĐT: <strong class="text-slate-700">${s.phone || 'N/A'}</strong></div>
+                            <div class="text-xs text-slate-500">CCCD: ${s.cccd} | SĐT: ${s.phone || 'N/A'}</div>
+                            <div class="text-xs text-slate-500">ĐC: ${s.address || 'N/A'}</div>
                             <div class="text-[11px] text-emerald-600 font-mono mt-0.5">📍 ${s.gps}</div>
+                        </td>
+                        <td class="p-4 text-xs">
+                            <div>Sinh: ${s.dob || 'N/A'} (${s.gender || 'Nam'})</div>
+                            <div class="text-amber-600 font-bold mt-1">Nhận HS: ${s.receiveDate || 'N/A'}</div>
                         </td>
                         <td class="p-4 text-xs font-bold">${s.course}<br><span class="text-indigo-600 font-normal">GV: ${t ? t.name : 'N/A'}</span></td>
                         <td class="p-4"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex] || 'Hoàn thành'}</span></td>
@@ -458,7 +513,6 @@
                             <div>2: <button onclick="toggleFee(${s.id}, 2)" class="px-2 py-0.5 rounded font-bold ${s.fee2 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee2}</button> <button onclick="printInvoice(${s.id}, 2)" class="text-blue-600 underline ml-1">🖨️ PDF</button></div>
                             <div>3: <button onclick="toggleFee(${s.id}, 3)" class="px-2 py-0.5 rounded font-bold ${s.fee3 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee3}</button> <button onclick="printInvoice(${s.id}, 3)" class="text-blue-600 underline ml-1">🖨️ PDF</button></div>
                         </td>
-                        <td class="p-4 text-xs text-indigo-600">${s.referrals?.length ? s.referrals.map(r=>r.name).join(', ') : 'Không có'}</td>
                         <td class="p-4"><button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold">Xóa</button></td>
                     </tr>
                 `;
@@ -484,7 +538,7 @@
             let amt = feeType === 1 ? s.totalPrice * 0.5 : s.totalPrice * 0.25;
             let title = `Học phí Đợt ${feeType}`;
             const printWindow = window.open('', '_blank', 'width=800,height=600');
-            printWindow.document.write(`<html><head><title>Hóa Đơn</title></head><body><h2>HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2><p><strong>Nhà sáng lập:</strong> Mai Chí Khanh</p><hr><p>Học viên: ${s.name} - CCCD: ${s.cccd} - SĐT: ${s.phone || 'N/A'}</p><p>Nội dung thanh toán: ${title}</p><p>Số tiền: <strong>${amt.toLocaleString()} VNĐ</strong></p><script>window.onload=function(){window.print();window.close();}<\/script></body></html>`);
+            printWindow.document.write(`<html><head><title>Hóa Đơn</title></head><body><h2>HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2><p><strong>Nhà sáng lập:</strong> Mai Chí Khanh</p><hr><p>Học viên: ${s.name} - CCCD: ${s.cccd} - SĐT: ${s.phone || 'N/A'}</p><p>Ngày nhận hồ sơ: ${s.receiveDate || 'N/A'}</p><p>Nội dung thanh toán: ${title}</p><p>Số tiền: <strong>${amt.toLocaleString()} VNĐ</strong></p><script>window.onload=function(){window.print();window.close();}<\/script></body></html>`);
             printWindow.document.close();
         }
 
@@ -507,12 +561,15 @@
         }
         function closeFinanceModal() { document.getElementById('financeModal').classList.add('hidden'); }
 
-        // Render giao diện học viên khi đăng nhập cá nhân
         function renderStudentPortal(s) {
             const t = teachers.find(x => x.code === s.teacherCode);
             document.getElementById('sNameDisplay').innerText = s.name;
             document.getElementById('sCccdDisplay').innerText = s.cccd;
             document.getElementById('sPhoneDisplay').innerText = s.phone || 'N/A';
+            document.getElementById('sGenderDisplay').innerText = s.gender || 'Nam';
+            document.getElementById('sDobDisplay').innerText = s.dob || 'N/A';
+            document.getElementById('sAddressDisplay').innerText = s.address || 'N/A';
+            document.getElementById('sReceiveDateDisplay').innerText = s.receiveDate || 'N/A';
             document.getElementById('sTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
             document.getElementById('sCourseBadge').innerText = s.course;
 
@@ -547,26 +604,6 @@
             if (current) renderStudentPortal(current);
         }
 
-        function submitStudentReferral() {
-            const name = document.getElementById('sRefName').value.trim();
-            const option = document.getElementById('sRefOption').value;
-            if (!name) return alert('Nhập tên người được giới thiệu!');
-            students = students.map(s => {
-                if (s.cccd === localStorage.getItem('current_cccd')) {
-                    if (!s.referrals) s.referrals = [];
-                    s.referrals.push({ name, option, date: new Date().toLocaleDateString('vi-VN') });
-                    if (option === 'deduct') s.totalPrice -= 1000000;
-                }
-                return s;
-            });
-            saveAndSync();
-            document.getElementById('sRefName').value = '';
-            const current = students.find(x => x.cccd === localStorage.getItem('current_cccd'));
-            if (current) renderStudentPortal(current);
-            alert('Gửi thông tin giới thiệu thành công!');
-        }
-
-        // Render Folder cho Admin bấm vào tên học viên
         function openStudentModal(cccd) {
             window.currentActiveCccd = cccd;
             const s = students.find(x => x.cccd === cccd);
@@ -575,6 +612,10 @@
             document.getElementById('modalNameDisplay').innerText = s.name;
             document.getElementById('modalCccdDisplay').innerText = s.cccd;
             document.getElementById('modalPhoneDisplay').innerText = s.phone || 'N/A';
+            document.getElementById('modalGenderDisplay').innerText = s.gender || 'Nam';
+            document.getElementById('modalDobDisplay').innerText = s.dob || 'N/A';
+            document.getElementById('modalAddressDisplay').innerText = s.address || 'N/A';
+            document.getElementById('modalReceiveDateDisplay').innerText = s.receiveDate || 'N/A';
             document.getElementById('modalTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
             document.getElementById('modalCourseBadge').innerText = s.course;
             
@@ -616,11 +657,12 @@
             document.getElementById('tNameDisplay').innerText = `Giáo viên: ${t.name}`;
             document.getElementById('tCodeDisplay').innerText = t.code;
             document.getElementById('tPhoneDisplay').innerText = t.phone || 'N/A';
+            document.getElementById('tGenderDisplay').innerText = t.gender || 'Nam';
             const my = students.filter(s => s.teacherCode === t.code);
             const tbody = document.getElementById('tStudentTableBody');
             tbody.innerHTML = '';
             my.forEach(s => {
-                tbody.innerHTML += `<tr class="border-b"><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.phone || 'N/A'}</td><td class="p-3">${s.course}</td><td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex]}</span></td><td class="p-3 text-emerald-600 font-bold">+${t.bonusPerStudent.toLocaleString()}đ</td></tr>`;
+                tbody.innerHTML += `<tr class="border-b"><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.phone || 'N/A'}</td><td class="p-3">${s.gender || 'Nam'}</td><td class="p-3 text-amber-600 font-bold">${s.receiveDate || 'N/A'}</td><td class="p-3">${s.course}</td><td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex]}</span></td><td class="p-3 text-emerald-600 font-bold">+${t.bonusPerStudent.toLocaleString()}đ</td></tr>`;
             });
         }
 
