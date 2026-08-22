@@ -74,9 +74,13 @@
                 <p class="text-xs sm:text-sm text-indigo-600 font-bold">Nhà sáng lập: Mai Chí Khanh</p>
             </div>
             <div class="flex flex-wrap gap-2">
-                <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-emerald-100">💰 Báo Cáo Tài Chính</button>
-                <button onclick="openTeacherTab()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-100">👨‍🏫 Quản Lý Giáo Viên & Lương</button>
-                <button onclick="openStudentTab()" class="bg-blue-50 text-blue-700 border border-blue-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-blue-100">🎓 Quản Lý Học Viên</button>
+                <button onclick="backupData()" class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-2 rounded-xl text-xs font-bold">📥 Sao Lưu Dữ Liệu</button>
+                <label class="bg-purple-50 text-purple-700 border border-purple-200 px-3 py-2 rounded-xl text-xs font-bold cursor-pointer">
+                    📤 Phục Hồi <input type="file" id="restoreFile" accept=".json" onchange="restoreData(event)" class="hidden">
+                </label>
+                <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">💰 Tài Chính</button>
+                <button onclick="openTeacherTab()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">👨‍🏫 Giáo Viên</button>
+                <button onclick="openStudentTab()" class="bg-blue-50 text-blue-700 border border-blue-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">🎓 Học Viên</button>
                 <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">Đăng Xuất</button>
             </div>
         </div>
@@ -370,11 +374,49 @@
     <script>
         const STEPS = ["1. Học lý thuyết (25 ngày)", "2. Học lái xe trong sân thô (2 ngày)", "3. Học online hệ thống (25 ngày)", "4. Chạy DAT đường trường (4 ngày)", "5. Tập sa hình (2 ngày)", "6. Thi tốt nghiệp (2 ngày)", "7. Thi sát hạch (1 ngày)"];
 
-        let teachers = JSON.parse(localStorage.getItem('erp_teachers_v14')) || [{ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', deductions: 0, paidBonus: 0 }];
-        let students = JSON.parse(localStorage.getItem('erp_students_v14')) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
+        // Cố định khóa lưu trữ (Storage Key) để không bao giờ mất dữ liệu khi cập nhật code
+        const STORAGE_KEY_STUDENTS = 'driving_system_students_stable';
+        const STORAGE_KEY_TEACHERS = 'driving_system_teachers_stable';
+
+        let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS)) || [{ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', deductions: 0, paidBonus: 0 }];
+        let students = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS)) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
         const coursePrices = { "B (Số tự động)": 19500000, "B (Cơ khí)": 19500000, "C1": 21500000 };
 
-        // Hàm chuyển đổi định dạng ngày sang dd/mm/yyyy
+        // Chức năng Sao lưu dữ liệu ra file JSON
+        function backupData() {
+            const data = { students, teachers };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `driving_system_backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        // Chức năng Phục hồi dữ liệu từ file JSON
+        function restoreData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.students && data.teachers) {
+                        students = data.students;
+                        teachers = data.teachers;
+                        saveAndSync();
+                        renderAdminStudentTable();
+                        alert('Khôi phục dữ liệu thành công!');
+                    } else {
+                        alert('File backup không hợp lệ!');
+                    }
+                } catch (err) {
+                    alert('Lỗi đọc file backup!');
+                }
+            };
+            reader.readAsText(file);
+        }
+
         function formatDate(dateStr) {
             if (!dateStr) return 'N/A';
             let parts = dateStr.split('-');
@@ -444,7 +486,12 @@
             });
         }
 
-        function logout() { localStorage.clear(); location.reload(); }
+        function logout() { 
+            localStorage.removeItem('current_role');
+            localStorage.removeItem('current_cccd');
+            localStorage.removeItem('current_teacher_code');
+            location.reload(); 
+        }
 
         function openStudentTab() {
             document.getElementById('adminStudentSection').classList.remove('hidden');
@@ -476,7 +523,7 @@
             const code = generateTeacherCode();
 
             teachers.push({ id: Date.now(), name, code, phone, gender, datKm, sahinhSessions, sahinhDate, deductions: 0, paidBonus: 0 });
-            localStorage.setItem('erp_teachers_v14', JSON.stringify(teachers));
+            localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
             renderAdminTeacherTable();
             updateTeacherSelect();
             
@@ -526,7 +573,7 @@
         function updateDeduction(id, val) {
             const t = teachers.find(x => x.id === id);
             t.deductions = Number(val);
-            localStorage.setItem('erp_teachers_v14', JSON.stringify(teachers));
+            localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
             renderAdminTeacherTable();
         }
 
@@ -579,7 +626,7 @@
 
         function deleteTeacher(id) {
             teachers = teachers.filter(t => t.id !== id);
-            localStorage.setItem('erp_teachers_v14', JSON.stringify(teachers));
+            localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
             renderAdminTeacherTable();
             updateTeacherSelect();
         }
@@ -649,7 +696,7 @@
         }
 
         function saveAndSync() {
-            localStorage.setItem('erp_students_v14', JSON.stringify(students));
+            localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
         }
 
         function renderAdminStudentTable() {
