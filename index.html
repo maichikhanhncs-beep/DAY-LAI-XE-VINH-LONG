@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DriveERP - Phần Mềm Quản Trị Trung Tâm Đào Tạo Lái Xe Chuyên Nghiệp</title>
+    <title>HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE - Nhà sáng lập: Mai Chí Khanh</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -13,15 +13,15 @@
     <div id="loginScreen" class="max-w-md w-full bg-white rounded-3xl shadow-2xl p-6 sm:p-8 mx-auto mt-12 md:mt-20 border border-slate-200">
         <div class="text-center mb-6">
             <span class="text-4xl">🚗</span>
-            <h2 class="text-2xl font-black text-slate-900 mt-2">DriveERP Enterprise</h2>
-            <p class="text-xs text-slate-500 mt-1">Hệ thống quản lý chuyên sâu cho trung tâm lái xe</p>
+            <h2 class="text-2xl font-black text-slate-900 mt-2">HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2>
+            <p class="text-xs text-indigo-600 font-bold mt-1">Nhà sáng lập: Mai Chí Khanh</p>
         </div>
         <div class="space-y-4">
             <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Chọn vai trò truy cập:</label>
                 <select id="loginRole" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 font-medium text-sm" onchange="toggleLoginInput()">
-                    <option value="student">🎓 Học viên (Cổng thông tin cá nhân)</option>
-                    <option value="teacher">👨‍🏫 Giáo viên (Cổng quản lý lớp & lương)</option>
+                    <option value="student">🎓 Học viên (Tra cứu lộ trình & học phí)</option>
+                    <option value="teacher">👨‍🏫 Giáo viên (Quản lý lớp & lương)</option>
                     <option value="admin">🔒 Quản trị viên (Chủ trung tâm / Admin)</option>
                 </select>
             </div>
@@ -29,8 +29,8 @@
             <!-- Đăng nhập Học viên -->
             <div id="studentLoginGroup" class="space-y-3">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Số CCCD định danh <span class="text-red-500">*</span>:</label>
-                    <input type="text" id="loginCCCD" placeholder="Nhập CCCD (VD: 12345)" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Số CCCD học viên <span class="text-red-500">*</span>:</label>
+                    <input type="text" id="loginCCCD" placeholder="Nhập số CCCD" class="w-full border border-slate-300 p-3 rounded-2xl outline-none bg-slate-50 text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Mật khẩu <span class="text-red-500">*</span>:</label>
@@ -70,53 +70,51 @@
     <div id="adminDashboard" class="hidden w-full max-w-full bg-white rounded-3xl shadow-xl p-4 sm:p-6 md:p-8">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b">
             <div>
-                <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900">📊 Quản Trị Tổng Thể Trung Tâm Lái Xe</h1>
-                <p class="text-xs sm:text-sm text-slate-500">Kiểm soát dòng tiền, tài chính, học viên và giáo viên chuyên nghiệp.</p>
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900">HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h1>
+                <p class="text-xs sm:text-sm text-indigo-600 font-bold">Nhà sáng lập: Mai Chí Khanh</p>
             </div>
             <div class="flex flex-wrap gap-2">
-                <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-emerald-100">💰 Báo Cáo Thu - Chi & Lợi Nhuận</button>
-                <button onclick="openTeacherTab()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-100">👨‍🏫 Quản Lý Giáo Viên Riêng</button>
-                <button onclick="openStudentTab()" class="bg-blue-50 text-blue-700 border border-blue-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-blue-100">🎓 Quản Lý Học Viên Riêng</button>
-                <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-red-100">Đăng Xuất</button>
+                <button onclick="openFinanceModal()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-emerald-100">💰 Báo Cáo Tài Chính</button>
+                <button onclick="openTeacherTab()" class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-100">👨‍🏫 Quản Lý Giáo Viên</button>
+                <button onclick="openStudentTab()" class="bg-blue-50 text-blue-700 border border-blue-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-blue-100">🎓 Quản Lý Học Viên</button>
+                <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold">Đăng Xuất</button>
             </div>
         </div>
 
         <!-- TAB 1: QUẢN LÝ HỌC VIÊN -->
         <div id="adminStudentSection" class="space-y-6">
-            <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 space-y-4">
-                <h3 class="font-bold text-slate-800 text-sm">➕ Thêm Hồ Sơ Học Viên Mới</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Họ và tên học viên <span class="text-red-500">*</span></label>
-                        <input type="text" id="addName" placeholder="Nguyễn Văn A" class="w-full border p-3 rounded-xl bg-white text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Số CCCD <span class="text-red-500">*</span></label>
-                        <input type="text" id="addCCCD" placeholder="Số CCCD" class="w-full border p-3 rounded-xl bg-white text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Ngày bắt đầu <span class="text-red-500">*</span></label>
-                        <input type="date" id="addStartDate" class="w-full border p-3 rounded-xl bg-white text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Hạng đào tạo <span class="text-red-500">*</span></label>
-                        <select id="addCourse" class="w-full border p-3 rounded-xl bg-white text-sm">
+            <!-- Thêm thủ công & Import Excel -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 sm:p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                <div class="lg:col-span-2 space-y-3">
+                    <h3 class="font-bold text-slate-800 text-sm">➕ Thêm Hồ Sơ Học Viên Mới</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        <input type="text" id="addName" placeholder="Họ và tên" class="border p-3 rounded-xl bg-white text-sm">
+                        <input type="text" id="addCCCD" placeholder="Số CCCD" class="border p-3 rounded-xl bg-white text-sm">
+                        <input type="text" id="addPhone" placeholder="Số điện thoại (SĐT)" class="border p-3 rounded-xl bg-white text-sm">
+                        <input type="date" id="addStartDate" class="border p-3 rounded-xl bg-white text-sm">
+                        <select id="addCourse" class="border p-3 rounded-xl bg-white text-sm">
                             <option value="B (Số tự động)">Hạng B (Tự động - 19.5tr)</option>
                             <option value="B (Cơ khí)">Hạng B (Cơ khí - 19.5tr)</option>
                             <option value="C1">Hạng C1 (21.5tr)</option>
                         </select>
+                        <select id="addTeacher" class="border p-3 rounded-xl bg-white text-sm"></select>
                     </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Giáo viên phụ trách <span class="text-red-500">*</span></label>
-                        <select id="addTeacher" class="w-full border p-3 rounded-xl bg-white text-sm"></select>
+                    <div class="flex items-center justify-between pt-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600">
+                            <label for="addIsStudent" class="text-xs font-bold text-slate-700">Giảm 1tr (Sinh viên)</label>
+                        </div>
+                        <button onclick="addStudent()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 shadow">Lưu Hồ Sơ</button>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-2 border-t border-slate-200">
-                    <div class="flex items-center">
-                        <input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600">
-                        <label for="addIsStudent" class="text-xs sm:text-sm font-bold text-slate-700">Giảm 1.000.000đ cho Học sinh - Sinh viên</label>
+
+                <div class="border-t lg:border-t-0 lg:border-l pl-0 lg:pl-6 pt-4 lg:pt-0 space-y-3 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-sm mb-1">📊 Import Excel Hàng Loạt</h3>
+                        <p class="text-[11px] text-slate-500 mb-3">File Excel cần có cột: name, cccd, phone, course, startdate</p>
+                        <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700">
                     </div>
-                    <button onclick="addStudent()" class="w-full sm:w-auto bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow hover:bg-blue-700">Lưu Hồ Sơ Học Viên</button>
+                    <button onclick="importExcel()" class="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold text-sm hover:bg-emerald-700 shadow">Tải lên & Tạo Tự Động</button>
                 </div>
             </div>
 
@@ -124,7 +122,7 @@
                 <table class="w-full text-left border-collapse min-w-[1000px]">
                     <thead>
                         <tr class="bg-slate-100 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
-                            <th class="p-4 rounded-l-xl">Học viên & GPS</th>
+                            <th class="p-4 rounded-l-xl">Học viên & SĐT / GPS</th>
                             <th class="p-4">Hạng & Giáo viên</th>
                             <th class="p-4">Tiến độ</th>
                             <th class="p-4">Tài chính (Đã đóng / Tổng)</th>
@@ -142,19 +140,11 @@
         <div id="adminTeacherSection" class="hidden space-y-6">
             <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 space-y-4">
                 <h3 class="font-bold text-slate-800 text-sm">👨‍🏫 Thêm Giáo Viên Mới & Cấu Hình Lương Thưởng</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Tên giáo viên</label>
-                        <input type="text" id="newTeacherName" placeholder="Ví dụ: Thầy Nam" class="border p-3 rounded-xl bg-white text-sm w-full">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Mã đăng nhập (Username)</label>
-                        <input type="text" id="newTeacherCode" placeholder="Ví dụ: GV01" class="border p-3 rounded-xl bg-white text-sm w-full">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Mức thưởng / 1 Học viên</label>
-                        <input type="number" id="newTeacherBonus" value="500000" class="border p-3 rounded-xl bg-white text-sm w-full">
-                    </div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                    <input type="text" id="newTeacherName" placeholder="Tên giáo viên" class="border p-3 rounded-xl bg-white text-sm">
+                    <input type="text" id="newTeacherCode" placeholder="Mã GV (VD: GV01)" class="border p-3 rounded-xl bg-white text-sm">
+                    <input type="text" id="newTeacherPhone" placeholder="Số điện thoại (SĐT)" class="border p-3 rounded-xl bg-white text-sm">
+                    <input type="number" id="newTeacherBonus" value="500000" placeholder="Thưởng/HV" class="border p-3 rounded-xl bg-white text-sm">
                 </div>
                 <button onclick="addTeacher()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow hover:bg-indigo-700">Lưu Thông Tin Giáo Viên</button>
             </div>
@@ -164,9 +154,9 @@
                     <thead>
                         <tr class="bg-slate-100 text-slate-600 text-xs md:text-sm uppercase tracking-wider">
                             <th class="p-4 rounded-l-xl">Mã GV</th>
-                            <th class="p-4">Họ và tên</th>
+                            <th class="p-4">Họ và tên & SĐT</th>
                             <th class="p-4">Thưởng / Học viên</th>
-                            <th class="p-4">Tổng số học viên phụ trách</th>
+                            <th class="p-4">Học viên phụ trách</th>
                             <th class="p-4 rounded-r-xl">Thao tác</th>
                         </tr>
                     </thead>
@@ -202,22 +192,61 @@
         </div>
     </div>
 
+    <!-- MODAL FOLDER XEM CHI TIẾT HỒ SƠ HỌC VIÊN -->
+    <div id="studentModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[92vh] overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 relative">
+            <button onclick="closeStudentModal()" class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm">✖ Đóng Folder</button>
+            
+            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden">
+                <div>
+                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider" id="modalCourseBadge">Hạng B</span>
+                    <h1 class="text-2xl md:text-3xl font-black mt-2" id="modalNameDisplay">--</h1>
+                    <p class="text-xs md:text-sm text-indigo-200 font-mono mt-0.5">CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="modalPhoneDisplay" class="font-bold text-emerald-300">--</span> | GV: <span id="modalTeacherDisplay" class="font-bold text-amber-300">--</span></p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white/10 backdrop-blur p-4 rounded-2xl border border-white/20 text-sm md:text-base mt-6">
+                    <div>
+                        <span class="text-xs text-indigo-200 block">Tổng học phí (Đã ưu đãi):</span>
+                        <strong class="text-white text-lg md:text-xl" id="modalTotalPrice">--</strong>
+                    </div>
+                    <div>
+                        <span class="text-xs text-indigo-200 block">Đã thanh toán thực tế:</span>
+                        <strong class="text-emerald-300 text-lg md:text-xl" id="modalPaidPrice">--</strong>
+                    </div>
+                    <div>
+                        <span class="text-xs text-indigo-200 block">Còn lại phải đóng:</span>
+                        <strong class="text-red-300 text-lg md:text-xl" id="modalRemainingPrice">--</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-4 md:p-6 border">
+                <h3 class="text-base md:text-lg font-black text-slate-900 mb-3">📝 Ghi Chú Chăm Sóc Khách Hàng (CRM Notes)</h3>
+                <div class="space-y-3">
+                    <textarea id="modalCrmNoteInput" rows="2" placeholder="Nhập ghi chú..." class="w-full border p-3 rounded-xl text-sm outline-none bg-white"></textarea>
+                    <button onclick="addModalCrmNote()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow hover:bg-indigo-700">Lưu Ghi Chú</button>
+                    <div id="modalCrmNotesList" class="mt-3 space-y-2 text-xs"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 md:p-6 border">
+                <h3 class="text-lg md:text-xl font-black text-slate-900 mb-4">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
+                <div id="modalStepsContainer" class="space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- GIAO DIỆN GIÁO VIÊN -->
     <div id="teacherDashboard" class="hidden max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-8 space-y-6">
         <div class="flex justify-between items-center pb-4 border-b">
             <div>
                 <h1 class="text-2xl font-black text-slate-900" id="tNameDisplay">Cổng Giáo Viên</h1>
-                <p class="text-xs text-slate-500 font-mono">Mã: <span id="tCodeDisplay" class="font-bold text-indigo-600">--</span> | 📍 GPS: <span id="tGpsDisplay" class="text-emerald-600 font-bold">--</span></p>
+                <p class="text-xs text-slate-500 font-mono">Mã: <span id="tCodeDisplay" class="font-bold text-indigo-600">--</span> | SĐT: <span id="tPhoneDisplay" class="font-bold text-emerald-600">--</span></p>
             </div>
             <button onclick="logout()" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs font-bold">Đăng Xuất</button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-indigo-50 p-6 rounded-2xl border border-indigo-100 text-sm">
-            <div><span class="text-xs text-indigo-600 block font-bold">Học viên phụ trách:</span><strong class="text-slate-900 text-xl" id="tTotalStudents">0</strong></div>
-            <div><span class="text-xs text-indigo-600 block font-bold">Lương thưởng dự kiến:</span><strong class="text-emerald-600 text-xl" id="tTotalBonus">0đ</strong></div>
-            <div><span class="text-xs text-indigo-600 block font-bold">Đã thanh toán:</span><strong class="text-blue-600 text-xl" id="tPaidBonus">0đ</strong></div>
-        </div>
         <table class="w-full text-left border-collapse text-sm">
-            <thead><tr class="bg-slate-100"><th class="p-3">Học viên</th><th class="p-3">Hạng</th><th class="p-3">Tiến độ</th><th class="p-3">Thưởng</th></tr></thead>
+            <thead><tr class="bg-slate-100"><th class="p-3">Học viên</th><th class="p-3">SĐT</th><th class="p-3">Hạng</th><th class="p-3">Tiến độ</th><th class="p-3">Thưởng</th></tr></thead>
             <tbody id="tStudentTableBody" class="divide-y"></tbody>
         </table>
     </div>
@@ -226,8 +255,8 @@
     <script>
         const STEPS = ["1. Học lý thuyết (25 ngày)", "2. Học lái xe trong sân thô (2 ngày)", "3. Học online hệ thống (25 ngày)", "4. Chạy DAT đường trường (4 ngày)", "5. Tập sa hình (2 ngày)", "6. Thi tốt nghiệp (2 ngày)", "7. Thi sát hạch (1 ngày)"];
 
-        let teachers = JSON.parse(localStorage.getItem('erp_teachers')) || [{ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', bonusPerStudent: 500000, paidBonus: 0 }];
-        let students = JSON.parse(localStorage.getItem('erp_students')) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
+        let teachers = JSON.parse(localStorage.getItem('erp_teachers_v8')) || [{ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', bonusPerStudent: 500000, paidBonus: 0 }];
+        let students = JSON.parse(localStorage.getItem('erp_students_v8')) || [{ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: '10.2542, 105.9722' }];
         const coursePrices = { "B (Số tự động)": 19500000, "B (Cơ khí)": 19500000, "C1": 21500000 };
 
         function captureGPS(cb) {
@@ -261,7 +290,6 @@
                     if (!t) return alert('Sai mã giáo viên!');
                     localStorage.setItem('current_role', 'teacher');
                     localStorage.setItem('current_teacher_code', t.code);
-                    localStorage.setItem('current_gps', gps);
                     document.getElementById('loginScreen').classList.add('hidden');
                     document.getElementById('teacherDashboard').classList.remove('hidden');
                     renderTeacherPortal(t);
@@ -273,7 +301,7 @@
                     localStorage.setItem('current_role', 'student');
                     localStorage.setItem('current_cccd', s.cccd);
                     document.getElementById('loginScreen').classList.add('hidden');
-                    alert(`Đăng nhập học viên thành công! Tọa độ GPS: ${gps}`);
+                    openStudentModal(s.cccd);
                 }
             });
         }
@@ -301,10 +329,11 @@
         function addTeacher() {
             const name = document.getElementById('newTeacherName').value.trim();
             const code = document.getElementById('newTeacherCode').value.trim();
+            const phone = document.getElementById('newTeacherPhone').value.trim();
             const bonusPerStudent = Number(document.getElementById('newTeacherBonus').value) || 500000;
             if (!name || !code) return alert('Nhập đủ thông tin giáo viên!');
-            teachers.push({ id: Date.now(), name, code, bonusPerStudent, paidBonus: 0 });
-            localStorage.setItem('erp_teachers', JSON.stringify(teachers));
+            teachers.push({ id: Date.now(), name, code, phone, bonusPerStudent, paidBonus: 0 });
+            localStorage.setItem('erp_teachers_v8', JSON.stringify(teachers));
             renderAdminTeacherTable();
             updateTeacherSelect();
             alert('Thêm giáo viên thành công!');
@@ -318,7 +347,7 @@
                 tbody.innerHTML += `
                     <tr class="border-b">
                         <td class="p-4 font-mono font-bold">${t.code}</td>
-                        <td class="p-4">${t.name}</td>
+                        <td class="p-4"><strong>${t.name}</strong><br><span class="text-xs text-slate-500">SĐT: ${t.phone || 'N/A'}</span></td>
                         <td class="p-4">${t.bonusPerStudent.toLocaleString()}đ</td>
                         <td class="p-4 font-bold text-indigo-600">${count} học viên</td>
                         <td class="p-4"><button onclick="deleteTeacher(${t.id})" class="text-red-500 font-bold">Xóa</button></td>
@@ -329,27 +358,56 @@
 
         function deleteTeacher(id) {
             teachers = teachers.filter(t => t.id !== id);
-            localStorage.setItem('erp_teachers', JSON.stringify(teachers));
+            localStorage.setItem('erp_teachers_v8', JSON.stringify(teachers));
             renderAdminTeacherTable();
         }
 
         function addStudent() {
             const name = document.getElementById('addName').value.trim();
             const cccd = document.getElementById('addCCCD').value.trim();
+            const phone = document.getElementById('addPhone').value.trim();
             const startDate = document.getElementById('addStartDate').value;
             const course = document.getElementById('addCourse').value;
             const teacherCode = document.getElementById('addTeacher').value;
             const isStudent = document.getElementById('addIsStudent').checked;
             if (!name || !cccd || !startDate || !teacherCode) return alert('Nhập đầy đủ thông tin bắt buộc!');
             let totalPrice = coursePrices[course] - (isStudent ? 1000000 : 0);
-            students.push({ id: Date.now(), name, cccd, pass: '123', startDate, course, teacherCode, stepIndex: 0, totalPrice, isStudent, fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
+            students.push({ id: Date.now(), name, cccd, phone, pass: '123', startDate, course, teacherCode, stepIndex: 0, totalPrice, isStudent, fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
             saveAndSync();
             renderAdminStudentTable();
             alert('Thêm học viên thành công!');
         }
 
+        function importExcel() {
+            const fileInput = document.getElementById('excelFile');
+            const file = fileInput.files[0];
+            if (!file) return alert('Vui lòng chọn file Excel!');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                let count = 0;
+                rows.forEach(r => {
+                    const name = r.name || r['Họ tên'];
+                    const cccd = String(r.cccd || r['CCCD'] || '').trim();
+                    const phone = String(r.phone || r['SĐT'] || '').trim();
+                    const course = r.course || r['Hạng'] || 'B (Số tự động)';
+                    const startDate = r.startdate || r['Ngày bắt đầu'] || new Date().toISOString().split('T')[0];
+                    if (name && cccd && !students.some(s => s.cccd === cccd)) {
+                        students.push({ id: Date.now() + Math.random(), name, cccd, phone, pass: '123', startDate, course, teacherCode: teachers[0]?.code || '', stepIndex: 0, totalPrice: coursePrices[course], isStudent: false, fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
+                        count++;
+                    }
+                });
+                saveAndSync();
+                renderAdminStudentTable();
+                alert(`Import thành công ${count} học viên!`);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
         function saveAndSync() {
-            localStorage.setItem('erp_students', JSON.stringify(students));
+            localStorage.setItem('erp_students_v8', JSON.stringify(students));
         }
 
         function renderAdminStudentTable() {
@@ -361,14 +419,18 @@
                 const t = teachers.find(x => x.code === s.teacherCode);
                 tbody.innerHTML += `
                     <tr class="border-b">
-                        <td class="p-4"><strong>${s.name}</strong><br><span class="text-xs text-slate-500">CCCD: ${s.cccd}</span><br><span class="text-[11px] text-emerald-600 font-mono">📍 ${s.gps}</span></td>
+                        <td class="p-4">
+                            <a href="#" onclick="openStudentModal('${s.cccd}')" class="font-bold text-blue-600 hover:underline text-base">${s.name} 📁</a>
+                            <div class="text-xs text-slate-500">CCCD: ${s.cccd} | SĐT: <strong class="text-slate-700">${s.phone || 'N/A'}</strong></div>
+                            <div class="text-[11px] text-emerald-600 font-mono mt-0.5">📍 ${s.gps}</div>
+                        </td>
                         <td class="p-4 text-xs font-bold">${s.course}<br><span class="text-indigo-600 font-normal">GV: ${t ? t.name : 'N/A'}</span></td>
                         <td class="p-4"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex] || 'Hoàn thành'}</span></td>
                         <td class="p-4 text-emerald-600 font-bold">${paid.toLocaleString()}đ<br><span class="text-xs text-slate-400">Tổng: ${s.totalPrice.toLocaleString()}đ</span></td>
                         <td class="p-4 space-y-1 text-xs">
-                            <div>1: <button onclick="toggleFee(${s.id}, 1)" class="px-2 py-0.5 rounded font-bold ${s.fee1 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee1}</button></div>
-                            <div>2: <button onclick="toggleFee(${s.id}, 2)" class="px-2 py-0.5 rounded font-bold ${s.fee2 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee2}</button></div>
-                            <div>3: <button onclick="toggleFee(${s.id}, 3)" class="px-2 py-0.5 rounded font-bold ${s.fee3 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee3}</button></div>
+                            <div>1: <button onclick="toggleFee(${s.id}, 1)" class="px-2 py-0.5 rounded font-bold ${s.fee1 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee1}</button> <button onclick="printInvoice(${s.id}, 1)" class="text-blue-600 underline ml-1">🖨️ PDF</button></div>
+                            <div>2: <button onclick="toggleFee(${s.id}, 2)" class="px-2 py-0.5 rounded font-bold ${s.fee2 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee2}</button> <button onclick="printInvoice(${s.id}, 2)" class="text-blue-600 underline ml-1">🖨️ PDF</button></div>
+                            <div>3: <button onclick="toggleFee(${s.id}, 3)" class="px-2 py-0.5 rounded font-bold ${s.fee3 === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${s.fee3}</button> <button onclick="printInvoice(${s.id}, 3)" class="text-blue-600 underline ml-1">🖨️ PDF</button></div>
                         </td>
                         <td class="p-4 text-xs text-indigo-600">${s.referrals?.length ? s.referrals.map(r=>r.name).join(', ') : 'Không có'}</td>
                         <td class="p-4"><button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold">Xóa</button></td>
@@ -390,6 +452,16 @@
             renderAdminStudentTable();
         }
 
+        function printInvoice(id, feeType) {
+            const s = students.find(x => x.id === id);
+            if (!s) return;
+            let amt = feeType === 1 ? s.totalPrice * 0.5 : s.totalPrice * 0.25;
+            let title = `Học phí Đợt ${feeType}`;
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            printWindow.document.write(`<html><head><title>Hóa Đơn</title></head><body><h2>HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2><p><strong>Nhà sáng lập:</strong> Mai Chí Khanh</p><hr><p>Học viên: ${s.name} - CCCD: ${s.cccd} - SĐT: ${s.phone || 'N/A'}</p><p>Nội dung thanh toán: ${title}</p><p>Số tiền: <strong>${amt.toLocaleString()} VNĐ</strong></p><script>window.onload=function(){window.print();window.close();}<\/script></body></html>`);
+            printWindow.document.close();
+        }
+
         function deleteStudent(id) { students = students.filter(s => s.id !== id); saveAndSync(); renderAdminStudentTable(); }
 
         function openFinanceModal() {
@@ -409,18 +481,59 @@
         }
         function closeFinanceModal() { document.getElementById('financeModal').classList.add('hidden'); }
 
+        function openStudentModal(cccd) {
+            window.currentActiveCccd = cccd;
+            const s = students.find(x => x.cccd === cccd);
+            if (!s) return;
+            const t = teachers.find(x => x.code === s.teacherCode);
+            document.getElementById('modalNameDisplay').innerText = s.name;
+            document.getElementById('modalCccdDisplay').innerText = s.cccd;
+            document.getElementById('modalPhoneDisplay').innerText = s.phone || 'N/A';
+            document.getElementById('modalTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
+            document.getElementById('modalCourseBadge').innerText = s.course;
+            
+            const paid = (s.fee1 === 'Đã đóng' ? s.totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * 0.25 : 0);
+            document.getElementById('modalTotalPrice').innerText = s.totalPrice.toLocaleString() + ' VNĐ';
+            document.getElementById('modalPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
+            document.getElementById('modalRemainingPrice').innerText = (s.totalPrice - paid).toLocaleString() + ' VNĐ';
+
+            let notesHtml = s.notes?.length ? s.notes.map(n => `<div class="p-2 bg-white rounded border text-xs"><span>${n.text}</span> <span class="text-slate-400">(${n.date})</span></div>`).join('') : '<span class="text-slate-400">Chưa có ghi chú.</span>';
+            document.getElementById('modalCrmNotesList').innerHTML = notesHtml;
+
+            let stepsHTML = '';
+            STEPS.forEach((stepName, idx) => {
+                let badge = idx < s.stepIndex ? 'Đã hoàn thành ✅' : (idx === s.stepIndex ? 'Đang học 🎯' : 'Chưa mở khóa 🔒');
+                let action = idx === s.stepIndex ? `<button onclick="studentCompleteStep(${s.id})" class="mt-2 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Hoàn thành bước này</button>` : '';
+                stepsHTML += `<div class="p-4 rounded-xl border bg-slate-50 flex justify-between items-center"><div><h4 class="font-bold text-sm">${stepName}</h4><span class="text-xs font-bold">${badge}</span></div>${action}</div>`;
+            });
+            document.getElementById('modalStepsContainer').innerHTML = stepsHTML;
+            document.getElementById('studentModal').classList.remove('hidden');
+        }
+
+        function closeStudentModal() { document.getElementById('studentModal').classList.add('hidden'); }
+        function studentCompleteStep(id) {
+            students = students.map(s => { if (s.id === id && s.stepIndex < STEPS.length) s.stepIndex++; return s; });
+            saveAndSync();
+            openStudentModal(window.currentActiveCccd);
+        }
+        function addModalCrmNote() {
+            const txt = document.getElementById('modalCrmNoteInput').value.trim();
+            if (!txt) return alert('Nhập ghi chú!');
+            students = students.map(s => { if (s.cccd === window.currentActiveCccd) { if (!s.notes) s.notes = []; s.notes.unshift({ text: txt, date: new Date().toLocaleString('vi-VN') }); } return s; });
+            saveAndSync();
+            openStudentModal(window.currentActiveCccd);
+            document.getElementById('modalCrmNoteInput').value = '';
+        }
+
         function renderTeacherPortal(t) {
             document.getElementById('tNameDisplay').innerText = `Giáo viên: ${t.name}`;
             document.getElementById('tCodeDisplay').innerText = t.code;
-            document.getElementById('tGpsDisplay').innerText = localStorage.getItem('current_gps') || 'Đang cập nhật';
+            document.getElementById('tPhoneDisplay').innerText = t.phone || 'N/A';
             const my = students.filter(s => s.teacherCode === t.code);
-            document.getElementById('tTotalStudents').innerText = my.length;
-            document.getElementById('tTotalBonus').innerText = (my.length * t.bonusPerStudent).toLocaleString() + 'đ';
-            document.getElementById('tPaidBonus').innerText = (t.paidBonus || 0).toLocaleString() + 'đ';
             const tbody = document.getElementById('tStudentTableBody');
             tbody.innerHTML = '';
             my.forEach(s => {
-                tbody.innerHTML += `<tr class="border-b"><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.course}</td><td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex]}</span></td><td class="p-3 text-emerald-600 font-bold">+${t.bonusPerStudent.toLocaleString()}đ</td></tr>`;
+                tbody.innerHTML += `<tr class="border-b"><td class="p-3 font-bold">${s.name}</td><td class="p-3">${s.phone || 'N/A'}</td><td class="p-3">${s.course}</td><td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs font-bold">${STEPS[s.stepIndex]}</span></td><td class="p-3 text-emerald-600 font-bold">+${t.bonusPerStudent.toLocaleString()}đ</td></tr>`;
             });
         }
 
