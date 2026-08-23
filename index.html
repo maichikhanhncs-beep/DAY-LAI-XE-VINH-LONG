@@ -389,7 +389,7 @@
                     <div><span class="text-base text-indigo-200 block mb-1">Còn lại phải đóng:</span><strong class="text-red-300 text-3xl" id="sRemainingPrice">--</strong></div>
                 </div>
                 
-                <!-- GIAO DIỆN THANH TOÁN TỪNG ĐỢT CỦA HỌC VIÊN -->
+                <!-- GIAO DIỆN THANH TOÁN TỪNG ĐỢT CỦA HỌC VIÊN + CẢNH BÁO QUÁ HẠN -->
                 <div id="sFeeForecast" class="mt-8 p-6 rounded-2xl bg-white/10 border-2 border-white/20 text-white text-lg space-y-4">
                     <!-- Sẽ được điền bằng JavaScript -->
                 </div>
@@ -653,7 +653,34 @@
             renderAdminTeacherTable();
         }
 
-        // TẠO GIAO DIỆN NÚT TRẠNG THÁI THANH TOÁN ADMIN (3 TRẠNG THÁI CHUẨN)
+        // TÍNH TOÁN CẢNH BÁO NỢ HỌC PHÍ & SỐ NGÀY TRỄ HẠN
+        function checkPaymentWarnings(s) {
+            let start = new Date(s.startDate || Date.now());
+            let d2 = new Date(start); d2.setDate(d2.getDate() + 25);
+            let d3 = new Date(start); d3.setDate(d3.getDate() + 56);
+            let today = new Date();
+            let warnings = [];
+
+            // Đợt 2: Ràng buộc phải đóng trước khi qua bước 4 (stepIndex >= 2 vì mảng tính từ 0)
+            let daysLate2 = Math.floor((today - d2) / (1000 * 3600 * 24));
+            if (s.fee2 !== 'Đã đóng' && s.fee2 !== 'Chờ xác nhận' && daysLate2 > 0) {
+                warnings.push(`<div class="text-red-600 font-bold mt-2 animate-pulse">⚠️ Nợ Đợt 2: Quá hạn ${daysLate2} ngày</div>`);
+            } else if (s.stepIndex >= 2 && s.fee2 !== 'Đã đóng') {
+                warnings.push(`<div class="text-amber-600 font-bold mt-2">⚠️ Đợt 2: Đến hạn thanh toán</div>`);
+            }
+
+            // Đợt 3: Ràng buộc phải đóng trước khi qua bước 5 (stepIndex >= 3)
+            let daysLate3 = Math.floor((today - d3) / (1000 * 3600 * 24));
+            if (s.fee3 !== 'Đã đóng' && s.fee3 !== 'Chờ xác nhận' && daysLate3 > 0) {
+                warnings.push(`<div class="text-red-600 font-bold mt-2 animate-pulse">⚠️ Nợ Đợt 3: Quá hạn ${daysLate3} ngày</div>`);
+            } else if (s.stepIndex >= 3 && s.fee3 !== 'Đã đóng') {
+                warnings.push(`<div class="text-amber-600 font-bold mt-2">⚠️ Đợt 3: Đến hạn thanh toán</div>`);
+            }
+
+            return warnings.join('');
+        }
+
+        // TẠO GIAO DIỆN NÚT TRẠNG THÁI THANH TOÁN ADMIN
         function getFeeAdminBtnUI(status, sId, feeType) {
             let colorClass = '';
             if (status === 'Đã đóng') colorClass = 'bg-emerald-100 text-emerald-800 border-transparent';
@@ -671,9 +698,10 @@
             students.forEach(s => {
                 const paid = (s.fee1 === 'Đã đóng' ? s.totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * 0.25 : 0);
                 const t = teachers.find(x => x.code === s.teacherCode);
+                const warnings = checkPaymentWarnings(s);
                 
-                // Form link in PDF đúng với ảnh mẫu thiết kế
-                const pdfLink = (feeType) => `<button onclick="printInvoice(${s.id}, ${feeType})" class="text-blue-600 underline ml-2 text-sm font-bold flex items-center gap-1 hover:text-blue-800"><span class="text-base">🖨️</span> PDF</button>`;
+                // Form link in PDF chỉ cho in khi đã đóng tiền
+                const pdfLink = (feeType) => s['fee'+feeType] === 'Đã đóng' ? `<button onclick="printInvoice(${s.id}, ${feeType})" class="text-blue-600 underline ml-2 text-sm font-bold flex items-center gap-1 hover:text-blue-800"><span class="text-base">🖨️</span> PDF</button>` : `<span class="ml-2 text-slate-300 text-sm font-bold flex items-center gap-1"><span class="text-base grayscale opacity-50">🖨️</span> PDF</span>`;
 
                 tbody.innerHTML += `
                     <tr class="border-b-2 hover:bg-slate-50 transition">
@@ -689,7 +717,7 @@
                         </td>
                         <td class="p-5 text-lg font-bold">${s.course}<br><span class="text-indigo-600 font-normal text-base">GV: ${t ? t.name : 'N/A'}</span></td>
                         <td class="p-5"><span class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-lg text-base font-bold">${STEPS[s.stepIndex] || 'Hoàn thành'}</span></td>
-                        <td class="p-5 text-emerald-600 font-bold text-xl">${paid.toLocaleString()}đ<br><span class="text-base text-slate-400">Tổng: ${s.totalPrice.toLocaleString()}đ</span></td>
+                        <td class="p-5 text-emerald-600 font-bold text-xl">${paid.toLocaleString()}đ<br><span class="text-base text-slate-400">Tổng: ${s.totalPrice.toLocaleString()}đ</span>${warnings}</td>
                         <td class="p-5 space-y-3 text-base">
                             <div class="flex items-center justify-start ml-4">1: &nbsp; ${getFeeAdminBtnUI(s.fee1, s.id, 1)} ${pdfLink(1)}</div>
                             <div class="flex items-center justify-start ml-4">2: &nbsp; ${getFeeAdminBtnUI(s.fee2, s.id, 2)} ${pdfLink(2)}</div>
@@ -814,7 +842,7 @@
             reader.readAsDataURL(file);
         }
 
-        // TÍNH NĂNG MODAL QUÉT QR CHO HỌC VIÊN
+        // TÍNH NĂNG MODAL QUÉT QR CHO HỌC VIÊN - LIÊN KẾT ĐẾN BIDV CỦA MAI CHÍ KHANH
         let currentPayFeeType = null;
         function openPaymentModal(feeType, amount) {
             currentPayFeeType = feeType;
@@ -824,7 +852,7 @@
             document.getElementById('payFeeTitle').innerText = `Đợt ${feeType}`;
             document.getElementById('payAmount').innerText = amount.toLocaleString();
             
-            // DỮ LIỆU TÀI KHOẢN NGÂN HÀNG MAI CHÍ KHANH
+            // DỮ LIỆU TÀI KHOẢN NGÂN HÀNG MAI CHÍ KHANH 
             const bankId = 'BIDV'; 
             const accountNo = '7301873844'; 
             const accountName = 'MAI CHI KHANH';
@@ -878,6 +906,13 @@
             document.getElementById('sPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
             document.getElementById('sRemainingPrice').innerText = (s.totalPrice - paid).toLocaleString() + ' VNĐ';
 
+            // Check Warnings để báo đỏ cho học viên
+            const warnings = checkPaymentWarnings(s);
+            let warningBanner = '';
+            if (warnings) {
+                warningBanner = `<div class="bg-red-100 border-2 border-red-400 p-5 rounded-2xl mb-6 shadow-inner text-lg">${warnings.replace(/mt-2/g, 'mb-2')}</div>`;
+            }
+
             // Giao diện Khu vực Thanh toán Của Học Viên
             let feeHtml = `<h4 class="font-black mb-4 text-3xl border-b-2 border-white/20 pb-3">💳 Chi tiết các đợt học phí</h4>`;
             [1, 2, 3].forEach(i => {
@@ -886,7 +921,7 @@
                 let amt = s.totalPrice * pct;
                 let btn = '';
                 if (status === 'Chưa đóng') {
-                    btn = `<button onclick="openPaymentModal(${i}, ${amt})" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-xl text-lg font-bold shadow-lg transition">Thanh toán ngay</button>`;
+                    btn = `<button onclick="openPaymentModal(${i}, ${amt})" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-xl text-lg font-bold shadow-lg transition animate-bounce">Thanh toán ngay</button>`;
                 } else if (status === 'Chờ xác nhận') {
                     btn = `<span class="px-6 py-3 rounded-xl bg-amber-500/20 text-amber-300 font-bold border-2 border-amber-500/30 block animate-pulse cursor-not-allowed">⏳ Đang chờ xác nhận</span>`;
                 } else {
@@ -901,7 +936,7 @@
                         <div>${btn}</div>
                     </div>`;
             });
-            document.getElementById('sFeeForecast').innerHTML = feeHtml;
+            document.getElementById('sFeeForecast').innerHTML = warningBanner + feeHtml;
 
             let refHtml = '<strong class="text-white block mb-2">Danh sách đã giới thiệu:</strong>';
             if (!s.referrals || s.referrals.length === 0) refHtml += '<span class="text-indigo-200">Chưa có lượt giới thiệu nào.</span>';
@@ -917,11 +952,23 @@
             document.getElementById('sStepsContainer').innerHTML = stepsHTML;
         }
 
+        // CHẶN HỌC VIÊN SANG BƯỚC NẾU CHƯA ĐÓNG TIỀN
         function studentCompleteStepSelf(id) {
-            students = students.map(s => { if (s.id === id && s.stepIndex < STEPS.length) s.stepIndex++; return s; });
-            saveAndSync();
-            const current = students.find(x => x.cccd === localStorage.getItem('current_cccd'));
-            if (current) renderStudentPortal(current);
+            let s = students.find(x => x.id === id);
+            if (!s) return;
+            
+            if (s.stepIndex === 2 && s.fee2 !== 'Đã đóng') {
+                return alert('⛔ CẢNH BÁO: Bạn phải thanh toán Học phí Đợt 2 trước khi hoàn thành bước này!');
+            }
+            if (s.stepIndex === 3 && s.fee3 !== 'Đã đóng') {
+                return alert('⛔ CẢNH BÁO: Bạn phải thanh toán Học phí Đợt cuối trước khi hoàn thành bước này!');
+            }
+
+            if (s.stepIndex < STEPS.length - 1) {
+                s.stepIndex++;
+                saveAndSync();
+                renderStudentPortal(s);
+            }
         }
 
         function submitStudentReferral() {
@@ -977,12 +1024,27 @@
         }
 
         function closeStudentModal() { document.getElementById('studentModal').classList.add('hidden'); }
+        
+        // ADMIN CÓ QUYỀN VƯỢT QUYỀN (OVERRIDE) ĐỂ CHO HỌC VIÊN QUA BÀI KỂ CẢ CHƯA ĐÓNG TIỀN
         function studentCompleteStepAdmin(id) {
-            students = students.map(s => { if (s.id === id && s.stepIndex < STEPS.length) s.stepIndex++; return s; });
-            saveAndSync();
-            renderAdminStudentTable();
-            openStudentModal(window.currentActiveCccd);
+            let s = students.find(x => x.id === id);
+            if (!s) return;
+
+            if (s.stepIndex === 2 && s.fee2 !== 'Đã đóng') {
+                if(!confirm('⚠️ CẢNH BÁO: Học viên chưa thanh toán Đợt 2. Bạn có chắc chắn muốn bỏ qua quy định và cho phép sang bước tiếp theo?')) return;
+            }
+            if (s.stepIndex === 3 && s.fee3 !== 'Đã đóng') {
+                if(!confirm('⚠️ CẢNH BÁO: Học viên chưa thanh toán Đợt cuối. Bạn có chắc chắn muốn bỏ qua quy định và cho phép sang bước tiếp theo?')) return;
+            }
+
+            if (s.stepIndex < STEPS.length - 1) {
+                s.stepIndex++;
+                saveAndSync();
+                renderAdminStudentTable();
+                openStudentModal(window.currentActiveCccd);
+            }
         }
+
         function addModalCrmNote() {
             const txt = document.getElementById('modalCrmNoteInput').value.trim();
             if (!txt) return alert('Nhập ghi chú!');
