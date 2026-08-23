@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        /* Phóng to toàn bộ giao diện và font chữ lên rất lớn theo yêu cầu */
         html { font-size: 22px; } 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
@@ -20,11 +19,11 @@
         <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-6 md:p-16 flex flex-col justify-between text-white">
             <div class="mb-8 md:mb-0">
                 <span class="text-5xl md:text-6xl">🚗</span>
-                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 md:px-4 md:py-2 rounded-full">DriveERP v2.0</span>
+                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 md:px-4 md:py-2 rounded-full">DriveERP v3.0 Pro</span>
             </div>
             <div class="space-y-4 md:space-y-6 my-auto">
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-black leading-tight">HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h1>
-                <p class="text-indigo-200 text-lg md:text-2xl leading-relaxed">Giải pháp chuyển đổi số toàn diện cho các trung tâm sát hạch và đào tạo lái xe chuyên nghiệp.</p>
+                <p class="text-indigo-200 text-lg md:text-2xl leading-relaxed">Giải pháp quản trị dòng tiền và vận hành doanh nghiệp đào tạo lái xe chuyên nghiệp.</p>
                 <div class="pt-4 md:pt-6 text-lg md:text-xl font-bold text-amber-300">Nhà sáng lập: Mai Chí Khanh</div>
             </div>
             <div class="text-sm md:text-base text-slate-400 mt-8 md:mt-0">© 2026 Enterprise SaaS Architecture. All rights reserved.</div>
@@ -80,7 +79,6 @@
 
                 <div class="pt-2">
                     <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-4 md:p-5 rounded-xl md:rounded-2xl hover:bg-blue-700 font-bold shadow-xl shadow-blue-500/30 text-lg md:text-xl transition-all">🚀 ĐĂNG NHẬP</button>
-                    <!-- NÚT KHÔI PHỤC BỘ NHỚ KHI BỊ LỖI TREO ĐĂNG NHẬP -->
                     <button onclick="resetSystemMemory()" class="w-full bg-red-50 text-red-600 border border-red-200 p-3 md:p-4 rounded-xl md:rounded-2xl font-bold text-sm md:text-base mt-4 transition-all hover:bg-red-100">⚠️ Xóa Lỗi Bộ Nhớ & Khôi Phục (Dùng khi không đăng nhập được)</button>
                 </div>
             </div>
@@ -89,7 +87,6 @@
 
     <!-- GIAO DIỆN QUẢN TRỊ ADMIN -->
     <div id="adminDashboard" class="hidden min-h-screen flex flex-col md:flex-row bg-slate-100">
-        <!-- SIDEBAR ADMIN -->
         <div class="md:w-72 lg:w-80 bg-slate-900 text-slate-300 p-6 flex flex-col justify-between shrink-0">
             <div class="space-y-8">
                 <div>
@@ -198,7 +195,7 @@
                             <thead>
                                 <tr class="bg-slate-50 text-slate-600 text-sm md:text-base uppercase tracking-wider border-b-2">
                                     <th class="p-4 md:p-5">Học viên, SĐT & Địa chỉ</th>
-                                    <th class="p-4 md:p-5">Ngày sinh & Ngày nhận HS</th>
+                                    <th class="p-4 md:p-5">Ngày sinh & HS</th>
                                     <th class="p-4 md:p-5">Hạng & Giáo viên</th>
                                     <th class="p-4 md:p-5">Tiến độ</th>
                                     <th class="p-4 md:p-5">Tài chính (Đã đóng / Tổng)</th>
@@ -215,7 +212,7 @@
             <!-- 2. TAB GIÁO VIÊN & LƯƠNG -->
             <div id="adminTeacherSection" class="hidden space-y-6 md:space-y-8">
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                    <h3 class="font-bold text-slate-800 text-xl md:text-2xl">👨‍🏫 Thêm Giáo Viên Mới & Cấu Hình Định Mức</h3>
+                    <h3 class="font-bold text-slate-800 text-xl md:text-2xl">👨‍🏫 Thêm Giáo Viên Mới & Phân Quyền Giảng Dạy</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
                         <div>
                             <label class="block text-xs md:text-sm font-bold text-slate-600 mb-2">Tên giáo viên *</label>
@@ -234,11 +231,10 @@
                             </select>
                         </div>
                         <div class="flex items-end">
-                            <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3 md:p-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:bg-indigo-700">Lưu Giáo Viên (Tự động cấp mã)</button>
+                            <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3 md:p-4 rounded-xl font-bold text-base md:text-lg shadow-lg hover:bg-indigo-700">Lưu Giáo Viên (Cấp mã)</button>
                         </div>
                     </div>
                     
-                    <!-- GIAO QUYỀN VÀ ĐỊNH MỨC CHO GIÁO VIÊN -->
                     <div class="bg-slate-50 p-4 md:p-5 rounded-2xl border-2 border-indigo-100">
                         <label class="block text-sm md:text-base font-black text-indigo-800 mb-4">⚙️ GIAO QUYỀN GIẢNG DẠY & ĐỊNH MỨC (TỐI ĐA HV/NGÀY)</label>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
@@ -280,55 +276,104 @@
                 </div>
             </div>
 
-            <!-- 3. TAB CẤU HÌNH HỆ THỐNG MỚI (TÙY CHỈNH HẠNG HỌC & LƯƠNG THƯỞNG) -->
+            <!-- 3. TAB CẤU HÌNH HỆ THỐNG MỚI (TÙY CHỈNH HẠNG HỌC, QUYỀN LỢI & CHI PHÍ KẾ TOÁN) -->
             <div id="adminSettingsSection" class="hidden space-y-6 md:space-y-8">
-                <!-- Cấu hình Hạng Đào Tạo -->
+                
+                <!-- Cấu hình Hạng Đào Tạo & Quyền Lợi -->
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                    <h3 class="font-bold text-slate-800 text-xl md:text-2xl border-b-2 pb-4">⚙️ Quản Lý Hạng Đào Tạo & Học Phí</h3>
+                    <div class="flex justify-between items-center border-b-2 pb-4">
+                        <h3 class="font-bold text-slate-800 text-xl md:text-2xl">⚙️ Quản Lý Hạng Đào Tạo, Mô Tả & Học Phí</h3>
+                        <button onclick="resetCourseForm()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg font-bold text-sm">Hủy / Thêm Mới</button>
+                    </div>
                     
-                    <div class="flex flex-col md:flex-row gap-4 items-end bg-slate-50 p-5 rounded-2xl border-2">
-                        <div class="w-full md:flex-1">
-                            <label class="block text-sm font-bold text-slate-600 mb-2">Tên hạng (VD: Hạng B2, Hạng C)</label>
-                            <input type="text" id="cfgCourseName" placeholder="Nhập tên hạng đào tạo" class="border-2 p-3 rounded-xl bg-white text-lg w-full">
+                    <div class="bg-slate-50 p-5 md:p-6 rounded-2xl border-2 space-y-5">
+                        <input type="hidden" id="cfgCourseId" value="">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">Tên hạng (VD: Hạng B2, Hạng C)</label>
+                                <input type="text" id="cfgCourseName" placeholder="Nhập tên hạng đào tạo" class="border-2 p-3 rounded-xl bg-white text-lg w-full focus:ring-2 focus:ring-blue-400 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-600 mb-2">Giá tiền tổng (VNĐ)</label>
+                                <input type="number" id="cfgCoursePrice" placeholder="VD: 19500000" class="border-2 p-3 rounded-xl bg-white text-lg w-full focus:ring-2 focus:ring-blue-400 outline-none font-bold text-blue-600">
+                            </div>
                         </div>
-                        <div class="w-full md:flex-1">
-                            <label class="block text-sm font-bold text-slate-600 mb-2">Giá tiền mặc định (VNĐ)</label>
-                            <input type="number" id="cfgCoursePrice" placeholder="VD: 19500000" class="border-2 p-3 rounded-xl bg-white text-lg w-full">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-600 mb-2">Mô tả Khóa học (Hiển thị cho Học viên)</label>
+                            <textarea id="cfgCourseDesc" rows="2" placeholder="Ví dụ: Khóa học tiêu chuẩn dành cho người mới bắt đầu..." class="border-2 p-3 rounded-xl bg-white text-lg w-full focus:ring-2 focus:ring-blue-400 outline-none"></textarea>
                         </div>
-                        <button onclick="addSysCourse()" class="w-full md:w-auto bg-blue-600 text-white px-8 py-3 rounded-xl font-bold text-lg shadow hover:bg-blue-700">Thêm Hạng Mới</button>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-600 mb-2">Quyền lợi Học viên (Mỗi dòng 1 quyền lợi)</label>
+                            <textarea id="cfgCourseBenefits" rows="3" placeholder="- Học 1 kèm 1&#10;- Miễn phí tài liệu lý thuyết&#10;- Hỗ trợ đưa đón tận nhà" class="border-2 p-3 rounded-xl bg-white text-lg w-full focus:ring-2 focus:ring-blue-400 outline-none leading-relaxed"></textarea>
+                        </div>
+                        <button id="btnSaveCourse" onclick="saveSysCourse()" class="w-full md:w-auto bg-blue-600 text-white px-8 py-3 rounded-xl font-bold text-lg shadow-lg hover:bg-blue-700 transition">Lưu Hạng Đào Tạo</button>
                     </div>
 
                     <div class="overflow-x-auto border-2 rounded-xl">
-                        <table class="w-full text-left border-collapse text-lg min-w-[600px]">
-                            <thead><tr class="bg-slate-100 border-b-2"><th class="p-4">Tên Hạng Đào Tạo</th><th class="p-4">Mức Học Phí (VNĐ)</th><th class="p-4 text-center">Thao Tác</th></tr></thead>
+                        <table class="w-full text-left border-collapse text-base md:text-lg min-w-[800px]">
+                            <thead><tr class="bg-slate-100 border-b-2"><th class="p-4">Tên Hạng</th><th class="p-4 w-1/3">Mô Tả & Quyền Lợi</th><th class="p-4">Học Phí</th><th class="p-4 text-center">Thao Tác</th></tr></thead>
                             <tbody id="sysCoursesTableBody" class="divide-y-2"></tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- Cấu hình Cơ chế Lương Thưởng Giáo viên -->
-                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                    <h3 class="font-bold text-slate-800 text-xl md:text-2xl border-b-2 pb-4">💰 Thiết Lập Cơ Chế Lương Thưởng Giảng Dạy</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="bg-slate-50 p-4 rounded-xl border-2">
-                            <label class="block text-sm font-bold text-slate-600 mb-2">Lý thuyết (Tiền / 1 HV)</label>
-                            <input type="number" id="cfgBonusTheory" class="border-2 p-3 rounded-lg bg-white text-lg w-full font-bold text-indigo-600">
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border-2">
-                            <label class="block text-sm font-bold text-slate-600 mb-2">Sa hình (Tiền / 1 Buổi)</label>
-                            <input type="number" id="cfgBonusSahinh" class="border-2 p-3 rounded-lg bg-white text-lg w-full font-bold text-indigo-600">
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border-2">
-                            <label class="block text-sm font-bold text-slate-600 mb-2">Chạy DAT (Tiền / 1 Km)</label>
-                            <input type="number" id="cfgBonusDat" class="border-2 p-3 rounded-lg bg-white text-lg w-full font-bold text-indigo-600">
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border-2">
-                            <label class="block text-sm font-bold text-slate-600 mb-2">Thưởng nhận HV mới</label>
-                            <input type="number" id="cfgBonusReceive" class="border-2 p-3 rounded-lg bg-white text-lg w-full font-bold text-indigo-600">
+                <!-- Cấu hình Dòng tiền: Lương Giáo Viên & Chi Phí Vận Hành -->
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
+                    <!-- Chi phí Giáo viên -->
+                    <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="font-bold text-slate-800 text-xl md:text-2xl border-b-2 pb-4">💰 Mức Chi Lương & Thưởng GV</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border">
+                                <span class="font-bold text-slate-700 text-sm md:text-base">Lý thuyết / 1 HV</span>
+                                <input type="number" id="cfgBonusTheory" class="border-2 p-2 rounded-lg text-right text-lg font-bold text-indigo-600 w-32 md:w-40">
+                            </div>
+                            <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border">
+                                <span class="font-bold text-slate-700 text-sm md:text-base">Sa hình / 1 Buổi</span>
+                                <input type="number" id="cfgBonusSahinh" class="border-2 p-2 rounded-lg text-right text-lg font-bold text-indigo-600 w-32 md:w-40">
+                            </div>
+                            <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border">
+                                <span class="font-bold text-slate-700 text-sm md:text-base">Chạy DAT / 1 Km</span>
+                                <input type="number" id="cfgBonusDat" class="border-2 p-2 rounded-lg text-right text-lg font-bold text-indigo-600 w-32 md:w-40">
+                            </div>
+                            <div class="flex justify-between items-center bg-slate-50 p-3 rounded-xl border">
+                                <span class="font-bold text-slate-700 text-sm md:text-base">Thưởng HV mới</span>
+                                <input type="number" id="cfgBonusReceive" class="border-2 p-2 rounded-lg text-right text-lg font-bold text-indigo-600 w-32 md:w-40">
+                            </div>
                         </div>
                     </div>
-                    <button onclick="saveSysBonuses()" class="w-full md:w-auto bg-emerald-600 text-white px-10 py-4 rounded-xl font-bold text-xl shadow-lg hover:bg-emerald-700">Lưu Cấu Hình Lương Thưởng</button>
+
+                    <!-- Chi phí Quản trị Doanh nghiệp (Kế toán) -->
+                    <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="font-bold text-slate-800 text-xl md:text-2xl border-b-2 pb-4">📉 Cấu Hình Chi Phí Doanh Nghiệp</h3>
+                        
+                        <h4 class="font-bold text-sm text-red-600 uppercase">1. Chi phí trực tiếp / 1 Học viên (COGS)</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center bg-red-50 p-3 rounded-xl border border-red-100">
+                                <span class="font-bold text-slate-700 text-sm md:text-base">Lệ phí thi GTVT</span>
+                                <input type="number" id="cfgCostExam" class="border-2 p-2 rounded-lg text-right text-lg font-bold text-red-600 w-32 md:w-40">
+                            </div>
+                            <div class="flex justify-between items-center bg-red-50 p-3 rounded-xl border border-red-100">
+                                <span class="font-bold text-slate-700 text-sm md:text-base">Phí khám sức khỏe</span>
+                                <input type="number" id="cfgCostHealth" class="border-2 p-2 rounded-lg text-right text-lg font-bold text-red-600 w-32 md:w-40">
+                            </div>
+                        </div>
+
+                        <h4 class="font-bold text-sm text-amber-600 uppercase mt-4">2. Chi phí cố định hàng tháng (OPEX)</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center bg-amber-50 p-3 rounded-xl border border-amber-100">
+                                <span class="font-bold text-slate-700 text-sm md:text-base">Mặt bằng & Bãi tập</span>
+                                <input type="number" id="cfgCostRent" class="border-2 p-2 rounded-lg text-right text-lg font-bold text-amber-600 w-32 md:w-40">
+                            </div>
+                            <div class="flex justify-between items-center bg-amber-50 p-3 rounded-xl border border-amber-100">
+                                <span class="font-bold text-slate-700 text-sm md:text-base">Marketing & Khác</span>
+                                <input type="number" id="cfgCostMarketing" class="border-2 p-2 rounded-lg text-right text-lg font-bold text-amber-600 w-32 md:w-40">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end pb-8">
+                    <button onclick="saveSysFinancials()" class="w-full bg-emerald-600 text-white px-10 py-5 rounded-2xl font-black text-xl shadow-xl hover:bg-emerald-700 transition">💾 LƯU TOÀN BỘ CẤU HÌNH TÀI CHÍNH</button>
                 </div>
             </div>
 
@@ -340,36 +385,63 @@
         <div class="bg-white rounded-3xl p-6 md:p-8 max-w-xl w-full shadow-2xl relative">
             <h3 class="text-2xl md:text-3xl font-black mb-2 text-slate-900 border-b-2 pb-4">Điểm danh Giảng dạy</h3>
             <p class="text-lg md:text-xl text-slate-600 mb-6">Học viên: <span id="logStudentName" class="font-bold text-blue-600">--</span></p>
-            
-            <div id="logModules" class="space-y-4">
-                <!-- Javascript sẽ render các nút điểm danh theo quyền của Giáo viên -->
-            </div>
-            
+            <div id="logModules" class="space-y-4"></div>
             <button onclick="closeTeacherLogModal()" class="mt-8 w-full bg-slate-200 hover:bg-slate-300 text-slate-800 p-4 rounded-xl font-bold text-lg md:text-xl transition">Đóng</button>
         </div>
     </div>
 
-    <!-- MODAL TÀI CHÍNH -->
-    <div id="financeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full p-6 md:p-10 space-y-6 md:space-y-8 relative">
+    <!-- MODAL TÀI CHÍNH KẾ TOÁN -->
+    <div id="financeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full p-6 md:p-10 space-y-6 md:space-y-8 relative my-8">
             <button onclick="closeFinanceModal()" class="absolute top-4 right-4 md:top-6 md:right-6 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 md:px-6 md:py-3 rounded-xl text-sm md:text-lg transition">✖ Đóng</button>
-            <h3 class="text-2xl md:text-3xl font-black text-slate-900 border-b-2 pb-4">💰 Báo Cáo Tài Chính & Lợi Nhuận</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                <div class="bg-blue-50 p-4 md:p-6 rounded-2xl border-2 border-blue-100">
-                    <span class="text-sm md:text-lg text-blue-600 block font-bold mb-1 md:mb-2">Tổng doanh thu thực tế:</span>
-                    <strong class="text-blue-900 text-3xl md:text-4xl font-black" id="finTotalRevenue">0đ</strong>
+            <h3 class="text-2xl md:text-4xl font-black text-slate-900 border-b-4 border-blue-600 pb-4 inline-block">📈 Báo Cáo Kế Toán & Dòng Tiền</h3>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+                <!-- CỘT 1: DOANH THU -->
+                <div class="bg-blue-50 p-5 md:p-6 rounded-3xl border-2 border-blue-200 shadow-sm flex flex-col justify-center">
+                    <span class="text-base md:text-lg text-blue-600 font-black uppercase tracking-wider mb-2">1. TỔNG DOANH THU THỰC THU</span>
+                    <strong class="text-blue-900 text-4xl md:text-5xl font-black block" id="finTotalRevenue">0đ</strong>
+                    <p class="text-sm text-blue-500 mt-2">Tổng số tiền học phí đã nhận từ học viên</p>
                 </div>
-                <div class="bg-emerald-50 p-4 md:p-6 rounded-2xl border-2 border-emerald-100">
-                    <span class="text-sm md:text-lg text-emerald-600 block font-bold mb-1 md:mb-2">Lợi nhuận ròng (Net Profit):</span>
-                    <strong class="text-emerald-900 text-3xl md:text-4xl font-black" id="finNetProfit">0đ</strong>
+
+                <!-- CỘT 2: CHI PHÍ -->
+                <div class="bg-red-50 p-5 md:p-6 rounded-3xl border-2 border-red-200 shadow-sm space-y-4">
+                    <span class="text-base md:text-lg text-red-600 font-black uppercase tracking-wider mb-2 block">2. TỔNG CHI PHÍ (COGS & OPEX)</span>
+                    
+                    <div class="flex justify-between items-end border-b border-red-200 pb-2">
+                        <div>
+                            <span class="block text-sm text-slate-600 font-bold">Lương & Thưởng GV</span>
+                        </div>
+                        <strong class="text-red-700 text-xl font-bold" id="finTotalTeacherBonus">0đ</strong>
+                    </div>
+                    
+                    <div class="flex justify-between items-end border-b border-red-200 pb-2">
+                        <div>
+                            <span class="block text-sm text-slate-600 font-bold">Lệ phí Sở + Khám SK</span>
+                            <span class="block text-xs text-slate-500">(Tính trên HV đang học)</span>
+                        </div>
+                        <strong class="text-red-700 text-xl font-bold" id="finTotalVariableCost">0đ</strong>
+                    </div>
+
+                    <div class="flex justify-between items-end border-b border-red-200 pb-2">
+                        <div>
+                            <span class="block text-sm text-slate-600 font-bold">Phí Vận hành (Tháng)</span>
+                            <span class="block text-xs text-slate-500">(Mặt bằng, Marketing)</span>
+                        </div>
+                        <strong class="text-red-700 text-xl font-bold" id="finTotalFixedCost">0đ</strong>
+                    </div>
+                    
+                    <div class="flex justify-between items-end pt-2">
+                        <span class="block text-base text-red-800 font-black">TỔNG CHI:</span>
+                        <strong class="text-red-800 text-2xl font-black" id="finTotalAllCost">0đ</strong>
+                    </div>
                 </div>
-                <div class="bg-amber-50 p-4 md:p-6 rounded-2xl border-2 border-amber-100">
-                    <span class="text-sm md:text-lg text-amber-600 block font-bold mb-1 md:mb-2">Tổng quỹ lương thưởng GV:</span>
-                    <strong class="text-amber-900 text-2xl md:text-3xl font-black" id="finTotalTeacherBonus">0đ</strong>
-                </div>
-                <div class="bg-purple-50 p-4 md:p-6 rounded-2xl border-2 border-purple-100">
-                    <span class="text-sm md:text-lg text-purple-600 block font-bold mb-1 md:mb-2">Tổng hoa hồng giới thiệu:</span>
-                    <strong class="text-purple-900 text-2xl md:text-3xl font-black" id="finTotalReferral">0đ</strong>
+
+                <!-- CỘT 3: LỢI NHUẬN RÒNG -->
+                <div class="bg-emerald-50 p-5 md:p-6 rounded-3xl border-2 border-emerald-300 shadow-lg flex flex-col justify-center transform hover:scale-105 transition duration-300">
+                    <span class="text-base md:text-lg text-emerald-700 font-black uppercase tracking-wider mb-2">3. LỢI NHUẬN RÒNG (NET PROFIT)</span>
+                    <strong class="text-emerald-700 text-4xl md:text-6xl font-black block" id="finNetProfit">0đ</strong>
+                    <p class="text-sm text-emerald-600 mt-3 font-bold bg-emerald-200/50 p-2 rounded-lg inline-block">Biên lợi nhuận ròng: <span id="finMargin">0%</span></p>
                 </div>
             </div>
         </div>
@@ -459,10 +531,18 @@
                     </div>
                 </div>
 
+                <!-- KHU VỰC THÔNG TIN KHÓA HỌC DÀNH CHO HỌC VIÊN -->
+                <div class="bg-white/10 backdrop-blur p-5 md:p-6 rounded-2xl border border-white/20 mt-6 md:mt-8 text-white">
+                    <h4 class="font-black text-xl md:text-2xl mb-2 text-amber-300">📌 Thông tin Khóa Học</h4>
+                    <p class="text-base md:text-lg italic opacity-90 mb-4" id="sCourseDesc">--</p>
+                    <h5 class="font-bold text-lg md:text-xl mb-2">🎁 Quyền lợi của bạn:</h5>
+                    <div class="text-base md:text-lg space-y-1 opacity-90" id="sCourseBenefits">--</div>
+                </div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 bg-white/10 backdrop-blur p-5 md:p-6 rounded-2xl border border-white/20 text-base md:text-lg mt-6 md:mt-8">
                     <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Tổng học phí:</span><strong class="text-white text-2xl md:text-3xl" id="sTotalPrice">--</strong></div>
                     <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Đã thanh toán:</span><strong class="text-emerald-300 text-2xl md:text-3xl" id="sPaidPrice">--</strong></div>
-                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Còn lại phải đóng:</span><strong class="text-white text-2xl md:text-3xl" id="sRemainingPrice">--</strong></div>
+                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Còn lại phải đóng:</span><strong class="text-red-300 text-2xl md:text-3xl" id="sRemainingPrice">--</strong></div>
                 </div>
                 
                 <div id="sFeeForecast" class="mt-6 md:mt-8 p-5 md:p-6 rounded-2xl bg-white/10 border-2 border-white/20 text-white text-base md:text-lg space-y-4">
@@ -519,18 +599,19 @@
 
         const STORAGE_KEY_STUDENTS = 'driving_system_students_stable_v1';
         const STORAGE_KEY_TEACHERS = 'driving_system_teachers_stable_v1';
-        const STORAGE_KEY_SETTINGS = 'driving_system_settings_v1'; // TẠO STORAGE CHO CẤU HÌNH HỆ THỐNG
+        const STORAGE_KEY_SETTINGS = 'driving_system_settings_v2'; // Hệ thống settings Kế toán
 
         // QUẢN LÝ CẤU HÌNH HỆ THỐNG (SETTINGS)
         let sysSettings = JSON.parse(localStorage.getItem(STORAGE_KEY_SETTINGS));
         if (!sysSettings) {
             sysSettings = {
                 courses: [
-                    { id: 'C1', name: 'Hạng B (Số tự động)', price: 19500000 },
-                    { id: 'C2', name: 'Hạng B (Cơ khí)', price: 19500000 },
-                    { id: 'C3', name: 'Hạng C1', price: 21500000 }
+                    { id: 'c1', name: 'Hạng B (Số tự động)', price: 19500000, desc: 'Khóa học bằng B1 tiêu chuẩn.', benefits: '- Miễn phí tài liệu\n- Học thực hành 1 kèm 1' },
+                    { id: 'c2', name: 'Hạng B (Cơ khí)', price: 19500000, desc: 'Khóa học bằng B2 tiêu chuẩn.', benefits: '- Miễn phí tài liệu\n- Học thực hành 1 kèm 1' },
+                    { id: 'c3', name: 'Hạng C', price: 21500000, desc: 'Khóa học bằng C tải nặng.', benefits: '- Thực hành xe tải thật\n- Hỗ trợ thi nhanh' }
                 ],
-                bonuses: { theory: 300000, sahinh: 80000, receive: 1500000, dat: 1500 }
+                bonuses: { theory: 300000, sahinh: 80000, dat: 1500, receive: 1500000 },
+                costs: { exam: 600000, health: 300000, rent: 15000000, marketing: 5000000 }
             };
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
         }
@@ -541,9 +622,7 @@
             let parsedT = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS));
             if (Array.isArray(parsedT)) {
                 teachers = parsedT.map(t => {
-                    if(!t.permissions) {
-                        t.permissions = { theory: {allowed: true, quota: 10}, sahinh: {allowed: true, quota: 5}, dat: {allowed: true, quota: 2} };
-                    }
+                    if(!t.permissions) t.permissions = { theory: {allowed: true, quota: 10}, sahinh: {allowed: true, quota: 5}, dat: {allowed: true, quota: 2} };
                     return t;
                 });
             }
@@ -729,60 +808,119 @@
         }
 
         // TÍNH NĂNG: CẬP NHẬT CẤU HÌNH HỆ THỐNG
+        let currentEditCourseId = null;
         function renderSettingsTab() {
-            // Render Courses
             const tbody = document.getElementById('sysCoursesTableBody');
             tbody.innerHTML = '';
             sysSettings.courses.forEach(c => {
+                let benefitsList = c.benefits ? c.benefits.split('\n').map(b => `<div>${b}</div>`).join('') : '';
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-4 font-bold text-slate-800">${c.name}</td>
-                        <td class="p-4 font-bold text-blue-600">${Number(c.price).toLocaleString()}đ</td>
-                        <td class="p-4 text-center"><button onclick="deleteSysCourse('${c.id}')" class="text-red-500 font-bold hover:text-red-700">Xóa</button></td>
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="p-4 font-black text-indigo-700">${c.name}</td>
+                        <td class="p-4">
+                            <strong class="block text-slate-800">Mô tả:</strong> <span class="text-sm italic text-slate-600">${c.desc || 'N/A'}</span><br>
+                            <strong class="block text-slate-800 mt-2">Quyền lợi:</strong> <div class="text-sm text-slate-600 space-y-1">${benefitsList}</div>
+                        </td>
+                        <td class="p-4 font-black text-blue-600 text-xl">${Number(c.price).toLocaleString()}đ</td>
+                        <td class="p-4 text-center">
+                            <button onclick="editSysCourse('${c.id}')" class="text-blue-500 font-bold hover:text-blue-700 mr-3">✏️ Sửa</button>
+                            <button onclick="deleteSysCourse('${c.id}')" class="text-red-500 font-bold hover:text-red-700">🗑️ Xóa</button>
+                        </td>
                     </tr>
                 `;
             });
 
-            // Render Bonuses
             document.getElementById('cfgBonusTheory').value = sysSettings.bonuses.theory;
             document.getElementById('cfgBonusSahinh').value = sysSettings.bonuses.sahinh;
             document.getElementById('cfgBonusDat').value = sysSettings.bonuses.dat;
             document.getElementById('cfgBonusReceive').value = sysSettings.bonuses.receive;
+            document.getElementById('cfgCostExam').value = sysSettings.costs.exam;
+            document.getElementById('cfgCostHealth').value = sysSettings.costs.health;
+            document.getElementById('cfgCostRent').value = sysSettings.costs.rent;
+            document.getElementById('cfgCostMarketing').value = sysSettings.costs.marketing;
         }
 
-        function addSysCourse() {
-            const name = document.getElementById('cfgCourseName').value.trim();
-            const price = Number(document.getElementById('cfgCoursePrice').value);
-            if (!name || !price) return alert("Vui lòng nhập đầy đủ tên hạng và giá tiền!");
-            
-            sysSettings.courses.push({ id: 'c' + Date.now(), name: name, price: price });
-            localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
-            renderSettingsTab();
-            updateCourseSelect(); // Update dropdown inside add student
-            
+        function resetCourseForm() {
+            currentEditCourseId = null;
+            document.getElementById('cfgCourseId').value = '';
             document.getElementById('cfgCourseName').value = '';
             document.getElementById('cfgCoursePrice').value = '';
-            alert("Thêm hạng đào tạo thành công!");
+            document.getElementById('cfgCourseDesc').value = '';
+            document.getElementById('cfgCourseBenefits').value = '';
+            document.getElementById('btnSaveCourse').innerText = "Lưu Hạng Đào Tạo";
+            document.getElementById('btnSaveCourse').classList.replace('bg-amber-500', 'bg-blue-600');
+        }
+
+        function editSysCourse(id) {
+            const c = sysSettings.courses.find(x => x.id === id);
+            if(c) {
+                currentEditCourseId = id;
+                document.getElementById('cfgCourseId').value = c.id;
+                document.getElementById('cfgCourseName').value = c.name;
+                document.getElementById('cfgCoursePrice').value = c.price;
+                document.getElementById('cfgCourseDesc').value = c.desc || '';
+                document.getElementById('cfgCourseBenefits').value = c.benefits || '';
+                
+                document.getElementById('btnSaveCourse').innerText = "Cập Nhật Hạng Lái Xe";
+                document.getElementById('btnSaveCourse').classList.replace('bg-blue-600', 'bg-amber-500');
+                document.getElementById('cfgCourseName').focus();
+            }
+        }
+
+        function saveSysCourse() {
+            const name = document.getElementById('cfgCourseName').value.trim();
+            const price = Number(document.getElementById('cfgCoursePrice').value);
+            const desc = document.getElementById('cfgCourseDesc').value.trim();
+            const benefits = document.getElementById('cfgCourseBenefits').value.trim();
+            
+            if (!name || !price) return alert("Vui lòng nhập đầy đủ tên hạng và giá tiền!");
+            
+            if (currentEditCourseId) {
+                sysSettings.courses = sysSettings.courses.map(c => {
+                    if(c.id === currentEditCourseId) {
+                        return { ...c, name, price, desc, benefits };
+                    }
+                    return c;
+                });
+                alert("Đã cập nhật thông tin Hạng Đào Tạo!");
+            } else {
+                sysSettings.courses.push({ id: 'c' + Date.now(), name, price, desc, benefits });
+                alert("Đã thêm mới Hạng Đào Tạo!");
+            }
+            
+            localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
+            resetCourseForm();
+            renderSettingsTab();
+            updateCourseSelect(); 
         }
 
         function deleteSysCourse(id) {
-            sysSettings.courses = sysSettings.courses.filter(c => c.id !== id);
-            localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
-            renderSettingsTab();
-            updateCourseSelect();
+            if(confirm("Bạn có chắc chắn muốn xóa Hạng Đào Tạo này khỏi hệ thống?")) {
+                sysSettings.courses = sysSettings.courses.filter(c => c.id !== id);
+                localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
+                renderSettingsTab();
+                updateCourseSelect();
+            }
         }
 
-        function saveSysBonuses() {
+        function saveSysFinancials() {
             const theory = Number(document.getElementById('cfgBonusTheory').value);
             const sahinh = Number(document.getElementById('cfgBonusSahinh').value);
             const dat = Number(document.getElementById('cfgBonusDat').value);
             const receive = Number(document.getElementById('cfgBonusReceive').value);
+            const exam = Number(document.getElementById('cfgCostExam').value);
+            const health = Number(document.getElementById('cfgCostHealth').value);
+            const rent = Number(document.getElementById('cfgCostRent').value);
+            const marketing = Number(document.getElementById('cfgCostMarketing').value);
 
-            if (isNaN(theory) || isNaN(sahinh) || isNaN(dat) || isNaN(receive)) return alert("Vui lòng nhập số hợp lệ!");
+            if (isNaN(theory) || isNaN(sahinh) || isNaN(dat) || isNaN(receive) || isNaN(exam) || isNaN(health) || isNaN(rent) || isNaN(marketing)) {
+                return alert("Vui lòng nhập số hợp lệ cho tất cả các ô chi phí!");
+            }
 
             sysSettings.bonuses = { theory, sahinh, dat, receive };
+            sysSettings.costs = { exam, health, rent, marketing };
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
-            alert("Đã lưu Cấu hình Mức Lương/Thưởng thành công!");
+            alert("Đã lưu Cấu hình Lương Thưởng & Chi phí Kế toán thành công!");
         }
 
         // UPDATE DROPDOWNS
@@ -868,7 +1006,6 @@
             teachers.forEach(t => {
                 const inc = calculateTeacherIncome(t);
                 
-                // Show Permissions text visually
                 let permText = [];
                 if(t.permissions.theory.allowed) permText.push(`LT: ${t.permissions.theory.quota} hv/n`);
                 if(t.permissions.sahinh.allowed) permText.push(`SH: ${t.permissions.sahinh.quota} hv/n`);
@@ -877,7 +1014,7 @@
                 tbody.innerHTML += `
                     <tr class="border-b-2 hover:bg-slate-50 transition">
                         <td class="p-4 md:p-5 font-mono font-bold text-indigo-600">${t.code}<br><strong class="text-slate-800 font-sans text-lg md:text-xl">${t.name}</strong><br><span class="text-sm md:text-base text-slate-500">SĐT: ${t.phone || 'N/A'}</span>
-                        <div class="mt-2 text-xs text-amber-600 font-bold bg-amber-50 inline-block px-2 py-1 rounded">Định mức: ${permText.join(' | ')}</div>
+                        <div class="mt-2 text-xs md:text-sm text-amber-600 font-bold bg-amber-50 inline-block px-2 py-1 rounded">Định mức: ${permText.join(' | ')}</div>
                         </td>
                         <td class="p-4 md:p-5 font-bold text-indigo-600 text-lg md:text-xl">${inc.count} học viên</td>
                         <td class="p-4 md:p-5 text-sm md:text-base space-y-1 md:space-y-2 leading-relaxed">
@@ -919,7 +1056,6 @@
 
             if (!name || !cccd || !startDate || !teacherCode || !receiveDate) return alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
             
-            // Tìm giá tiền dựa trên khóa học được cấu hình
             const courseObj = sysSettings.courses.find(c => c.name === courseName);
             const basePrice = courseObj ? courseObj.price : 0;
             let totalPrice = basePrice - (isStudent ? 1000000 : 0);
@@ -1133,24 +1269,65 @@
 
         function deleteStudent(id) { students = students.filter(s => s.id !== id); saveAndSync(); renderAdminStudentTable(); }
 
+        // TÍNH TOÁN BÁO CÁO KẾ TOÁN ERP
         function openFinanceModal() {
-            let rev = 0, totalBonus = 0;
+            let totalRev = 0;
+            let totalBonus = 0;
+            let totalReferral = 0;
+            
+            // Tính Doanh thu và Chi phí giới thiệu
             students.forEach(s => {
-                const totalPrice = Number(s.totalPrice) || 0;
-                if (s.fee1 === 'Đã đóng') rev += totalPrice * 0.5;
-                if (s.fee2 === 'Đã đóng') rev += totalPrice * 0.25;
-                if (s.fee3 === 'Đã đóng') rev += totalPrice * 0.25;
+                const price = Number(s.totalPrice) || 0;
+                if (s.fee1 === 'Đã đóng') totalRev += price * 0.5;
+                if (s.fee2 === 'Đã đóng') totalRev += price * 0.25;
+                if (s.fee3 === 'Đã đóng') totalRev += price * 0.25;
+
+                // Nếu có giới thiệu và chọn nhận tiền mặt (cash) -> Tính vào chi phí
+                if (s.referrals) {
+                    s.referrals.forEach(r => {
+                        if (r.option === 'cash') totalReferral += 1000000;
+                    });
+                }
             });
+
+            // Tính Lương thưởng Giáo viên
             teachers.forEach(t => {
                 const inc = calculateTeacherIncome(t);
                 totalBonus += inc.total;
             });
-            document.getElementById('finTotalRevenue').innerText = rev.toLocaleString() + 'đ';
+
+            // Lấy Chi phí từ Cấu hình
+            const examCost = sysSettings.costs.exam || 600000;
+            const healthCost = sysSettings.costs.health || 300000;
+            const rentCost = sysSettings.costs.rent || 15000000;
+            const marketingCost = sysSettings.costs.marketing || 5000000;
+
+            const activeStudentsCount = students.length; 
+            const totalVariableCost = activeStudentsCount * (examCost + healthCost); // COGS
+            const totalFixedCost = rentCost + marketingCost + totalReferral; // OPEX + Giới thiệu tiền mặt
+
+            const totalAllCost = totalBonus + totalVariableCost + totalFixedCost;
+            const netProfit = totalRev - totalAllCost;
+            
+            // Tính phần trăm Margin
+            let margin = 0;
+            if (totalRev > 0) margin = ((netProfit / totalRev) * 100).toFixed(1);
+
+            document.getElementById('finTotalRevenue').innerText = totalRev.toLocaleString() + 'đ';
             document.getElementById('finTotalTeacherBonus').innerText = totalBonus.toLocaleString() + 'đ';
-            document.getElementById('finTotalReferral').innerText = '0đ';
-            document.getElementById('finNetProfit').innerText = (rev - totalBonus).toLocaleString() + 'đ';
+            document.getElementById('finTotalVariableCost').innerText = totalVariableCost.toLocaleString() + 'đ';
+            document.getElementById('finTotalFixedCost').innerText = totalFixedCost.toLocaleString() + 'đ';
+            document.getElementById('finTotalAllCost').innerText = totalAllCost.toLocaleString() + 'đ';
+            
+            const pftElem = document.getElementById('finNetProfit');
+            pftElem.innerText = netProfit.toLocaleString() + 'đ';
+            pftElem.className = netProfit >= 0 ? 'text-emerald-700 text-4xl md:text-6xl font-black block' : 'text-red-600 text-4xl md:text-6xl font-black block';
+            
+            document.getElementById('finMargin').innerText = margin + '%';
+
             document.getElementById('financeModal').classList.remove('hidden');
         }
+
         function closeFinanceModal() { document.getElementById('financeModal').classList.add('hidden'); }
 
         function uploadAvatar(event) {
@@ -1225,7 +1402,6 @@
             alert('Hệ thống đã ghi nhận! Vui lòng chờ Admin xác nhận giao dịch.');
         }
 
-        // BẢO VỆ GIAO DIỆN HỌC VIÊN
         function renderStudentPortal(s) {
             try {
                 const t = teachers.find(x => x.code === s.teacherCode);
@@ -1238,6 +1414,13 @@
                 document.getElementById('sReceiveDateDisplay').innerText = formatDate(s.receiveDate);
                 document.getElementById('sTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
                 document.getElementById('sCourseBadge').innerText = s.course || 'Chưa rõ';
+
+                // Lấy thông tin khóa học từ Cấu Hình
+                const courseInfo = sysSettings.courses.find(c => c.name === s.course);
+                if (courseInfo) {
+                    document.getElementById('sCourseDesc').innerText = courseInfo.desc || 'Chưa có mô tả';
+                    document.getElementById('sCourseBenefits').innerHTML = courseInfo.benefits ? courseInfo.benefits.split('\n').map(b => `<div class="mb-1">✔️ ${b}</div>`).join('') : 'Chưa có thông tin quyền lợi';
+                }
 
                 const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name || 'HV')}&background=random&size=150`;
                 document.getElementById('sAvatarDisplay').src = s.avatar ? s.avatar : defaultAvatar;
@@ -1399,7 +1582,7 @@
             document.getElementById('modalCrmNoteInput').value = '';
         }
 
-        // TÍNH NĂNG ĐIỂM DANH CỦA GIÁO VIÊN THEO QUYỀN
+        // TÍNH NĂNG ĐIỂM DANH CỦA GIÁO VIÊN THEO QUYỀN (LẤY TỪ CONFIG)
         let currentLogStudentId = null;
         function openTeacherLogModal(sId) {
             currentLogStudentId = sId;
@@ -1455,7 +1638,6 @@
             
             if (!s.teachingLogs) s.teachingLogs = [];
             
-            // XÁC MINH ĐỊNH MỨC QUOTA TRONG NGÀY
             let todayLogs = 0;
             if (type === 'theory' || type === 'sahinh') {
                 todayLogs = students.reduce((sum, std) => {
