@@ -86,9 +86,9 @@
                     <p class="text-[11px] text-indigo-400 font-bold">Quản Trị Trung Tâm Lái Xe</p>
                 </div>
                 <nav class="space-y-1 text-sm font-medium">
-                    <a href="#" onclick="openStudentTab()" class="block px-4 py-3 rounded-xl bg-blue-600 text-white font-bold shadow">🎓 Quản Lý Học Viên</a>
-                    <a href="#" onclick="openTeacherTab()" class="block px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition">👨‍🏫 Quản Lý Giáo Viên & Lương</a>
-                    <a href="#" onclick="openFinanceModal()" class="block px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition">💰 Báo Cáo Tài Chính</a>
+                    <a href="#" onclick="openStudentTab(); return false;" class="block px-4 py-3 rounded-xl bg-blue-600 text-white font-bold shadow">🎓 Quản Lý Học Viên</a>
+                    <a href="#" onclick="openTeacherTab(); return false;" class="block px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition">👨‍🏫 Quản Lý Giáo Viên & Lương</a>
+                    <a href="#" onclick="openFinanceModal(); return false;" class="block px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition">💰 Báo Cáo Tài Chính</a>
                 </nav>
             </div>
             <div class="pt-6 border-t border-slate-800 space-y-2">
@@ -734,7 +734,7 @@
                 tbody.innerHTML += `
                     <tr class="border-b">
                         <td class="p-4">
-                            <a href="#" onclick="openStudentModal('${s.cccd}')" class="font-bold text-blue-600 hover:underline text-base">${s.name} 📁</a>
+                            <a href="#" onclick="openStudentModal('${s.cccd}'); return false;" class="font-bold text-blue-600 hover:underline text-base">${s.name} 📁</a>
                             <div class="text-xs text-slate-500">CCCD: ${s.cccd} | SĐT: ${s.phone || 'N/A'}</div>
                             <div class="text-xs text-slate-500">ĐC: ${s.address || 'N/A'}</div>
                             <div class="text-[11px] text-emerald-600 font-mono mt-0.5">📍 ${s.gps}</div>
