@@ -98,7 +98,7 @@
                 </nav>
             </div>
             <div class="pt-8 border-t border-slate-800 space-y-3">
-                <button onclick="backupData()" class="w-full bg-amber-500/20 text-amber-300 border border-amber-500/30 py-3.5 rounded-xl text-base font-bold">📥 Sao Lưu Dữ Liệu</button>
+                <button onclick="backupData()" class="w-full bg-amber-500/20 text-amber-300 border border-amber-500/30 py-3.5 rounded-xl text-base font-bold">📥 Sao Lưu Dữ Lu</button>
                 <label class="block w-full text-center bg-purple-500/20 text-purple-300 border border-purple-500/30 py-3.5 rounded-xl text-base font-bold cursor-pointer">
                     📤 Phục Hồi Dữ Liệu <input type="file" id="restoreFile" accept=".json" onchange="restoreData(event)" class="hidden">
                 </label>
@@ -445,8 +445,20 @@
         const STORAGE_KEY_STUDENTS = 'driving_system_students_stable_v1';
         const STORAGE_KEY_TEACHERS = 'driving_system_teachers_stable_v1';
 
-        let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS)) || [];
-        let students = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS)) || [];
+        // KHÔI PHỤC LẠI DỮ LIỆU MẪU ĐỂ CHỐNG LỖI KHI MỞ BẰNG TAB ẨN DANH / MÁY MỚI
+        let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS));
+        if (!teachers || teachers.length === 0) {
+            teachers = [
+                { id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', deductions: 0, paidBonus: 0 }
+            ];
+        }
+        
+        let students = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS));
+        if (!students || students.length === 0) {
+            students = [
+                { id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, avatar: '', fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' }
+            ];
+        }
 
         const coursePrices = { "B (Số tự động)": 19500000, "B (Cơ khí)": 19500000, "C1": 21500000 };
 
@@ -503,21 +515,26 @@
             return 'GV' + (nextNum < 10 ? '0' + nextNum : nextNum);
         }
 
-        // Đã tối ưu hóa hàm GPS chống treo (timeout 3s)
+        // ĐÃ TỐI ƯU CỰC MẠNH: Dù bật/tắt GPS, code vẫn chạy thẳng vào trong không bị treo
         function captureGPS(cb) {
-            let isDone = false;
-            let timer = setTimeout(() => {
-                if(!isDone) { isDone = true; cb('Không lấy được GPS'); }
-            }, 3000); 
-            
+            // Không đợi GPS nữa, gọi đăng nhập luôn để khỏi lag, GPS chạy ngầm lấy sau
+            cb('Đang cập nhật định vị...'); 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    pos => { if(!isDone) { isDone = true; clearTimeout(timer); cb(`${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`); } }, 
-                    err => { if(!isDone) { isDone = true; clearTimeout(timer); cb('Từ chối GPS'); } },
-                    { timeout: 3000 }
+                    pos => {
+                        const currentRole = localStorage.getItem('current_role');
+                        if(currentRole === 'student') {
+                            const cccd = localStorage.getItem('current_cccd');
+                            students = students.map(s => {
+                                if (s.cccd === cccd) s.gps = `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+                                return s;
+                            });
+                            saveAndSync();
+                        }
+                    },
+                    err => { console.log('Không lấy được GPS'); },
+                    { timeout: 5000 }
                 );
-            } else { 
-                if(!isDone) { isDone = true; clearTimeout(timer); cb('Không hỗ trợ GPS'); }
             }
         }
 
