@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
+        /* Phóng to toàn bộ giao diện và font chữ lên rất lớn theo yêu cầu */
+        html { font-size: 22px; } 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
     </style>
@@ -76,7 +78,11 @@
                     </div>
                 </div>
 
-                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-4 md:p-5 rounded-xl md:rounded-2xl hover:bg-blue-700 font-bold shadow-xl shadow-blue-500/30 text-lg md:text-xl transition-all mt-4">🚀 ĐĂNG NHẬP</button>
+                <div class="pt-2">
+                    <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-4 md:p-5 rounded-xl md:rounded-2xl hover:bg-blue-700 font-bold shadow-xl shadow-blue-500/30 text-lg md:text-xl transition-all">🚀 ĐĂNG NHẬP</button>
+                    <!-- NÚT KHÔI PHỤC BỘ NHỚ KHI BỊ LỖI TREO ĐĂNG NHẬP -->
+                    <button onclick="resetSystemMemory()" class="w-full bg-red-50 text-red-600 border border-red-200 p-3 md:p-4 rounded-xl md:rounded-2xl font-bold text-sm md:text-base mt-4 transition-all hover:bg-red-100">⚠️ Xóa Lỗi Bộ Nhớ & Khôi Phục (Dùng khi không đăng nhập được)</button>
+                </div>
             </div>
         </div>
     </div>
@@ -439,21 +445,41 @@
         const STORAGE_KEY_STUDENTS = 'driving_system_students_stable_v1';
         const STORAGE_KEY_TEACHERS = 'driving_system_teachers_stable_v1';
 
-        // 1. Tự động kiểm tra và thêm tài khoản giáo viên gốc nếu bị xóa
-        let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS)) || [];
-        if (!teachers.some(t => t.code === 'GV01')) {
-            teachers.push({ id: Date.now(), name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', deductions: 0, paidBonus: 0 });
+        // 1. AN TOÀN DỮ LIỆU: Thêm Try Catch để lọc mảng hỏng
+        let teachers = [];
+        try { 
+            let parsedT = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS));
+            if (Array.isArray(parsedT)) teachers = parsedT;
+        } catch(e) {}
+        
+        if (teachers.length === 0 || !teachers.some(t => t.code === 'GV01')) {
+            teachers = teachers.filter(t => t.code !== 'GV01');
+            teachers.push({ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', deductions: 0, paidBonus: 0 });
             localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
         }
         
-        // 2. Tự động kiểm tra và thêm tài khoản học viên gốc (12345) để test vĩnh viễn nếu bị xóa
-        let students = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS)) || [];
-        if (!students.some(s => s.cccd === '12345')) {
-            students.push({ id: Date.now()+1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, avatar: '', fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
+        let students = [];
+        try {
+            let parsedS = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS));
+            if (Array.isArray(parsedS)) students = parsedS;
+        } catch(e) {}
+
+        if (students.length === 0 || !students.some(s => s.cccd === '12345')) {
+            students = students.filter(s => s.cccd !== '12345');
+            students.push({ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, avatar: '', fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
             localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
         }
 
         const coursePrices = { "B (Số tự động)": 19500000, "B (Cơ khí)": 19500000, "C1": 21500000 };
+
+        // XÓA LỖI BỘ NHỚ KHI BỊ TREO GIAO DIỆN
+        function resetSystemMemory() {
+            if(confirm("Hành động này sẽ Xóa trắng dữ liệu bộ nhớ đệm bị lỗi trên máy của bạn và thiết lập lại tài khoản mặc định. Bạn có chắc chắn muốn thực hiện?")) {
+                localStorage.clear();
+                sessionStorage.clear();
+                location.reload();
+            }
+        }
 
         function backupData() {
             const data = { students, teachers };
@@ -518,6 +544,10 @@
             else document.getElementById('studentLoginGroup').classList.remove('hidden');
         }
 
+        function saveAndSync() {
+            localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
+        }
+
         // BỎ HOÀN TOÀN GPS VÀ ÉP KIỂU STRING ĐỂ CHỐNG LỖI MẬT KHẨU CŨ
         function handleLogin() {
             const role = document.getElementById('loginRole').value;
@@ -536,7 +566,7 @@
                 const code = document.getElementById('loginTeacherCode').value.trim();
                 const pass = document.getElementById('loginTeacherPass').value.trim();
                 if (!code || !pass) return alert('Vui lòng nhập đầy đủ mã và mật khẩu!');
-                const t = teachers.find(x => String(x.code).trim().toLowerCase() === code.toLowerCase());
+                const t = teachers.find(x => x && x.code && String(x.code).trim().toLowerCase() === code.toLowerCase());
                 if (!t || pass !== '123') return alert('Mã giáo viên hoặc mật khẩu không đúng!');
                 sessionStorage.setItem('current_role', 'teacher');
                 sessionStorage.setItem('current_teacher_code', t.code);
@@ -548,10 +578,10 @@
                 const pass = document.getElementById('loginPass').value.trim();
                 if (!cccd || !pass) return alert('Vui lòng nhập số CCCD và mật khẩu!');
                 
-                // Tìm kiếm bằng String để khắc phục lỗi kiểu dữ liệu
-                const s = students.find(x => String(x.cccd).trim() === cccd);
+                // Tìm kiếm bằng String an toàn
+                const s = students.find(x => x && x.cccd && String(x.cccd).trim() === cccd);
                 
-                // Mấu chốt fix lỗi: nếu account cũ không có pass thì cho là '123'
+                // Cứu dữ liệu hỏng: nếu account cũ không có pass thì cho là '123'
                 const checkPass = s ? String(s.pass || '123').trim() : null;
                 
                 if (!s || pass !== checkPass) {
@@ -662,7 +692,6 @@
             renderAdminTeacherTable();
         }
 
-        // TÍNH TOÁN CẢNH BÁO NỢ HỌC PHÍ & SỐ NGÀY TRỄ HẠN AN TOÀN
         function checkPaymentWarnings(s) {
             try {
                 let start = new Date(s.startDate || Date.now());
@@ -701,7 +730,6 @@
             return `<button onclick="toggleFee(${sId}, ${feeType})" class="px-2 py-1 md:px-3 md:py-1 rounded font-bold text-xs md:text-sm min-w-[90px] md:min-w-[120px] text-center transition hover:opacity-80 ${colorClass}">${status}</button>`;
         }
 
-        // TÍNH NĂNG ADMIN SỬA TỔNG HỌC PHÍ TÙY Ý
         function editTotalPrice(id) {
             const s = students.find(x => x.id === id);
             if (!s) return;
@@ -913,7 +941,7 @@
             alert('Hệ thống đã ghi nhận! Vui lòng chờ Admin xác nhận giao dịch.');
         }
 
-        // DÙNG TRY CATCH ĐỂ BẢO VỆ GIAO DIỆN HỌC VIÊN KHÔNG BỊ TREO KHI DỮ LIỆU CŨ BỊ LỖI
+        // BẢO VỆ GIAO DIỆN HỌC VIÊN BẰNG TRY/CATCH ĐỂ KHÔNG BAO GIỜ TREO
         function renderStudentPortal(s) {
             try {
                 const t = teachers.find(x => x.code === s.teacherCode);
