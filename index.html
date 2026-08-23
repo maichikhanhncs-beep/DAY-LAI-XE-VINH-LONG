@@ -439,18 +439,18 @@
         const STORAGE_KEY_STUDENTS = 'driving_system_students_stable_v1';
         const STORAGE_KEY_TEACHERS = 'driving_system_teachers_stable_v1';
 
+        // 1. Tự động kiểm tra và thêm tài khoản giáo viên gốc nếu bị xóa
         let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS)) || [];
-        if (teachers.length === 0) {
-            teachers = [
-                { id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', deductions: 0, paidBonus: 0 }
-            ];
+        if (!teachers.some(t => t.code === 'GV01')) {
+            teachers.push({ id: Date.now(), name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', datKm: 100, sahinhSessions: 5, sahinhDate: '2026-03-01', deductions: 0, paidBonus: 0 });
+            localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
         }
         
+        // 2. Tự động kiểm tra và thêm tài khoản học viên gốc (12345) để test vĩnh viễn nếu bị xóa
         let students = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS)) || [];
-        if (students.length === 0) {
-            students = [
-                { id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, avatar: '', fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' }
-            ];
+        if (!students.some(s => s.cccd === '12345')) {
+            students.push({ id: Date.now()+1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 18500000, isStudent: true, avatar: '', fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
+            localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
         }
 
         const coursePrices = { "B (Số tự động)": 19500000, "B (Cơ khí)": 19500000, "C1": 21500000 };
@@ -518,7 +518,7 @@
             else document.getElementById('studentLoginGroup').classList.remove('hidden');
         }
 
-        // BỎ HOÀN TOÀN GPS VÀ SỬA LỖI PASS CHO DỮ LIỆU CŨ
+        // BỎ HOÀN TOÀN GPS VÀ ÉP KIỂU STRING ĐỂ CHỐNG LỖI MẬT KHẨU CŨ
         function handleLogin() {
             const role = document.getElementById('loginRole').value;
             
@@ -536,7 +536,7 @@
                 const code = document.getElementById('loginTeacherCode').value.trim();
                 const pass = document.getElementById('loginTeacherPass').value.trim();
                 if (!code || !pass) return alert('Vui lòng nhập đầy đủ mã và mật khẩu!');
-                const t = teachers.find(x => x.code.toLowerCase() === code.toLowerCase());
+                const t = teachers.find(x => String(x.code).trim().toLowerCase() === code.toLowerCase());
                 if (!t || pass !== '123') return alert('Mã giáo viên hoặc mật khẩu không đúng!');
                 sessionStorage.setItem('current_role', 'teacher');
                 sessionStorage.setItem('current_teacher_code', t.code);
@@ -547,12 +547,16 @@
                 const cccd = document.getElementById('loginCCCD').value.trim();
                 const pass = document.getElementById('loginPass').value.trim();
                 if (!cccd || !pass) return alert('Vui lòng nhập số CCCD và mật khẩu!');
-                const s = students.find(x => x.cccd === cccd);
+                
+                // Tìm kiếm bằng String để khắc phục lỗi kiểu dữ liệu
+                const s = students.find(x => String(x.cccd).trim() === cccd);
                 
                 // Mấu chốt fix lỗi: nếu account cũ không có pass thì cho là '123'
-                const checkPass = s ? (s.pass || '123') : null;
+                const checkPass = s ? String(s.pass || '123').trim() : null;
                 
-                if (!s || pass !== checkPass) return alert('CCCD hoặc mật khẩu không đúng!');
+                if (!s || pass !== checkPass) {
+                    return alert('Số CCCD hoặc Mật khẩu không đúng! (Mật khẩu mặc định là: 123)');
+                }
                 
                 s.gps = 'Đã tắt định vị'; // Bỏ qua GPS
                 saveAndSync();
@@ -658,29 +662,34 @@
             renderAdminTeacherTable();
         }
 
-        // TÍNH TOÁN CẢNH BÁO NỢ HỌC PHÍ & SỐ NGÀY TRỄ HẠN
+        // TÍNH TOÁN CẢNH BÁO NỢ HỌC PHÍ & SỐ NGÀY TRỄ HẠN AN TOÀN
         function checkPaymentWarnings(s) {
-            let start = new Date(s.startDate || Date.now());
-            let d2 = new Date(start); d2.setDate(d2.getDate() + 25);
-            let d3 = new Date(start); d3.setDate(d3.getDate() + 56);
-            let today = new Date();
-            let warnings = [];
+            try {
+                let start = new Date(s.startDate || Date.now());
+                if (isNaN(start.getTime())) start = new Date();
+                let d2 = new Date(start); d2.setDate(d2.getDate() + 25);
+                let d3 = new Date(start); d3.setDate(d3.getDate() + 56);
+                let today = new Date();
+                let warnings = [];
 
-            let daysLate2 = Math.floor((today - d2) / (1000 * 3600 * 24));
-            if (s.fee2 !== 'Đã đóng' && s.fee2 !== 'Chờ xác nhận' && daysLate2 > 0) {
-                warnings.push(`<div class="text-red-600 font-bold mt-2 animate-pulse">⚠️ Nợ Đợt 2: Quá hạn ${daysLate2} ngày</div>`);
-            } else if (s.stepIndex >= 2 && s.fee2 !== 'Đã đóng') {
-                warnings.push(`<div class="text-amber-600 font-bold mt-2">⚠️ Đợt 2: Đến hạn thanh toán</div>`);
+                let daysLate2 = Math.floor((today - d2) / (1000 * 3600 * 24));
+                if (s.fee2 !== 'Đã đóng' && s.fee2 !== 'Chờ xác nhận' && daysLate2 > 0) {
+                    warnings.push(`<div class="text-red-600 font-bold mt-2 animate-pulse">⚠️ Nợ Đợt 2: Quá hạn ${daysLate2} ngày</div>`);
+                } else if (s.stepIndex >= 2 && s.fee2 !== 'Đã đóng') {
+                    warnings.push(`<div class="text-amber-600 font-bold mt-2">⚠️ Đợt 2: Đến hạn thanh toán</div>`);
+                }
+
+                let daysLate3 = Math.floor((today - d3) / (1000 * 3600 * 24));
+                if (s.fee3 !== 'Đã đóng' && s.fee3 !== 'Chờ xác nhận' && daysLate3 > 0) {
+                    warnings.push(`<div class="text-red-600 font-bold mt-2 animate-pulse">⚠️ Nợ Đợt 3: Quá hạn ${daysLate3} ngày</div>`);
+                } else if (s.stepIndex >= 3 && s.fee3 !== 'Đã đóng') {
+                    warnings.push(`<div class="text-amber-600 font-bold mt-2">⚠️ Đợt 3: Đến hạn thanh toán</div>`);
+                }
+
+                return warnings.join('');
+            } catch (e) {
+                return '';
             }
-
-            let daysLate3 = Math.floor((today - d3) / (1000 * 3600 * 24));
-            if (s.fee3 !== 'Đã đóng' && s.fee3 !== 'Chờ xác nhận' && daysLate3 > 0) {
-                warnings.push(`<div class="text-red-600 font-bold mt-2 animate-pulse">⚠️ Nợ Đợt 3: Quá hạn ${daysLate3} ngày</div>`);
-            } else if (s.stepIndex >= 3 && s.fee3 !== 'Đã đóng') {
-                warnings.push(`<div class="text-amber-600 font-bold mt-2">⚠️ Đợt 3: Đến hạn thanh toán</div>`);
-            }
-
-            return warnings.join('');
         }
 
         function getFeeAdminBtnUI(status, sId, feeType) {
@@ -711,7 +720,8 @@
             if(!tbody) return;
             tbody.innerHTML = '';
             students.forEach(s => {
-                const paid = (s.fee1 === 'Đã đóng' ? s.totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * 0.25 : 0);
+                const totalPrice = Number(s.totalPrice) || 0;
+                const paid = (s.fee1 === 'Đã đóng' ? totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? totalPrice * 0.25 : 0);
                 const t = teachers.find(x => x.code === s.teacherCode);
                 const warnings = checkPaymentWarnings(s);
                 
@@ -720,29 +730,29 @@
                 tbody.innerHTML += `
                     <tr class="border-b-2 hover:bg-slate-50 transition">
                         <td class="p-4 md:p-5">
-                            <a href="#" onclick="openStudentModal('${s.cccd}'); return false;" class="font-black text-blue-600 hover:underline text-xl md:text-2xl">${s.name} 📁</a>
+                            <a href="#" onclick="openStudentModal('${s.cccd}'); return false;" class="font-black text-blue-600 hover:underline text-xl md:text-2xl">${s.name || 'Học viên'} 📁</a>
                             <div class="text-sm md:text-base text-slate-500 mt-1">CCCD: ${s.cccd} | SĐT: ${s.phone || 'N/A'}</div>
                             <div class="text-sm md:text-base text-slate-500">ĐC: ${s.address || 'N/A'}</div>
-                            <div class="text-xs md:text-sm text-emerald-600 font-mono mt-1">📍 ${s.gps}</div>
+                            <div class="text-xs md:text-sm text-emerald-600 font-mono mt-1">📍 ${s.gps || 'N/A'}</div>
                         </td>
                         <td class="p-4 md:p-5 text-sm md:text-base leading-relaxed">
                             <div>Sinh: ${formatDate(s.dob)} (${s.gender || 'Nam'})</div>
                             <div class="text-amber-600 font-bold mt-1">Nhận HS: ${formatDate(s.receiveDate)}</div>
                         </td>
-                        <td class="p-4 md:p-5 text-base md:text-lg font-bold">${s.course}<br><span class="text-indigo-600 font-normal text-sm md:text-base">GV: ${t ? t.name : 'N/A'}</span></td>
+                        <td class="p-4 md:p-5 text-base md:text-lg font-bold">${s.course || 'N/A'}<br><span class="text-indigo-600 font-normal text-sm md:text-base">GV: ${t ? t.name : 'N/A'}</span></td>
                         <td class="p-4 md:p-5"><span class="bg-amber-100 text-amber-800 px-2 py-1 md:px-3 md:py-1.5 rounded-lg text-sm md:text-base font-bold">${STEPS[s.stepIndex] || 'Hoàn thành'}</span></td>
                         <td class="p-4 md:p-5 text-emerald-600 font-bold text-lg md:text-xl">
                             ${paid.toLocaleString()}đ<br>
                             <span class="text-sm md:text-base text-slate-400 block mt-1">
-                                Tổng: ${s.totalPrice.toLocaleString()}đ 
+                                Tổng: ${totalPrice.toLocaleString()}đ 
                                 <button onclick="editTotalPrice(${s.id})" class="ml-1 text-blue-500 hover:text-blue-700 text-xs md:text-sm underline cursor-pointer">✏️ Sửa</button>
                             </span>
                             <div class="text-xs md:text-sm">${warnings}</div>
                         </td>
                         <td class="p-4 md:p-5 space-y-2 md:space-y-3 text-sm md:text-base">
-                            <div class="flex items-center justify-start md:ml-4">1: &nbsp; ${getFeeAdminBtnUI(s.fee1, s.id, 1)} ${pdfLink(1)}</div>
-                            <div class="flex items-center justify-start md:ml-4">2: &nbsp; ${getFeeAdminBtnUI(s.fee2, s.id, 2)} ${pdfLink(2)}</div>
-                            <div class="flex items-center justify-start md:ml-4">3: &nbsp; ${getFeeAdminBtnUI(s.fee3, s.id, 3)} ${pdfLink(3)}</div>
+                            <div class="flex items-center justify-start md:ml-4">1: &nbsp; ${getFeeAdminBtnUI(s.fee1 || 'Chưa đóng', s.id, 1)} ${pdfLink(1)}</div>
+                            <div class="flex items-center justify-start md:ml-4">2: &nbsp; ${getFeeAdminBtnUI(s.fee2 || 'Chưa đóng', s.id, 2)} ${pdfLink(2)}</div>
+                            <div class="flex items-center justify-start md:ml-4">3: &nbsp; ${getFeeAdminBtnUI(s.fee3 || 'Chưa đóng', s.id, 3)} ${pdfLink(3)}</div>
                         </td>
                         <td class="p-4 md:p-5 text-center"><button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold hover:text-red-700 text-sm md:text-lg">Xóa</button></td>
                     </tr>
@@ -814,9 +824,10 @@
         function openFinanceModal() {
             let rev = 0, totalBonus = 0;
             students.forEach(s => {
-                if (s.fee1 === 'Đã đóng') rev += s.totalPrice * 0.5;
-                if (s.fee2 === 'Đã đóng') rev += s.totalPrice * 0.25;
-                if (s.fee3 === 'Đã đóng') rev += s.totalPrice * 0.25;
+                const totalPrice = Number(s.totalPrice) || 0;
+                if (s.fee1 === 'Đã đóng') rev += totalPrice * 0.5;
+                if (s.fee2 === 'Đã đóng') rev += totalPrice * 0.25;
+                if (s.fee3 === 'Đã đóng') rev += totalPrice * 0.25;
             });
             teachers.forEach(t => {
                 const inc = calculateTeacherIncome(t);
@@ -872,7 +883,8 @@
             const bankId = 'BIDV'; 
             const accountNo = '7301873844'; 
             const accountName = 'MAI CHI KHANH';
-            const content = `Thanh toan phi Dot ${feeType} ${studentInfo.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()}`;
+            const rawName = studentInfo.name || 'Hoc Vien';
+            const content = `Thanh toan phi Dot ${feeType} ${rawName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()}`;
             
             const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(content)}&accountName=${encodeURIComponent(accountName)}`;
             document.getElementById('payQrCode').src = qrUrl;
@@ -901,68 +913,76 @@
             alert('Hệ thống đã ghi nhận! Vui lòng chờ Admin xác nhận giao dịch.');
         }
 
+        // DÙNG TRY CATCH ĐỂ BẢO VỆ GIAO DIỆN HỌC VIÊN KHÔNG BỊ TREO KHI DỮ LIỆU CŨ BỊ LỖI
         function renderStudentPortal(s) {
-            const t = teachers.find(x => x.code === s.teacherCode);
-            document.getElementById('sNameDisplay').innerText = s.name;
-            document.getElementById('sCccdDisplay').innerText = s.cccd;
-            document.getElementById('sPhoneDisplay').innerText = s.phone || 'N/A';
-            document.getElementById('sGenderDisplay').innerText = s.gender || 'Nam';
-            document.getElementById('sDobDisplay').innerText = formatDate(s.dob);
-            document.getElementById('sAddressDisplay').innerText = s.address || 'N/A';
-            document.getElementById('sReceiveDateDisplay').innerText = formatDate(s.receiveDate);
-            document.getElementById('sTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
-            document.getElementById('sCourseBadge').innerText = s.course;
+            try {
+                const t = teachers.find(x => x.code === s.teacherCode);
+                document.getElementById('sNameDisplay').innerText = s.name || 'Học Viên';
+                document.getElementById('sCccdDisplay').innerText = s.cccd || 'N/A';
+                document.getElementById('sPhoneDisplay').innerText = s.phone || 'N/A';
+                document.getElementById('sGenderDisplay').innerText = s.gender || 'Nam';
+                document.getElementById('sDobDisplay').innerText = formatDate(s.dob);
+                document.getElementById('sAddressDisplay').innerText = s.address || 'N/A';
+                document.getElementById('sReceiveDateDisplay').innerText = formatDate(s.receiveDate);
+                document.getElementById('sTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
+                document.getElementById('sCourseBadge').innerText = s.course || 'Chưa rõ';
 
-            const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=random&size=150`;
-            document.getElementById('sAvatarDisplay').src = s.avatar ? s.avatar : defaultAvatar;
+                const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name || 'HV')}&background=random&size=150`;
+                document.getElementById('sAvatarDisplay').src = s.avatar ? s.avatar : defaultAvatar;
 
-            const paid = (s.fee1 === 'Đã đóng' ? s.totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * 0.25 : 0);
-            document.getElementById('sTotalPrice').innerText = s.totalPrice.toLocaleString() + ' VNĐ';
-            document.getElementById('sPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
-            document.getElementById('sRemainingPrice').innerText = (s.totalPrice - paid).toLocaleString() + ' VNĐ';
+                const totalPrice = Number(s.totalPrice) || 0;
+                const paid = (s.fee1 === 'Đã đóng' ? totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? totalPrice * 0.25 : 0);
+                document.getElementById('sTotalPrice').innerText = totalPrice.toLocaleString() + ' VNĐ';
+                document.getElementById('sPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
+                document.getElementById('sRemainingPrice').innerText = (totalPrice - paid).toLocaleString() + ' VNĐ';
 
-            const warnings = checkPaymentWarnings(s);
-            let warningBanner = '';
-            if (warnings) {
-                warningBanner = `<div class="bg-red-100 border-2 border-red-400 p-4 md:p-5 rounded-xl md:rounded-2xl mb-4 md:mb-6 shadow-inner text-sm md:text-lg">${warnings.replace(/mt-2/g, 'mb-2')}</div>`;
-            }
-
-            let feeHtml = `<h4 class="font-black mb-4 text-2xl md:text-3xl border-b-2 border-white/20 pb-3">💳 Chi tiết các đợt học phí</h4>`;
-            [1, 2, 3].forEach(i => {
-                let status = s['fee'+i];
-                let pct = i === 1 ? 0.5 : 0.25;
-                let amt = s.totalPrice * pct;
-                let btn = '';
-                if (status === 'Chưa đóng') {
-                    btn = `<button onclick="openPaymentModal(${i}, ${amt})" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 px-4 py-2.5 md:px-6 md:py-3 rounded-xl text-base md:text-lg font-bold shadow-lg transition animate-bounce">Thanh toán ngay</button>`;
-                } else if (status === 'Chờ xác nhận') {
-                    btn = `<span class="w-full md:w-auto px-4 py-2.5 md:px-6 md:py-3 rounded-xl bg-amber-500/20 text-amber-300 font-bold border-2 border-amber-500/30 block text-center animate-pulse cursor-not-allowed text-sm md:text-lg">⏳ Đang chờ xác nhận</span>`;
-                } else {
-                    btn = `<span class="w-full md:w-auto px-4 py-2.5 md:px-6 md:py-3 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold border-2 border-emerald-500/30 block text-center text-sm md:text-lg">✅ Đã thanh toán</span>`;
+                const warnings = checkPaymentWarnings(s);
+                let warningBanner = '';
+                if (warnings) {
+                    warningBanner = `<div class="bg-red-100 border-2 border-red-400 p-4 md:p-5 rounded-xl md:rounded-2xl mb-4 md:mb-6 shadow-inner text-sm md:text-lg">${warnings.replace(/mt-2/g, 'mb-2')}</div>`;
                 }
-                feeHtml += `
-                    <div class="flex flex-col md:flex-row justify-between items-center py-4 md:py-5 border-b border-white/10 gap-3 md:gap-4">
-                        <div class="text-center md:text-left w-full md:w-auto">
-                            <span class="block text-lg md:text-xl opacity-80">Đợt ${i} (${i===1?'50%':'25%'})</span>
-                            <strong class="text-2xl md:text-3xl">${amt.toLocaleString()}đ</strong>
-                        </div>
-                        <div class="w-full md:w-auto">${btn}</div>
-                    </div>`;
-            });
-            document.getElementById('sFeeForecast').innerHTML = warningBanner + feeHtml;
 
-            let refHtml = '<strong class="text-white block mb-2">Danh sách đã giới thiệu:</strong>';
-            if (!s.referrals || s.referrals.length === 0) refHtml += '<span class="text-indigo-200 text-sm md:text-base">Chưa có lượt giới thiệu nào.</span>';
-            else s.referrals.forEach(r => { refHtml += `<div class="mb-1 text-sm md:text-base">- ${r.name} (${r.option === 'deduct' ? 'Đã trừ 1tr' : 'Nhận 1tr tiền mặt'})</div>`; });
-            document.getElementById('sRefHistory').innerHTML = refHtml;
+                let feeHtml = `<h4 class="font-black mb-4 text-2xl md:text-3xl border-b-2 border-white/20 pb-3">💳 Chi tiết các đợt học phí</h4>`;
+                [1, 2, 3].forEach(i => {
+                    let status = s['fee'+i] || 'Chưa đóng';
+                    let pct = i === 1 ? 0.5 : 0.25;
+                    let amt = totalPrice * pct;
+                    let btn = '';
+                    if (status === 'Chưa đóng') {
+                        btn = `<button onclick="openPaymentModal(${i}, ${amt})" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 px-4 py-2.5 md:px-6 md:py-3 rounded-xl text-base md:text-lg font-bold shadow-lg transition animate-bounce">Thanh toán ngay</button>`;
+                    } else if (status === 'Chờ xác nhận') {
+                        btn = `<span class="w-full md:w-auto px-4 py-2.5 md:px-6 md:py-3 rounded-xl bg-amber-500/20 text-amber-300 font-bold border-2 border-amber-500/30 block text-center animate-pulse cursor-not-allowed text-sm md:text-lg">⏳ Đang chờ xác nhận</span>`;
+                    } else {
+                        btn = `<span class="w-full md:w-auto px-4 py-2.5 md:px-6 md:py-3 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold border-2 border-emerald-500/30 block text-center text-sm md:text-lg">✅ Đã thanh toán</span>`;
+                    }
+                    feeHtml += `
+                        <div class="flex flex-col md:flex-row justify-between items-center py-4 md:py-5 border-b border-white/10 gap-3 md:gap-4">
+                            <div class="text-center md:text-left w-full md:w-auto">
+                                <span class="block text-lg md:text-xl opacity-80">Đợt ${i} (${i===1?'50%':'25%'})</span>
+                                <strong class="text-2xl md:text-3xl">${amt.toLocaleString()}đ</strong>
+                            </div>
+                            <div class="w-full md:w-auto">${btn}</div>
+                        </div>`;
+                });
+                document.getElementById('sFeeForecast').innerHTML = warningBanner + feeHtml;
 
-            let stepsHTML = '';
-            STEPS.forEach((stepName, idx) => {
-                let badge = idx < s.stepIndex ? 'Đã hoàn thành ✅' : (idx === s.stepIndex ? 'Đang học 🎯' : 'Chưa mở khóa 🔒');
-                let action = idx === s.stepIndex ? `<button onclick="studentCompleteStepSelf(${s.id})" class="mt-3 md:mt-0 w-full md:w-auto bg-emerald-600 text-white px-4 py-2.5 md:px-6 md:py-3 rounded-xl text-base md:text-lg font-bold shadow-lg hover:bg-emerald-700 transition">Hoàn thành bước này</button>` : '';
-                stepsHTML += `<div class="p-5 md:p-6 rounded-2xl border-2 bg-slate-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4"><div><h4 class="font-bold text-lg md:text-xl mb-1">${stepName}</h4><span class="text-sm md:text-base font-bold">${badge}</span></div><div class="w-full md:w-auto">${action}</div></div>`;
-            });
-            document.getElementById('sStepsContainer').innerHTML = stepsHTML;
+                let refHtml = '<strong class="text-white block mb-2">Danh sách đã giới thiệu:</strong>';
+                if (!s.referrals || s.referrals.length === 0) refHtml += '<span class="text-indigo-200 text-sm md:text-base">Chưa có lượt giới thiệu nào.</span>';
+                else s.referrals.forEach(r => { refHtml += `<div class="mb-1 text-sm md:text-base">- ${r.name || ''} (${r.option === 'deduct' ? 'Đã trừ 1tr' : 'Nhận 1tr tiền mặt'})</div>`; });
+                document.getElementById('sRefHistory').innerHTML = refHtml;
+
+                let stepsHTML = '';
+                STEPS.forEach((stepName, idx) => {
+                    let sIndex = Number(s.stepIndex) || 0;
+                    let badge = idx < sIndex ? 'Đã hoàn thành ✅' : (idx === sIndex ? 'Đang học 🎯' : 'Chưa mở khóa 🔒');
+                    let action = idx === sIndex ? `<button onclick="studentCompleteStepSelf(${s.id})" class="mt-3 md:mt-0 w-full md:w-auto bg-emerald-600 text-white px-4 py-2.5 md:px-6 md:py-3 rounded-xl text-base md:text-lg font-bold shadow-lg hover:bg-emerald-700 transition">Hoàn thành bước này</button>` : '';
+                    stepsHTML += `<div class="p-5 md:p-6 rounded-2xl border-2 bg-slate-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4"><div><h4 class="font-bold text-lg md:text-xl mb-1">${stepName}</h4><span class="text-sm md:text-base font-bold">${badge}</span></div><div class="w-full md:w-auto">${action}</div></div>`;
+                });
+                document.getElementById('sStepsContainer').innerHTML = stepsHTML;
+            } catch (err) {
+                console.error("Lỗi giao diện Học viên:", err);
+                alert("Dữ liệu học viên bị lỗi cấu trúc. Vui lòng báo Admin xóa và tạo lại hồ sơ.");
+            }
         }
 
         function studentCompleteStepSelf(id) {
@@ -991,7 +1011,7 @@
                 if (s.cccd === sessionStorage.getItem('current_cccd')) {
                     if (!s.referrals) s.referrals = [];
                     s.referrals.push({ name, option, date: new Date().toLocaleDateString('vi-VN') });
-                    if (option === 'deduct') s.totalPrice -= 1000000;
+                    if (option === 'deduct') s.totalPrice = (Number(s.totalPrice) || 0) - 1000000;
                 }
                 return s;
             });
@@ -1007,7 +1027,7 @@
             const s = students.find(x => x.cccd === cccd);
             if (!s) return;
             const t = teachers.find(x => x.code === s.teacherCode);
-            document.getElementById('modalNameDisplay').innerText = s.name;
+            document.getElementById('modalNameDisplay').innerText = s.name || 'N/A';
             document.getElementById('modalCccdDisplay').innerText = s.cccd;
             document.getElementById('modalPhoneDisplay').innerText = s.phone || 'N/A';
             document.getElementById('modalGenderDisplay').innerText = s.gender || 'Nam';
@@ -1015,20 +1035,22 @@
             document.getElementById('modalAddressDisplay').innerText = s.address || 'N/A';
             document.getElementById('modalReceiveDateDisplay').innerText = formatDate(s.receiveDate);
             document.getElementById('modalTeacherDisplay').innerText = t ? t.name : 'Chưa phân công';
-            document.getElementById('modalCourseBadge').innerText = s.course;
+            document.getElementById('modalCourseBadge').innerText = s.course || 'N/A';
             
-            const paid = (s.fee1 === 'Đã đóng' ? s.totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * 0.25 : 0);
-            document.getElementById('modalTotalPrice').innerText = s.totalPrice.toLocaleString() + ' VNĐ';
+            const totalPrice = Number(s.totalPrice) || 0;
+            const paid = (s.fee1 === 'Đã đóng' ? totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? totalPrice * 0.25 : 0);
+            document.getElementById('modalTotalPrice').innerText = totalPrice.toLocaleString() + ' VNĐ';
             document.getElementById('modalPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
-            document.getElementById('modalRemainingPrice').innerText = (s.totalPrice - paid).toLocaleString() + ' VNĐ';
+            document.getElementById('modalRemainingPrice').innerText = (totalPrice - paid).toLocaleString() + ' VNĐ';
 
             let notesHtml = s.notes?.length ? s.notes.map(n => `<div class="p-3 md:p-4 bg-white rounded-xl border-2 text-sm md:text-base mb-2 md:mb-3"><span>${n.text}</span> <span class="text-slate-400 block mt-1 text-xs md:text-sm">(${n.date})</span></div>`).join('') : '<span class="text-slate-400 text-sm md:text-lg">Chưa có ghi chú.</span>';
             document.getElementById('modalCrmNotesList').innerHTML = notesHtml;
 
             let stepsHTML = '';
             STEPS.forEach((stepName, idx) => {
-                let badge = idx < s.stepIndex ? 'Đã hoàn thành ✅' : (idx === s.stepIndex ? 'Đang học 🎯' : 'Chưa mở khóa 🔒');
-                let action = idx === s.stepIndex ? `<button onclick="studentCompleteStepAdmin(${s.id})" class="mt-3 md:mt-0 w-full md:w-auto bg-emerald-600 text-white px-4 py-2.5 md:px-5 md:py-2.5 rounded-xl text-sm md:text-base font-bold shadow-lg hover:bg-emerald-700 transition">Hoàn thành bước này</button>` : '';
+                let sIndex = Number(s.stepIndex) || 0;
+                let badge = idx < sIndex ? 'Đã hoàn thành ✅' : (idx === sIndex ? 'Đang học 🎯' : 'Chưa mở khóa 🔒');
+                let action = idx === sIndex ? `<button onclick="studentCompleteStepAdmin(${s.id})" class="mt-3 md:mt-0 w-full md:w-auto bg-emerald-600 text-white px-4 py-2.5 md:px-5 md:py-2.5 rounded-xl text-sm md:text-base font-bold shadow-lg hover:bg-emerald-700 transition">Hoàn thành bước này</button>` : '';
                 stepsHTML += `<div class="p-4 md:p-5 rounded-2xl border-2 bg-slate-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-4"><div><h4 class="font-bold text-lg md:text-xl mb-1">${stepName}</h4><span class="text-sm md:text-base font-bold">${badge}</span></div><div class="w-full md:w-auto">${action}</div></div>`;
             });
             document.getElementById('modalStepsContainer').innerHTML = stepsHTML;
