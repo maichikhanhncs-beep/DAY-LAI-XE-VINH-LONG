@@ -15,128 +15,193 @@
 </head>
 <body class="bg-slate-100 min-h-screen font-sans text-slate-800">
 
-    <!-- 1. MÀN HÌNH ĐĂNG NHẬP -->
+    <!-- ================= 1. MÀN HÌNH ĐĂNG NHẬP BẢO MẬT ================= -->
     <div id="loginScreen" class="min-h-screen flex flex-col md:flex-row">
-        <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-6 md:p-12 flex flex-col justify-between text-white">
+        <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-6 md:p-12 flex flex-col justify-between text-white shadow-2xl z-10">
             <div class="mb-8 md:mb-0">
                 <span class="text-5xl md:text-6xl">🚘</span>
-                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP Secure Admin v4.2</span>
+                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v6.5 Enterprise</span>
             </div>
             <div class="space-y-4 md:space-y-6 my-auto">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">HỆ THỐNG QUẢN TRỊ ĐÀO TẠO LÁI XE</h1>
-                <p class="text-indigo-200 text-base md:text-xl leading-relaxed">Nền tảng quản trị chuyên sâu dành riêng cho Nhà quản trị và Kế toán trung tâm.</p>
+                <p class="text-indigo-200 text-base md:text-xl leading-relaxed">Nền tảng quản trị tự động hóa, quy trình tài chính khép kín và phân quyền bảo mật cấp cao.</p>
                 <div class="pt-4 text-lg md:text-xl font-bold text-amber-300">Nhà sáng lập: Mai Chí Khanh</div>
             </div>
             <div class="text-sm md:text-base text-slate-400 mt-8 md:mt-0">© 2026 Enterprise SaaS Architecture. All rights reserved.</div>
         </div>
 
-        <div class="md:w-1/2 bg-white p-6 md:p-12 flex flex-col justify-center max-w-2xl mx-auto w-full shadow-2xl">
-            <div class="mb-8">
-                <h2 class="text-3xl md:text-4xl font-black text-slate-900">Đăng Nhập Quản Trị</h2>
-                <p class="text-sm md:text-base text-red-500 font-bold mt-2">Hệ thống giám sát Audit Log. Chỉ tài khoản Quản trị viên mới được cấp phép truy cập.</p>
-            </div>
-            <div class="space-y-5">
-                <div>
-                    <label class="block text-sm font-bold uppercase tracking-wider text-slate-600 mb-2">Vai trò truy cập:</label>
-                    <select id="loginRole" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 font-bold text-lg focus:border-blue-600" onchange="toggleLoginInput()">
-                        <option value="admin">🔒 Quản trị viên (Admin)</option>
-                    </select>
+        <div class="md:w-1/2 bg-white p-6 md:p-12 flex flex-col justify-center w-full">
+            <div class="max-w-xl mx-auto w-full">
+                <div class="mb-8">
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-900">Đăng Nhập Hệ Thống</h2>
+                    <p class="text-sm md:text-base text-slate-500 mt-2">Hệ thống giám sát phân quyền độc lập và bảo mật thông tin tuyệt đối.</p>
                 </div>
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-bold uppercase tracking-wider text-slate-600 mb-2">Vai trò truy cập:</label>
+                        <select id="loginRole" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 font-bold text-lg focus:border-blue-600 transition" onchange="toggleLoginInput()">
+                            <option value="student">🎓 Học viên</option>
+                            <option value="teacher">👨‍🏫 Giáo viên</option>
+                            <option value="admin">🔒 Quản trị viên (Admin)</option>
+                        </select>
+                    </div>
 
-                <div id="adminLoginGroup" class="space-y-4">
-                    <input type="text" id="adminUser" placeholder="Tài khoản Quản trị (admin) *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg">
-                    <input type="password" id="adminPass" placeholder="Mật khẩu Quản trị (admin123) *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg">
-                </div>
+                    <div id="studentLoginGroup" class="space-y-4">
+                        <input type="text" id="loginCCCD" placeholder="Số CCCD học viên *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
+                        <input type="password" id="loginPass" placeholder="Mật khẩu *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
+                    </div>
 
-                <div class="pt-2">
-                    <button onclick="handleLogin()" class="w-full bg-blue-700 text-white p-4 rounded-xl hover:bg-blue-800 font-black shadow-lg text-lg transition-all">🚀 ĐĂNG NHẬP HỆ THỐNG</button>
-                    <button onclick="resetSystemMemory()" class="w-full bg-slate-100 text-slate-500 border border-slate-300 p-3 rounded-xl font-bold text-sm mt-3 hover:bg-slate-200 transition-all">⚠️ Khôi phục dữ liệu gốc (Nếu kẹt bộ nhớ)</button>
+                    <div id="teacherLoginGroup" class="space-y-4 hidden">
+                        <input type="text" id="loginTeacherCode" placeholder="Mã Giáo Viên (VD: GV01) *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
+                        <input type="password" id="loginTeacherPass" placeholder="Mật khẩu *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
+                    </div>
+
+                    <div id="adminLoginGroup" class="space-y-4 hidden">
+                        <input type="text" id="adminUser" placeholder="Tài khoản Quản trị *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
+                        <input type="password" id="adminPass" placeholder="Mật khẩu Quản trị *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
+                    </div>
+
+                    <div class="pt-4">
+                        <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-4 rounded-xl hover:bg-blue-700 font-black shadow-xl shadow-blue-500/30 text-xl transition-all">🚀 ĐĂNG NHẬP</button>
+                        <button onclick="resetSystemMemory()" class="w-full bg-slate-100 text-slate-500 border border-slate-300 p-3 rounded-xl font-bold text-sm mt-4 hover:bg-slate-200 transition-all">⚠️ Khôi phục dữ liệu gốc (Khi kẹt bộ nhớ)</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 2. GIAO DIỆN QUẢN TRỊ VIÊN (ADMIN) -->
+    <!-- ================= 2. GIAO DIỆN QUẢN TRỊ VIÊN (ADMIN ONLY) ================= -->
     <div id="adminDashboard" class="hidden min-h-screen flex flex-col md:flex-row bg-slate-100">
         <!-- SIDEBAR -->
         <div class="md:w-72 lg:w-80 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 shadow-2xl z-10 relative">
             <div class="p-6 space-y-6 overflow-y-auto">
                 <div>
-                    <h2 class="text-white font-black text-2xl md:text-3xl">DriveERP <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded align-top">ADMIN</span></h2>
-                    <p class="text-xs md:text-sm text-indigo-400 font-bold mt-1">Hệ Thống Điều Hành Độc Quyền</p>
+                    <h2 class="text-white font-black text-2xl md:text-3xl">DriveERP <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded align-top">SECURE</span></h2>
+                    <p class="text-xs md:text-sm text-indigo-400 font-bold mt-1">Hệ Thống Phân Quyền Giám Đốc</p>
                 </div>
                 <nav class="space-y-1.5 text-base font-bold">
                     <button onclick="switchAdminTab('student')" id="navStudent" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition active">🎓 Quản Lý Học Viên</button>
                     <button onclick="switchAdminTab('teacher')" id="navTeacher" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">👨‍🏫 Nhân Sự & Phương Tiện</button>
-                    <button onclick="switchAdminTab('finance')" id="navFinance" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">💰 Báo Cáo Tài Chính Kế Toán</button>
-                    <button onclick="switchAdminTab('settings')" id="navSettings" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">⚙️ Cấu Hình Khóa Học & Lương</button>
+                    <button onclick="switchAdminTab('finance')" id="navFinance" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">💰 Báo Cáo Tài Chính & Dòng Tiền</button>
+                    <button onclick="switchAdminTab('settings')" id="navSettings" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">⚙️ Cấu Hình Khóa & Định Mức Chi</button>
                     <button onclick="switchAdminTab('audit')" id="navAudit" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 text-red-400 transition">🛡️ Nhật Ký Kiểm Toán (Audit)</button>
                 </nav>
             </div>
             <div class="p-6 border-t border-slate-800 space-y-3 bg-slate-900">
-                <button onclick="backupData()" class="w-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 py-2.5 rounded-xl text-sm font-bold">📥 Sao Lưu System</button>
-                <label class="block w-full text-center bg-purple-500/20 text-purple-400 border border-purple-500/30 py-2.5 rounded-xl text-sm font-bold cursor-pointer">
+                <button onclick="backupData()" class="w-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 py-2.5 rounded-xl text-sm font-bold transition hover:bg-emerald-500/30">📥 Sao Lưu System</button>
+                <label class="block w-full text-center bg-purple-500/20 text-purple-400 border border-purple-500/30 py-2.5 rounded-xl text-sm font-bold cursor-pointer transition hover:bg-purple-500/30">
                     📤 Phục Hồi System <input type="file" id="restoreFile" accept=".json" onchange="restoreData(event)" class="hidden">
                 </label>
-                <button onclick="logout()" class="w-full bg-red-500/20 text-red-400 border border-red-500/30 py-2.5 rounded-xl text-sm font-bold">Đăng Xuất</button>
+                <button onclick="logout()" class="w-full bg-red-500/20 text-red-400 border border-red-500/30 py-2.5 rounded-xl text-sm font-bold transition hover:bg-red-500/30">Đăng Xuất</button>
             </div>
         </div>
 
         <!-- CONTENT AREA -->
         <div class="flex-1 overflow-y-auto h-screen relative bg-slate-100">
-            <!-- Header -->
-            <div class="bg-white px-8 py-5 shadow-sm sticky top-0 z-0 flex justify-between items-center">
+            <div class="bg-white px-8 py-5 shadow-sm sticky top-0 z-0 flex justify-between items-center border-b border-slate-200">
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-black text-slate-800">TRUNG TÂM ĐIỀU HÀNH ERP</h1>
+                    <h1 class="text-2xl md:text-3xl font-black text-slate-800">TRUNG TÂM ĐIỀU HÀNH DOANH NGHIỆP</h1>
                     <p class="text-sm md:text-base text-blue-600 font-bold mt-1">Giám đốc: Mai Chí Khanh</p>
                 </div>
-                <div id="riskAlertBanner" class="hidden bg-red-100 border border-red-300 text-red-700 px-4 py-2 rounded-lg text-sm font-bold animate-pulse">
-                    ⚠️ Có cảnh báo rủi ro vận hành! (Xem tab Nhân sự/Phương tiện)
+                <div id="riskAlertBanner" class="hidden bg-red-100 border border-red-300 text-red-700 px-4 py-2 rounded-lg text-sm font-bold animate-pulse shadow-sm">
+                    ⚠️ Cảnh báo rủi ro kiểm định/hạn bằng!
                 </div>
             </div>
 
-            <div class="p-6 md:p-8">
+            <div class="p-6 md:p-8 max-w-[1600px] mx-auto">
+                
                 <!-- 2.1 TAB HỌC VIÊN -->
                 <div id="adminStudentSection" class="space-y-6">
-                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
                         <div class="xl:col-span-2 space-y-4">
-                            <h3 class="font-bold text-slate-800 text-xl border-b pb-2">Thêm Học Viên Trực Tiếp</h3>
+                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3">➕ Tiếp Nhận Hồ Sơ Học Viên Mới</h3>
+                            
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
-                                <input type="text" id="addName" placeholder="Họ và tên học viên *" class="border p-3 rounded-lg bg-slate-50 w-full font-bold">
-                                <input type="text" id="addCCCD" placeholder="Số CCCD định danh *" class="border p-3 rounded-lg bg-slate-50 w-full font-bold">
-                                <input type="text" id="addPhone" placeholder="Số điện thoại" class="border p-3 rounded-lg bg-slate-50 w-full">
-                                <select id="addGender" class="border p-3 rounded-lg bg-slate-50 w-full"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
-                                <input type="date" id="addDob" title="Ngày sinh" class="border p-3 rounded-lg bg-slate-50 w-full">
-                                <input type="text" id="addAddress" placeholder="Địa chỉ" class="border p-3 rounded-lg bg-slate-50 w-full">
-                                <input type="date" id="addReceiveDate" title="Ngày nhận hồ sơ" class="border p-3 rounded-lg bg-slate-50 w-full">
-                                <input type="date" id="addStartDate" title="Ngày bắt đầu học" class="border p-3 rounded-lg bg-slate-50 w-full">
-                                <select id="addCourse" class="border p-3 rounded-lg bg-slate-50 w-full font-bold text-blue-700"></select>
-                                <select id="addTeacher" class="border p-3 rounded-lg bg-slate-50 w-full font-bold col-span-1 md:col-span-3"></select>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Họ và tên học viên *</label>
+                                    <input type="text" id="addName" placeholder="Nhập họ và tên" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Số CCCD *</label>
+                                    <input type="text" id="addCCCD" placeholder="Số CCCD định danh" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Số điện thoại</label>
+                                    <input type="text" id="addPhone" placeholder="SĐT liên hệ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Giới tính</label>
+                                    <select id="addGender" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
+                                </div>
+                                
+                                <!-- CÓ TIÊU ĐỀ RÕ RÀNG CHO NGÀY THÁNG -->
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh *</label>
+                                    <input type="date" id="addDob" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Địa chỉ thường trú</label>
+                                    <input type="text" id="addAddress" placeholder="Địa chỉ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ *</label>
+                                    <input type="date" id="addReceiveDate" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày bắt đầu học *</label>
+                                    <input type="date" id="addStartDate" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Hình thức thanh toán</label>
+                                    <select id="addPaymentType" onchange="togglePaymentTypeUI()" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 font-bold text-amber-900 w-full focus:border-blue-500 outline-none">
+                                        <option value="package">📦 Đóng Trọn Gói</option>
+                                        <option value="itemized">🛒 Đóng Từng Phần / Học Lẻ</option>
+                                    </select>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Giáo viên phụ trách *</label>
+                                    <select id="addTeacher" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none"></select>
+                                </div>
                             </div>
-                            <div class="flex items-center justify-between pt-2">
-                                <label class="flex items-center font-bold text-slate-600 text-sm cursor-pointer"><input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600"> Giảm 1tr (HSSV)</label>
-                                <button onclick="addStudent()" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-bold text-sm shadow hover:bg-blue-700">+ Lưu Hồ Sơ</button>
+                            
+                            <!-- KHU VỰC GIỎ HÀNG (CHỈ HIỆN KHI TRỌN GÓI ĐỂ CHỌN NHIỀU LOẠI) -->
+                            <div id="packageCartContainer" class="bg-blue-50 p-4 rounded-xl border border-blue-200 mt-3">
+                                <label class="block text-xs font-black text-blue-900 mb-2 uppercase">🛒 Chọn Các Gói Đào Tạo / Dịch Vụ Khóa Học (Chọn nhiều loại):</label>
+                                <div id="addServicesChecklist" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-40 overflow-y-auto pr-1"></div>
+                                <div class="mt-3 pt-2 border-t border-blue-200 flex justify-between items-center text-sm">
+                                    <label class="flex items-center font-bold text-slate-700 cursor-pointer"><input type="checkbox" id="addIsStudent" onchange="calculateCartTotal()" class="w-4 h-4 mr-2 accent-blue-600"> Giảm 1tr (HSSV)</label>
+                                    <div class="text-right">
+                                        <span class="text-xs font-bold text-slate-500">Tổng Trọn Gói:</span>
+                                        <strong id="addCartTotal" class="text-xl text-blue-700 font-black ml-1">0 VNĐ</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-2 border-t border-slate-100 mt-4">
+                                <span class="text-xs text-slate-400 italic">Hệ thống tự động sinh Mã HV dùng suốt khóa.</span>
+                                <button onclick="addStudent()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-blue-700 transition">Lưu Hồ Sơ</button>
                             </div>
                         </div>
-                        <div class="border-t xl:border-t-0 xl:border-l pl-0 xl:pl-6 pt-4 xl:pt-0">
-                            <h3 class="font-bold text-slate-800 text-lg mb-2">Import Excel</h3>
-                            <p class="text-xs text-slate-500 mb-4">Cột: name, cccd, phone, gender, dob, address, receivedate, course, startdate</p>
-                            <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="w-full text-sm mb-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700">
-                            <button onclick="importExcel()" class="w-full bg-emerald-600 text-white py-2.5 rounded-lg font-bold text-sm shadow hover:bg-emerald-700">Tải lên dữ liệu</button>
+                        <div class="border-t xl:border-t-0 xl:border-l border-slate-200 pl-0 xl:pl-6 pt-4 xl:pt-0 flex flex-col justify-center">
+                            <h3 class="font-black text-slate-800 text-lg mb-2">📊 Import Excel Hàng Loạt</h3>
+                            <p class="text-xs text-slate-500 mb-4 leading-relaxed">Cột: name, cccd, phone, gender, dob, address, receivedate, startdate</p>
+                            <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="w-full text-sm mb-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 file:font-bold cursor-pointer">
+                            <button onclick="importExcel()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-emerald-700 transition">Tải lên dữ liệu</button>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="overflow-x-auto w-full">
                             <table class="w-full text-left border-collapse min-w-[1200px] text-sm">
                                 <thead>
-                                    <tr class="bg-slate-100 text-slate-600 uppercase tracking-wider border-b">
-                                        <th class="p-4 w-1/4">Học viên & Định danh</th>
-                                        <th class="p-4">Hạng & GV Phân công</th>
-                                        <th class="p-4 text-center">Tiến độ Học / DAT</th>
-                                        <th class="p-4">Tài chính (Công nợ)</th>
-                                        <th class="p-4 text-center">In Phiếu Thu</th>
-                                        <th class="p-4 text-center">Hành động</th>
+                                    <tr class="bg-slate-50 text-slate-600 uppercase tracking-wider border-b-2 border-slate-200 text-xs">
+                                        <th class="p-5 w-1/4 font-black">Học viên & Định danh</th>
+                                        <th class="p-5 font-black">Khóa & Hình thức</th>
+                                        <th class="p-5 text-center font-black">Tiến độ Học</th>
+                                        <th class="p-5 font-black">Thu Học Phí (Vào)</th>
+                                        <th class="p-5 font-black">Chi Giải Ngân (Ra)</th>
+                                        <th class="p-5 text-center font-black">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody id="adminStudentTableBody" class="divide-y divide-slate-100"></tbody>
@@ -147,46 +212,49 @@
 
                 <!-- 2.2 TAB NHÂN SỰ VÀ PHƯƠNG TIỆN -->
                 <div id="adminTeacherSection" class="hidden space-y-6">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Quản lý Giáo viên -->
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <h3 class="font-bold text-slate-800 text-xl border-b pb-2 mb-4">Thêm Giáo Viên</h3>
-                            <div class="grid grid-cols-2 gap-4 text-sm mb-4">
-                                <input type="text" id="newTeacherName" placeholder="Tên giáo viên *" class="border p-3 rounded-lg bg-slate-50 font-bold">
-                                <input type="text" id="newTeacherPhone" placeholder="SĐT" class="border p-3 rounded-lg bg-slate-50">
-                                <input type="date" id="newTeacherLicenseExp" title="Hạn GPLX" class="border p-3 rounded-lg bg-slate-50">
-                                <input type="date" id="newTeacherCertExp" title="Hạn Chứng chỉ Sư phạm" class="border p-3 rounded-lg bg-slate-50">
-                                <input type="text" id="newTeacherCarPlate" placeholder="Biển số xe tập (VD: 64A-123.45)" class="border p-3 rounded-lg bg-slate-50 col-span-2 font-bold text-blue-700 uppercase">
-                                <input type="date" id="newTeacherCarExp" title="Hạn kiểm định xe" class="border p-3 rounded-lg bg-slate-50 col-span-2">
-                            </div>
-                            <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-4">
-                                <span class="block text-xs font-bold text-indigo-800 mb-2 uppercase">Cấp Quyền Dạy & Định Mức (HV/Ngày)</span>
-                                <div class="flex gap-4 text-sm">
-                                    <label class="flex items-center gap-1"><input type="checkbox" id="authTheory" checked> Lý thuyết (<input type="number" id="quotaTheory" value="10" class="w-12 border rounded px-1">) </label>
-                                    <label class="flex items-center gap-1"><input type="checkbox" id="authSahinh" checked> Sa hình (<input type="number" id="quotaSahinh" value="5" class="w-12 border rounded px-1">)</label>
-                                    <label class="flex items-center gap-1"><input type="checkbox" id="authDAT" checked> DAT (<input type="number" id="quotaDAT" value="2" class="w-12 border rounded px-1">)</label>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3 mb-4">👨‍🏫 Thêm Giáo Viên Mới</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm mb-4">
+                                <input type="text" id="newTeacherName" placeholder="Tên giáo viên *" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 font-bold focus:border-indigo-500 outline-none">
+                                <input type="text" id="newTeacherPhone" placeholder="SĐT liên hệ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-indigo-500 outline-none">
+                                <select id="newTeacherGender" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-indigo-500 outline-none"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
+                                
+                                <div class="col-span-1 sm:col-span-2 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-4 mt-2">
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn GPLX</label><input type="date" id="newTeacherLicenseExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn Chứng chỉ SP</label><input type="date" id="newTeacherCertExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Biển số xe tập</label><input type="text" id="newTeacherCarPlate" placeholder="VD: 64A-123.45" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold text-blue-700 uppercase focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn KĐ Xe</label><input type="date" id="newTeacherCarExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
                                 </div>
                             </div>
-                            <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3 rounded-lg font-bold text-sm shadow hover:bg-indigo-700">Lưu Hồ Sơ Nhân Sự</button>
+                            
+                            <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-4">
+                                <span class="block text-xs font-black text-indigo-800 mb-3 uppercase">Cấp Quyền Dạy Tổng Quát & Định Mức (HV/Ngày)</span>
+                                <div class="flex flex-wrap gap-4 text-sm font-bold text-slate-700">
+                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authTheory" checked class="w-5 h-5 accent-indigo-600"> Lý thuyết <input type="number" id="quotaTheory" value="10" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
+                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authSahinh" checked class="w-5 h-5 accent-indigo-600"> Sa hình <input type="number" id="quotaSahinh" value="5" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
+                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authDAT" checked class="w-5 h-5 accent-indigo-600"> DAT <input type="number" id="quotaDAT" value="2" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
+                                </div>
+                            </div>
+                            <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3.5 rounded-xl font-black text-sm shadow-lg hover:bg-indigo-700 transition">LƯU HỒ SƠ & CẤP MÃ GIÁO VIÊN</button>
                         </div>
 
-                        <!-- Cảnh báo rủi ro -->
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <h3 class="font-bold text-slate-800 text-xl border-b pb-2 mb-4 text-red-600">🛡️ Cảnh Báo Kiểm Định & Pháp Lý</h3>
-                            <div id="riskAlertContainer" class="space-y-2 text-sm overflow-y-auto max-h-[300px] pr-2"></div>
+                        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col">
+                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3 mb-4 text-red-600 flex items-center gap-2"><span>🛡️</span> Cảnh Báo Pháp Lý</h3>
+                            <div id="riskAlertContainer" class="space-y-3 text-sm overflow-y-auto flex-1 pr-2"></div>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                         <div class="overflow-x-auto w-full">
                             <table class="w-full text-left border-collapse min-w-[1200px] text-sm">
                                 <thead>
-                                    <tr class="bg-slate-100 text-slate-600 uppercase tracking-wider border-b">
-                                        <th class="p-4 w-1/4">Giáo viên & Phương tiện</th>
-                                        <th class="p-4">Quyền & Phụ trách</th>
-                                        <th class="p-4">Chi tiết Lương Thực Tế</th>
-                                        <th class="p-4 text-right">Tổng Lương & Khấu trừ</th>
-                                        <th class="p-4 text-center">Thao tác</th>
+                                    <tr class="bg-slate-100 text-slate-600 uppercase tracking-wider border-b-2 border-slate-200 text-xs">
+                                        <th class="p-5 w-1/4 font-black">Giáo viên & Phương tiện</th>
+                                        <th class="p-5 font-black">Quyền & Phụ trách</th>
+                                        <th class="p-5 font-black">Chi tiết Lương Thực Tế</th>
+                                        <th class="p-5 text-right font-black">Tổng Lương & Khấu trừ</th>
+                                        <th class="p-5 text-center font-black">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody id="adminTeacherTableBody" class="divide-y divide-slate-100"></tbody>
@@ -195,114 +263,110 @@
                     </div>
                 </div>
 
-                <!-- 2.3 TAB KẾ TOÁN (BÁO CÁO P&L & THỐNG KÊ THÁNG) -->
+                <!-- 2.3 TAB KẾ TOÁN (BÁO CÁO P&L) -->
                 <div id="adminFinanceSection" class="hidden space-y-6">
-                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 space-y-8">
-                        <div>
-                            <h2 class="text-2xl font-black text-slate-900 border-b-2 border-blue-600 pb-2 inline-block mb-6">Báo Cáo Kết Quả Kinh Doanh (P&L)</h2>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div class="bg-blue-50 p-6 rounded-2xl border border-blue-200">
-                                    <span class="text-sm text-blue-600 font-bold uppercase block mb-1">Tổng Doanh Thu</span>
-                                    <strong class="text-blue-900 text-4xl font-black" id="finTotalRevenue">0đ</strong>
-                                </div>
-                                <div class="bg-red-50 p-6 rounded-2xl border border-red-200">
-                                    <span class="text-sm text-red-600 font-bold uppercase block mb-1">Tổng Chi Phí (COGS + OPEX + Lương)</span>
-                                    <strong class="text-red-700 text-4xl font-black" id="finTotalAllCost">0đ</strong>
-                                    <div class="mt-4 space-y-1 text-sm text-red-800">
-                                        <div class="flex justify-between border-b border-red-200 pb-1"><span>Quỹ lương GV:</span><strong id="finTotalTeacherBonus">0đ</strong></div>
-                                        <div class="flex justify-between border-b border-red-200 pb-1"><span>Lệ phí + Khám SK:</span><strong id="finTotalVariableCost">0đ</strong></div>
-                                        <div class="flex justify-between pb-1"><span>Vận hành (Mặt bằng...):</span><strong id="finTotalFixedCost">0đ</strong></div>
-                                    </div>
-                                </div>
-                                <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-300">
-                                    <span class="text-sm text-emerald-700 font-bold uppercase block mb-1">Lợi Nhuận Ròng (Net Profit)</span>
-                                    <strong class="text-emerald-700 text-4xl lg:text-5xl font-black block" id="finNetProfit">0đ</strong>
-                                    <span class="inline-block mt-3 bg-emerald-200 text-emerald-800 px-3 py-1 rounded-lg text-sm font-bold">Biên lợi nhuận: <span id="finMargin">0%</span></span>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                        <h2 class="text-3xl font-black text-slate-900 border-b-4 border-blue-600 pb-3 inline-block mb-8">📈 Báo Cáo Kết Quả Kinh Doanh & Dòng Tiền (P&L)</h2>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="bg-blue-50 p-6 md:p-8 rounded-3xl border border-blue-200 flex flex-col justify-center shadow-inner">
+                                <span class="text-sm text-blue-600 font-bold uppercase tracking-widest block mb-2">1. Tổng Doanh Thu Thực Thu (Vào)</span>
+                                <strong class="text-blue-900 text-4xl md:text-5xl font-black" id="finTotalRevenue">0đ</strong>
+                                <p class="text-xs text-blue-600 mt-2">Tổng các khoản học phí trọn gói & học lẻ đã thu</p>
+                            </div>
+                            
+                            <div class="bg-red-50 p-6 md:p-8 rounded-3xl border border-red-200 shadow-inner">
+                                <span class="text-sm text-red-600 font-bold uppercase tracking-widest block mb-2">2. Tổng Chi Phí Giải Ngân & Vận Hành (Ra)</span>
+                                <strong class="text-red-700 text-4xl font-black block mb-4" id="finTotalAllCost">0đ</strong>
+                                <div class="space-y-2 text-sm text-red-800 font-medium">
+                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Nộp Trung Tâm (Khai giảng):</span><strong id="finCenterCost">0đ</strong></div>
+                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Quỹ Lương & Thưởng GV:</span><strong id="finTotalTeacherBonus">0đ</strong></div>
+                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Xe cảm ứng + Thi TN + Sát hạch:</span><strong id="finOutflowCost">0đ</strong></div>
+                                    <div class="flex justify-between pb-1"><span>Chi phí Cố định (Mặt bằng, MKT...):</span><strong id="finTotalFixedCost">0đ</strong></div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- BẢNG LIỆT KÊ CHI TIẾT THEO THÁNG -->
-                        <div class="border-t pt-6">
-                            <h3 class="text-xl font-black text-slate-800 mb-4">📅 Bảng Chi Tiết Tài Chính & Học Viên Theo Tháng</h3>
-                            <div class="overflow-x-auto border rounded-xl">
-                                <table class="w-full text-left border-collapse text-sm min-w-[700px]">
-                                    <thead>
-                                        <tr class="bg-slate-100 border-b text-slate-700">
-                                            <th class="p-4">Tháng (MM/YYYY)</th>
-                                            <th class="p-4 text-center">Số lượng học viên</th>
-                                            <th class="p-4 text-right">Doanh thu thực thu</th>
-                                            <th class="p-4 text-right">Tổng chi phí phân bổ</th>
-                                            <th class="p-4 text-right">Lợi nhuận ròng</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="monthlyReportTableBody" class="divide-y"></tbody>
-                                </table>
+                            <div class="bg-emerald-50 p-6 md:p-8 rounded-3xl border border-emerald-300 shadow-lg flex flex-col justify-center">
+                                <span class="text-sm text-emerald-700 font-bold uppercase tracking-widest block mb-2">3. Lợi Nhuận Ròng (Net Profit)</span>
+                                <strong class="text-emerald-700 text-5xl lg:text-6xl font-black block" id="finNetProfit">0đ</strong>
+                                <div class="mt-4"><span class="bg-emerald-200 text-emerald-800 px-3 py-1.5 rounded-lg text-sm font-black">Biên lợi nhuận ròng: <span id="finMargin">0%</span></span></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2.4 TAB CẤU HÌNH DOANH NGHIỆP -->
+                <!-- 2.4 TAB CẤU HÌNH DOANH NGHIỆP TÙY BIẾN -->
                 <div id="adminSettingsSection" class="hidden space-y-6">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Quản lý Khóa học -->
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <h3 class="font-bold text-slate-800 text-lg border-b pb-2 mb-4">Cấu Hình Khóa Học & Bảng Giá</h3>
-                            <div class="space-y-3 text-sm">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 flex flex-col">
+                            <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-6">⚙️ Cấu Hình Hạng Lái Xe & Học Phí</h3>
+                            <div class="space-y-4 text-sm bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-6">
                                 <input type="hidden" id="cfgCourseId" value="">
-                                <input type="text" id="cfgCourseName" placeholder="Tên Hạng (VD: B1, C)..." class="border p-3 rounded-lg w-full font-bold">
-                                <input type="number" id="cfgCoursePrice" placeholder="Học phí trọn gói (VNĐ)" class="border p-3 rounded-lg w-full font-bold text-blue-600">
-                                <textarea id="cfgCourseDesc" rows="2" placeholder="Mô tả tóm tắt..." class="border p-3 rounded-lg w-full"></textarea>
-                                <textarea id="cfgCourseBenefits" rows="2" placeholder="Quyền lợi (Mỗi dòng 1 ý)" class="border p-3 rounded-lg w-full"></textarea>
-                                <button id="btnSaveCourse" onclick="saveSysCourse()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold shadow hover:bg-blue-700">Thêm / Cập Nhật Khóa Học</button>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <input type="text" id="cfgCourseName" placeholder="Tên Hạng (VD: B1, B2, C)..." class="border-2 p-3 rounded-xl w-full font-bold focus:border-blue-500 outline-none">
+                                    <input type="number" id="cfgCoursePrice" placeholder="Học phí trọn gói (VNĐ)" class="border-2 p-3 rounded-xl w-full font-black text-blue-600 focus:border-blue-500 outline-none">
+                                </div>
+                                <textarea id="cfgCourseDesc" rows="2" placeholder="Mô tả khóa học..." class="border-2 p-3 rounded-xl w-full focus:border-blue-500 outline-none"></textarea>
+                                <textarea id="cfgCourseBenefits" rows="2" placeholder="Quyền lợi học viên (Mỗi dòng 1 ý)..." class="border-2 p-3 rounded-xl w-full focus:border-blue-500 outline-none"></textarea>
+                                <div class="flex gap-3">
+                                    <button id="btnSaveCourse" onclick="saveSysCourse()" class="flex-1 bg-blue-600 text-white p-3 rounded-xl font-black shadow hover:bg-blue-700 transition">LƯU HẠNG ĐÀO TẠO</button>
+                                    <button onclick="resetCourseForm()" class="bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-400 transition">Hủy</button>
+                                </div>
                             </div>
-                            <div class="mt-4 max-h-[300px] overflow-y-auto">
+                            <div class="flex-1 overflow-y-auto max-h-[350px] border rounded-2xl">
                                 <table class="w-full text-left text-sm border-collapse">
-                                    <tbody id="sysCoursesTableBody" class="divide-y"></tbody>
+                                    <thead>
+                                        <tr class="bg-slate-100 text-slate-600 font-bold sticky top-0"><th class="p-3">Hạng & Giá</th><th class="p-3 w-1/2">Mô tả</th><th class="p-3 text-center">Sửa/Xóa</th></tr>
+                                    </thead>
+                                    <tbody id="sysCoursesTableBody" class="divide-y divide-slate-200"></tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <!-- Quản lý Chi phí Kế toán -->
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
-                            <h3 class="font-bold text-slate-800 text-lg border-b pb-2 mb-4">Cấu Hình Đơn Giá Kế Toán</h3>
+                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                            <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-2">💰 Cấu Hình Chi Phí Vận Hành & Giải Ngân</h3>
                             
-                            <div class="bg-slate-50 p-4 rounded-xl border space-y-2 text-sm">
-                                <strong class="text-indigo-700 block mb-2">Đơn giá trả Lương GV</strong>
-                                <div class="flex justify-between items-center"><span>Lý thuyết (VNĐ/1 HV)</span> <input type="number" id="cfgBonusTheory" class="border p-1.5 rounded w-24 text-right font-bold"></div>
-                                <div class="flex justify-between items-center"><span>Sa hình (VNĐ/1 Buổi)</span> <input type="number" id="cfgBonusSahinh" class="border p-1.5 rounded w-24 text-right font-bold"></div>
-                                <div class="flex justify-between items-center"><span>DAT (VNĐ/1 Km)</span> <input type="number" id="cfgBonusDat" class="border p-1.5 rounded w-24 text-right font-bold"></div>
-                                <div class="flex justify-between items-center"><span>Thưởng nhận HV mới</span> <input type="number" id="cfgBonusReceive" class="border p-1.5 rounded w-24 text-right font-bold"></div>
+                            <div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 space-y-3 text-sm">
+                                <strong class="text-indigo-800 block mb-2 font-black uppercase text-xs">A. Đơn giá Lương / Thưởng Giáo viên</strong>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Lý thuyết (VNĐ/1 HV)</span> <input type="number" id="cfgBonusTheory" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Sa hình (VNĐ/1 Buổi)</span> <input type="number" id="cfgBonusSahinh" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">DAT (VNĐ/1 Km)</span> <input type="number" id="cfgBonusDat" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Thưởng nhận HV mới</span> <input type="number" id="cfgBonusReceive" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
                             </div>
 
-                            <div class="bg-red-50 p-4 rounded-xl border border-red-100 space-y-2 text-sm">
-                                <strong class="text-red-700 block mb-2">Chi phí Cứng Doanh Nghiệp</strong>
-                                <div class="flex justify-between items-center"><span>Lệ phí thi GTVT/HV</span> <input type="number" id="cfgCostExam" class="border p-1.5 rounded w-24 text-right font-bold"></div>
-                                <div class="flex justify-between items-center"><span>Khám SK/HV</span> <input type="number" id="cfgCostHealth" class="border p-1.5 rounded w-24 text-right font-bold"></div>
-                                <div class="flex justify-between items-center"><span>Thuê Sân bãi (Tháng)</span> <input type="number" id="cfgCostRent" class="border p-1.5 rounded w-32 text-right font-bold"></div>
-                                <div class="flex justify-between items-center"><span>Marketing (Tháng)</span> <input type="number" id="cfgCostMarketing" class="border p-1.5 rounded w-32 text-right font-bold"></div>
+                            <div class="bg-red-50 p-5 rounded-2xl border border-red-100 space-y-3 text-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <strong class="text-red-800 font-black uppercase text-xs">B. Chi phí Giải Ngân Đào Tạo Mặc Định / 1 Học viên</strong>
+                                    <button onclick="addCostRow('outflowDefaults')" class="bg-red-200 hover:bg-red-300 text-red-800 px-3 py-1 rounded font-bold text-xs">+ Thêm mục</button>
+                                </div>
+                                <div id="outflowDefaultsContainer" class="space-y-2"></div>
+
+                                <div class="flex justify-between items-center mt-6 mb-2 border-t border-red-200/50 pt-4">
+                                    <strong class="text-amber-800 font-black uppercase text-xs">C. Chi phí Cố định (OPEX) / Tháng</strong>
+                                    <button onclick="addCostRow('opex')" class="bg-amber-200 hover:bg-amber-300 text-amber-800 px-3 py-1 rounded font-bold text-xs">+ Thêm mục</button>
+                                </div>
+                                <div id="opexContainer" class="space-y-2"></div>
                             </div>
-                            <button onclick="saveSysFinancials()" class="w-full bg-emerald-600 text-white p-3 rounded-lg font-bold shadow hover:bg-emerald-700">Lưu Cấu Hình Tài Chính</button>
+
+                            <button onclick="saveSysFinancials()" class="w-full bg-emerald-600 text-white p-4 rounded-xl font-black text-lg shadow-lg hover:bg-emerald-700 transition">💾 LƯU TOÀN BỘ CẤU HÌNH TÀI CHÍNH</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- 2.5 TAB NHẬT KÝ KIỂM TOÁN (AUDIT LOGS) -->
                 <div id="adminAuditSection" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                        <div class="flex justify-between items-center border-b pb-4 mb-4">
-                            <h2 class="text-xl font-black text-red-600">🛡️ Báo Cáo Kiểm Toán & Nhật Ký Hệ Thống</h2>
-                            <button onclick="clearAuditLogs()" class="bg-red-100 text-red-700 px-3 py-1.5 rounded text-sm font-bold hover:bg-red-200">Xóa Nhật Ký</button>
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                        <div class="flex justify-between items-center border-b-2 border-slate-100 pb-4 mb-6">
+                            <h2 class="text-2xl font-black text-red-600">🛡️ Báo Cáo Kiểm Toán & Nhật Ký Hệ Thống</h2>
+                            <button onclick="clearAuditLogs()" class="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-200 transition">Xóa Nhật Ký</button>
                         </div>
-                        <div class="overflow-x-auto w-full max-h-[600px] overflow-y-auto">
-                            <table class="w-full text-left text-sm border-collapse min-w-[800px]">
+                        <div class="overflow-x-auto w-full max-h-[600px] overflow-y-auto border rounded-xl">
+                            <table class="w-full text-left text-sm border-collapse">
                                 <thead>
-                                    <tr class="bg-slate-100 text-slate-600 uppercase tracking-wider sticky top-0">
-                                        <th class="p-3">Thời gian</th>
-                                        <th class="p-3">Người dùng (Role)</th>
-                                        <th class="p-3">Hành động</th>
-                                        <th class="p-3">Chi tiết</th>
+                                    <tr class="bg-slate-100 text-slate-600 uppercase tracking-wider sticky top-0 font-bold text-xs">
+                                        <th class="p-4 border-b">Thời gian</th>
+                                        <th class="p-4 border-b">Người dùng (Role)</th>
+                                        <th class="p-4 border-b">Hành động</th>
+                                        <th class="p-4 border-b">Chi tiết</th>
                                     </tr>
                                 </thead>
                                 <tbody id="auditTableBody" class="divide-y font-mono text-xs"></tbody>
@@ -315,96 +379,84 @@
         </div>
     </div>
 
-    <!-- MODAL "KHOAN SÂU" HỒ SƠ HỌC VIÊN -->
+    <!-- MODAL THANH TOÁN QR CỦA ADMIN -->
+    <div id="adminPaymentModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center space-y-5 shadow-2xl relative">
+            <h2 class="text-2xl font-black text-slate-900 border-b pb-2">Thu Tiền Học Phí (QR)</h2>
+            <p class="text-sm text-slate-600">Học viên: <span id="adminPayStudentName" class="font-bold text-slate-900"></span></p>
+            <p class="text-sm text-slate-600">Nội dung: <span id="adminPayFeeTitle" class="font-bold text-blue-600">--</span></p>
+            <strong id="adminPayAmount" class="text-3xl text-blue-600 block"></strong>
+            <img id="adminPayQrCode" src="" alt="Mã QR" class="w-64 h-64 object-contain mx-auto border-4 border-blue-100 border-dashed rounded-2xl p-2 bg-slate-50">
+            <p class="text-xs text-emerald-700 bg-emerald-50 p-3 rounded text-left border font-medium">✔️ Yêu cầu học viên quét mã QR trên để thanh toán không tiền mặt. Sau khi nhận được tiền, hãy nhấn "Xác Nhận Đã Thu Tiền".</p>
+            <div class="flex gap-3 mt-4">
+                <button onclick="closeAdminPaymentModal()" class="flex-1 bg-slate-200 text-slate-800 p-3 rounded-lg font-bold text-sm hover:bg-slate-300">Đóng</button>
+                <button onclick="confirmAdminPayment()" class="flex-1 bg-emerald-600 text-white p-3 rounded-lg font-bold text-sm hover:bg-emerald-700 shadow-lg">Xác Nhận Đã Thu Tiền</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FOLDER HỌC VIÊN -->
     <div id="studentModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6 relative">
-            <button onclick="closeStudentModal()" class="absolute top-4 right-4 bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition">✖ Đóng</button>
-            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 shadow-lg">
-                <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase" id="modalCourseBadge">--</span>
-                <h1 class="text-3xl font-black mt-3" id="modalNameDisplay">--</h1>
-                <p class="text-sm text-indigo-200 font-mono mt-1">CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="modalPhoneDisplay" class="font-bold text-emerald-300">--</span></p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-blue-50 p-5 rounded-2xl border border-blue-200 shadow-sm">
-                    <h3 class="font-black text-blue-900 border-b pb-2 mb-3">💳 Trạng thái Học phí</h3>
-                    <div class="space-y-2 text-sm mb-4">
-                        <div class="flex justify-between"><span>Tổng học phí:</span><strong id="modalTotalPrice">0đ</strong></div>
-                        <div class="flex justify-between"><span>Đã thanh toán:</span><strong class="text-emerald-600" id="modalPaidPrice">0đ</strong></div>
-                        <div class="flex justify-between"><span>Còn nợ:</span><strong class="text-red-600" id="modalRemainingPrice">0đ</strong></div>
-                    </div>
-                    <div id="modalFeeContainer" class="space-y-2 border-t pt-3"></div>
-                </div>
-
-                <div class="bg-slate-50 p-5 rounded-2xl border shadow-sm">
-                    <h3 class="font-black text-slate-800 border-b pb-2 mb-3">📚 Điều Khiển Lộ Trình Học</h3>
-                    <div id="modalStepsContainer" class="space-y-2 text-sm"></div>
-                </div>
-            </div>
-
-            <div class="bg-slate-50 p-5 rounded-2xl border shadow-sm">
-                <h3 class="font-black text-slate-800 border-b pb-2 mb-3">📝 Ghi Chú Chăm Sóc</h3>
-                <textarea id="modalCrmNoteInput" rows="2" class="w-full border p-2 rounded text-sm outline-none mb-2" placeholder="Thêm ghi chú..."></textarea>
-                <button onclick="addModalCrmNote()" class="bg-indigo-600 text-white px-4 py-2 rounded text-xs font-bold shadow">Lưu ghi chú</button>
-                <div id="modalCrmNotesList" class="mt-3 space-y-2 max-h-[120px] overflow-y-auto"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL PROFILE CHI TIẾT GIÁO VIÊN -->
-    <div id="adminTeacherProfileModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-6 flex justify-between items-start text-white shrink-0">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-10 space-y-6 md:space-y-8 relative">
+            <button onclick="closeStudentModal()" class="absolute top-4 right-4 md:top-6 md:right-6 bg-white hover:bg-gray-100 text-slate-700 font-bold px-4 py-2 md:px-6 md:py-3 rounded-xl text-sm md:text-lg shadow-md transition z-10">✖ Đóng</button>
+            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-3xl p-6 md:p-10 shadow-lg relative overflow-hidden space-y-4">
                 <div>
-                    <h2 class="text-2xl font-black mb-1" id="apTName">--</h2>
-                    <p class="text-slate-300 font-mono text-sm">Mã: <span id="apTCode" class="text-white font-bold">--</span> | SĐT: <span id="apTPhone" class="text-emerald-300 font-bold">--</span></p>
+                    <span class="bg-white/20 text-white text-xs md:text-base font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full uppercase tracking-wider" id="modalCourseBadge">Hạng B</span>
+                    <h1 class="text-3xl md:text-5xl font-black mt-4" id="modalNameDisplay">--</h1>
+                    <p class="text-base md:text-xl text-indigo-200 font-mono mt-2">Mã HV: <span id="modalStudentCodeDisplay" class="font-bold text-white tracking-wider">--</span> | CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | Hình thức: <span id="modalPayTypeDisplay" class="font-bold text-amber-300">--</span></p>
                 </div>
-                <button onclick="closeAdminTeacherProfile()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg font-bold text-sm transition">✖ Đóng</button>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 bg-white/10 backdrop-blur p-5 md:p-6 rounded-2xl border border-white/20 text-base md:text-lg mt-6">
+                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Tổng học phí thu:</span><strong class="text-white text-2xl md:text-3xl" id="modalTotalPrice">--</strong></div>
+                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Đã thanh toán:</span><strong class="text-emerald-300 text-2xl md:text-3xl" id="modalPaidPrice">--</strong></div>
+                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Còn lại phải đóng:</span><strong class="text-red-300 text-2xl md:text-3xl" id="modalRemainingPrice">--</strong></div>
+                </div>
             </div>
-            <div class="p-6 overflow-y-auto space-y-6 bg-slate-50 flex-1">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-5 rounded-2xl border shadow-sm">
-                        <h4 class="font-black text-slate-800 border-b pb-2 mb-3">🚗 Phương tiện & Pháp lý</h4>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between"><span class="text-slate-500">Biển số xe tập:</span><strong class="text-blue-600 font-bold uppercase" id="apTCarPlate">--</strong></div>
-                            <div class="flex justify-between"><span class="text-slate-500">Hạn KĐ Xe:</span><strong id="apTCarExp">--</strong></div>
-                            <div class="flex justify-between"><span class="text-slate-500">Hạn GPLX:</span><strong id="apTLicenseExp">--</strong></div>
-                            <div class="flex justify-between"><span class="text-slate-500">Hạn CC Sư phạm:</span><strong id="apTCertExp">--</strong></div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-emerald-50 rounded-2xl border border-emerald-200 p-5 shadow-sm flex flex-col">
-                        <div class="flex justify-between items-center border-b border-emerald-200 pb-2 mb-3">
-                            <h4 class="font-black text-emerald-800 text-sm">💸 Điều Chỉnh Lương / Phụ Cấp</h4>
-                            <button onclick="addTeacherCustomIncome()" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs font-bold hover:bg-emerald-700">+ Thêm khoản</button>
-                        </div>
-                        <div id="apTCustomIncomes" class="space-y-2 overflow-y-auto max-h-[120px]"></div>
-                    </div>
-                </div>
 
-                <div class="bg-white rounded-2xl border shadow-sm overflow-hidden flex flex-col">
-                    <div class="flex justify-between items-center p-4 border-b bg-slate-50">
-                        <h4 class="font-black text-slate-800 text-sm">📋 Lịch Sử Dạy Học (Đã Hoàn Thành)</h4>
-                        <span class="text-xs text-slate-500 italic">Có thể bấm Hủy công nếu điểm danh sai</span>
+            <!-- Giải ngân -->
+            <div class="bg-red-50 rounded-3xl p-6 md:p-8 border-2 border-red-200">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="text-xl font-black text-red-900">💸 Tiến Độ Giải Ngân Chi Phí</h3>
+                        <p class="text-xs text-slate-600">Admin theo dõi nộp tiền trung tâm, xe chip, lệ phí thi.</p>
                     </div>
-                    <div class="max-h-[300px] overflow-y-auto">
-                        <table class="w-full text-left text-sm border-collapse">
-                            <thead class="bg-slate-100 text-xs uppercase text-slate-500 sticky top-0"><tr class="border-b"><th class="p-3">Ngày</th><th class="p-3">Học viên</th><th class="p-3">Hạng mục</th><th class="p-3 text-right">Chi tiết</th><th class="p-3 text-center">Hủy Công</th></tr></thead>
-                            <tbody id="apTLogsBody" class="divide-y"></tbody>
-                        </table>
-                    </div>
+                    <button onclick="addStudentOutflowItem()" class="bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow hover:bg-red-700">+ Khoản chi riêng</button>
                 </div>
+                <div id="modalOutflowContainer" class="space-y-3"></div>
+            </div>
+
+            <!-- Giao việc -->
+            <div class="bg-indigo-50 rounded-3xl p-6 md:p-8 border-2 border-indigo-200">
+                <h3 class="text-xl font-black text-indigo-900 mb-2">🎯 Phân Công Giảng Dạy</h3>
+                <div class="flex flex-wrap gap-4 text-sm font-bold text-slate-700 bg-white p-4 rounded-2xl border shadow-sm">
+                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="modalAssignTheory" class="w-6 h-6 accent-indigo-600" onchange="updateAssignedModules()"> Dạy Lý thuyết</label>
+                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="modalAssignSahinh" class="w-6 h-6 accent-indigo-600" onchange="updateAssignedModules()"> Dạy Sa hình</label>
+                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="modalAssignDat" class="w-6 h-6 accent-indigo-600" onchange="updateAssignedModules()"> Chạy DAT</label>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-3xl p-6 md:p-8 border-2">
+                <h3 class="text-xl md:text-2xl font-black text-slate-900 mb-4">📝 Ghi Chú Chăm Sóc</h3>
+                <div class="space-y-4">
+                    <textarea id="modalCrmNoteInput" rows="2" class="w-full border-2 p-4 rounded-xl text-base outline-none bg-white"></textarea>
+                    <button onclick="addModalCrmNote()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl text-base font-bold shadow hover:bg-indigo-700">Lưu Ghi Chú</button>
+                    <div id="modalCrmNotesList" class="mt-4 space-y-3 text-sm"></div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-3xl p-6 md:p-8 border-2">
+                <h3 class="text-2xl font-black text-slate-900 mb-6">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
+                <div id="modalStepsContainer" class="space-y-4"></div>
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT XỬ LÝ ERP -->
+    <!-- JAVASCRIPT XỬ LÝ LÕI -->
     <script>
         const STEPS = ["1. Học lý thuyết (25 ngày)", "2. Học lái xe trong sân thô (2 ngày)", "3. Học online hệ thống (25 ngày)", "4. Chạy DAT đường trường (4 ngày)", "5. Tập sa hình (2 ngày)", "6. Thi tốt nghiệp (2 ngày)", "7. Thi sát hạch (1 ngày)"];
-        const STORAGE_KEY_STUDENTS = 'driving_erp_students_admin_v4.1';
-        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_admin_v4.1';
-        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_admin_v4.1';
-        const STORAGE_KEY_AUDIT = 'driving_erp_audit_admin_v4.1';
+        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v12';
+        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v12';
+        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v12';
+        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v12';
 
         let auditLogs = JSON.parse(localStorage.getItem(STORAGE_KEY_AUDIT)) || [];
         function logAudit(user, action, detail) {
@@ -418,12 +470,16 @@
         if (!sysSettings) {
             sysSettings = {
                 courses: [
-                    { id: 'c1', name: 'Hạng B (Số tự động)', price: 19500000, desc: 'Khóa B1 chuẩn', benefits: '- Thực hành 1 kèm 1' },
-                    { id: 'c2', name: 'Hạng B (Cơ khí)', price: 19500000, desc: 'Khóa B2 chuẩn', benefits: '- Thực hành 1 kèm 1' },
-                    { id: 'c3', name: 'Hạng C', price: 21500000, desc: 'Khóa C tải', benefits: '- Thực hành xe tải thật' }
+                    { id: 'c1', name: 'Hạng B (Số tự động)', price: 19500000, desc: 'Khóa B1 chuẩn', benefits: 'Học 1 kèm 1' },
+                    { id: 'c2', name: 'Hạng B (Cơ khí)', price: 19500000, desc: 'Khóa B2 chuẩn', benefits: 'Học 1 kèm 1' },
+                    { id: 'c3', name: 'Hạng C', price: 21500000, desc: 'Khóa C tải', benefits: 'Xe tải thật' }
                 ],
                 bonuses: { theory: 300000, sahinh: 80000, dat: 1500, receive: 1500000 },
-                costs: { exam: 600000, health: 300000, rent: 15000000, marketing: 5000000 }
+                outflowDefaults: [
+                    { id: 'center', name: 'Nộp Trung tâm', amount: 8000000 },
+                    { id: 'exam', name: 'Lệ phí thi Sát hạch', amount: 680000 }
+                ],
+                opex: [{ id: 'opex1', name: 'Mặt bằng & Bãi tập', amount: 15000000 }]
             };
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
         }
@@ -438,19 +494,33 @@
         let students = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS)) || [];
         if (students.length === 0 || !students.some(s => s.cccd === '12345')) {
             students = students.filter(s => s.cccd !== '12345');
-            students.push({ id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', receiveDate: '2026-01-10', pass: '123', course: 'Hạng B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', stepIndex: 1, totalPrice: 19500000, isStudent: false, avatar: '', fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị', teachingLogs: [], testScore: null, teacherFeedback: '' });
+            students.push({ 
+                id: 1, code: 'HV2608001', name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', 
+                receiveDate: '2026-01-10', pass: '123', startDate: '2026-03-01', stepIndex: 1, course: 'Hạng B (Số tự động)',
+                enrolledServices: ['Hạng B (Số tự động)'], totalPrice: 19500000, paymentType: 'package',
+                fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', notes: [], gps: 'Chưa định vị', testScore: null, teacherFeedback: '',
+                assignedModules: { theory: true, sahinh: true, dat: true },
+                outflows: JSON.parse(JSON.stringify(sysSettings.outflowDefaults)).map(o => ({...o, paid: false, date: ''}))
+            });
             localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
         }
 
-        teachers = teachers.map(t => { if(!t.customIncomes) t.customIncomes = []; return t; });
+        students = students.map(s => {
+            if(!s.code) s.code = 'HV' + String(s.id).slice(-5);
+            if(!s.enrolledServices) s.enrolledServices = [s.course];
+            if(!s.outflows) s.outflows = JSON.parse(JSON.stringify(sysSettings.outflowDefaults)).map(o => ({...o, paid: false, date: ''}));
+            if(!s.assignedModules) s.assignedModules = { theory: true, sahinh: true, dat: true };
+            return s;
+        });
         saveAndSync();
 
-        function resetSystemMemory() {
-            if(confirm("CẢNH BÁO: Xóa trắng dữ liệu bộ nhớ đệm và thiết lập lại từ đầu?")) {
-                localStorage.clear(); sessionStorage.clear(); location.reload();
-            }
-        }
+        function resetSystemMemory() { if(confirm("Xóa trắng bộ nhớ đệm và tải lại?")) { localStorage.clear(); sessionStorage.clear(); location.reload(); } }
         function saveAndSync() { localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students)); localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers)); }
+        function generateStudentCode() {
+            let d = new Date(); let prefix = 'HV' + String(d.getFullYear()).slice(-2) + String(d.getMonth()+1).padStart(2,'0');
+            let max = 0; students.forEach(s => { if(s.code && s.code.startsWith(prefix)) { let n = parseInt(s.code.replace(prefix,''))||0; if(n>max)max=n; } });
+            return prefix + String(max+1).padStart(3,'0');
+        }
 
         function toggleLoginInput() {
             const role = document.getElementById('loginRole').value;
@@ -467,7 +537,7 @@
                 sessionStorage.setItem('current_role', 'admin'); logAudit('Admin', 'Đăng nhập', 'Thành công');
                 document.getElementById('loginScreen').classList.add('hidden'); document.getElementById('adminDashboard').classList.remove('hidden'); switchAdminTab('student'); checkRisks(); 
             } else {
-                alert('Tài khoản Quản trị viên đang được tập trung quản lý độc quyền. Vui lòng chọn Quản trị viên để đăng nhập.');
+                alert('Vui lòng sử dụng tài khoản Quản trị viên (Admin) để quản lý toàn diện hệ thống.');
             }
         }
         function logout() { sessionStorage.clear(); location.reload(); }
@@ -509,8 +579,7 @@
         }
         function clearAuditLogs() { if(confirm('Xóa nhật ký?')) { auditLogs = []; localStorage.removeItem(STORAGE_KEY_AUDIT); renderAuditTab(); } }
 
-        // CẤU HÌNH KHÓA HỌC
-        let currentEditCourseId = null;
+        // CẤU HÌNH GIỎ HÀNG DỊCH VỤ
         function renderSettingsTab() {
             document.getElementById('sysCoursesTableBody').innerHTML = sysSettings.courses.map(c => `
                 <tr class="border-b">
@@ -528,6 +597,7 @@
             document.getElementById('cfgCostMarketing').value = sysSettings.costs.marketing;
         }
 
+        let currentEditCourseId = null;
         function resetCourseForm() {
             currentEditCourseId = null; ['Id','Name','Price','Desc','Benefits'].forEach(x => { if(document.getElementById('cfgCourse'+x)) document.getElementById('cfgCourse'+x).value = ''; });
             document.getElementById('btnSaveCourse').innerText = "Thêm / Cập Nhật Khóa Học"; document.getElementById('btnSaveCourse').className = "w-full bg-blue-600 text-white p-3 rounded-lg font-bold shadow hover:bg-blue-700";
@@ -548,18 +618,55 @@
             if (!name || !price) return alert("Nhập tên và giá!");
             if (currentEditCourseId) sysSettings.courses = sysSettings.courses.map(c => c.id === currentEditCourseId ? { ...c, name, price, desc, benefits } : c);
             else sysSettings.courses.push({ id: 'c' + Date.now(), name, price, desc, benefits });
-            localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings)); resetCourseForm(); renderSettingsTab(); updateCourseSelect();
+            localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings)); resetCourseForm(); renderSettingsTab(); updateServicesChecklist();
         }
-        function deleteSysCourse(id) { if(confirm("Xóa Khóa Học?")) { sysSettings.courses = sysSettings.courses.filter(c => c.id !== id); localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings)); renderSettingsTab(); updateCourseSelect(); } }
+        function deleteSysCourse(id) { if(confirm("Xóa Khóa Học?")) { sysSettings.courses = sysSettings.courses.filter(c => c.id !== id); localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings)); renderSettingsTab(); updateServicesChecklist(); } }
         function saveSysFinancials() {
             sysSettings.bonuses = { theory: Number(document.getElementById('cfgBonusTheory').value), sahinh: Number(document.getElementById('cfgBonusSahinh').value), dat: Number(document.getElementById('cfgBonusDat').value), receive: Number(document.getElementById('cfgBonusReceive').value) };
             sysSettings.costs = { exam: Number(document.getElementById('cfgCostExam').value), health: Number(document.getElementById('cfgCostHealth').value), rent: Number(document.getElementById('cfgCostRent').value), marketing: Number(document.getElementById('cfgCostMarketing').value) };
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings)); alert("Đã lưu Cấu hình Kế toán!");
         }
-        function updateCourseSelect() {
-            const sel = document.getElementById('addCourse'); if(!sel) return; sel.innerHTML = '';
-            sysSettings.courses.forEach(c => sel.innerHTML += `<option value="${c.name}">${c.name} (${Number(c.price).toLocaleString()}đ)</option>`);
+
+        // GIỎ HÀNG KHI TẠO HỌC VIÊN
+        function togglePaymentTypeUI() {
+            const pType = document.getElementById('addPaymentType').value;
+            const cartContainer = document.getElementById('packageCartContainer');
+            if(pType === 'package') {
+                cartContainer.style.display = 'block';
+                updateServicesChecklist();
+            } else {
+                cartContainer.style.display = 'none';
+                document.getElementById('addCartTotal').innerText = '0 VNĐ (Nhập học phí sau)';
+            }
         }
+
+        function updateServicesChecklist() {
+            const container = document.getElementById('addServicesChecklist');
+            if(!container) return;
+            container.innerHTML = sysSettings.courses.map(s => `
+                <label class="relative flex items-center justify-between p-3 border-2 rounded-xl cursor-pointer hover:bg-slate-50 transition bg-white">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" value="${s.id}" data-price="${s.price}" data-name="${s.name}" onchange="calculateCartTotal(this)" class="w-5 h-5 accent-blue-600">
+                        <span class="font-bold text-slate-800 text-sm">${s.name}</span>
+                    </div>
+                    <span class="text-blue-600 font-black text-sm">${Number(s.price).toLocaleString()}đ</span>
+                </label>
+            `).join('');
+            calculateCartTotal();
+        }
+
+        function calculateCartTotal(el) {
+            if(el && el.checked) el.parentElement.parentElement.classList.add('border-blue-500', 'bg-blue-50');
+            else if (el) el.parentElement.parentElement.classList.remove('border-blue-500', 'bg-blue-50');
+
+            const container = document.getElementById('addServicesChecklist');
+            if(!container) return;
+            let total = 0;
+            container.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => { total += Number(cb.getAttribute('data-price')); });
+            if (document.getElementById('addIsStudent').checked) total -= 1000000;
+            document.getElementById('addCartTotal').innerText = total.toLocaleString() + ' VNĐ';
+        }
+
         function updateTeacherSelect() {
             const sel = document.getElementById('addTeacher'); if(!sel) return; sel.innerHTML = '';
             teachers.forEach(t => sel.innerHTML += `<option value="${t.code}">${t.name} (${t.code})</option>`);
@@ -731,11 +838,30 @@
         function addStudent() {
             const name = document.getElementById('addName').value.trim(), cccd = document.getElementById('addCCCD').value.trim(), receiveDate = document.getElementById('addReceiveDate').value, startDate = document.getElementById('addStartDate').value;
             if (!name || !cccd || !startDate || !receiveDate) return alert('Điền đủ thông tin bắt buộc!');
-            const courseName = document.getElementById('addCourse').value, basePrice = coursePrices[courseName] || 19500000;
+            
+            const paymentType = document.getElementById('addPaymentType').value;
+            let enrolledServices = []; let basePrice = 0;
+            
+            if(paymentType === 'package') {
+                const checkboxes = document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]:checked');
+                checkboxes.forEach(cb => { enrolledServices.push(cb.getAttribute('data-name')); basePrice += Number(cb.getAttribute('data-price')); });
+                if(enrolledServices.length === 0) return alert('Phải chọn ít nhất 1 Gói Dịch Vụ ở Giỏ Hàng!');
+            } else {
+                enrolledServices = ['Học Lẻ / Từng Phần'];
+                basePrice = 10000000;
+            }
+
+            const code = generateStudentCode();
             let totalPrice = basePrice - (document.getElementById('addIsStudent').checked ? 1000000 : 0);
             
-            students.push({ id: Date.now(), name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value, address: document.getElementById('addAddress').value.trim(), receiveDate, pass: '123', startDate, course: courseName, teacherCode: document.getElementById('addTeacher').value, stepIndex: 0, totalPrice, isStudent: document.getElementById('addIsStudent').checked, avatar: '', fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' });
-            saveAndSync(); renderAdminStudentTable(); alert('Thêm học viên thành công! (Mật khẩu: 123)');
+            students.push({ 
+                id: Date.now(), code, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value, address: document.getElementById('addAddress').value.trim(), receiveDate, pass: '123', 
+                startDate, course: enrolledServices.join(', '), enrolledServices, stepIndex: 0, totalPrice, isStudent: document.getElementById('addIsStudent').checked, paymentType, avatar: '',
+                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị', 
+                teachingLogs: [], testScore: null, teacherFeedback: '', outflows: JSON.parse(JSON.stringify(sysSettings.outflowDefaults)).map(o => ({...o, paid: false, date: ''})),
+                assignedModules: { theory: true, sahinh: true, dat: true }
+            });
+            saveAndSync(); renderAdminStudentTable(); alert(`Tạo hồ sơ thành công!\nMã HV: ${code}\nMật khẩu: 123`);
         }
         function importExcel() { alert('Import Excel mẫu.'); }
         function deleteStudent(id) { students = students.filter(s => s.id !== id); saveAndSync(); renderAdminStudentTable(); }
@@ -780,7 +906,7 @@
             if (role === 'admin') {
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('adminDashboard').classList.remove('hidden');
-                switchAdminTab('student'); checkRisks(); updateCourseSelect(); updateTeacherSelect();
+                switchAdminTab('student'); checkRisks(); updateCourseSelect(); updateTeacherSelect(); updateServicesChecklist();
             }
         };
     </script>
