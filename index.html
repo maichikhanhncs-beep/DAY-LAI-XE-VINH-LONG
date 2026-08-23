@@ -653,136 +653,14 @@
             renderAdminTeacherTable();
         }
 
-        function printSalaryPDF(id) {
-            const t = teachers.find(x => x.id === id);
-            const inc = calculateTeacherIncome(t);
-            const win = window.open('', '_blank', 'width=800,height=600');
-            win.document.write(`
-                <html><head><title>Phiếu Lương - ${t.name}</title>
-                <style>
-                    body { font-family: Arial, sans-serif; padding: 40px; color: #333; }
-                    .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
-                    .info { margin-bottom: 20px; font-size: 16px; line-height: 1.6; }
-                    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-                    th, td { border: 1px solid #ddd; padding: 12px; text-align: left; font-size: 16px; }
-                    th { background-color: #f4f4f4; }
-                    .text-right { text-align: right; }
-                    .total { font-weight: bold; color: #2563eb; font-size: 18px; }
-                    .footer { display: flex; justify-content: space-between; margin-top: 50px; font-size: 16px; }
-                    .sign { text-align: center; }
-                </style>
-                </head><body>
-                <div class="header">
-                    <h2>HỆ THỐNG QUẢN LÝ ĐÀO TẠO LÁI XE</h2>
-                    <p><strong>PHIẾU THANH TOÁN LƯƠNG GIÁO VIÊN</strong></p>
-                    <p style="font-size: 14px; color: #666;">Ngày lập: ${new Date().toLocaleDateString('vi-VN')}</p>
-                </div>
-                <div class="info">
-                    <p><strong>Họ và tên giáo viên:</strong> ${t.name} (Mã: ${t.code})</p>
-                    <p><strong>Số điện thoại:</strong> ${t.phone || 'N/A'} | <strong>Giới tính:</strong> ${t.gender || 'Nam'}</p>
-                </div>
-                <table>
-                    <tr><th>Nội dung thu nhập / Khấu trừ</th><th class="text-right">Thành tiền</th></tr>
-                    <tr><td>Dạy lý thuyết (${inc.count} học viên x 300.000đ)</td><td class="text-right">${inc.theory.toLocaleString()}đ</td></tr>
-                    <tr><td>Tập sa hình (${t.sahinhSessions || 0} buổi x 80.000đ, ngày tập: ${formatDate(t.sahinhDate)})</td><td class="text-right">${inc.sahinh.toLocaleString()}đ</td></tr>
-                    <tr><td>Nhận học viên mới (${inc.count} học viên x 1.500.000đ)</td><td class="text-right">${inc.receiveStudent.toLocaleString()}đ</td></tr>
-                    <tr><td>Chạy DAT đường trường (${t.datKm || 0} km x 1.500đ)</td><td class="text-right">${inc.dat.toLocaleString()}đ</td></tr>
-                    <tr style="color: #dc2626;"><td>Khấu trừ các khoản khác (Phạt / Ứng lương)</td><td class="text-right">-${(t.deductions || 0).toLocaleString()}đ</td></tr>
-                    <tr class="total"><td>TỔNG THỰC NHẬN</td><td class="text-right">${inc.total.toLocaleString()} VNĐ</td></tr>
-                </table>
-                <div class="footer">
-                    <div class="sign"><p><strong>Kế toán trung tâm</strong></p><br><br><br><p>(Ký, ghi rõ họ tên)</p></div>
-                    <div class="sign"><p><strong>Giáo viên nhận tiền</strong></p><br><br><br><p>(Ký, ghi rõ họ tên)</p></div>
-                </div>
-                <script>window.onload = function() { window.print(); window.close(); }<\/script>
-                </body></html>
-            `);
-            win.document.close();
-        }
-
-        function deleteTeacher(id) {
-            teachers = teachers.filter(t => t.id !== id);
-            localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
-            renderAdminTeacherTable();
-            updateTeacherSelect();
-        }
-
-        function addStudent() {
-            const name = document.getElementById('addName').value.trim();
-            const cccd = document.getElementById('addCCCD').value.trim();
-            const phone = document.getElementById('addPhone').value.trim();
-            const gender = document.getElementById('addGender').value;
-            const dob = document.getElementById('addDob').value;
-            const address = document.getElementById('addAddress').value.trim();
-            const receiveDate = document.getElementById('addReceiveDate').value;
-            const startDate = document.getElementById('addStartDate').value;
-            const course = document.getElementById('addCourse').value;
-            const teacherCode = document.getElementById('addTeacher').value;
-            const isStudent = document.getElementById('addIsStudent').checked;
-
-            if (!name || !cccd || !startDate || !teacherCode || !receiveDate) return alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
-            let totalPrice = coursePrices[course] - (isStudent ? 1000000 : 0);
-            
-            students.push({ 
-                id: Date.now(), name, cccd, phone, gender, dob, address, receiveDate, pass: '123', 
-                startDate, course, teacherCode, stepIndex: 0, totalPrice, isStudent, avatar: '',
-                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' 
-            });
-            saveAndSync();
-            renderAdminStudentTable();
-            alert('Thêm học viên thành công! (Mật khẩu mặc định là: 123)');
-        }
-
-        function importExcel() {
-            const fileInput = document.getElementById('excelFile');
-            const file = fileInput.files[0];
-            if (!file) return alert('Vui lòng chọn file Excel!');
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                let count = 0;
-                rows.forEach(r => {
-                    const name = r.name || r['Họ tên'];
-                    const cccd = String(r.cccd || r['CCCD'] || '').trim();
-                    const phone = String(r.phone || r['SĐT'] || '').trim();
-                    const gender = r.gender || r['Giới tính'] || 'Nam';
-                    const dob = r.dob || r['Ngày sinh'] || '';
-                    const address = r.address || r['Địa chỉ'] || '';
-                    const receiveDate = r.receivedate || r['Ngày nhận hồ sơ'] || new Date().toISOString().split('T')[0];
-                    const course = r.course || r['Hạng'] || 'B (Số tự động)';
-                    const startDate = r.startdate || r['Ngày bắt đầu'] || new Date().toISOString().split('T')[0];
-
-                    if (name && cccd && !students.some(s => s.cccd === cccd)) {
-                        students.push({ 
-                            id: Date.now() + Math.random(), name, cccd, phone, gender, dob, address, receiveDate, 
-                            pass: '123', startDate, course, teacherCode: teachers[0]?.code || '', stepIndex: 0, 
-                            totalPrice: coursePrices[course], isStudent: false, avatar: '', fee1: 'Chưa đóng', fee2: 'Chưa đóng', 
-                            fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị' 
-                        });
-                        count++;
-                    }
-                });
-                saveAndSync();
-                renderAdminStudentTable();
-                alert(`Import thành công ${count} học viên! (Mật khẩu mặc định là: 123)`);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function saveAndSync() {
-            localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
-        }
-
-        // TẠO GIAO DIỆN NÚT TRẠNG THÁI THANH TOÁN ADMIN (3 TRẠNG THÁI)
+        // TẠO GIAO DIỆN NÚT TRẠNG THÁI THANH TOÁN ADMIN (3 TRẠNG THÁI CHUẨN)
         function getFeeAdminBtnUI(status, sId, feeType) {
             let colorClass = '';
-            if (status === 'Đã đóng') colorClass = 'bg-emerald-100 text-emerald-800 border-emerald-300';
-            else if (status === 'Chờ xác nhận') colorClass = 'bg-amber-100 text-amber-800 border-amber-400 animate-pulse';
-            else colorClass = 'bg-red-100 text-red-800 border-red-300';
+            if (status === 'Đã đóng') colorClass = 'bg-emerald-100 text-emerald-800 border-transparent';
+            else if (status === 'Chờ xác nhận') colorClass = 'bg-amber-100 text-amber-800 border-transparent animate-pulse';
+            else colorClass = 'bg-red-100 text-red-800 border-transparent';
             
-            return `<button onclick="toggleFee(${sId}, ${feeType})" class="px-3 py-1 rounded-lg border-2 font-bold text-sm min-w-[140px] text-center ${colorClass}">${status}</button>`;
+            return `<button onclick="toggleFee(${sId}, ${feeType})" class="px-3 py-1 rounded font-bold text-sm min-w-[120px] text-center transition hover:opacity-80 ${colorClass}">${status}</button>`;
         }
 
         function renderAdminStudentTable() {
@@ -794,10 +672,8 @@
                 const paid = (s.fee1 === 'Đã đóng' ? s.totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * 0.25 : 0);
                 const t = teachers.find(x => x.code === s.teacherCode);
                 
-                // Trạng thái thu phí & PDF
-                const p1 = s.fee1 === 'Đã đóng' ? `<button onclick="printInvoice(${s.id}, 1)" class="text-blue-600 underline ml-2 text-sm font-bold">🖨️ In Phiếu</button>` : `<span class="ml-2 text-slate-300 text-sm">🖨️ In Phiếu</span>`;
-                const p2 = s.fee2 === 'Đã đóng' ? `<button onclick="printInvoice(${s.id}, 2)" class="text-blue-600 underline ml-2 text-sm font-bold">🖨️ In Phiếu</button>` : `<span class="ml-2 text-slate-300 text-sm">🖨️ In Phiếu</span>`;
-                const p3 = s.fee3 === 'Đã đóng' ? `<button onclick="printInvoice(${s.id}, 3)" class="text-blue-600 underline ml-2 text-sm font-bold">🖨️ In Phiếu</button>` : `<span class="ml-2 text-slate-300 text-sm">🖨️ In Phiếu</span>`;
+                // Form link in PDF đúng với ảnh mẫu thiết kế
+                const pdfLink = (feeType) => `<button onclick="printInvoice(${s.id}, ${feeType})" class="text-blue-600 underline ml-2 text-sm font-bold flex items-center gap-1 hover:text-blue-800"><span class="text-base">🖨️</span> PDF</button>`;
 
                 tbody.innerHTML += `
                     <tr class="border-b-2 hover:bg-slate-50 transition">
@@ -814,10 +690,10 @@
                         <td class="p-5 text-lg font-bold">${s.course}<br><span class="text-indigo-600 font-normal text-base">GV: ${t ? t.name : 'N/A'}</span></td>
                         <td class="p-5"><span class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-lg text-base font-bold">${STEPS[s.stepIndex] || 'Hoàn thành'}</span></td>
                         <td class="p-5 text-emerald-600 font-bold text-xl">${paid.toLocaleString()}đ<br><span class="text-base text-slate-400">Tổng: ${s.totalPrice.toLocaleString()}đ</span></td>
-                        <td class="p-5 space-y-3 text-base text-center">
-                            <div class="flex items-center justify-center">1: ${getFeeAdminBtnUI(s.fee1, s.id, 1)} ${p1}</div>
-                            <div class="flex items-center justify-center">2: ${getFeeAdminBtnUI(s.fee2, s.id, 2)} ${p2}</div>
-                            <div class="flex items-center justify-center">3: ${getFeeAdminBtnUI(s.fee3, s.id, 3)} ${p3}</div>
+                        <td class="p-5 space-y-3 text-base">
+                            <div class="flex items-center justify-start ml-4">1: &nbsp; ${getFeeAdminBtnUI(s.fee1, s.id, 1)} ${pdfLink(1)}</div>
+                            <div class="flex items-center justify-start ml-4">2: &nbsp; ${getFeeAdminBtnUI(s.fee2, s.id, 2)} ${pdfLink(2)}</div>
+                            <div class="flex items-center justify-start ml-4">3: &nbsp; ${getFeeAdminBtnUI(s.fee3, s.id, 3)} ${pdfLink(3)}</div>
                         </td>
                         <td class="p-5 text-center"><button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold hover:text-red-700">Xóa</button></td>
                     </tr>
@@ -830,9 +706,9 @@
             students = students.map(s => {
                 if (s.id === id) {
                     let current = s['fee'+type];
-                    if (current === 'Chưa đóng') s['fee'+type] = 'Đã đóng'; // Thu tiền mặt
-                    else if (current === 'Chờ xác nhận') s['fee'+type] = 'Đã đóng'; // Xác nhận chuyển khoản
-                    else if (current === 'Đã đóng') s['fee'+type] = 'Chưa đóng'; // Hoàn tác
+                    if (current === 'Chưa đóng') s['fee'+type] = 'Đã đóng'; // Admin tự thu tiền mặt
+                    else if (current === 'Chờ xác nhận') s['fee'+type] = 'Đã đóng'; // Admin duyệt chuyển khoản
+                    else if (current === 'Đã đóng') s['fee'+type] = 'Chưa đóng'; // Hoàn tác thao tác
                 }
                 return s;
             });
@@ -844,6 +720,8 @@
         function printInvoice(id, feeType) {
             const s = students.find(x => x.id === id);
             if (!s) return;
+            if (s['fee'+feeType] !== 'Đã đóng') return alert('Học viên chưa hoàn tất thanh toán đợt này. Vui lòng cập nhật trạng thái "Đã đóng" trước khi xuất phiếu thu.');
+            
             let amt = feeType === 1 ? s.totalPrice * 0.5 : s.totalPrice * 0.25;
             let title = `Thu học phí Đợt ${feeType}`;
             const printWindow = window.open('', '_blank', 'width=800,height=600');
@@ -941,14 +819,16 @@
         function openPaymentModal(feeType, amount) {
             currentPayFeeType = feeType;
             const cccd = localStorage.getItem('current_cccd');
+            const studentInfo = students.find(x => x.cccd === cccd);
+            
             document.getElementById('payFeeTitle').innerText = `Đợt ${feeType}`;
             document.getElementById('payAmount').innerText = amount.toLocaleString();
             
-            // CHÚ Ý: Anh Mai Chí Khanh hãy đổi chữ 'MB' thành Mã ngân hàng của anh, và '0123456789' thành STK của anh
-            const bankId = 'MB'; 
-            const accountNo = '0123456789'; 
+            // DỮ LIỆU TÀI KHOẢN NGÂN HÀNG MAI CHÍ KHANH
+            const bankId = 'BIDV'; 
+            const accountNo = '7301873844'; 
             const accountName = 'MAI CHI KHANH';
-            const content = `Thanh toan hoc phi Dot ${feeType} CCCD ${cccd}`;
+            const content = `Thanh toan phi Dot ${feeType} ${studentInfo.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()}`;
             
             const qrUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(content)}&accountName=${encodeURIComponent(accountName)}`;
             document.getElementById('payQrCode').src = qrUrl;
@@ -1008,7 +888,7 @@
                 if (status === 'Chưa đóng') {
                     btn = `<button onclick="openPaymentModal(${i}, ${amt})" class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-xl text-lg font-bold shadow-lg transition">Thanh toán ngay</button>`;
                 } else if (status === 'Chờ xác nhận') {
-                    btn = `<span class="px-6 py-3 rounded-xl bg-amber-500/20 text-amber-300 font-bold border-2 border-amber-500/30 block animate-pulse">⏳ Đang chờ xác nhận</span>`;
+                    btn = `<span class="px-6 py-3 rounded-xl bg-amber-500/20 text-amber-300 font-bold border-2 border-amber-500/30 block animate-pulse cursor-not-allowed">⏳ Đang chờ xác nhận</span>`;
                 } else {
                     btn = `<span class="px-6 py-3 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold border-2 border-emerald-500/30 block">✅ Đã thanh toán</span>`;
                 }
@@ -1134,6 +1014,7 @@
         }
 
         window.onload = function() {
+            // Chạy mặc định hệ thống
             const role = localStorage.getItem('current_role');
             if (role === 'admin') {
                 document.getElementById('loginScreen').classList.add('hidden');
