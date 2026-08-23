@@ -11,16 +11,19 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
         .tab-btn.active { background-color: #2563eb; color: white; }
+        /* Custom checkbox cho giỏ hàng */
+        .cart-checkbox:checked + div { border-color: #2563eb; background-color: #eff6ff; }
+        .cart-checkbox:checked + div .check-icon { opacity: 1; }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen font-sans text-slate-800">
 
-    <!-- ================= 1. MÀN HÌNH ĐĂNG NHẬP BẢO MẬT ================= -->
+    <!-- ================= 1. MÀN HÌNH ĐĂNG NHẬP ================= -->
     <div id="loginScreen" class="min-h-screen flex flex-col md:flex-row">
         <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-6 md:p-12 flex flex-col justify-between text-white shadow-2xl z-10">
             <div class="mb-8 md:mb-0">
                 <span class="text-5xl md:text-6xl">🚘</span>
-                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v7.0 MAX</span>
+                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v8.0 MAX</span>
             </div>
             <div class="space-y-4 md:space-y-6 my-auto">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">HỆ THỐNG QUẢN TRỊ ĐÀO TẠO LÁI XE</h1>
@@ -47,7 +50,7 @@
                     </div>
 
                     <div id="studentLoginGroup" class="space-y-4">
-                        <input type="text" id="loginCCCD" placeholder="Số CCCD học viên *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
+                        <input type="text" id="loginCCCD" placeholder="Mã Học Viên hoặc Số CCCD *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
                         <input type="password" id="loginPass" placeholder="Mật khẩu *" class="w-full border-2 border-slate-300 p-3 md:p-4 rounded-xl outline-none bg-slate-50 text-lg focus:border-blue-600 transition">
                     </div>
 
@@ -76,14 +79,14 @@
         <div class="md:w-72 lg:w-80 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 shadow-2xl z-10 relative">
             <div class="p-6 space-y-6 overflow-y-auto">
                 <div>
-                    <h2 class="text-white font-black text-2xl md:text-3xl">DriveERP <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded align-top">SECURE</span></h2>
+                    <h2 class="text-white font-black text-2xl md:text-3xl">DriveERP <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded align-top">MAX</span></h2>
                     <p class="text-xs md:text-sm text-indigo-400 font-bold mt-1">Hệ Thống Phân Quyền Giám Đốc</p>
                 </div>
                 <nav class="space-y-1.5 text-base font-bold">
                     <button onclick="switchAdminTab('student')" id="navStudent" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition active">🎓 Quản Lý Học Viên</button>
                     <button onclick="switchAdminTab('teacher')" id="navTeacher" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">👨‍🏫 Nhân Sự & Phương Tiện</button>
                     <button onclick="switchAdminTab('finance')" id="navFinance" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">💰 Báo Cáo Tài Chính & Dòng Tiền</button>
-                    <button onclick="switchAdminTab('settings')" id="navSettings" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">⚙️ Cấu Hình Khóa & Định Mức Chi</button>
+                    <button onclick="switchAdminTab('settings')" id="navSettings" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">⚙️ Cấu Hình Dịch Vụ & Định Mức</button>
                     <button onclick="switchAdminTab('audit')" id="navAudit" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 text-red-400 transition">🛡️ Nhật Ký Kiểm Toán (Audit)</button>
                 </nav>
             </div>
@@ -114,7 +117,9 @@
                 <div id="adminStudentSection" class="space-y-6">
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
                         <div class="xl:col-span-2 space-y-4">
-                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3">➕ Tiếp Nhận Hồ Sơ Học Viên Mới</h3>
+                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3">➕ Tiếp Nhận Hồ Sơ (Tự động cấp Mã HV)</h3>
+                            
+                            <!-- Thông tin cá nhân -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                                 <input type="text" id="addName" placeholder="Họ và tên học viên *" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
                                 <input type="text" id="addCCCD" placeholder="Số CCCD định danh *" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
@@ -124,33 +129,35 @@
                                 <input type="text" id="addAddress" placeholder="Địa chỉ thường trú" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 <input type="date" id="addReceiveDate" title="Ngày nhận hồ sơ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 <input type="date" id="addStartDate" title="Ngày bắt đầu học" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
-                                
                                 <select id="addPaymentType" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 font-bold text-amber-900 focus:border-blue-500 outline-none">
                                     <option value="package">📦 Đóng Trọn Gói</option>
                                     <option value="itemized">🛒 Đóng Từng Phần / Học Lẻ</option>
                                 </select>
-                                <select id="addCourse" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold text-blue-700 focus:border-blue-500 outline-none"></select>
-                                <select id="addTeacher" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold col-span-1 md:col-span-2 focus:border-blue-500 outline-none"></select>
                             </div>
                             
-                            <!-- BẢNG GIAO VIỆC CHO GIÁO VIÊN KHI NHẬN HỌC VIÊN -->
-                            <div class="md:col-span-3 bg-indigo-50 p-4 rounded-xl border border-indigo-100 mt-2">
-                                <label class="block text-sm font-bold text-indigo-800 mb-2 uppercase">🎯 Giao việc cho Giáo viên đối với Học viên này:</label>
-                                <div class="flex flex-wrap gap-4 text-sm font-bold text-slate-700">
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="addAssignTheory" checked class="w-5 h-5 accent-indigo-600"> Dạy Lý thuyết</label>
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="addAssignSahinh" checked class="w-5 h-5 accent-indigo-600"> Dạy Sa hình</label>
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="addAssignDat" checked class="w-5 h-5 accent-indigo-600"> Chạy DAT</label>
+                            <!-- GIỎ HÀNG DỊCH VỤ / KHÓA HỌC -->
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 mt-4">
+                                <label class="block text-sm font-black text-blue-900 mb-3 uppercase">🛒 Chọn Các Gói Đào Tạo / Dịch Vụ Khóa Học:</label>
+                                <div id="addServicesChecklist" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-48 overflow-y-auto pr-2">
+                                    <!-- Rendered by JS -->
+                                </div>
+                                <div class="mt-4 pt-3 border-t border-blue-200 flex justify-between items-center">
+                                    <label class="flex items-center font-bold text-slate-700 text-sm cursor-pointer"><input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600" onchange="calculateCartTotal()"> Ưu đãi Giảm 1,000,000đ</label>
+                                    <div class="text-right">
+                                        <span class="text-sm font-bold text-slate-600">Tổng Học Phí:</span>
+                                        <strong id="addCartTotal" class="text-2xl text-blue-700 font-black ml-2 block sm:inline">0 VNĐ</strong>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between pt-2 border-t border-slate-100 mt-4">
-                                <label class="flex items-center font-bold text-slate-600 text-sm cursor-pointer"><input type="checkbox" id="addIsStudent" class="w-5 h-5 mr-2 accent-blue-600"> Giảm 1tr (Dành cho Sinh viên)</label>
-                                <button onclick="addStudent()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-blue-700 transition">Lưu Hồ Sơ</button>
+                            <div class="flex justify-end pt-2">
+                                <button onclick="addStudent()" class="bg-blue-600 text-white px-8 py-3.5 rounded-xl font-black text-base shadow-lg hover:bg-blue-700 transition transform hover:-translate-y-1">LƯU HỒ SƠ & CẤP MÃ</button>
                             </div>
                         </div>
+                        
                         <div class="border-t xl:border-t-0 xl:border-l border-slate-200 pl-0 xl:pl-6 pt-4 xl:pt-0 flex flex-col justify-center">
                             <h3 class="font-black text-slate-800 text-lg mb-2">📊 Import Excel Hàng Loạt</h3>
-                            <p class="text-xs text-slate-500 mb-4 leading-relaxed">Cột: name, cccd, phone, gender, dob, address, receivedate, course, startdate</p>
+                            <p class="text-xs text-slate-500 mb-4 leading-relaxed">Cột: name, cccd, phone, gender, dob, address, receivedate, startdate (Gói mặc định sẽ gán gói số 1)</p>
                             <input type="file" id="excelFile" accept=".xlsx, .xls, .csv" class="w-full text-sm mb-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 file:font-bold cursor-pointer">
                             <button onclick="importExcel()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-emerald-700 transition">Tải lên dữ liệu</button>
                         </div>
@@ -161,12 +168,11 @@
                             <table class="w-full text-left border-collapse min-w-[1200px] text-sm">
                                 <thead>
                                     <tr class="bg-slate-50 text-slate-600 uppercase tracking-wider border-b-2 border-slate-200 text-xs">
-                                        <th class="p-5 w-1/4 font-black">Học viên & Định danh</th>
-                                        <th class="p-5 font-black">Khóa & Hình thức</th>
-                                        <th class="p-5 text-center font-black">Tiến độ Học</th>
-                                        <th class="p-5 font-black">Thu Học Phí (Vào)</th>
-                                        <th class="p-5 font-black">Chi Giải Ngân (Ra)</th>
-                                        <th class="p-5 text-center font-black">Thao tác</th>
+                                        <th class="p-5 w-1/4 font-black">Mã HV & Thông tin</th>
+                                        <th class="p-5 font-black">Gói dịch vụ đã đăng ký</th>
+                                        <th class="p-5 text-center font-black">Tiến độ chung</th>
+                                        <th class="p-5 font-black">Quản lý Tài chính</th>
+                                        <th class="p-5 text-center font-black">Điều phối & Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody id="adminStudentTableBody" class="divide-y divide-slate-100"></tbody>
@@ -192,15 +198,6 @@
                                     <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn KĐ Xe</label><input type="date" id="newTeacherCarExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
                                 </div>
                             </div>
-                            
-                            <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-4">
-                                <span class="block text-xs font-black text-indigo-800 mb-3 uppercase">Cấp Quyền Dạy Tổng Quát & Định Mức (HV/Ngày)</span>
-                                <div class="flex flex-wrap gap-4 text-sm font-bold text-slate-700">
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authTheory" checked class="w-5 h-5 accent-indigo-600"> Lý thuyết <input type="number" id="quotaTheory" value="10" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authSahinh" checked class="w-5 h-5 accent-indigo-600"> Sa hình <input type="number" id="quotaSahinh" value="5" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authDAT" checked class="w-5 h-5 accent-indigo-600"> DAT <input type="number" id="quotaDAT" value="2" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
-                                </div>
-                            </div>
                             <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3.5 rounded-xl font-black text-sm shadow-lg hover:bg-indigo-700 transition">LƯU HỒ SƠ & CẤP MÃ GIÁO VIÊN</button>
                         </div>
 
@@ -216,7 +213,7 @@
                                 <thead>
                                     <tr class="bg-slate-100 text-slate-600 uppercase tracking-wider border-b-2 border-slate-200 text-xs">
                                         <th class="p-5 w-1/4 font-black">Giáo viên & Phương tiện</th>
-                                        <th class="p-5 font-black">Quyền & Phụ trách</th>
+                                        <th class="p-5 font-black">Học viên Đang phụ trách</th>
                                         <th class="p-5 font-black">Chi tiết Lương Thực Tế</th>
                                         <th class="p-5 text-right font-black">Tổng Lương & Khấu trừ</th>
                                         <th class="p-5 text-center font-black">Thao tác</th>
@@ -245,8 +242,8 @@
                                 <div class="space-y-2 text-sm text-red-800 font-medium">
                                     <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Nộp Trung Tâm (Khai giảng):</span><strong id="finCenterCost">0đ</strong></div>
                                     <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Quỹ Lương & Thưởng GV:</span><strong id="finTotalTeacherBonus">0đ</strong></div>
-                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Lệ phí thi + Thuê xe Chip:</span><strong id="finOutflowCost">0đ</strong></div>
-                                    <div class="flex justify-between pb-1"><span>Chi phí Cố định (Mặt bằng...):</span><strong id="finTotalFixedCost">0đ</strong></div>
+                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Xe cảm ứng + Thi TN + Sát hạch:</span><strong id="finOutflowCost">0đ</strong></div>
+                                    <div class="flex justify-between pb-1"><span>Chi phí Cố định (Mặt bằng, MKT...):</span><strong id="finTotalFixedCost">0đ</strong></div>
                                 </div>
                             </div>
 
@@ -262,26 +259,24 @@
                 <!-- 2.4 TAB CẤU HÌNH DOANH NGHIỆP TÙY BIẾN -->
                 <div id="adminSettingsSection" class="hidden space-y-6">
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                        <!-- Quản lý Khóa học -->
+                        <!-- Quản lý Khóa học/Dịch vụ -->
                         <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 flex flex-col">
-                            <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-6">⚙️ Cấu Hình Hạng Lái Xe & Học Phí</h3>
+                            <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-6">🛒 Cấu Hình Danh Mục Dịch Vụ Đào Tạo</h3>
                             <div class="space-y-4 text-sm bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-6">
                                 <input type="hidden" id="cfgCourseId" value="">
                                 <div class="grid grid-cols-2 gap-4">
-                                    <input type="text" id="cfgCourseName" placeholder="Tên Hạng (VD: B1, B2, C)..." class="border-2 p-3 rounded-xl w-full font-bold focus:border-blue-500 outline-none">
-                                    <input type="number" id="cfgCoursePrice" placeholder="Học phí trọn gói (VNĐ)" class="border-2 p-3 rounded-xl w-full font-black text-blue-600 focus:border-blue-500 outline-none">
+                                    <input type="text" id="cfgCourseName" placeholder="Tên Gói/Dịch vụ (VD: Trọn gói B2, Giờ học sa hình)..." class="border-2 p-3 rounded-xl w-full font-bold focus:border-blue-500 outline-none">
+                                    <input type="number" id="cfgCoursePrice" placeholder="Giá tiền (VNĐ)" class="border-2 p-3 rounded-xl w-full font-black text-blue-600 focus:border-blue-500 outline-none">
                                 </div>
-                                <textarea id="cfgCourseDesc" rows="2" placeholder="Mô tả khóa học..." class="border-2 p-3 rounded-xl w-full focus:border-blue-500 outline-none"></textarea>
-                                <textarea id="cfgCourseBenefits" rows="2" placeholder="Quyền lợi học viên (Mỗi dòng 1 ý)..." class="border-2 p-3 rounded-xl w-full focus:border-blue-500 outline-none"></textarea>
-                                <div class="flex gap-3">
-                                    <button id="btnSaveCourse" onclick="saveSysCourse()" class="flex-1 bg-blue-600 text-white p-3 rounded-xl font-black shadow hover:bg-blue-700 transition">LƯU HẠNG ĐÀO TẠO</button>
+                                <div class="flex gap-3 mt-2">
+                                    <button id="btnSaveCourse" onclick="saveSysCourse()" class="flex-1 bg-blue-600 text-white p-3 rounded-xl font-black shadow hover:bg-blue-700 transition">THÊM DỊCH VỤ</button>
                                     <button onclick="resetCourseForm()" class="bg-slate-300 text-slate-700 px-6 py-3 rounded-xl font-bold hover:bg-slate-400 transition">Hủy</button>
                                 </div>
                             </div>
                             <div class="flex-1 overflow-y-auto max-h-[350px] border rounded-2xl">
                                 <table class="w-full text-left text-sm border-collapse">
                                     <thead>
-                                        <tr class="bg-slate-100 text-slate-600 font-bold sticky top-0"><th class="p-3">Hạng & Giá</th><th class="p-3 w-1/2">Mô tả</th><th class="p-3 text-center">Sửa/Xóa</th></tr>
+                                        <tr class="bg-slate-100 text-slate-600 font-bold sticky top-0"><th class="p-3">Tên Dịch Vụ</th><th class="p-3 text-right">Đơn giá</th><th class="p-3 text-center">Thao Tác</th></tr>
                                     </thead>
                                     <tbody id="sysCoursesTableBody" class="divide-y divide-slate-200"></tbody>
                                 </table>
@@ -295,16 +290,15 @@
                             <!-- Đơn giá Lương GV -->
                             <div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 space-y-3 text-sm">
                                 <strong class="text-indigo-800 block mb-2 font-black uppercase text-xs">A. Đơn giá Lương / Thưởng Giáo viên</strong>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Lý thuyết (VNĐ/1 HV)</span> <input type="number" id="cfgBonusTheory" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Sa hình (VNĐ/1 Buổi)</span> <input type="number" id="cfgBonusSahinh" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Lý thuyết (VNĐ/1 Giao Việc)</span> <input type="number" id="cfgBonusTheory" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Sa hình (VNĐ/1 Giao Việc)</span> <input type="number" id="cfgBonusSahinh" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
                                 <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">DAT (VNĐ/1 Km)</span> <input type="number" id="cfgBonusDat" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Thưởng nhận HV mới</span> <input type="number" id="cfgBonusReceive" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
                             </div>
 
                             <!-- Chi phí Giải ngân trên từng học viên -->
                             <div class="bg-red-50 p-5 rounded-2xl border border-red-100 space-y-3 text-sm">
                                 <div class="flex justify-between items-center mb-2">
-                                    <strong class="text-red-800 font-black uppercase text-xs">B. Chi phí Giải Ngân Đào Tạo Mặc Định / 1 Học viên</strong>
+                                    <strong class="text-red-800 font-black uppercase text-xs">B. Chi phí Giải Ngân Mặc Định / 1 Học viên</strong>
                                     <button onclick="addCostRow('outflowDefaults')" class="bg-red-200 hover:bg-red-300 text-red-800 px-3 py-1 rounded font-bold text-xs">+ Thêm mục</button>
                                 </div>
                                 <div id="outflowDefaultsContainer" class="space-y-2"></div>
@@ -348,7 +342,7 @@
         </div>
     </div>
 
-    <!-- ================= MODAL "KHOAN SÂU" HỒ SƠ HỌC VIÊN DÀNH CHO ADMIN ================= -->
+    <!-- ================= MODAL FOLDER HỌC VIÊN DÀNH CHO ADMIN ("DRILL DOWN") ================= -->
     <div id="studentModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-10 space-y-6 md:space-y-8 relative">
             <button onclick="closeStudentModal()" class="absolute top-4 right-4 md:top-6 md:right-6 bg-white hover:bg-gray-100 text-slate-700 font-bold px-4 py-2 md:px-6 md:py-3 rounded-xl text-sm md:text-lg shadow-md transition z-10">✖ Đóng</button>
@@ -356,13 +350,24 @@
                 <div>
                     <span class="bg-white/20 text-white text-xs md:text-base font-bold px-3 py-1.5 md:px-4 md:py-2 rounded-full uppercase tracking-wider" id="modalCourseBadge">Hạng B</span>
                     <h1 class="text-3xl md:text-5xl font-black mt-4" id="modalNameDisplay">--</h1>
-                    <p class="text-base md:text-xl text-indigo-200 font-mono mt-2">CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="modalPhoneDisplay" class="font-bold text-emerald-300">--</span> | Hình thức: <span id="modalPayTypeDisplay" class="font-bold text-amber-300">--</span></p>
+                    <p class="text-base md:text-xl text-indigo-200 font-mono mt-2">Mã HV: <span id="modalStudentCodeDisplay" class="font-bold text-white tracking-wider">--</span> | SĐT: <span id="modalPhoneDisplay" class="font-bold text-emerald-300">--</span></p>
                 </div>
             </div>
 
             <!-- THEO DÕI THU HỌC PHÍ (ADMIN THU) -->
             <div class="bg-blue-50 rounded-3xl p-6 md:p-8 border-2 border-blue-200">
-                <h3 class="text-xl font-black text-blue-900 mb-4">💳 Tình Trạng Thu Học Phí (Vào)</h3>
+                <div class="flex justify-between items-center mb-4 border-b border-blue-200 pb-3">
+                    <h3 class="text-xl font-black text-blue-900">💳 Tình Trạng Thu Học Phí (Vào)</h3>
+                    <div class="text-right">
+                        <span class="text-sm text-slate-500 font-bold">TỔNG HỌC PHÍ:</span>
+                        <strong class="text-2xl text-blue-700 font-black ml-2" id="modalTotalPrice">0đ</strong>
+                        <button onclick="editTotalPriceModal()" class="text-blue-500 hover:text-blue-700 text-sm font-bold ml-2 underline">✏️ Sửa</button>
+                    </div>
+                </div>
+                <div class="flex justify-between text-sm mb-4 font-bold text-slate-600">
+                    <span>Đã thu: <strong class="text-emerald-600 text-lg" id="modalPaidPrice">0đ</strong></span>
+                    <span>Còn nợ: <strong class="text-red-600 text-lg" id="modalRemainingPrice">0đ</strong></span>
+                </div>
                 <div id="modalFeeContainer" class="space-y-3"></div>
             </div>
 
@@ -370,28 +375,41 @@
             <div class="bg-red-50 rounded-3xl p-6 md:p-8 border-2 border-red-200">
                 <div class="flex justify-between items-center mb-4">
                     <div>
-                        <h3 class="text-xl font-black text-red-900">💸 Tiến Độ Giải Ngân Chi Phí (Ra)</h3>
-                        <p class="text-xs text-slate-600">Admin theo dõi nộp tiền cho Trung tâm, thuê xe cảm ứng, đóng lệ phí thi.</p>
+                        <h3 class="text-xl font-black text-red-900">💸 Tiến Độ Giải Ngân Khóa Học (Ra)</h3>
+                        <p class="text-xs text-slate-600">Admin theo dõi nộp tiền cho Trung tâm, thuê xe cảm ứng, đóng lệ phí thi cho Học viên này.</p>
                     </div>
                     <button onclick="addStudentOutflowItem()" class="bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow hover:bg-red-700">+ Thêm khoản chi riêng</button>
                 </div>
                 <div id="modalOutflowContainer" class="space-y-3"></div>
             </div>
 
-            <!-- PHÂN CÔNG GIAO VIỆC CHO GIÁO VIÊN -->
+            <!-- TRUNG TÂM GIAO VIỆC CHO GIÁO VIÊN -->
             <div class="bg-indigo-50 rounded-3xl p-6 md:p-8 border-2 border-indigo-200">
-                <h3 class="text-xl font-black text-indigo-900 mb-2">🎯 Phân Công Giảng Dạy Cho Giáo Viên Phụ Trách</h3>
-                <p class="text-xs text-slate-600 mb-4">Chỉ những mục được Admin tích chọn dưới đây thì giáo viên phụ trách mới có quyền điểm danh trên Cổng Giáo viên.</p>
-                <div class="flex flex-wrap gap-4 text-sm font-bold text-slate-700 bg-white p-4 rounded-2xl border shadow-sm">
-                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="modalAssignTheory" class="w-6 h-6 accent-indigo-600" onchange="updateAssignedModules()"> Cho phép dạy Lý thuyết</label>
-                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="modalAssignSahinh" class="w-6 h-6 accent-indigo-600" onchange="updateAssignedModules()"> Cho phép dạy Sa hình</label>
-                    <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="modalAssignDat" class="w-6 h-6 accent-indigo-600" onchange="updateAssignedModules()"> Cho phép Chạy DAT</label>
+                <h3 class="text-xl font-black text-indigo-900 mb-2">🎯 Điều Phối & Giao Việc Cho Giáo Viên</h3>
+                <p class="text-xs text-slate-600 mb-4">Chỉ những nhiệm vụ được Admin giao tại đây thì Giáo viên mới thấy và điểm danh được trên ứng dụng của họ.</p>
+                
+                <div class="flex flex-col md:flex-row gap-3 mb-6 bg-white p-4 rounded-2xl border shadow-sm items-center">
+                    <input type="date" id="assignDate" class="border-2 p-2 rounded-lg text-sm w-full md:w-auto font-bold outline-none focus:border-indigo-500">
+                    <select id="assignModule" class="border-2 p-2 rounded-lg text-sm w-full md:w-auto font-bold outline-none focus:border-indigo-500">
+                        <option value="theory">Lý thuyết</option>
+                        <option value="sahinh">Tập Sa hình</option>
+                        <option value="dat">Chạy DAT</option>
+                    </select>
+                    <select id="assignTeacherDrill" class="border-2 p-2 rounded-lg text-sm w-full md:flex-1 font-bold outline-none focus:border-indigo-500"></select>
+                    <button onclick="addAssignment()" class="bg-indigo-600 text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow hover:bg-indigo-700 w-full md:w-auto">Giao Việc</button>
+                </div>
+
+                <div class="max-h-[300px] overflow-y-auto bg-white rounded-xl border">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead class="bg-slate-100 text-xs uppercase text-slate-500 sticky top-0"><tr class="border-b"><th class="p-3">Ngày giao</th><th class="p-3">Hạng mục</th><th class="p-3">Giáo viên nhận việc</th><th class="p-3 text-center">Trạng thái</th><th class="p-3 text-center">Hủy</th></tr></thead>
+                        <tbody id="modalAssignmentsBody" class="divide-y"></tbody>
+                    </table>
                 </div>
             </div>
 
             <!-- LỘ TRÌNH HỌC (ADMIN ÉP TIẾN ĐỘ) -->
             <div class="bg-white rounded-3xl p-6 md:p-8 border-2">
-                <h3 class="text-2xl font-black text-slate-900 mb-6">📚 Điều Khiển Lộ Trình Học</h3>
+                <h3 class="text-2xl font-black text-slate-900 mb-6">📚 Điều Khiển Lộ Trình Học Tập</h3>
                 <div id="modalStepsContainer" class="space-y-3 md:space-y-4"></div>
             </div>
 
@@ -406,7 +424,7 @@
         </div>
     </div>
 
-    <!-- ================= MODAL PROFILE CHI TIẾT GIÁO VIÊN (ADMIN VIEW) ================= -->
+    <!-- MODAL PROFILE CHI TIẾT GIÁO VIÊN (ADMIN VIEW) -->
     <div id="adminTeacherProfileModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl max-w-5xl w-full shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]">
             <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-6 md:p-8 flex justify-between items-start text-white shrink-0">
@@ -454,7 +472,7 @@
         </div>
     </div>
 
-    <!-- ================= 3. CỔNG GIÁO VIÊN (THEME XANH NGỌC DOANH NGHIỆP) ================= -->
+    <!-- ================= 3. CỔNG GIÁO VIÊN (THEME XANH NGỌC) ================= -->
     <div id="teacherDashboard" class="hidden max-w-6xl mx-auto space-y-6 md:space-y-8 p-4 md:p-6 my-4 md:my-6">
         <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-10 border border-slate-200 relative overflow-hidden">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b gap-4">
@@ -474,7 +492,7 @@
                     </label>
                 </div>
                 <div class="space-y-2 w-full text-center md:text-left">
-                    <span class="bg-emerald-500/30 text-emerald-100 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-1 border border-emerald-400/30">Giảng viên Thực hành & Lý thuyết</span>
+                    <span class="bg-emerald-500/30 text-emerald-100 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-1 border border-emerald-400/30" id="tRoleBadge">Giảng viên Thực hành & Lý thuyết</span>
                     <h1 class="text-3xl md:text-5xl font-black" id="tNameDisplayFull">--</h1>
                     <p class="text-sm md:text-base text-teal-100 font-mono mt-1">Mã GV: <span id="tCodeDisplayFull" class="font-bold text-white">--</span> | SĐT: <span id="tPhoneDisplayFull" class="font-bold text-emerald-300">--</span></p>
                     
@@ -484,7 +502,7 @@
                             <strong id="tCarDisplayFull" class="text-xl text-amber-300 uppercase font-black tracking-widest">--</strong>
                             <p id="tCarExpDisplayFull" class="text-xs text-white mt-1 opacity-80">Hạn KĐ: --</p>
                         </div>
-                        <div class="md:text-right">
+                        <div class="text-right">
                             <span class="block text-teal-200 text-xs mb-1 uppercase">Thu nhập tạm tính (Tháng)</span>
                             <strong id="tTotalIncomeFull" class="text-2xl text-emerald-400 font-black">0đ</strong>
                         </div>
@@ -494,19 +512,17 @@
 
             <h3 class="text-xl font-black text-slate-800 mb-4 border-l-4 border-emerald-500 pl-3">💰 Bảng Kê Thu Nhập Chi Tiết</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-slate-50 p-4 rounded-2xl border text-center"><span class="text-slate-500 text-xs block mb-1">HV đang nhận</span><strong class="text-slate-800 text-2xl block" id="tTotalStudentsCard">0</strong><span class="text-xs text-emerald-600 font-bold" id="tReceiveBonusCard">+0đ</span></div>
-                <div class="bg-slate-50 p-4 rounded-2xl border text-center"><span class="text-slate-500 text-xs block mb-1">Dạy Lý thuyết</span><strong class="text-slate-800 text-2xl block" id="tTheoryCountCard">0 <span class="text-sm font-normal">hv</span></strong><span class="text-xs text-emerald-600 font-bold" id="tTheoryBonusCard">+0đ</span></div>
-                <div class="bg-slate-50 p-4 rounded-2xl border text-center"><span class="text-slate-500 text-xs block mb-1">Dạy Sa hình</span><strong class="text-slate-800 text-2xl block" id="tSahinhCountCard">0 <span class="text-sm font-normal">buổi</span></strong><span class="text-xs text-emerald-600 font-bold" id="tSahinhBonusCard">+0đ</span></div>
+                <div class="bg-slate-50 p-4 rounded-2xl border text-center"><span class="text-slate-500 text-xs block mb-1">HV đang nhận</span><strong class="text-slate-800 text-2xl block" id="tTotalStudentsCard">0</strong></div>
+                <div class="bg-slate-50 p-4 rounded-2xl border text-center"><span class="text-slate-500 text-xs block mb-1">Dạy Lý thuyết</span><strong class="text-slate-800 text-2xl block" id="tTheoryCountCard">0 <span class="text-sm font-normal">việc</span></strong><span class="text-xs text-emerald-600 font-bold" id="tTheoryBonusCard">+0đ</span></div>
+                <div class="bg-slate-50 p-4 rounded-2xl border text-center"><span class="text-slate-500 text-xs block mb-1">Dạy Sa hình</span><strong class="text-slate-800 text-2xl block" id="tSahinhCountCard">0 <span class="text-sm font-normal">việc</span></strong><span class="text-xs text-emerald-600 font-bold" id="tSahinhBonusCard">+0đ</span></div>
                 <div class="bg-slate-50 p-4 rounded-2xl border text-center"><span class="text-slate-500 text-xs block mb-1">Dạy DAT</span><strong class="text-slate-800 text-2xl block" id="tDatCountCard">0 <span class="text-sm font-normal">km</span></strong><span class="text-xs text-emerald-600 font-bold" id="tDatBonusCard">+0đ</span></div>
             </div>
-            
-            <div id="tCustomIncomesSection" class="mb-8"></div> <!-- Hiển thị phụ cấp/phạt cho GV tự xem -->
 
-            <h3 class="text-xl font-black text-slate-800 mb-4 border-l-4 border-blue-500 pl-3">📋 Danh sách Học viên Phụ trách & Điểm danh</h3>
-            <div class="overflow-x-auto border rounded-2xl">
+            <h3 class="text-xl font-black text-slate-800 mb-4 border-l-4 border-blue-500 pl-3">📋 Công Việc Cần Xử Lý (Do Admin Giao)</h3>
+            <div class="overflow-x-auto border rounded-2xl mb-8">
                 <table class="w-full text-left border-collapse text-sm min-w-[800px]">
-                    <thead><tr class="bg-slate-100 border-b"><th class="p-4">Học viên</th><th class="p-4">SĐT</th><th class="p-4">Hạng</th><th class="p-4">Tiến độ chung</th><th class="p-4 text-center">Đánh giá / Dạy học</th></tr></thead>
-                    <tbody id="tStudentTableBody" class="divide-y"></tbody>
+                    <thead><tr class="bg-slate-100 border-b"><th class="p-4">Ngày giao</th><th class="p-4">Học viên</th><th class="p-4">Nhiệm vụ</th><th class="p-4 text-center">Đánh giá & Điểm danh</th></tr></thead>
+                    <tbody id="tAssignmentsTableBody" class="divide-y"></tbody>
                 </table>
             </div>
             
@@ -517,28 +533,6 @@
                     <tbody id="tMyLogsBody" class="divide-y font-mono text-xs"></tbody>
                 </table>
             </div>
-        </div>
-    </div>
-
-    <!-- MODAL ĐÁNH GIÁ/ĐIỂM DANH CỦA GIÁO VIÊN -->
-    <div id="teacherLogModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-xl w-full shadow-2xl relative">
-            <h3 class="text-2xl font-black mb-2 text-slate-900 border-b pb-2">Điểm danh & Đánh giá</h3>
-            <p class="text-base text-slate-600 mb-4">Học viên: <span id="logStudentName" class="font-bold text-blue-600">--</span></p>
-            
-            <div id="logModules" class="space-y-4 text-sm"></div>
-            
-            <div class="mt-6 p-4 bg-slate-50 border rounded-xl">
-                <strong class="block mb-2 text-slate-700">Đánh giá chung (Feedback):</strong>
-                <textarea id="logTeacherFeedback" rows="2" class="w-full border p-2 rounded outline-none focus:border-emerald-500" placeholder="Nhận xét thái độ, kỹ năng..."></textarea>
-                <div class="mt-3 flex items-center gap-3">
-                    <span class="font-bold text-slate-700">Điểm thi thử:</span>
-                    <input type="number" id="logTestScore" class="border p-2 rounded w-20 text-center font-bold focus:border-emerald-500 outline-none" placeholder="/100">
-                    <button onclick="saveStudentFeedback()" class="bg-emerald-600 text-white px-4 py-2 rounded font-bold shadow ml-auto hover:bg-emerald-700">Lưu Đánh Giá</button>
-                </div>
-            </div>
-
-            <button onclick="closeTeacherLogModal()" class="mt-6 w-full bg-slate-200 text-slate-800 p-3 rounded-xl font-bold hover:bg-slate-300 transition">Đóng</button>
         </div>
     </div>
 
@@ -564,15 +558,11 @@
                 <div class="space-y-2 text-center md:text-left w-full">
                     <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-1" id="sCourseBadge">Hạng B</span>
                     <h1 class="text-3xl md:text-5xl font-black" id="sNameDisplay">--</h1>
-                    <p class="text-sm md:text-base text-indigo-200 font-mono mt-1">CCCD: <span id="sCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="sPhoneDisplay" class="font-bold text-emerald-300">--</span></p>
+                    <p class="text-sm md:text-base text-indigo-200 font-mono mt-1">Mã HV: <span id="sStudentCodeDisplay" class="font-bold text-white tracking-wider">--</span></p>
                     <div class="bg-white/10 p-4 rounded-2xl mt-4 text-sm flex flex-col md:flex-row justify-between gap-4 border border-white/20">
                         <div>
-                            <span class="block text-indigo-300 text-xs uppercase mb-1">Giáo viên phụ trách</span>
-                            <strong id="sTeacherDisplay" class="text-xl text-amber-300 font-black">--</strong>
-                        </div>
-                        <div class="md:text-right">
-                            <span class="block text-indigo-300 text-xs uppercase mb-1">Thông tin Xe tập</span>
-                            <strong id="sCarPlateDisplay" class="text-xl text-emerald-300 font-black tracking-widest uppercase">--</strong>
+                            <span class="block text-indigo-300 text-xs uppercase mb-1">Gói Đào Tạo</span>
+                            <strong id="sEnrolledServices" class="text-xl text-amber-300 font-black">--</strong>
                         </div>
                     </div>
                 </div>
@@ -582,22 +572,17 @@
                 <div class="border-2 rounded-3xl p-6 bg-slate-50 shadow-sm flex flex-col">
                     <h3 class="font-black text-xl border-b pb-3 mb-4 text-slate-800">💰 Tài chính Khóa học</h3>
                     <div class="space-y-3 text-base flex-1">
-                        <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Tổng học phí:</span><strong class="text-xl text-slate-800" id="sTotalPrice">0đ</strong></div>
-                        <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Đã thanh toán:</span><strong class="text-xl text-emerald-600" id="sPaidPrice">0đ</strong></div>
-                        <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Còn nợ:</span><strong class="text-xl text-red-600" id="sRemainingPrice">0đ</strong></div>
+                        <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Tổng học phí:</span><strong class="text-2xl text-slate-800" id="sTotalPrice">0đ</strong></div>
+                        <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Đã thanh toán:</span><strong class="text-2xl text-emerald-600" id="sPaidPrice">0đ</strong></div>
+                        <div class="flex justify-between items-center"><span class="text-slate-500 font-bold">Còn nợ:</span><strong class="text-2xl text-red-600" id="sRemainingPrice">0đ</strong></div>
                     </div>
                     <div id="sFeeForecast" class="mt-4 space-y-3 border-t pt-4"></div>
                 </div>
 
                 <div class="border-2 rounded-3xl p-6 bg-slate-50 shadow-sm flex flex-col">
-                    <h3 class="font-black text-xl border-b pb-3 mb-4 text-slate-800">📌 Khóa Học & Đánh Giá</h3>
-                    <div class="flex-1">
-                        <p class="text-sm text-slate-600 italic mb-3 bg-white p-3 rounded-xl border" id="sCourseDesc"></p>
-                        <strong class="text-sm font-bold text-slate-700 block mb-2">Quyền lợi của bạn:</strong>
-                        <div class="text-sm space-y-1 text-slate-600 mb-4 pl-1" id="sCourseBenefits"></div>
-                    </div>
+                    <h3 class="font-black text-xl border-b pb-3 mb-4 text-slate-800">📌 Kết Quả Khóa Học</h3>
                     <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 text-sm mt-auto">
-                        <strong class="text-indigo-800 block mb-2 font-black">Kết quả kiểm tra nội bộ:</strong>
+                        <strong class="text-indigo-800 block mb-2 font-black">Đánh giá kết quả từ Giáo viên:</strong>
                         <div class="flex items-end gap-2 mb-2">Điểm thi thử: <strong id="sTestScoreView" class="text-3xl text-blue-600 leading-none">--</strong><span class="text-sm text-slate-500 font-bold">/100</span></div>
                         <div class="italic text-slate-700 text-sm bg-white p-2 rounded border">Nhận xét: <span id="sTeacherFeedbackView" class="font-medium text-blue-800">Chưa có đánh giá</span></div>
                     </div>
@@ -605,7 +590,7 @@
             </div>
             
             <div class="bg-white rounded-3xl p-6 border shadow-sm">
-                <h3 class="text-xl font-black text-slate-900 mb-4">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
+                <h3 class="text-2xl font-black text-slate-900 mb-6 border-b pb-2">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
                 <div id="sStepsContainer" class="space-y-4"></div>
             </div>
         </div>
@@ -618,10 +603,10 @@
             <p class="text-sm text-slate-600">Nội dung: <span id="payFeeTitle" class="font-bold text-blue-600">--</span></p>
             <strong id="payAmount" class="text-3xl text-blue-600 block"></strong>
             <img id="payQrCode" src="" alt="Mã QR" class="w-64 h-64 object-contain mx-auto border-2 rounded-xl p-2 bg-slate-50">
-            <p class="text-xs text-amber-700 bg-amber-50 p-3 rounded text-left border">⚠️ Quét mã và giữ nguyên nội dung. Nhấn xác nhận bên dưới sau khi chuyển khoản thành công.</p>
+            <p class="text-xs text-amber-700 bg-amber-50 p-3 rounded text-left border font-medium">⚠️ Quét mã và giữ nguyên nội dung. Nhấn xác nhận bên dưới sau khi chuyển khoản thành công.</p>
             <div class="flex gap-3">
-                <button onclick="closePaymentModal()" class="flex-1 bg-slate-200 text-slate-800 p-3 rounded-lg font-bold text-sm">Hủy</button>
-                <button onclick="confirmStudentTransfer()" class="flex-1 bg-blue-600 text-white p-3 rounded-lg font-bold text-sm">Đã Chuyển</button>
+                <button onclick="closePaymentModal()" class="flex-1 bg-slate-200 text-slate-800 p-3 rounded-lg font-bold text-sm hover:bg-slate-300">Hủy</button>
+                <button onclick="confirmStudentTransfer()" class="flex-1 bg-blue-600 text-white p-3 rounded-lg font-bold text-sm hover:bg-blue-700 shadow-lg">Đã Chuyển</button>
             </div>
         </div>
     </div>
@@ -647,17 +632,17 @@
         let sysSettings = JSON.parse(localStorage.getItem(STORAGE_KEY_SETTINGS));
         if (!sysSettings) {
             sysSettings = {
-                courses: [
-                    { id: 'c1', name: 'Hạng B (Số tự động)', price: 19500000, desc: 'Khóa B1 tiêu chuẩn.', benefits: 'Học 1 kèm 1\nLịch học tự chọn' },
-                    { id: 'c2', name: 'Hạng B (Cơ khí)', price: 19500000, desc: 'Khóa B2 chuyên nghiệp.', benefits: 'Học 1 kèm 1\nLịch học tự chọn' },
-                    { id: 'c3', name: 'Hạng C', price: 21500000, desc: 'Khóa C lái xe tải.', benefits: 'Thực hành xe tải thật' }
+                services: [
+                    { id: 's1', name: 'Khóa Hạng B Trọn Gói', price: 19500000, desc: 'Bao gồm thi và học' },
+                    { id: 's2', name: 'Gói Bổ Túc DAT 800km', price: 10000000, desc: 'Chạy xe đường trường' },
+                    { id: 's3', name: 'Gói Học Sa Hình Cơ Bản', price: 5000000, desc: 'Học 1 kèm 1' }
                 ],
                 bonuses: { theory: 300000, sahinh: 80000, dat: 1500, receive: 1500000 },
                 outflowDefaults: [
-                    { id: 'center', name: 'Nộp Trung tâm (Khai giảng)', amount: 8000000 },
+                    { id: 'center', name: 'Nộp Trung tâm', amount: 8000000 },
                     { id: 'graduation', name: 'Lệ phí thi Tốt nghiệp', amount: 500000 },
-                    { id: 'sensor_car', name: 'Thuê xe cảm ứng (Xe chip)', amount: 1000000 },
-                    { id: 'exam', name: 'Lệ phí thi Sát hạch Sở GTVT', amount: 680000 }
+                    { id: 'sensor_car', name: 'Thuê xe cảm ứng', amount: 1000000 },
+                    { id: 'exam', name: 'Lệ phí thi Sát hạch', amount: 680000 }
                 ],
                 opex: [
                     { id: 'opex1', name: 'Mặt bằng & Bãi tập', amount: 15000000 },
@@ -667,7 +652,7 @@
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
         }
 
-        // 3. TEACHERS & STUDENTS MẪU
+        // 3. TEACHERS & STUDENTS
         let teachers = [];
         try { 
             let parsedT = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS));
@@ -676,7 +661,7 @@
         
         if (teachers.length === 0 || !teachers.some(t => t.code === 'GV01')) {
             teachers = teachers.filter(t => t.code !== 'GV01');
-            teachers.push({ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', deductions: 0, customIncomes: [], carPlate: '64A-123.45', licenseExp: '2030-01-01', certExp: '2028-01-01', avatar: '', permissions: { theory: {allowed: true, quota: 10}, sahinh: {allowed: true, quota: 5}, dat: {allowed: true, quota: 2} }});
+            teachers.push({ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', deductions: 0, customIncomes: [], carPlate: '64A-123.45', licenseExp: '2030-01-01', certExp: '2028-01-01', avatar: ''});
             localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
         }
         
@@ -689,24 +674,21 @@
         if (students.length === 0 || !students.some(s => s.cccd === '12345')) {
             students = students.filter(s => s.cccd !== '12345');
             students.push({ 
-                id: 1, name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', 
-                receiveDate: '2026-01-10', pass: '123', course: 'Hạng B (Số tự động)', teacherCode: 'GV01', startDate: '2026-03-01', 
-                stepIndex: 1, totalPrice: 19500000, isStudent: false, paymentType: 'package', avatar: '', 
+                id: 1, code: 'HV2608001', name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', 
+                receiveDate: '2026-01-10', pass: '123', startDate: '2026-03-01', stepIndex: 1, 
+                enrolledServices: ['Khóa Hạng B Trọn Gói'], totalPrice: 19500000, paymentType: 'package', avatar: '', 
                 fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị', teachingLogs: [], testScore: null, teacherFeedback: '',
-                assignedModules: { theory: true, sahinh: true, dat: true },
+                assignments: [], // Giao việc {id, date, module, teacherCode, status}
                 outflows: JSON.parse(JSON.stringify(sysSettings.outflowDefaults)).map(o => ({...o, paid: false, date: ''}))
             });
             localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
         }
 
-        // Đảm bảo dữ liệu cũ không bị lỗi properties
+        // Tương thích ngược: Thêm mảng assignments nếu chưa có
         students = students.map(s => {
-            if(!s.assignedModules) s.assignedModules = { theory: true, sahinh: true, dat: true };
+            if(!s.assignments) s.assignments = [];
+            if(!s.code) s.code = 'HV' + String(s.id).slice(-5);
             return s;
-        });
-        teachers = teachers.map(t => {
-            if(!t.customIncomes) t.customIncomes = [];
-            return t;
         });
         saveAndSync();
 
@@ -721,10 +703,21 @@
             let p = dateStr.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : dateStr;
         }
         function generateTeacherCode() {
-            if (teachers.length === 0) return 'GV01';
             let maxId = 0;
             teachers.forEach(t => { let num = parseInt(t.code.replace('GV', '')) || 0; if (num > maxId) maxId = num; });
             let nextNum = maxId + 1; return 'GV' + (nextNum < 10 ? '0' + nextNum : nextNum);
+        }
+        function generateStudentCode() {
+            let d = new Date();
+            let prefix = 'HV' + String(d.getFullYear()).slice(-2) + String(d.getMonth()+1).padStart(2,'0');
+            let maxNum = 0;
+            students.forEach(s => {
+                if(s.code && s.code.startsWith(prefix)) {
+                    let num = parseInt(s.code.replace(prefix, '')) || 0;
+                    if(num > maxNum) maxNum = num;
+                }
+            });
+            return prefix + String(maxNum + 1).padStart(3, '0');
         }
 
         // ================= AUTH =================
@@ -771,12 +764,12 @@
             } else {
                 const cccd = document.getElementById('loginCCCD').value.trim();
                 const pass = document.getElementById('loginPass').value.trim();
-                if (!cccd || !pass) return alert('Nhập số CCCD và mật khẩu!');
+                if (!cccd || !pass) return alert('Nhập số CCCD/Mã HV và mật khẩu!');
                 
-                const s = students.find(x => x && x.cccd && String(x.cccd).trim() === cccd);
+                const s = students.find(x => x && (String(x.cccd).trim() === cccd || String(x.code).trim() === cccd));
                 const checkPass = s ? String(s.pass || '123').trim() : null;
                 
-                if (!s || pass !== checkPass) return alert('CCCD hoặc Mật khẩu không đúng! (Mặc định: 123)');
+                if (!s || pass !== checkPass) return alert('CCCD/Mã HV hoặc Mật khẩu không đúng! (Mặc định: 123)');
                 
                 s.gps = 'Đã tắt định vị'; 
                 saveAndSync();
@@ -880,12 +873,11 @@
         function renderSettingsTab() {
             const tbody = document.getElementById('sysCoursesTableBody');
             tbody.innerHTML = '';
-            sysSettings.courses.forEach(c => {
-                let benefitsList = c.benefits ? c.benefits.split('\n').map(b => `<div class="text-xs">✔️ ${b}</div>`).join('') : '';
+            sysSettings.services.forEach(c => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50 border-b">
-                        <td class="p-3"><strong class="text-indigo-700 block">${c.name}</strong><span class="text-blue-600 font-black">${Number(c.price).toLocaleString()}đ</span></td>
-                        <td class="p-3"><strong class="block text-xs">Mô tả:</strong> <span class="text-xs italic text-slate-600">${c.desc || 'N/A'}</span><br><strong class="block text-xs mt-1">Quyền lợi:</strong> ${benefitsList}</td>
+                        <td class="p-3"><strong class="text-indigo-700 block">${c.name}</strong><span class="text-xs italic text-slate-500">${c.desc || ''}</span></td>
+                        <td class="p-3 font-black text-blue-600 text-right">${Number(c.price).toLocaleString()}đ</td>
                         <td class="p-3 text-center">
                             <button onclick="editSysCourse('${c.id}')" class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs font-bold mr-1">Sửa</button>
                             <button onclick="deleteSysCourse('${c.id}')" class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">Xóa</button>
@@ -896,7 +888,6 @@
             document.getElementById('cfgBonusTheory').value = sysSettings.bonuses.theory;
             document.getElementById('cfgBonusSahinh').value = sysSettings.bonuses.sahinh;
             document.getElementById('cfgBonusDat').value = sysSettings.bonuses.dat;
-            document.getElementById('cfgBonusReceive').value = sysSettings.bonuses.receive;
 
             renderDynamicCostRows('outflowDefaults');
             renderDynamicCostRows('opex');
@@ -939,19 +930,17 @@
         function resetCourseForm() {
             currentEditCourseId = null;
             document.getElementById('cfgCourseId').value = ''; document.getElementById('cfgCourseName').value = '';
-            document.getElementById('cfgCoursePrice').value = ''; document.getElementById('cfgCourseDesc').value = '';
-            document.getElementById('cfgCourseBenefits').value = '';
-            document.getElementById('btnSaveCourse').innerText = "LƯU HẠNG ĐÀO TẠO";
+            document.getElementById('cfgCoursePrice').value = ''; 
+            document.getElementById('btnSaveCourse').innerText = "THÊM DỊCH VỤ";
             document.getElementById('btnSaveCourse').classList.replace('bg-amber-500', 'bg-blue-600');
         }
 
         function editSysCourse(id) {
-            const c = sysSettings.courses.find(x => x.id === id);
+            const c = sysSettings.services.find(x => x.id === id);
             if(c) {
                 currentEditCourseId = id;
                 document.getElementById('cfgCourseId').value = c.id; document.getElementById('cfgCourseName').value = c.name;
-                document.getElementById('cfgCoursePrice').value = c.price; document.getElementById('cfgCourseDesc').value = c.desc || '';
-                document.getElementById('cfgCourseBenefits').value = c.benefits || '';
+                document.getElementById('cfgCoursePrice').value = c.price; 
                 document.getElementById('btnSaveCourse').innerText = "CẬP NHẬT LƯU LẠI";
                 document.getElementById('btnSaveCourse').classList.replace('bg-blue-600', 'bg-amber-500');
             }
@@ -960,28 +949,26 @@
         function saveSysCourse() {
             const name = document.getElementById('cfgCourseName').value.trim();
             const price = Number(document.getElementById('cfgCoursePrice').value);
-            const desc = document.getElementById('cfgCourseDesc').value.trim();
-            const benefits = document.getElementById('cfgCourseBenefits').value.trim();
             if (!name || !price) return alert("Nhập tên và giá tiền!");
             
             if (currentEditCourseId) {
-                sysSettings.courses = sysSettings.courses.map(c => c.id === currentEditCourseId ? { ...c, name, price, desc, benefits } : c);
-                logAudit('Admin', 'Cấu hình', `Sửa hạng: ${name}`);
+                sysSettings.services = sysSettings.services.map(c => c.id === currentEditCourseId ? { ...c, name, price } : c);
+                logAudit('Admin', 'Cấu hình', `Sửa dịch vụ: ${name}`);
             } else {
-                sysSettings.courses.push({ id: 'c' + Date.now(), name, price, desc, benefits });
-                logAudit('Admin', 'Cấu hình', `Thêm mới hạng: ${name}`);
+                sysSettings.services.push({ id: 's' + Date.now(), name, price });
+                logAudit('Admin', 'Cấu hình', `Thêm dịch vụ mới: ${name}`);
             }
             
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
-            resetCourseForm(); renderSettingsTab(); updateCourseSelect(); 
+            resetCourseForm(); renderSettingsTab(); updateServicesChecklist();
         }
 
         function deleteSysCourse(id) {
-            if(confirm("Xóa Hạng Đào Tạo này?")) {
-                sysSettings.courses = sysSettings.courses.filter(c => c.id !== id);
+            if(confirm("Xóa Dịch vụ này?")) {
+                sysSettings.services = sysSettings.services.filter(c => c.id !== id);
                 localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
-                logAudit('Admin', 'Cấu hình', `Xóa hạng đào tạo ID: ${id}`);
-                renderSettingsTab(); updateCourseSelect();
+                logAudit('Admin', 'Cấu hình', `Xóa dịch vụ ID: ${id}`);
+                renderSettingsTab(); updateServicesChecklist();
             }
         }
 
@@ -989,27 +976,49 @@
             const theory = Number(document.getElementById('cfgBonusTheory').value);
             const sahinh = Number(document.getElementById('cfgBonusSahinh').value);
             const dat = Number(document.getElementById('cfgBonusDat').value);
-            const receive = Number(document.getElementById('cfgBonusReceive').value);
-            if (isNaN(theory) || isNaN(sahinh) || isNaN(dat) || isNaN(receive)) return alert("Nhập số liệu thưởng hợp lệ!");
+            if (isNaN(theory) || isNaN(sahinh) || isNaN(dat)) return alert("Nhập số liệu thưởng hợp lệ!");
 
-            sysSettings.bonuses = { theory, sahinh, dat, receive };
-            // Costs were automatically saved via onChange
+            sysSettings.bonuses = { theory, sahinh, dat };
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
             logAudit('Admin', 'Cấu hình', 'Cập nhật cấu hình Đơn giá Tài chính');
-            alert("Đã lưu Cấu hình Kế toán!");
+            alert("Đã lưu Cấu hình Kế toán & Giải ngân!");
         }
 
-        function updateCourseSelect() {
-            const sel = document.getElementById('addCourse');
-            if(!sel) return;
-            sel.innerHTML = '';
-            sysSettings.courses.forEach(c => sel.innerHTML += `<option value="${c.name}">${c.name} (${Number(c.price).toLocaleString()}đ)</option>`);
+        function updateServicesChecklist() {
+            const container = document.getElementById('addServicesChecklist');
+            if(!container) return;
+            container.innerHTML = '';
+            sysSettings.services.forEach(s => {
+                container.innerHTML += `
+                    <label class="relative flex items-center justify-between p-3 border-2 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" value="${s.id}" data-price="${s.price}" data-name="${s.name}" onchange="calculateCartTotal()" class="w-5 h-5 accent-blue-600">
+                            <span class="font-bold text-slate-800 text-sm">${s.name}</span>
+                        </div>
+                        <span class="text-blue-600 font-black text-sm">${Number(s.price).toLocaleString()}đ</span>
+                    </label>
+                `;
+            });
+            calculateCartTotal();
         }
+
+        function calculateCartTotal() {
+            const container = document.getElementById('addServicesChecklist');
+            if(!container) return;
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+            let total = 0;
+            checkboxes.forEach(cb => { total += Number(cb.getAttribute('data-price')); });
+            if (document.getElementById('addIsStudent').checked) total -= 1000000;
+            document.getElementById('addCartTotal').innerText = total.toLocaleString() + ' VNĐ';
+        }
+
         function updateTeacherSelect() {
-            const sel = document.getElementById('addTeacher');
-            if(!sel) return;
-            sel.innerHTML = '';
-            teachers.forEach(t => sel.innerHTML += `<option value="${t.code}">${t.name} (${t.code})</option>`);
+            const sels = [document.getElementById('assignTeacherDrill')];
+            sels.forEach(sel => {
+                if(!sel) return;
+                sel.innerHTML = '';
+                teachers.forEach(t => sel.innerHTML += `<option value="${t.code}">${t.name} (${t.code})</option>`);
+            });
         }
 
         // ================= ADMIN: BÁO CÁO P&L =================
@@ -1057,7 +1066,7 @@
             document.getElementById('finMargin').innerText = margin + '%';
         }
 
-        // ================= ADMIN: QUẢN LÝ NHÂN SỰ & LUƠNG =================
+        // ================= ADMIN: QUẢN LÝ NHÂN SỰ & LƯƠNG =================
         function addTeacher() {
             const name = document.getElementById('newTeacherName').value.trim();
             const phone = document.getElementById('newTeacherPhone').value.trim();
@@ -1067,19 +1076,11 @@
             const licenseExp = document.getElementById('newTeacherLicenseExp').value;
             const certExp = document.getElementById('newTeacherCertExp').value;
             
-            const authTheory = document.getElementById('authTheory').checked;
-            const quotaTheory = Number(document.getElementById('quotaTheory').value) || 10;
-            const authSahinh = document.getElementById('authSahinh').checked;
-            const quotaSahinh = Number(document.getElementById('quotaSahinh').value) || 5;
-            const authDAT = document.getElementById('authDAT').checked;
-            const quotaDAT = Number(document.getElementById('quotaDAT').value) || 2;
-            
             if (!name) return alert('Nhập tên giáo viên!');
             const code = generateTeacherCode();
 
             teachers.push({ 
-                id: Date.now(), name, code, phone, gender, carPlate, carExp, licenseExp, certExp, deductions: 0, customIncomes: [], avatar: '',
-                permissions: { theory: {allowed: authTheory, quota: quotaTheory}, sahinh: {allowed: authSahinh, quota: quotaSahinh}, dat: {allowed: authDAT, quota: quotaDAT} } 
+                id: Date.now(), name, code, phone, gender, carPlate, carExp, licenseExp, certExp, deductions: 0, customIncomes: [], avatar: ''
             });
             localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
             logAudit('Admin', 'Nhân sự', `Thêm GV mới: ${code} - ${name}`);
@@ -1090,20 +1091,28 @@
         }
 
         function calculateTeacherIncome(t) {
-            const myStudents = students.filter(s => s.teacherCode === t.code);
-            const receiveStudent = myStudents.length * (sysSettings.bonuses.receive || 1500000);
             let theoryCount = 0, sahinhCount = 0, datKm = 0;
+            
+            // Tính số việc hoàn thành từ tất cả học viên có assignment của GV này
             students.forEach(s => {
-                if(s.teachingLogs) {
-                    s.teachingLogs.forEach(log => {
-                        if (log.teacherCode === t.code) {
-                            if (log.type === 'theory') theoryCount++;
-                            if (log.type === 'sahinh') sahinhCount++;
-                            if (log.type === 'dat') datKm += log.km;
+                if(s.assignments) {
+                    s.assignments.forEach(a => {
+                        if (a.teacherCode === t.code && a.status === 'completed') {
+                            if (a.module === 'theory') theoryCount++;
+                            if (a.module === 'sahinh') sahinhCount++;
+                            if (a.module === 'dat') datKm += (a.km || 0); // Giả sử DAT có nhập số km khi điểm danh
                         }
                     });
                 }
             });
+
+            // Số học viên phụ trách (dựa trên assignment có gán cho GV này)
+            let uniqueStudents = new Set();
+            students.forEach(s => {
+                if(s.assignments && s.assignments.some(a => a.teacherCode === t.code)) uniqueStudents.add(s.id);
+            });
+            const count = uniqueStudents.size;
+
             const theory = theoryCount * (sysSettings.bonuses.theory || 300000);
             const sahinh = sahinhCount * (sysSettings.bonuses.sahinh || 80000);
             const dat = datKm * (sysSettings.bonuses.dat || 1500);
@@ -1112,8 +1121,8 @@
             let customIncomeSum = 0;
             if(t.customIncomes) customIncomeSum = t.customIncomes.reduce((sum, item) => sum + Number(item.amount), 0);
 
-            const total = theory + sahinh + receiveStudent + dat - deductions + customIncomeSum;
-            return { count: myStudents.length, theoryCount, theory, sahinhCount, sahinh, datKm, receiveStudent, dat, deductions, customIncomeSum, total };
+            const total = theory + sahinh + dat - deductions + customIncomeSum;
+            return { count, theoryCount, theory, sahinhCount, sahinh, datKm, dat, deductions, customIncomeSum, total };
         }
 
         function renderAdminTeacherTable() {
@@ -1122,10 +1131,6 @@
             tbody.innerHTML = '';
             teachers.forEach(t => {
                 const inc = calculateTeacherIncome(t);
-                let permText = [];
-                if(t.permissions.theory.allowed) permText.push(`LT: ${t.permissions.theory.quota}`);
-                if(t.permissions.sahinh.allowed) permText.push(`SH: ${t.permissions.sahinh.quota}`);
-                if(t.permissions.dat.allowed) permText.push(`DAT: ${t.permissions.dat.quota}`);
                 
                 tbody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50 transition">
@@ -1134,14 +1139,12 @@
                             <span class="text-xs text-slate-500">SĐT: ${t.phone||'N/A'} | Xe: <b class="text-slate-800 uppercase">${t.carPlate||'N/A'}</b></span><br>
                             <span class="text-[10px] text-red-500 font-bold">KĐ: ${formatDate(t.carExp)}</span>
                         </td>
-                        <td class="p-5 text-sm space-y-2">
-                            <div><strong class="text-xl text-indigo-600">${inc.count}</strong> HV phụ trách</div>
-                            <div class="text-amber-700 bg-amber-50 px-2 py-1.5 rounded-lg inline-block text-xs font-bold border border-amber-200 shadow-sm">Quota: ${permText.join(' | ')}</div>
+                        <td class="p-5 text-sm space-y-2 text-center">
+                            <div><strong class="text-2xl text-indigo-600">${inc.count}</strong> HV</div>
                         </td>
                         <td class="p-5 text-sm space-y-1 text-slate-700 font-medium">
-                            <div>Lý thuyết (${inc.theoryCount} HV): <strong>${inc.theory.toLocaleString()}đ</strong></div>
-                            <div>Sa hình (${inc.sahinhCount} buổi): <strong>${inc.sahinh.toLocaleString()}đ</strong></div>
-                            <div>Nhận mới (${inc.count} HV): <strong>${inc.receiveStudent.toLocaleString()}đ</strong></div>
+                            <div>Lý thuyết (${inc.theoryCount} việc): <strong>${inc.theory.toLocaleString()}đ</strong></div>
+                            <div>Sa hình (${inc.sahinhCount} việc): <strong>${inc.sahinh.toLocaleString()}đ</strong></div>
                             <div>Chạy DAT (${inc.datKm} km): <strong>${inc.dat.toLocaleString()}đ</strong></div>
                             ${inc.customIncomeSum !== 0 ? `<div class="${inc.customIncomeSum>0?'text-emerald-600':'text-red-600'}">Phụ cấp/Phạt khác: <strong>${inc.customIncomeSum.toLocaleString()}đ</strong></div>` : ''}
                         </td>
@@ -1189,9 +1192,8 @@
                 <div class="info"><p><strong>Giáo viên:</strong> ${t.name} (Mã: ${t.code})</p><p><strong>SĐT:</strong> ${t.phone || 'N/A'}</p></div>
                 <table>
                     <tr><th>Nội dung thu nhập / Khấu trừ</th><th class="text-right">Thành tiền</th></tr>
-                    <tr><td>Dạy lý thuyết (${inc.theoryCount} HV x ${(sysSettings.bonuses.theory||300000).toLocaleString()}đ)</td><td class="text-right">${inc.theory.toLocaleString()}đ</td></tr>
-                    <tr><td>Tập sa hình (${inc.sahinhCount} buổi x ${(sysSettings.bonuses.sahinh||80000).toLocaleString()}đ)</td><td class="text-right">${inc.sahinh.toLocaleString()}đ</td></tr>
-                    <tr><td>Nhận học viên mới (${inc.count} HV x ${(sysSettings.bonuses.receive||1500000).toLocaleString()}đ)</td><td class="text-right">${inc.receiveStudent.toLocaleString()}đ</td></tr>
+                    <tr><td>Dạy lý thuyết (${inc.theoryCount} việc x ${(sysSettings.bonuses.theory||300000).toLocaleString()}đ)</td><td class="text-right">${inc.theory.toLocaleString()}đ</td></tr>
+                    <tr><td>Tập sa hình (${inc.sahinhCount} việc x ${(sysSettings.bonuses.sahinh||80000).toLocaleString()}đ)</td><td class="text-right">${inc.sahinh.toLocaleString()}đ</td></tr>
                     <tr><td>Chạy DAT đường trường (${inc.datKm} km x ${(sysSettings.bonuses.dat||1500).toLocaleString()}đ)</td><td class="text-right">${inc.dat.toLocaleString()}đ</td></tr>
                     ${customHtml}
                     <tr class="total"><td>TỔNG THỰC NHẬN</td><td class="text-right">${inc.total.toLocaleString()} VNĐ</td></tr>
@@ -1222,45 +1224,37 @@
             document.getElementById('apTName').innerText = t.name;
             document.getElementById('apTCode').innerText = t.code;
             document.getElementById('apTPhone').innerText = t.phone || 'N/A';
-            document.getElementById('apTGender').innerText = t.gender || 'Nam';
             
             document.getElementById('apTCarPlate').innerText = t.carPlate || 'Chưa ĐK';
             document.getElementById('apTCarExp').innerText = formatDate(t.carExp);
             document.getElementById('apTLicenseExp').innerText = formatDate(t.licenseExp);
             document.getElementById('apTCertExp').innerText = formatDate(t.certExp);
 
-            let permHtml = '';
-            if(t.permissions.theory.allowed) permHtml += `<div>Lý thuyết: <strong class="text-indigo-600">${t.permissions.theory.quota}</strong> Học viên / Ngày</div>`;
-            if(t.permissions.sahinh.allowed) permHtml += `<div>Tập sa hình: <strong class="text-indigo-600">${t.permissions.sahinh.quota}</strong> Buổi / Ngày</div>`;
-            if(t.permissions.dat.allowed) permHtml += `<div>Chạy DAT: <strong class="text-indigo-600">${t.permissions.dat.quota}</strong> Học viên / Ngày</div>`;
-            document.getElementById('apTPermissions').innerHTML = permHtml;
-
-            // Hiển thị Phụ cấp / Phạt khác
             renderTeacherCustomIncomes(t);
 
-            // Tìm lịch sử dạy của GV này từ tất cả học sinh
+            // Tìm lịch sử dạy từ assignments
             let logs = [];
             students.forEach(s => {
-                if(s.teachingLogs) {
-                    s.teachingLogs.forEach(l => {
-                        if(l.teacherCode === code) logs.push({...l, studentName: s.name, sCccd: s.cccd, originalLog: l});
+                if(s.assignments) {
+                    s.assignments.forEach(a => {
+                        if(a.teacherCode === code && a.status === 'completed') {
+                            logs.push({...a, studentName: s.name, sCccd: s.cccd});
+                        }
                     });
                 }
             });
-            logs.reverse();
+            logs.sort((a,b) => new Date(b.date) - new Date(a.date)); // Mới nhất lên đầu
 
             const tbody = document.getElementById('apTLogsBody');
             tbody.innerHTML = '';
             if(logs.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5" class="p-5 text-center text-slate-500">Chưa có lịch sử chấm công.</td></tr>';
             } else {
-                logs.forEach((l, index) => {
-                    let typeStr = l.type === 'theory' ? 'Lý thuyết' : (l.type === 'sahinh' ? 'Sa hình' : 'DAT');
-                    let detailStr = l.type === 'dat' ? `<strong class="text-blue-600">${l.km} Km</strong>` : '<strong class="text-emerald-600">1 buổi</strong>';
+                logs.forEach((l) => {
+                    let typeStr = l.module === 'theory' ? 'Lý thuyết' : (l.module === 'sahinh' ? 'Sa hình' : 'DAT');
+                    let detailStr = l.module === 'dat' ? `<strong class="text-blue-600">${l.km||0} Km</strong>` : '<strong class="text-emerald-600">Hoàn thành</strong>';
                     
-                    // Nút Xóa lịch sử (Tránh payload error bằng cách truyền JSON chuỗi chuẩn hoặc map index)
-                    // Vì teachingLogs là mảng bên trong student, ta cần truyền cccd và properties để tìm và xóa
-                    const logIdentifier = `'${l.sCccd}', '${l.type}', '${l.date}'`;
+                    const logIdentifier = `'${l.sCccd}', '${l.id}'`;
 
                     tbody.innerHTML += `
                         <tr class="hover:bg-slate-50 border-b">
@@ -1268,7 +1262,7 @@
                             <td class="p-3 font-bold text-indigo-700">${l.studentName}</td>
                             <td class="p-3"><span class="bg-slate-200 text-slate-800 px-2 py-1 rounded text-xs">${typeStr}</span></td>
                             <td class="p-3 text-right">${detailStr}</td>
-                            <td class="p-3 text-center"><button onclick="deleteTeachingLog(${logIdentifier})" class="text-red-500 font-bold hover:bg-red-100 px-2 py-1 rounded text-xs">Xóa</button></td>
+                            <td class="p-3 text-center"><button onclick="deleteTeachingLog(${logIdentifier})" class="text-red-500 font-bold hover:bg-red-100 px-2 py-1 rounded text-xs border border-red-200">Xóa công</button></td>
                         </tr>
                     `;
                 });
@@ -1334,21 +1328,19 @@
             }
         }
 
-        // ADMIN XÓA LỊCH SỬ CHẤM CÔNG CỦA GIÁO VIÊN NẾU SAI
-        function deleteTeachingLog(cccd, type, date) {
-            if(confirm('Chắc chắn muốn Xóa lượt điểm danh này? Tiền lương của GV sẽ bị trừ lại tương ứng.')) {
+        function deleteTeachingLog(cccd, assignmentId) {
+            if(confirm('Chắc chắn muốn Hủy lượt điểm danh này? Tiền lương của GV sẽ bị trừ lại tương ứng.')) {
                 students = students.map(s => {
-                    if(s.cccd === cccd && s.teachingLogs) {
-                        // Tìm log trùng khớp và xóa 1 cái
-                        const index = s.teachingLogs.findIndex(l => l.type === type && l.date === date);
-                        if(index > -1) {
-                            s.teachingLogs.splice(index, 1);
-                        }
+                    if(s.cccd === cccd && s.assignments) {
+                        s.assignments = s.assignments.map(a => {
+                            if(a.id === assignmentId) a.status = 'pending'; // Trả về chờ điểm danh
+                            return a;
+                        });
                     }
                     return s;
                 });
                 saveAndSync();
-                logAudit('Admin', 'Chấm công', `Xóa lượt dạy ${type} của HV ${cccd}`);
+                logAudit('Admin', 'Chấm công', `Hủy điểm danh assignment ${assignmentId} của HV ${cccd}`);
                 openAdminTeacherProfile(window.currentActiveTeacherCode);
                 renderAdminTeacherTable();
             }
@@ -1365,32 +1357,166 @@
             const receiveDate = document.getElementById('addReceiveDate').value;
             const startDate = document.getElementById('addStartDate').value;
             const paymentType = document.getElementById('addPaymentType').value;
-            const courseName = document.getElementById('addCourse').value;
-            const teacherCode = document.getElementById('addTeacher').value;
             const isStudent = document.getElementById('addIsStudent').checked;
 
-            const assignTheory = document.getElementById('addAssignTheory').checked;
-            const assignSahinh = document.getElementById('addAssignSahinh').checked;
-            const assignDat = document.getElementById('addAssignDat').checked;
-
-            if (!name || !cccd || !startDate || !teacherCode || !receiveDate) return alert('Điền đủ trường bắt buộc!');
-            const courseObj = sysSettings.courses.find(c => c.name === courseName);
-            const basePrice = courseObj ? courseObj.price : 0;
-            let totalPrice = basePrice - (isStudent ? 1000000 : 0);
+            if (!name || !cccd || !startDate || !receiveDate) return alert('Điền đủ trường bắt buộc!');
             
+            // Lấy giỏ hàng
+            const container = document.getElementById('addServicesChecklist');
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+            let enrolledServices = [];
+            let basePrice = 0;
+            checkboxes.forEach(cb => { 
+                enrolledServices.push(cb.getAttribute('data-name'));
+                basePrice += Number(cb.getAttribute('data-price')); 
+            });
+            
+            if(enrolledServices.length === 0) return alert('Vui lòng chọn ít nhất 1 Gói Đào Tạo/Dịch Vụ!');
+
+            let totalPrice = basePrice - (isStudent ? 1000000 : 0);
             const outflows = JSON.parse(JSON.stringify(sysSettings.outflowDefaults)).map(o => ({...o, paid: false, date: ''}));
+            const code = generateStudentCode();
 
             students.push({ 
-                id: Date.now(), name, cccd, phone, gender, dob, address, receiveDate, pass: '123', 
-                startDate, course: courseName, teacherCode, stepIndex: 0, totalPrice, isStudent, paymentType, avatar: '',
+                id: Date.now(), code, name, cccd, phone, gender, dob, address, receiveDate, pass: '123', 
+                startDate, course: enrolledServices.join(', '), stepIndex: 0, totalPrice, isStudent, paymentType, avatar: '',
                 fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', referrals: [], notes: [], gps: 'Chưa định vị', 
-                teachingLogs: [], testScore: null, teacherFeedback: '', outflows: outflows,
-                assignedModules: { theory: assignTheory, sahinh: assignSahinh, dat: assignDat }
+                enrolledServices, assignments: [], testScore: null, teacherFeedback: '', outflows: outflows
             });
             saveAndSync();
-            logAudit('Admin', 'Hồ sơ', `Thêm mới HV: ${name} (${cccd}) - Gói: ${paymentType}`);
+            logAudit('Admin', 'Hồ sơ', `Thêm mới HV: ${name} (${code}) - Gói: ${paymentType}`);
             renderAdminStudentTable();
-            alert('Lưu hồ sơ thành công! Mật khẩu mặc định: 123');
+            
+            document.getElementById('addName').value=''; document.getElementById('addCCCD').value=''; document.getElementById('addPhone').value='';
+            
+            alert(`Lưu hồ sơ thành công!\nMã HV: ${code}\nMật khẩu mặc định: 123`);
+        }
+
+        function importExcel() { alert('Vui lòng tạo trực tiếp để phân bổ đúng danh mục giải ngân & giao việc.'); }
+
+        function checkPaymentWarnings(s) {
+            try {
+                let start = new Date(s.startDate || Date.now());
+                if (isNaN(start.getTime())) start = new Date();
+                let d2 = new Date(start); d2.setDate(d2.getDate() + 25);
+                let d3 = new Date(start); d3.setDate(d3.getDate() + 56);
+                let today = new Date(); let warnings = [];
+
+                let daysLate2 = Math.floor((today - d2) / (1000 * 3600 * 24));
+                if (s.fee2 !== 'Đã đóng' && s.fee2 !== 'Chờ xác nhận' && daysLate2 > 0) warnings.push(`<div class="text-red-600 font-bold mt-1 animate-pulse">⚠️ Trễ Đợt 2: ${daysLate2} ngày</div>`);
+                else if (s.stepIndex >= 2 && s.fee2 !== 'Đã đóng') warnings.push(`<div class="text-amber-600 font-bold mt-1">⚠️ Đợt 2: Tới hạn</div>`);
+
+                let daysLate3 = Math.floor((today - d3) / (1000 * 3600 * 24));
+                if (s.fee3 !== 'Đã đóng' && s.fee3 !== 'Chờ xác nhận' && daysLate3 > 0) warnings.push(`<div class="text-red-600 font-bold mt-1 animate-pulse">⚠️ Trễ Đợt 3: ${daysLate3} ngày</div>`);
+                else if (s.stepIndex >= 3 && s.fee3 !== 'Đã đóng') warnings.push(`<div class="text-amber-600 font-bold mt-1">⚠️ Đợt 3: Tới hạn</div>`);
+
+                return warnings.join('');
+            } catch (e) { return ''; }
+        }
+
+        function getFeeAdminBtnUI(status, sId, feeType) {
+            let colorClass = status === 'Đã đóng' ? 'bg-emerald-100 text-emerald-800' : (status === 'Chờ xác nhận' ? 'bg-amber-100 text-amber-800 animate-pulse border-amber-400' : 'bg-red-100 text-red-800');
+            return `<button onclick="toggleFee(${sId}, ${feeType})" class="px-2 py-1.5 rounded-lg border font-bold text-xs w-28 text-center shadow-sm transition hover:opacity-80 ${colorClass}">${status}</button>`;
+        }
+
+        function editTotalPrice(id) {
+            const s = students.find(x => x.id === id);
+            if (!s) return;
+            const newPrice = prompt(`Sửa Tổng học phí của ${s.name}:`, s.totalPrice);
+            if (newPrice && !isNaN(newPrice)) {
+                logAudit('Admin', 'Tài chính', `Sửa HP ${s.name} từ ${s.totalPrice} -> ${newPrice}`);
+                s.totalPrice = Number(newPrice);
+                saveAndSync(); renderAdminStudentTable();
+            }
+        }
+
+        function renderAdminStudentTable() {
+            updateServicesChecklist(); updateTeacherSelect();
+            const tbody = document.getElementById('adminStudentTableBody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            students.forEach(s => {
+                const tp = Number(s.totalPrice) || 0;
+                const paid = (s.fee1 === 'Đã đóng' ? tp * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? tp * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? tp * 0.25 : 0);
+                const warnings = checkPaymentWarnings(s);
+                const pdfLink = (ft) => s['fee'+ft] === 'Đã đóng' ? `<button onclick="printInvoice(${s.id}, ${ft})" class="text-blue-600 underline text-xs font-bold ml-3 hover:text-blue-800">🖨️ PDF</button>` : `<span class="text-slate-300 text-xs font-bold ml-3 grayscale opacity-50">🖨️ PDF</span>`;
+
+                // Calculate pending assignments
+                const pendingAssigns = (s.assignments||[]).filter(a => a.status === 'pending').length;
+                let assignUI = pendingAssigns > 0 ? `<div class="text-amber-600 text-xs font-bold mt-1 bg-amber-50 inline-block px-2 py-1 rounded">Có ${pendingAssigns} việc chờ GV xử lý</div>` : '<div class="text-emerald-600 text-xs font-bold mt-1">Đã xử lý hết công việc</div>';
+
+                let totalOutflowPaid = 0;
+                if(s.outflows) {
+                    totalOutflowPaid = s.outflows.filter(o => o.paid).reduce((sum, o) => sum + Number(o.amount), 0);
+                }
+
+                tbody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50 transition">
+                        <td class="p-5">
+                            <a href="#" onclick="openStudentModal('${s.cccd}'); return false;" class="font-black text-blue-700 hover:underline text-lg md:text-xl">${s.code} - ${s.name} 📁</a>
+                            <div class="text-sm text-slate-500 mt-1 font-medium">CCCD: ${s.cccd} | SĐT: ${s.phone}</div>
+                            <div class="text-[11px] text-emerald-600 font-mono mt-1 font-bold bg-emerald-50 inline-block px-1 rounded border border-emerald-100">📍 ${s.gps}</div>
+                        </td>
+                        <td class="p-5 text-sm space-y-1">
+                            <div class="font-bold text-slate-800">${s.course}</div>
+                            <div class="text-xs font-bold text-amber-700 mt-1">${s.paymentType==='package'?'📦 Trọn Gói':'🛒 Học Lẻ'}</div>
+                        </td>
+                        <td class="p-5 text-center">
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded-lg text-sm font-bold block mb-2 shadow-sm border border-indigo-200">${STEPS[s.stepIndex]}</span>
+                            <div class="text-[11px] text-slate-500 font-bold bg-white border p-1 rounded inline-block">Điểm TT: ${s.testScore || '--'}/100</div>
+                        </td>
+                        <td class="p-5 text-sm">
+                            <strong class="text-emerald-600 text-xl block mb-1">${paid.toLocaleString()}đ</strong>
+                            <span class="text-slate-500 text-xs font-bold">Thu: ${tp.toLocaleString()}đ </span>
+                            <button onclick="editTotalPrice(${s.id})" class="text-blue-500 hover:text-blue-700 text-xs underline font-bold ml-1">Sửa</button>
+                            <div class="mt-1">${warnings}</div>
+                        </td>
+                        <td class="p-5 text-sm">
+                            <strong class="text-red-600 text-lg block mb-1">${totalOutflowPaid.toLocaleString()}đ</strong>
+                            <button onclick="openStudentModal('${s.cccd}')" class="text-xs bg-red-100 text-red-700 font-bold px-2 py-1 rounded hover:bg-red-200 transition">Quản lý Giải ngân ➜</button>
+                        </td>
+                        <td class="p-5 space-y-2 text-sm">
+                            <div class="flex items-center justify-center">1: ${getFeeAdminBtnUI(s.fee1, s.id, 1)} ${pdfLink(1)}</div>
+                            <div class="flex items-center justify-center">2: ${getFeeAdminBtnUI(s.fee2, s.id, 2)} ${pdfLink(2)}</div>
+                            <div class="flex items-center justify-center">3: ${getFeeAdminBtnUI(s.fee3, s.id, 3)} ${pdfLink(3)}</div>
+                        </td>
+                        <td class="p-5 text-center">
+                            <button onclick="openStudentModal('${s.cccd}')" class="bg-indigo-600 text-white text-xs font-bold px-3 py-2 rounded-lg shadow hover:bg-indigo-700 w-full mb-2">🎯 Giao Việc GV</button>
+                            ${assignUI}
+                            <button onclick="deleteStudent(${s.id})" class="text-red-500 text-xs font-bold hover:underline mt-2 inline-block">Xóa HS</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function toggleFee(id, type) {
+            students = students.map(s => {
+                if (s.id === id) {
+                    let old = s['fee'+type];
+                    if (old === 'Chưa đóng' || old === 'Chờ xác nhận') s['fee'+type] = 'Đã đóng'; 
+                    else if (old === 'Đã đóng') s['fee'+type] = 'Chưa đóng'; 
+                    logAudit('Admin', 'Tài chính', `Đổi HP ${s.name} đợt ${type}: ${old} -> ${s['fee'+type]}`);
+                }
+                return s;
+            });
+            saveAndSync(); renderAdminStudentTable();
+        }
+
+        function printInvoice(id, feeType) {
+            const s = students.find(x => x.id === id);
+            if (!s || s['fee'+feeType] !== 'Đã đóng') return;
+            logAudit('Admin', 'Tài chính', `In Phiếu Thu cho HV ${s.name} đợt ${feeType}`);
+            let amt = feeType === 1 ? s.totalPrice * 0.5 : s.totalPrice * 0.25;
+            const w = window.open('', '_blank', 'width=800,height=600');
+            w.document.write(`<html><body style="font-family:Arial; padding:40px; text-align:center;"><h2>PHIẾU THU HỌC PHÍ - LÁI XE ERP</h2><h3>Đợt ${feeType}: ${amt.toLocaleString()}đ</h3><p>Học viên: ${s.name}</p><script>window.print();window.close();<\/script></body></html>`);
+            w.document.close();
+        }
+
+        function deleteStudent(id) { 
+            let s = students.find(x => x.id === id);
+            if(!confirm('Xóa học viên?')) return;
+            logAudit('Admin', 'Hồ sơ', `Xóa HV: ${s.name}`);
+            students = students.filter(s => s.id !== id); saveAndSync(); renderAdminStudentTable(); 
         }
 
         // ================= MODAL FOLDER HỌC VIÊN (CHI TIẾT "DRILL DOWN") =================
@@ -1398,9 +1524,9 @@
             window.currentActiveCccd = cccd;
             const s = students.find(x => x.cccd === cccd);
             if(!s) return;
-            const t = teachers.find(x => x.code === s.teacherCode);
             document.getElementById('modalNameDisplay').innerText = s.name;
             document.getElementById('modalCccdDisplay').innerText = s.cccd;
+            document.getElementById('modalStudentCodeDisplay').innerText = s.code;
             document.getElementById('modalCourseBadge').innerText = s.course;
             document.getElementById('modalPayTypeDisplay').innerText = s.paymentType === 'package' ? 'Đóng Trọn Gói' : 'Đóng Từng Phần / Học Lẻ';
             
@@ -1421,19 +1547,17 @@
             });
             document.getElementById('modalFeeContainer').innerHTML = feeHtml;
 
-            // Phân công giáo viên
-            document.getElementById('modalAssignTheory').checked = s.assignedModules?.theory ?? true;
-            document.getElementById('modalAssignSahinh').checked = s.assignedModules?.sahinh ?? true;
-            document.getElementById('modalAssignDat').checked = s.assignedModules?.dat ?? true;
-
             // RENDER DANH MỤC CHI GIẢI NGÂN
             if(!s.outflows) s.outflows = JSON.parse(JSON.stringify(sysSettings.outflowDefaults)).map(o => ({...o, paid: false, date: ''}));
             renderStudentOutflowRows(s);
+            
+            // RENDER DANH SÁCH GIAO VIỆC
+            renderStudentAssignments(s);
 
             let notesHtml = s.notes?.length ? s.notes.map(n => `<div class="p-4 bg-white rounded-xl border-2 text-sm mb-3 shadow-sm"><span class="font-medium text-slate-800">${n.text}</span><span class="text-slate-400 block mt-2 text-xs font-mono">📅 ${n.date}</span></div>`).join('') : '<span class="text-slate-400 text-sm italic">Chưa có ghi chú.</span>';
             document.getElementById('modalCrmNotesList').innerHTML = notesHtml;
             
-            // ĐIỀU KHIỂN BƯỚC HỌC (THAY VÌ CHỈ CHO QUA, CHO CHỌN LUÔN BƯỚC)
+            // ĐIỀU KHIỂN BƯỚC HỌC
             let stepsHTML = '';
             STEPS.forEach((stepName, idx) => {
                 let sIndex = Number(s.stepIndex) || 0;
@@ -1458,25 +1582,71 @@
             s.stepIndex = newStep;
             saveAndSync();
             logAudit('Admin', 'Học tập', `Sửa tiến độ HV ${s.name} thành bước ${newStep}`);
-            openStudentModal(window.currentActiveCccd); // Refresh
+            openStudentModal(window.currentActiveCccd); 
             if(window.currentAdminTab === 'student') renderAdminStudentTable();
         }
 
-        // ADMIN ĐỔI PHÂN QUYỀN GIAO VIỆC TRÊN HỒ SƠ
-        function updateAssignedModules() {
+        // ================= GIAO VIỆC (ASSIGNMENTS) =================
+        function renderStudentAssignments(s) {
+            const tbody = document.getElementById('modalAssignmentsBody');
+            tbody.innerHTML = '';
+            if(!s.assignments || s.assignments.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500 italic">Chưa giao việc cho giáo viên nào.</td></tr>';
+                return;
+            }
+            // Sắp xếp lịch mới nhất / chưa xong lên đầu
+            let assigns = [...s.assignments].sort((a,b) => new Date(b.date) - new Date(a.date));
+            assigns.forEach(a => {
+                const t = teachers.find(x => x.code === a.teacherCode);
+                let tName = t ? t.name : a.teacherCode;
+                let modStr = a.module === 'theory' ? 'Lý thuyết' : (a.module === 'sahinh' ? 'Sa hình' : 'Chạy DAT');
+                let statusUI = a.status === 'completed' ? '<span class="text-emerald-600 font-bold bg-emerald-50 px-2 py-1 rounded">✅ Đã xong</span>' : '<span class="text-amber-600 font-bold bg-amber-50 px-2 py-1 rounded animate-pulse">⏳ Chờ GV dạy</span>';
+                
+                tbody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-3 font-bold text-slate-700">${formatDate(a.date)}</td>
+                        <td class="p-3"><span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs font-bold">${modStr}</span></td>
+                        <td class="p-3 font-bold">${tName}</td>
+                        <td class="p-3 text-center">${statusUI}</td>
+                        <td class="p-3 text-center"><button onclick="removeAssignment('${s.cccd}', '${a.id}')" class="text-red-500 hover:text-red-700 font-bold">✖</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addAssignment() {
             const cccd = window.currentActiveCccd;
-            const theory = document.getElementById('modalAssignTheory').checked;
-            const sahinh = document.getElementById('modalAssignSahinh').checked;
-            const dat = document.getElementById('modalAssignDat').checked;
+            const date = document.getElementById('assignDate').value;
+            const module = document.getElementById('assignModule').value;
+            const tCode = document.getElementById('assignTeacherDrill').value;
             
+            if(!date || !tCode) return alert("Vui lòng chọn ngày và Giáo viên để giao việc!");
+
             students = students.map(s => {
-                if (s.cccd === cccd) {
-                    s.assignedModules = { theory, sahinh, dat };
+                if(s.cccd === cccd) {
+                    if(!s.assignments) s.assignments = [];
+                    s.assignments.push({ id: 'a_' + Date.now(), date: date, module: module, teacherCode: tCode, status: 'pending' });
+                    logAudit('Admin', 'Giao việc', `Giao GV ${tCode} dạy ${module} cho HV ${s.name} ngày ${date}`);
                 }
                 return s;
             });
             saveAndSync();
-            logAudit('Admin', 'Phân việc', `Cập nhật nhiệm vụ giảng dạy cho HV ${cccd}`);
+            openStudentModal(cccd);
+            if(window.currentAdminTab === 'student') renderAdminStudentTable();
+        }
+
+        function removeAssignment(cccd, assignId) {
+            if(!confirm('Chắc chắn hủy giao việc này?')) return;
+            students = students.map(s => {
+                if(s.cccd === cccd) {
+                    s.assignments = s.assignments.filter(a => a.id !== assignId);
+                    logAudit('Admin', 'Giao việc', `Hủy giao việc ID ${assignId} của HV ${s.name}`);
+                }
+                return s;
+            });
+            saveAndSync();
+            openStudentModal(cccd);
+            if(window.currentAdminTab === 'student') renderAdminStudentTable();
         }
 
         function renderStudentOutflowRows(s) {
@@ -1562,147 +1732,9 @@
             document.getElementById('modalCrmNoteInput').value = '';
         }
 
-        // ================= 4. GIÁO VIÊN: ĐIỂM DANH THEO PHÂN QUYỀN GIAO VIỆC =================
+        // ================= 4. GIÁO VIÊN: ĐIỂM DANH DỰA TRÊN LỊCH GIAO =================
+        let currentLogAssignId = null;
         let currentLogStudentId = null;
-        function openTeacherLogModal(sId) {
-            currentLogStudentId = sId;
-            const s = students.find(x => x.id === sId);
-            const tCode = sessionStorage.getItem('current_teacher_code');
-            const t = teachers.find(x => x.code === tCode);
-            document.getElementById('logStudentName').innerText = s.name;
-            document.getElementById('logTestScore').value = s.testScore || '';
-            document.getElementById('logTeacherFeedback').value = s.teacherFeedback || '';
-            
-            const assigned = s.assignedModules || { theory: true, sahinh: true, dat: true };
-            
-            let html = '';
-            
-            if (t.permissions.theory.allowed) {
-                if(assigned.theory) {
-                    const hasTheory = s.teachingLogs && s.teachingLogs.some(l => l.type === 'theory');
-                    html += `<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-2 p-4 rounded-2xl bg-white shadow-sm gap-3">
-                        <div><span class="font-black text-lg block text-slate-800">Lý thuyết</span><span class="text-sm text-slate-500">${(sysSettings.bonuses.theory||300000).toLocaleString()}đ/HV</span></div> 
-                        ${hasTheory ? '<span class="bg-emerald-100 text-emerald-700 font-bold px-4 py-2 rounded-xl text-sm">✅ Đã dạy</span>' : `<button onclick="logTeaching('theory')" class="w-full md:w-auto bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg hover:bg-emerald-700">✅ Điểm danh</button>`}
-                    </div>`;
-                } else {
-                    html += `<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-2 border-slate-100 p-4 rounded-2xl bg-slate-50 opacity-60 shadow-sm gap-3">
-                        <div><span class="font-black text-lg block text-slate-500">Lý thuyết</span><span class="text-sm text-red-500 font-bold">Admin không giao nhiệm vụ này</span></div> 
-                        <span class="text-slate-400 font-bold px-4 py-2 bg-slate-200 rounded-xl text-sm">🔒 Khóa</span>
-                    </div>`;
-                }
-            }
-            
-            if (t.permissions.sahinh.allowed) {
-                if(assigned.sahinh) {
-                    const shCount = (s.teachingLogs || []).filter(l => l.type === 'sahinh').length;
-                    html += `<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-2 p-4 rounded-2xl bg-white shadow-sm mt-3 gap-3">
-                        <div><span class="font-black text-lg block text-slate-800">Tập Sa hình</span><span class="text-sm text-slate-500">Đã dạy: <b class="text-indigo-600">${shCount}</b> buổi</span></div> 
-                        <button onclick="logTeaching('sahinh')" class="w-full md:w-auto bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg hover:bg-emerald-700">✅ Điểm danh buổi mới</button>
-                    </div>`;
-                } else {
-                    html += `<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-2 border-slate-100 p-4 rounded-2xl bg-slate-50 opacity-60 shadow-sm mt-3 gap-3">
-                        <div><span class="font-black text-lg block text-slate-500">Tập Sa hình</span><span class="text-sm text-red-500 font-bold">Admin không giao nhiệm vụ này</span></div> 
-                        <span class="text-slate-400 font-bold px-4 py-2 bg-slate-200 rounded-xl text-sm">🔒 Khóa</span>
-                    </div>`;
-                }
-            }
-            
-            if (t.permissions.dat.allowed) {
-                if(assigned.dat) {
-                    const datKm = (s.teachingLogs || []).filter(l => l.type === 'dat').reduce((sum, l) => sum + l.km, 0);
-                    html += `<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-2 p-4 rounded-2xl bg-white shadow-sm mt-3 gap-3">
-                        <div><span class="font-black text-lg block text-slate-800">Chạy DAT</span><span class="text-sm text-slate-500">Đã chạy: <b class="text-indigo-600">${datKm}</b> Km</span></div> 
-                        <div class="flex w-full md:w-auto gap-2"><input type="number" id="inputDatKm" class="border-2 w-full md:w-24 px-3 py-2 rounded-xl text-base font-bold text-center outline-none focus:border-emerald-500" placeholder="Km"><button onclick="logTeaching('dat')" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg hover:bg-emerald-700">Lưu</button></div>
-                    </div>`;
-                } else {
-                    html += `<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-2 border-slate-100 p-4 rounded-2xl bg-slate-50 opacity-60 shadow-sm mt-3 gap-3">
-                        <div><span class="font-black text-lg block text-slate-500">Chạy DAT</span><span class="text-sm text-red-500 font-bold">Admin không giao nhiệm vụ này</span></div> 
-                        <span class="text-slate-400 font-bold px-4 py-2 bg-slate-200 rounded-xl text-sm">🔒 Khóa</span>
-                    </div>`;
-                }
-            }
-            
-            if(html==='') html='<div class="text-red-500 font-bold p-4 text-center border-2 border-red-200 rounded-xl bg-red-50">Admin chưa cấp quyền giảng dạy bất kỳ môn nào cho bạn!</div>';
-            
-            document.getElementById('logModules').innerHTML = html;
-            document.getElementById('teacherLogModal').classList.remove('hidden');
-        }
-        function closeTeacherLogModal() { document.getElementById('teacherLogModal').classList.add('hidden'); }
-        
-        function saveStudentFeedback() {
-            const score = document.getElementById('logTestScore').value;
-            const fb = document.getElementById('logTeacherFeedback').value;
-            students = students.map(s => {
-                if(s.id === currentLogStudentId) { s.testScore = score; s.teacherFeedback = fb; }
-                return s;
-            });
-            saveAndSync();
-            logAudit(`GV: ${sessionStorage.getItem('current_teacher_code')}`, 'Đánh giá', `Đánh giá điểm thi thử học viên ID ${currentLogStudentId}`);
-            alert('Lưu đánh giá thành công!');
-            closeTeacherLogModal();
-        }
-
-        function logTeaching(type) {
-            const s = students.find(x => x.id === currentLogStudentId);
-            const tCode = sessionStorage.getItem('current_teacher_code');
-            const t = teachers.find(x => x.code === tCode);
-            const today = new Date().toLocaleDateString('vi-VN');
-            if (!s.teachingLogs) s.teachingLogs = [];
-            
-            const assigned = s.assignedModules || { theory: true, sahinh: true, dat: true };
-            if (!assigned[type]) return alert('⛔ LỖI BẢO MẬT: Bạn chưa được Quản trị viên giao nhiệm vụ dạy hạng mục này cho học viên!');
-
-            let todayLogs = 0;
-            if (type === 'theory' || type === 'sahinh') {
-                todayLogs = students.reduce((sum, std) => sum + (std.teachingLogs || []).filter(l => l.teacherCode === tCode && l.type === type && l.date === today).length, 0);
-            } else if (type === 'dat') {
-                let studentsWithDatToday = students.filter(std => (std.teachingLogs || []).some(l => l.teacherCode === tCode && l.type === 'dat' && l.date === today)).length;
-                const hasDatToday = s.teachingLogs.some(l => l.teacherCode === tCode && l.type === 'dat' && l.date === today);
-                if (!hasDatToday) todayLogs = studentsWithDatToday;
-            }
-
-            if (type === 'theory' && todayLogs >= t.permissions.theory.quota) return alert(`⛔ LỖI: Vượt định mức (${t.permissions.theory.quota} HV/ngày) môn Lý thuyết!`);
-            if (type === 'sahinh' && todayLogs >= t.permissions.sahinh.quota) return alert(`⛔ LỖI: Vượt định mức (${t.permissions.sahinh.quota} HV/ngày) môn Sa hình!`);
-            if (type === 'dat' && todayLogs >= t.permissions.dat.quota) {
-                 if(!s.teachingLogs.some(l => l.teacherCode === tCode && l.type === 'dat' && l.date === today)) return alert(`⛔ LỖI: Vượt định mức dạy (${t.permissions.dat.quota} HV/ngày) môn DAT!`);
-            }
-
-            let detailAudit = '';
-            if (type === 'theory' || type === 'sahinh') { s.teachingLogs.push({ type, date: today, teacherCode: tCode }); detailAudit = '1 buổi'; }
-            else if (type === 'dat') {
-                const km = Number(document.getElementById('inputDatKm').value);
-                if (!km || km<=0) return alert('Nhập số Km!');
-                s.teachingLogs.push({ type, km, date: today, teacherCode: tCode });
-                detailAudit = `${km} Km`;
-            }
-            
-            logAudit(`GV: ${tCode}`, 'Chấm công', `Dạy ${type} cho HV ${s.name} (${detailAudit})`);
-            saveAndSync();
-            openTeacherLogModal(s.id); 
-            renderTeacherPortal(teachers.find(x => x.code === tCode)); 
-        }
-
-        function uploadTeacherAvatar(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const r = new FileReader();
-            r.onload = e => {
-                const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 150; canvas.height = 150 * (img.height/img.width);
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    const b64 = canvas.toDataURL('image/jpeg', 0.8);
-                    const tCode = sessionStorage.getItem('current_teacher_code');
-                    teachers = teachers.map(t => { if(t.code===tCode) t.avatar = b64; return t; });
-                    localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
-                    document.getElementById('tAvatarDisplay').src = b64;
-                };
-                img.src = e.target.result;
-            };
-            r.readAsDataURL(file);
-        }
 
         function renderTeacherPortal(t) {
             document.getElementById('tNameDisplayFull').innerText = t.name;
@@ -1717,50 +1749,106 @@
             const inc = calculateTeacherIncome(t);
             document.getElementById('tTotalIncomeFull').innerText = inc.total.toLocaleString() + 'đ';
             document.getElementById('tTotalStudentsCard').innerText = inc.count;
-            document.getElementById('tReceiveBonusCard').innerText = `+${inc.receiveStudent.toLocaleString()}đ`;
-            document.getElementById('tTheoryCountCard').innerHTML = `${inc.theoryCount} <span class="text-sm font-normal">hv</span>`;
+            document.getElementById('tTheoryCountCard').innerHTML = `${inc.theoryCount} <span class="text-sm font-normal">việc</span>`;
             document.getElementById('tTheoryBonusCard').innerText = `+${inc.theory.toLocaleString()}đ`;
-            document.getElementById('tSahinhCountCard').innerHTML = `${inc.sahinhCount} <span class="text-sm font-normal">buổi</span>`;
+            document.getElementById('tSahinhCountCard').innerHTML = `${inc.sahinhCount} <span class="text-sm font-normal">việc</span>`;
             document.getElementById('tSahinhBonusCard').innerText = `+${inc.sahinh.toLocaleString()}đ`;
             document.getElementById('tDatCountCard').innerHTML = `${inc.datKm} <span class="text-sm font-normal">km</span>`;
             document.getElementById('tDatBonusCard').innerText = `+${inc.dat.toLocaleString()}đ`;
 
-            const myStudents = students.filter(s => s.teacherCode === t.code);
-            const tbody = document.getElementById('tStudentTableBody');
-            tbody.innerHTML = '';
-            myStudents.forEach(s => {
-                let sIndex = Number(s.stepIndex) || 0;
-                tbody.innerHTML += `
-                <tr class="border-b hover:bg-slate-50 transition">
-                    <td class="p-4">
-                        <strong class="text-lg text-slate-800">${s.name}</strong><br>
-                        <span class="text-xs text-slate-500">Khám SK: Đã hoàn tất</span>
-                    </td>
-                    <td class="p-4 font-bold text-slate-700">${s.phone || 'N/A'}</td>
-                    <td class="p-4 font-bold text-blue-600">${s.course}</td>
-                    <td class="p-4"><span class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-200">${STEPS[sIndex]}</span></td>
-                    <td class="p-4 text-center"><button onclick="openTeacherLogModal(${s.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg transition text-sm">✅ Điểm danh / Đánh giá</button></td>
-                </tr>`;
-            });
-
-            let myLogs = [];
+            // Lấy danh sách nhiệm vụ được Admin giao
+            let myTasks = [];
             students.forEach(s => {
-                if(s.teachingLogs) {
-                    s.teachingLogs.forEach(l => { if(l.teacherCode === t.code) myLogs.push({...l, studentName: s.name}); });
+                if(s.assignments) {
+                    s.assignments.forEach(a => {
+                        if(a.teacherCode === t.code) {
+                            myTasks.push({...a, studentName: s.name, sPhone: s.phone, sId: s.id, course: s.course});
+                        }
+                    });
                 }
             });
-            myLogs.reverse();
+
+            // Sắp xếp: việc chờ xử lý (pending) lên đầu, sau đó sort theo ngày
+            myTasks.sort((a,b) => {
+                if(a.status === 'pending' && b.status !== 'pending') return -1;
+                if(a.status !== 'pending' && b.status === 'pending') return 1;
+                return new Date(a.date) - new Date(b.date);
+            });
+
+            const tbody = document.getElementById('tAssignmentsTableBody');
+            tbody.innerHTML = '';
+            
+            if(myTasks.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-slate-500 italic text-lg">Bạn chưa có lịch phân công giảng dạy nào.</td></tr>';
+            } else {
+                myTasks.forEach(task => {
+                    let modStr = task.module === 'theory' ? 'Lý thuyết' : (task.module === 'sahinh' ? 'Sa hình' : 'DAT');
+                    
+                    let actionBtn = '';
+                    if (task.status === 'completed') {
+                        actionBtn = `<span class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-xl text-sm font-bold border border-emerald-200 block text-center shadow-sm">✅ Đã hoàn thành</span>`;
+                    } else {
+                        // Nút điểm danh
+                        if(task.module === 'dat') {
+                            actionBtn = `<div class="flex flex-col sm:flex-row gap-2 justify-center"><input type="number" id="datKm_${task.id}" placeholder="Số Km" class="border-2 p-2 w-24 rounded-lg text-center font-bold focus:border-emerald-500 outline-none"><button onclick="completeTask('${task.sId}', '${task.id}', 'dat')" class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-emerald-700 transition">Điểm danh DAT</button></div>`;
+                        } else {
+                            actionBtn = `<button onclick="completeTask('${task.sId}', '${task.id}', '${task.module}')" class="bg-blue-600 text-white w-full px-4 py-2.5 rounded-lg text-sm font-bold shadow hover:bg-blue-700 transition animate-pulse">👉 Click Điểm Danh</button>`;
+                        }
+                    }
+
+                    tbody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50 transition">
+                        <td class="p-4 font-bold text-slate-800">${formatDate(task.date)}</td>
+                        <td class="p-4">
+                            <strong class="text-lg text-blue-700 block">${task.studentName}</strong>
+                            <span class="text-xs text-slate-500">SĐT: ${task.sPhone} | ${task.course}</span>
+                        </td>
+                        <td class="p-4"><span class="bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded-lg text-sm font-bold border border-indigo-200">${modStr}</span></td>
+                        <td class="p-4 text-center align-middle">${actionBtn}</td>
+                    </tr>`;
+                });
+            }
+
+            // Giao diện đánh giá thi thử của GV
+            const stuTable = document.getElementById('tStudentTableBody');
+            stuTable.innerHTML = '';
+            const myStudents = students.filter(s => s.assignments && s.assignments.some(a => a.teacherCode === t.code)); // Chỉ hiện HV có giao việc
+            
+            let uniqueSIds = new Set();
+            myStudents.forEach(s => {
+                if(!uniqueSIds.has(s.id)) {
+                    uniqueSIds.add(s.id);
+                    let sIndex = Number(s.stepIndex) || 0;
+                    stuTable.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50 transition">
+                        <td class="p-4"><strong class="text-lg text-slate-800">${s.name}</strong></td>
+                        <td class="p-4 font-bold text-slate-700">${s.phone || 'N/A'}</td>
+                        <td class="p-4">${s.gender}</td>
+                        <td class="p-4 font-bold text-blue-600">${s.course}</td>
+                        <td class="p-4"><span class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-200">${STEPS[sIndex]}</span></td>
+                        <td class="p-4 text-center"><button onclick="openTeacherFeedbackModal(${s.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg transition text-sm">📝 Ghi nhận xét</button></td>
+                    </tr>`;
+                }
+            });
+
+            // Lịch sử tự xem của GV
+            let myLogs = [];
+            myTasks.filter(t => t.status === 'completed').forEach(l => {
+                myLogs.push(l);
+            });
+            myLogs.sort((a,b) => new Date(b.date) - new Date(a.date));
+
             const logBody = document.getElementById('tMyLogsBody');
             logBody.innerHTML = '';
             if(myLogs.length === 0) {
                 logBody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-500 italic">Chưa có dữ liệu điểm danh.</td></tr>';
             } else {
                 myLogs.forEach(l => {
-                    let typeStr = l.type === 'theory' ? 'Lý thuyết' : (l.type === 'sahinh' ? 'Sa hình' : 'DAT');
-                    let detailStr = l.type === 'dat' ? `<strong class="text-blue-600">${l.km} Km</strong>` : '<strong class="text-emerald-600">Hoàn thành</strong>';
+                    let typeStr = l.module === 'theory' ? 'Lý thuyết' : (l.module === 'sahinh' ? 'Sa hình' : 'DAT');
+                    let detailStr = l.module === 'dat' ? `<strong class="text-blue-600">${l.km} Km</strong>` : '<strong class="text-emerald-600">Hoàn thành</strong>';
                     logBody.innerHTML += `
                         <tr class="hover:bg-slate-50 border-b border-slate-100">
-                            <td class="p-3 font-bold text-slate-700">${l.date}</td>
+                            <td class="p-3 font-bold text-slate-700">${formatDate(l.date)}</td>
                             <td class="p-3 font-bold text-indigo-700">${l.studentName}</td>
                             <td class="p-3"><span class="bg-slate-200 text-slate-800 px-2 py-1 rounded text-xs">${typeStr}</span></td>
                             <td class="p-3 text-right">${detailStr}</td>
@@ -1770,25 +1858,72 @@
             }
         }
 
-        // ================= 5. CỔNG HỌC VIÊN DASHBOARD =================
+        function completeTask(sId, assignId, moduleType) {
+            const s = students.find(x => String(x.id) === String(sId));
+            const tCode = sessionStorage.getItem('current_teacher_code');
+            
+            let km = 0;
+            if(moduleType === 'dat') {
+                km = Number(document.getElementById(`datKm_${assignId}`).value);
+                if(!km || km <= 0) return alert('Vui lòng nhập số Km hợp lệ!');
+            }
+
+            students = students.map(st => {
+                if(String(st.id) === String(sId)) {
+                    st.assignments = st.assignments.map(a => {
+                        if(a.id === assignId) {
+                            a.status = 'completed';
+                            if(moduleType === 'dat') a.km = km;
+                            logAudit(`GV: ${tCode}`, 'Chấm công', `Điểm danh ${moduleType} cho HV ${st.name}`);
+                        }
+                        return a;
+                    });
+                }
+                return st;
+            });
+
+            saveAndSync();
+            alert('Điểm danh thành công!');
+            renderTeacherPortal(teachers.find(x => x.code === tCode));
+        }
+
+        // Modal Đánh giá riêng
+        function openTeacherFeedbackModal(sId) {
+            currentLogStudentId = sId;
+            const s = students.find(x => x.id === sId);
+            document.getElementById('logStudentName').innerText = s.name;
+            document.getElementById('logTestScore').value = s.testScore || '';
+            document.getElementById('logTeacherFeedback').value = s.teacherFeedback || '';
+            document.getElementById('teacherLogModal').classList.remove('hidden');
+        }
+        function closeTeacherLogModal() { document.getElementById('teacherLogModal').classList.add('hidden'); }
+        
+        function saveStudentFeedback() {
+            const score = document.getElementById('logTestScore').value;
+            const fb = document.getElementById('logTeacherFeedback').value;
+            students = students.map(s => {
+                if(s.id === currentLogStudentId) { s.testScore = score; s.teacherFeedback = fb; }
+                return s;
+            });
+            saveAndSync();
+            logAudit(`GV: ${sessionStorage.getItem('current_teacher_code')}`, 'Đánh giá', `Đánh giá học viên ID ${currentLogStudentId}`);
+            alert('Lưu đánh giá thành công!');
+            closeTeacherLogModal();
+        }
+
+        // ================= 5. CỔNG HỌC VIÊN =================
         function renderStudentPortal(s) {
             try {
                 const t = teachers.find(x => x.code === s.teacherCode);
                 document.getElementById('sNameDisplay').innerText = s.name || 'Học Viên';
                 document.getElementById('sCccdDisplay').innerText = s.cccd || 'N/A';
+                document.getElementById('sStudentCodeDisplay').innerText = s.code;
                 document.getElementById('sPhoneDisplay').innerText = s.phone || 'N/A';
-                
-                document.getElementById('sTeacherDisplay').innerText = t ? t.name : '--';
-                document.getElementById('sTeacherPhone').innerText = t ? `SĐT: ${t.phone||'--'}` : 'SĐT: --';
-                document.getElementById('sCarPlateDisplay').innerText = t ? t.carPlate || 'CHƯA GÁN XE' : '--';
-                
                 document.getElementById('sCourseBadge').innerText = s.course || 'Chưa rõ';
-
-                const courseInfo = sysSettings.courses.find(c => c.name === s.course);
-                if (courseInfo) {
-                    document.getElementById('sCourseDesc').innerText = courseInfo.desc || 'Chưa có mô tả';
-                    document.getElementById('sCourseBenefits').innerHTML = courseInfo.benefits ? courseInfo.benefits.split('\n').map(b => `<div class="mb-1">✔️ ${b}</div>`).join('') : 'Chưa có thông tin quyền lợi';
-                }
+                
+                // Render Gói Đào Tạo
+                const enrolledServices = s.enrolledServices || [s.course];
+                document.getElementById('sEnrolledServices').innerHTML = enrolledServices.map(srv => `<div class="bg-amber-900/50 px-2 py-1 rounded text-sm text-amber-200 mt-1">${srv}</div>`).join('');
 
                 document.getElementById('sTestScoreView').innerText = s.testScore || '--';
                 document.getElementById('sTeacherFeedbackView').innerText = s.teacherFeedback || 'Chưa có đánh giá';
@@ -1801,6 +1936,12 @@
                 document.getElementById('sTotalPrice').innerText = totalPrice.toLocaleString() + 'đ';
                 document.getElementById('sPaidPrice').innerText = paid.toLocaleString() + 'đ';
                 document.getElementById('sRemainingPrice').innerText = (totalPrice - paid).toLocaleString() + 'đ';
+
+                const warnings = checkPaymentWarnings(s);
+                let warningBanner = '';
+                if (warnings) {
+                    warningBanner = `<div class="bg-red-100 border-2 border-red-400 p-4 md:p-5 rounded-xl md:rounded-2xl mb-4 md:mb-6 shadow-inner text-sm md:text-lg">${warnings.replace(/mt-1/g, 'mb-2')}</div>`;
+                }
 
                 let feeHtml = `<h4 class="font-black mb-4 text-xl md:text-2xl border-b pb-3 text-slate-800">💳 Lịch sử & Thanh toán Học phí</h4>`;
                 [1, 2, 3].forEach(i => {
@@ -1824,7 +1965,7 @@
                             <div class="w-full md:w-auto">${btn}</div>
                         </div>`;
                 });
-                document.getElementById('sFeeForecast').innerHTML = feeHtml;
+                document.getElementById('sFeeForecast').innerHTML = warningBanner + feeHtml;
 
                 let refHtml = '<strong class="text-white block mb-2">Danh sách đã giới thiệu:</strong>';
                 if (!s.referrals || s.referrals.length === 0) refHtml += '<span class="text-indigo-200 text-sm md:text-base">Chưa có lượt giới thiệu nào.</span>';
@@ -1841,25 +1982,6 @@
             } catch (err) {
                 console.error("Lỗi:", err); alert("Dữ liệu lỗi. Vui lòng báo Admin.");
             }
-        }
-
-        function submitStudentReferral() {
-            const name = document.getElementById('sRefName').value.trim();
-            const option = document.getElementById('sRefOption').value;
-            if (!name) return alert('Nhập tên người được giới thiệu!');
-            students = students.map(s => {
-                if (s.cccd === sessionStorage.getItem('current_cccd')) {
-                    if (!s.referrals) s.referrals = [];
-                    s.referrals.push({ name, option, date: new Date().toLocaleDateString('vi-VN') });
-                    if (option === 'deduct') s.totalPrice = (Number(s.totalPrice) || 0) - 1000000;
-                }
-                return s;
-            });
-            saveAndSync(); document.getElementById('sRefName').value = '';
-            logAudit(`HV: ${sessionStorage.getItem('current_cccd')}`, 'Kinh doanh', `Giới thiệu HV mới: ${name}`);
-            const current = students.find(x => x.cccd === sessionStorage.getItem('current_cccd'));
-            if (current) renderStudentPortal(current);
-            alert('Gửi thông tin giới thiệu thành công!');
         }
 
         function uploadAvatar(event) {
