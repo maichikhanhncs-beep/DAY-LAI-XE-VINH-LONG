@@ -503,10 +503,22 @@
             return 'GV' + (nextNum < 10 ? '0' + nextNum : nextNum);
         }
 
+        // Đã tối ưu hóa hàm GPS chống treo (timeout 3s)
         function captureGPS(cb) {
+            let isDone = false;
+            let timer = setTimeout(() => {
+                if(!isDone) { isDone = true; cb('Không lấy được GPS'); }
+            }, 3000); 
+            
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(pos => cb(`${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`), () => cb('Từ chối GPS'));
-            } else { cb('Không hỗ trợ GPS'); }
+                navigator.geolocation.getCurrentPosition(
+                    pos => { if(!isDone) { isDone = true; clearTimeout(timer); cb(`${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`); } }, 
+                    err => { if(!isDone) { isDone = true; clearTimeout(timer); cb('Từ chối GPS'); } },
+                    { timeout: 3000 }
+                );
+            } else { 
+                if(!isDone) { isDone = true; clearTimeout(timer); cb('Không hỗ trợ GPS'); }
+            }
         }
 
         function toggleLoginInput() {
