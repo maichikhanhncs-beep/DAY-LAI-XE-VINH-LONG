@@ -98,7 +98,7 @@
                 </nav>
             </div>
             <div class="pt-8 border-t border-slate-800 space-y-3">
-                <button onclick="backupData()" class="w-full bg-amber-500/20 text-amber-300 border border-amber-500/30 py-3.5 rounded-xl text-base font-bold">📥 Sao Lưu Dữ Lu</button>
+                <button onclick="backupData()" class="w-full bg-amber-500/20 text-amber-300 border border-amber-500/30 py-3.5 rounded-xl text-base font-bold">📥 Sao Lưu Dữ Liệu</button>
                 <label class="block w-full text-center bg-purple-500/20 text-purple-300 border border-purple-500/30 py-3.5 rounded-xl text-base font-bold cursor-pointer">
                     📤 Phục Hồi Dữ Liệu <input type="file" id="restoreFile" accept=".json" onchange="restoreData(event)" class="hidden">
                 </label>
@@ -515,29 +515,6 @@
             return 'GV' + (nextNum < 10 ? '0' + nextNum : nextNum);
         }
 
-        // ĐÃ TỐI ƯU CỰC MẠNH: Dù bật/tắt GPS, code vẫn chạy thẳng vào trong không bị treo
-        function captureGPS(cb) {
-            // Không đợi GPS nữa, gọi đăng nhập luôn để khỏi lag, GPS chạy ngầm lấy sau
-            cb('Đang cập nhật định vị...'); 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    pos => {
-                        const currentRole = localStorage.getItem('current_role');
-                        if(currentRole === 'student') {
-                            const cccd = localStorage.getItem('current_cccd');
-                            students = students.map(s => {
-                                if (s.cccd === cccd) s.gps = `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
-                                return s;
-                            });
-                            saveAndSync();
-                        }
-                    },
-                    err => { console.log('Không lấy được GPS'); },
-                    { timeout: 5000 }
-                );
-            }
-        }
-
         function toggleLoginInput() {
             const role = document.getElementById('loginRole').value;
             document.getElementById('studentLoginGroup').classList.add('hidden');
@@ -548,45 +525,47 @@
             else document.getElementById('studentLoginGroup').classList.remove('hidden');
         }
 
+        // BỎ HOÀN TOÀN GPS Ở ĐÂY ĐỂ ĐĂNG NHẬP KHÔNG BAO GIỜ BỊ TREO
         function handleLogin() {
             const role = document.getElementById('loginRole').value;
-            captureGPS(gps => {
-                if (role === 'admin') {
-                    const user = document.getElementById('adminUser').value.trim();
-                    const pass = document.getElementById('adminPass').value.trim();
-                    if (!user || !pass) return alert('Vui lòng nhập đầy đủ tài khoản và mật khẩu!');
-                    if (user !== 'admin' || pass !== 'admin123') return alert('Sai tài khoản hoặc mật khẩu Quản trị!');
-                    localStorage.setItem('current_role', 'admin');
-                    document.getElementById('loginScreen').classList.add('hidden');
-                    document.getElementById('adminDashboard').classList.remove('hidden');
-                    renderAdminStudentTable();
-                    updateTeacherSelect();
-                } else if (role === 'teacher') {
-                    const code = document.getElementById('loginTeacherCode').value.trim();
-                    const pass = document.getElementById('loginTeacherPass').value.trim();
-                    if (!code || !pass) return alert('Vui lòng nhập đầy đủ mã và mật khẩu!');
-                    const t = teachers.find(x => x.code.toLowerCase() === code.toLowerCase());
-                    if (!t || pass !== '123') return alert('Mã giáo viên hoặc mật khẩu không đúng!');
-                    localStorage.setItem('current_role', 'teacher');
-                    localStorage.setItem('current_teacher_code', t.code);
-                    document.getElementById('loginScreen').classList.add('hidden');
-                    document.getElementById('teacherDashboard').classList.remove('hidden');
-                    renderTeacherPortal(t);
-                } else {
-                    const cccd = document.getElementById('loginCCCD').value.trim();
-                    const pass = document.getElementById('loginPass').value.trim();
-                    if (!cccd || !pass) return alert('Vui lòng nhập số CCCD và mật khẩu!');
-                    const s = students.find(x => x.cccd === cccd);
-                    if (!s || pass !== s.pass) return alert('CCCD hoặc mật khẩu không đúng!');
-                    s.gps = gps;
-                    saveAndSync();
-                    localStorage.setItem('current_role', 'student');
-                    localStorage.setItem('current_cccd', s.cccd);
-                    document.getElementById('loginScreen').classList.add('hidden');
-                    document.getElementById('studentDashboard').classList.remove('hidden');
-                    renderStudentPortal(s);
-                }
-            });
+            
+            if (role === 'admin') {
+                const user = document.getElementById('adminUser').value.trim();
+                const pass = document.getElementById('adminPass').value.trim();
+                if (!user || !pass) return alert('Vui lòng nhập đầy đủ tài khoản và mật khẩu!');
+                if (user !== 'admin' || pass !== 'admin123') return alert('Sai tài khoản hoặc mật khẩu Quản trị!');
+                localStorage.setItem('current_role', 'admin');
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                renderAdminStudentTable();
+                updateTeacherSelect();
+            } else if (role === 'teacher') {
+                const code = document.getElementById('loginTeacherCode').value.trim();
+                const pass = document.getElementById('loginTeacherPass').value.trim();
+                if (!code || !pass) return alert('Vui lòng nhập đầy đủ mã và mật khẩu!');
+                const t = teachers.find(x => x.code.toLowerCase() === code.toLowerCase());
+                if (!t || pass !== '123') return alert('Mã giáo viên hoặc mật khẩu không đúng!');
+                localStorage.setItem('current_role', 'teacher');
+                localStorage.setItem('current_teacher_code', t.code);
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('teacherDashboard').classList.remove('hidden');
+                renderTeacherPortal(t);
+            } else {
+                const cccd = document.getElementById('loginCCCD').value.trim();
+                const pass = document.getElementById('loginPass').value.trim();
+                if (!cccd || !pass) return alert('Vui lòng nhập số CCCD và mật khẩu!');
+                const s = students.find(x => x.cccd === cccd);
+                if (!s || pass !== s.pass) return alert('CCCD hoặc mật khẩu không đúng!');
+                
+                s.gps = 'Đã tắt định vị'; // Bỏ qua hoàn toàn GPS
+                saveAndSync();
+                
+                localStorage.setItem('current_role', 'student');
+                localStorage.setItem('current_cccd', s.cccd);
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('studentDashboard').classList.remove('hidden');
+                renderStudentPortal(s);
+            }
         }
 
         function logout() { 
