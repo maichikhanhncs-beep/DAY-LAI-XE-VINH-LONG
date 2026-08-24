@@ -11,6 +11,9 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
         .tab-btn.active { background-color: #2563eb; color: white; }
+        /* Tùy chỉnh input date để hiển thị trực quan hơn */
+        input[type="date"] { position: relative; }
+        input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(0.2); }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen font-sans text-slate-800">
@@ -450,12 +453,12 @@
             "7. Thi sát hạch (1 ngày)"
         ];
 
-        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v18';
-        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v18';
-        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v18';
-        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v18';
+        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v19';
+        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v19';
+        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v19';
+        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v19';
 
-        // Hàm định dạng ngày chuẩn dd/mm/yy
+        // Hàm chuẩn hóa định dạng ngày tháng hiển thị thành dd/mm/yy (ví dụ: 24/08/26)
         function formatDateDDMMYY(dateStr) {
             if(!dateStr) return 'N/A';
             let parts = dateStr.split('-');
