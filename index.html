@@ -450,10 +450,10 @@
             "7. Thi sát hạch (1 ngày)"
         ];
 
-        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v15';
-        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v15';
-        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v15';
-        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v15';
+        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v16';
+        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v16';
+        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v16';
+        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v16';
 
         let auditLogs = JSON.parse(localStorage.getItem(STORAGE_KEY_AUDIT)) || [];
         function logAudit(user, action, detail) {
@@ -611,7 +611,6 @@
         }
         function clearAuditLogs() { if(confirm('Xóa nhật ký?')) { auditLogs = []; localStorage.removeItem(STORAGE_KEY_AUDIT); renderAuditTab(); } }
 
-        // CẤU HÌNH GÓI DỊCH VỤ / KHÓA HỌC (TÙY CHỈNH THỜI GIAN & HỌC PHÍ)
         function renderSettingsTab() {
             document.getElementById('sysCoursesTableBody').innerHTML = sysSettings.courses.map(c => `
                 <tr class="border-b">
@@ -634,7 +633,7 @@
                         <span class="font-bold text-xs text-slate-600 w-6">#${idx+1}</span>
                         <input type="text" id="cfgStepInput_${idx}" value="${step}" class="border p-1.5 rounded w-full text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
                     </div>
-                `).join('') + `<button onclick="saveCustomSteps()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-xs shadow hover:bg-blue-700">Cập Nhật Thời Gian Lộ Trình</button>`;
+                `).join('') + '<button onclick="saveCustomSteps()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-xs shadow hover:bg-blue-700">Cập Nhật Thời Gian Lộ Trình</button>';
             }
         }
 
@@ -729,7 +728,7 @@
             teachers.forEach(t => sel.innerHTML += `<option value="${t.code}">${t.name} (${t.code})</option>`);
         }
 
-        // XUẤT BẢNG BÁO GIÁ PDF CHỈN CHU
+        // XUẤT BẢNG BÁO GIÁ PDF KHẮC PHỤC LỖI RENDER
         function exportQuotationPDF() {
             const name = document.getElementById('addName').value.trim() || 'Khách hàng';
             const phone = document.getElementById('addPhone').value.trim() || 'Chưa cập nhật';
@@ -749,14 +748,16 @@
             if(selectedItems.length === 0) return alert('Vui lòng tích chọn ít nhất 1 gói dịch vụ để lập bảng báo giá!');
             let finalTotal = totalRaw - (isHssv ? 1000000 : 0);
 
-            const printWin = window.open('', '_blank', 'width=900,height=700');
-            printWin.document.write(`
+            const printWin = window.open('', '_blank');
+            if(!printWin) return alert('Trình duyệt đã chặn cửa sổ bật lên (Pop-up blocker). Hãy cho phép popup để xuất PDF!');
+
+            let htmlContent = `
                 <html>
                 <head>
                     <meta charset="UTF-8">
                     <title>Bảng Báo Giá Dịch Vụ Đào Tạo Lái Xe</title>
                     <style>
-                        body { font-family: 'Arial', sans-serif; color: #1e293b; padding: 40px; }
+                        body { font-family: Arial, sans-serif; color: #1e293b; padding: 40px; }
                         .header { text-align: center; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 30px; }
                         .header h1 { color: #1e3a8a; margin: 0; font-size: 26px; text-transform: uppercase; }
                         .header p { margin: 5px 0 0; color: #64748b; font-size: 14px; }
@@ -804,14 +805,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            ${selectedItems.map((item, index) => `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td><strong>${item.name}</strong></td>
-                                    <td>${item.duration}</td>
-                                    <td class="text-right">${item.price.toLocaleString()}đ</td>
-                                </tr>
-                            `).join('')}
+            `;
+
+            selectedItems.forEach((item, index) => {
+                htmlContent += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${item.duration}</td>
+                        <td class="text-right">${item.price.toLocaleString()}đ</td>
+                    </tr>
+                `;
+            });
+
+            htmlContent += `
                         </tbody>
                     </table>
 
@@ -833,14 +840,16 @@
                             <p>(Ký, ghi rõ họ tên)</p>
                         </div>
                     </div>
-
-                    <script>
-                        window.onload = function() { window.print(); window.close(); }
-                    </script>
                 </body>
                 </html>
-            `);
+            `;
+
+            printWin.document.open();
+            printWin.document.write(htmlContent);
             printWin.document.close();
+            setTimeout(() => {
+                printWin.print();
+            }, 500);
         }
 
         function renderFinanceTab() {
