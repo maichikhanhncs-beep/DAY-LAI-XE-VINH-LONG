@@ -156,7 +156,7 @@
                                     <input type="text" id="addAddress" placeholder="Địa chỉ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ (Có thể lùi ngày) *</label>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ (Lùi ngày tùy ý) *</label>
                                     <input type="date" id="addReceiveDate" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 text-amber-900 font-bold w-full focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
@@ -450,10 +450,20 @@
             "7. Thi sát hạch (1 ngày)"
         ];
 
-        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v16';
-        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v16';
-        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v16';
-        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v16';
+        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v17';
+        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v17';
+        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v17';
+        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v17';
+
+        // Hàm chuyển đổi định dạng ngày từ YYYY-MM-DD sang DD/MM/YYYY
+        function formatDateVN(dateStr) {
+            if(!dateStr) return 'N/A';
+            let parts = dateStr.split('-');
+            if(parts.length === 3) {
+                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            return dateStr;
+        }
 
         let auditLogs = JSON.parse(localStorage.getItem(STORAGE_KEY_AUDIT)) || [];
         function logAudit(user, action, detail) {
@@ -728,7 +738,7 @@
             teachers.forEach(t => sel.innerHTML += `<option value="${t.code}">${t.name} (${t.code})</option>`);
         }
 
-        // XUẤT BẢNG BÁO GIÁ PDF KHẮC PHỤC LỖI RENDER
+        // XUẤT BẢNG BÁO GIÁ PDF VỚI ĐỊNH DẠNG NGÀY THÁNG NĂM CHUẨN VIỆT NAM
         function exportQuotationPDF() {
             const name = document.getElementById('addName').value.trim() || 'Khách hàng';
             const phone = document.getElementById('addPhone').value.trim() || 'Chưa cập nhật';
@@ -750,6 +760,8 @@
 
             const printWin = window.open('', '_blank');
             if(!printWin) return alert('Trình duyệt đã chặn cửa sổ bật lên (Pop-up blocker). Hãy cho phép popup để xuất PDF!');
+
+            let todayFormatted = new Date().toLocaleDateString('vi-VN'); // Ngày / Tháng / Năm
 
             let htmlContent = `
                 <html>
@@ -786,7 +798,7 @@
                         <table>
                             <tr>
                                 <td><strong>Họ và tên khách hàng:</strong> ${name}</td>
-                                <td><strong>Ngày báo giá:</strong> ${new Date().toLocaleDateString('vi-VN')}</td>
+                                <td><strong>Ngày báo giá:</strong> ${todayFormatted}</td>
                             </tr>
                             <tr>
                                 <td><strong>Số CCCD:</strong> ${cccd}</td>
@@ -911,7 +923,7 @@
                     let estProfit = data.rev - estCost;
                     mTableBody.innerHTML += `
                         <tr class="hover:bg-slate-50 border-b">
-                            <td class="p-4 font-bold font-mono text-blue-700">${m}</td>
+                            <td class="p-4 font-bold font-mono text-blue-700">Tháng ${m}</td>
                             <td class="p-4 text-center font-bold">${data.count} học viên</td>
                             <td class="p-4 text-right font-bold text-emerald-600">${data.rev.toLocaleString()}đ</td>
                             <td class="p-4 text-right font-bold text-red-600">${Math.round(estCost).toLocaleString()}đ</td>
@@ -978,7 +990,7 @@
                 startDate, course: enrolledServices.join(', '), enrolledServices, stepIndex: 0, totalPrice, paymentType,
                 fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', notes: [], teacherCode: document.getElementById('addTeacher').value
             });
-            saveAndSync(); populateMonthFilters(); renderAdminStudentTable(); alert(`Tạo hồ sơ thành công (Ngày nhận: ${receiveDate})!\nMã HV: ${code}`);
+            saveAndSync(); populateMonthFilters(); renderAdminStudentTable(); alert(`Tạo hồ sơ thành công (Ngày nhận: ${formatDateVN(receiveDate)})!\nMã HV: ${code}`);
         }
         function importExcel() { alert('Import Excel mẫu.'); }
         
@@ -1003,7 +1015,7 @@
                         <td class="p-5">
                             <a href="#" onclick="openStudentModal('${s.cccd}'); return false;" class="font-black text-blue-600 text-lg hover:underline">${s.name}</a><br>
                             <span class="font-mono text-xs text-slate-500">Mã: ${s.code} | CCCD: ${s.cccd}</span><br>
-                            <span class="text-xs text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">📅 Nhận hồ sơ: ${s.receiveDate || 'N/A'}</span>
+                            <span class="text-xs text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">📅 Ngày nhận: ${formatDateVN(s.receiveDate)}</span>
                         </td>
                         <td class="p-5 font-bold">${s.course}</td>
                         <td class="p-5 text-center"><span class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full text-xs font-bold">Bước ${s.stepIndex+1}/${sysSettings.steps.length}</span></td>
