@@ -450,17 +450,21 @@
             "7. Thi sát hạch (1 ngày)"
         ];
 
-        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v17';
-        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v17';
-        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v17';
-        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v17';
+        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v18';
+        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v18';
+        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v18';
+        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v18';
 
-        // Hàm chuyển đổi định dạng ngày từ YYYY-MM-DD sang DD/MM/YYYY
-        function formatDateVN(dateStr) {
+        // Hàm định dạng ngày chuẩn dd/mm/yy
+        function formatDateDDMMYY(dateStr) {
             if(!dateStr) return 'N/A';
             let parts = dateStr.split('-');
             if(parts.length === 3) {
-                return `${parts[2]}/${parts[1]}/${parts[0]}`;
+                let yyyy = parts[0];
+                let mm = parts[1];
+                let dd = parts[2];
+                let yy = yyyy.slice(-2);
+                return `${dd}/${mm}/${yy}`;
             }
             return dateStr;
         }
@@ -491,7 +495,7 @@
 
         let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS)) || [];
         if (teachers.length === 0) {
-            teachers.push({ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', deductions: 0, carPlate: '64A-123.45', licenseExp: '2030-01-01', certExp: '2028-01-01' });
+            teachers.push({ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', deductions: 0, carPlate: '64A-123.45', licenseExp: '2030-01-01', certExp: '2028-01-01', carExp: '2028-06-01' });
             localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
         }
         
@@ -587,7 +591,8 @@
                 let curVal = filterSel.value;
                 filterSel.innerHTML = '<option value="all">-- Tất cả các tháng --</option>';
                 sortedMonths.forEach(m => {
-                    filterSel.innerHTML += `<option value="${m}">Tháng ${m}</option>`;
+                    let parts = m.split('/');
+                    filterSel.innerHTML += `<option value="${m}">Tháng ${parts[0]}/${parts[1].slice(-2)}</option>`;
                 });
                 filterSel.value = curVal || 'all';
             }
@@ -597,7 +602,8 @@
                 let curVal = finSel.value;
                 finSel.innerHTML = '<option value="all">-- Cả năm / Toàn thời gian --</option>';
                 sortedMonths.forEach(m => {
-                    finSel.innerHTML += `<option value="${m}">Tháng ${m}</option>`;
+                    let parts = m.split('/');
+                    finSel.innerHTML += `<option value="${m}">Tháng ${parts[0]}/${parts[1].slice(-2)}</option>`;
                 });
                 finSel.value = curVal || 'all';
             }
@@ -738,7 +744,7 @@
             teachers.forEach(t => sel.innerHTML += `<option value="${t.code}">${t.name} (${t.code})</option>`);
         }
 
-        // XUẤT BẢNG BÁO GIÁ PDF VỚI ĐỊNH DẠNG NGÀY THÁNG NĂM CHUẨN VIỆT NAM
+        // XUẤT BẢNG BÁO GIÁ PDF VỚI ĐỊNH DẠNG NGÀY THÁNG DD/MM/YY
         function exportQuotationPDF() {
             const name = document.getElementById('addName').value.trim() || 'Khách hàng';
             const phone = document.getElementById('addPhone').value.trim() || 'Chưa cập nhật';
@@ -761,7 +767,7 @@
             const printWin = window.open('', '_blank');
             if(!printWin) return alert('Trình duyệt đã chặn cửa sổ bật lên (Pop-up blocker). Hãy cho phép popup để xuất PDF!');
 
-            let todayFormatted = new Date().toLocaleDateString('vi-VN'); // Ngày / Tháng / Năm
+            let todayFormatted = formatDateDDMMYY(new Date().toISOString().split('T')[0]); // dd/mm/yy
 
             let htmlContent = `
                 <html>
@@ -919,11 +925,13 @@
             } else {
                 sortedMonths.forEach(m => {
                     let data = monthlyMap[m];
+                    let parts = m.split('/');
+                    let displayMonthYear = parts.length === 2 ? `Tháng ${parts[0]}/${parts[1].slice(-2)}` : m;
                     let estCost = data.count * (sysSettings.costs.exam || 680000) + (totalTeacherBonus / (students.length||1)) * data.count + (sysSettings.costs.rent || 15000000);
                     let estProfit = data.rev - estCost;
                     mTableBody.innerHTML += `
                         <tr class="hover:bg-slate-50 border-b">
-                            <td class="p-4 font-bold font-mono text-blue-700">Tháng ${m}</td>
+                            <td class="p-4 font-bold font-mono text-blue-700">${displayMonthYear}</td>
                             <td class="p-4 text-center font-bold">${data.count} học viên</td>
                             <td class="p-4 text-right font-bold text-emerald-600">${data.rev.toLocaleString()}đ</td>
                             <td class="p-4 text-right font-bold text-red-600">${Math.round(estCost).toLocaleString()}đ</td>
@@ -952,7 +960,11 @@
                 const inc = calculateTeacherIncome(t);
                 return `
                     <tr class="border-b-2 hover:bg-slate-50 transition">
-                        <td class="p-5 font-mono font-bold text-indigo-600"><strong class="text-slate-800 font-sans text-xl">${t.name}</strong> (${t.code})<br><span class="text-base text-slate-500">SĐT: ${t.phone || 'N/A'}</span></td>
+                        <td class="p-5 font-mono font-bold text-indigo-600">
+                            <strong class="text-slate-800 font-sans text-xl">${t.name}</strong> (${t.code})<br>
+                            <span class="text-base text-slate-500">SĐT: ${t.phone || 'N/A'}</span><br>
+                            <span class="text-xs text-slate-500">Hạn GPLX: ${formatDateDDMMYY(t.licenseExp)} | Hạn KĐ Xe: ${formatDateDDMMYY(t.carExp)}</span>
+                        </td>
                         <td class="p-5 font-bold text-indigo-600 text-xl">${inc.count} học viên phụ trách</td>
                         <td class="p-5 text-base space-y-2 leading-relaxed">
                             <div>- Thưởng nhận HV (1.5tr x ${inc.count}): <strong>${inc.receiveStudent.toLocaleString()}đ</strong></div>
@@ -990,7 +1002,7 @@
                 startDate, course: enrolledServices.join(', '), enrolledServices, stepIndex: 0, totalPrice, paymentType,
                 fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', notes: [], teacherCode: document.getElementById('addTeacher').value
             });
-            saveAndSync(); populateMonthFilters(); renderAdminStudentTable(); alert(`Tạo hồ sơ thành công (Ngày nhận: ${formatDateVN(receiveDate)})!\nMã HV: ${code}`);
+            saveAndSync(); populateMonthFilters(); renderAdminStudentTable(); alert(`Tạo hồ sơ thành công (Ngày nhận: ${formatDateDDMMYY(receiveDate)})!\nMã HV: ${code}`);
         }
         function importExcel() { alert('Import Excel mẫu.'); }
         
@@ -1015,7 +1027,7 @@
                         <td class="p-5">
                             <a href="#" onclick="openStudentModal('${s.cccd}'); return false;" class="font-black text-blue-600 text-lg hover:underline">${s.name}</a><br>
                             <span class="font-mono text-xs text-slate-500">Mã: ${s.code} | CCCD: ${s.cccd}</span><br>
-                            <span class="text-xs text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">📅 Ngày nhận: ${formatDateVN(s.receiveDate)}</span>
+                            <span class="text-xs text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">📅 Ngày nhận: ${formatDateDDMMYY(s.receiveDate)}</span>
                         </td>
                         <td class="p-5 font-bold">${s.course}</td>
                         <td class="p-5 text-center"><span class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full text-xs font-bold">Bước ${s.stepIndex+1}/${sysSettings.steps.length}</span></td>
