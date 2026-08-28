@@ -20,7 +20,7 @@
         <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-6 md:p-12 flex flex-col justify-between text-white shadow-2xl z-10">
             <div class="mb-8 md:mb-0">
                 <span class="text-5xl md:text-6xl">🚘</span>
-                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v6.6 Cashflow Optimized</span>
+                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v6.7 Cashflow Dynamic</span>
             </div>
             <div class="space-y-4 md:space-y-6 my-auto">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">HỆ THỐNG QUẢN TRỊ ĐÀO TẠO LÁI XE</h1>
@@ -323,16 +323,14 @@
                             <div class="bg-blue-50 p-6 md:p-8 rounded-3xl border border-blue-200 flex flex-col justify-center shadow-inner">
                                 <span class="text-sm text-blue-600 font-bold uppercase tracking-widest block mb-2">1. Dòng Tiền Thu Thực Tế (Cash Inflow)</span>
                                 <strong class="text-blue-900 text-4xl md:text-5xl font-black" id="finTotalRevenue">0đ</strong>
-                                <p class="text-xs text-blue-600 mt-2">Tổng tiền mặt/chuyển khoản thực tế đã thu từ học viên</p>
+                                <p class="text-xs text-blue-600 mt-2">Tổng tiền thực tế đã thu từ học viên</p>
                             </div>
 
                             <div class="bg-red-50 p-6 md:p-8 rounded-3xl border border-red-200 shadow-inner">
                                 <span class="text-sm text-red-600 font-bold uppercase tracking-widest block mb-2">2. Dòng Tiền Chi Thực Tế (Cash Outflow)</span>
                                 <strong class="text-red-700 text-4xl font-black block mb-4" id="finTotalAllCost">0đ</strong>
-                                <div class="space-y-2 text-sm text-red-800 font-medium">
-                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Quỹ Lương Giáo Viên:</span><strong id="finTotalTeacherBonus">0đ</strong></div>
-                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Chi phí Biến đổi (Khám SK, Thi...):</span><strong id="finTotalVariableCost">0đ</strong></div>
-                                    <div class="flex justify-between pb-1"><span>Chi phí Cố định (Mặt bằng, MKT...):</span><strong id="finTotalFixedCost">0đ</strong></div>
+                                <div class="space-y-2 text-sm text-red-800 font-medium" id="finCostBreakdownContainer">
+                                    <!-- Hiển thị động các chi phí vận hành -->
                                 </div>
                             </div>
 
@@ -393,7 +391,7 @@
                         </div>
 
                         <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                            <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-2">💰 Cấu Hình Định Mức & Kỳ Thanh Toán</h3>
+                            <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-2">💰 Cấu Hình Định Mức & Chi Phí Vận Hành</h3>
 
                             <div class="bg-purple-50 p-5 rounded-2xl border border-purple-100 space-y-3 text-sm">
                                 <div class="flex justify-between items-center mb-2">
@@ -408,10 +406,13 @@
                                 <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Thưởng nhận HV mới (VNĐ)</span> <input type="number" id="cfgBonusReceive" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
                             </div>
 
+                            <!-- PHẦN CHI PHÍ VẬN HÀNH ĐỘNG (THÊM, BỚT, SỬA) -->
                             <div class="bg-red-50 p-5 rounded-2xl border border-red-100 space-y-3 text-sm">
-                                <strong class="text-red-800 block mb-2 font-black uppercase text-xs">B. Chi Phí Vận Hành (Cố định & Biến đổi)</strong>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Lệ phí thi / Khám SK (VNĐ/HV)</span> <input type="number" id="cfgCostExam" class="border-2 p-2 rounded-lg w-32 text-right font-black text-red-700 focus:border-red-500 outline-none"></div>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Chi phí mặt bằng / Tháng (VNĐ)</span> <input type="number" id="cfgCostRent" class="border-2 p-2 rounded-lg w-32 text-right font-black text-red-700 focus:border-red-500 outline-none"></div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <strong class="text-red-800 font-black uppercase text-xs">B. Chi Phí Vận Hành (Cố định & Biến đổi)</strong>
+                                    <button onclick="addOpCostConfigRow()" class="bg-red-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-red-700 transition">➕ Thêm Mục Chi Phí</button>
+                                </div>
+                                <div id="cfgOpCostsConfigContainer" class="space-y-2"></div>
                             </div>
 
                             <button onclick="saveSysFinancials()" class="w-full bg-emerald-600 text-white p-4 rounded-xl font-black text-lg shadow-lg hover:bg-emerald-700 transition">💾 LƯU TOÀN BỘ CẤU HÌNH HỆ THỐNG</button>
@@ -502,15 +503,15 @@
             { name: "Kỳ 3: Sau khi chạy DAT xong", percent: 25, condition: "Hoàn thành chạy DAT đường trường" }
         ];
 
-        let DEFAULT_EXTRA_FEES = [
-            { name: 'Lệ phí thi/khám sk (VNĐ/1 HV)', price: 680000 },
-            { name: 'Chi phí Mặt bằng/Tháng', price: 15000000 }
+        let DEFAULT_OP_COSTS = [
+            { name: "Lệ phí thi / Khám SK (VNĐ/HV)", amount: 680000, type: "per_student" },
+            { name: "Chi phí mặt bằng / Tháng (VNĐ)", amount: 15000000, type: "monthly" }
         ];
 
-        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v20';
-        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v20';
-        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v20';
-        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v20';
+        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v21';
+        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v21';
+        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v21';
+        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v21';
 
         function setupDateInputMask(id) {
             const input = document.getElementById(id);
@@ -564,16 +565,14 @@
                     { id: 'c2', name: 'Hạng B (Cơ khí)', price: 19500000, duration: '3.5 tháng', desc: 'Khóa B2 chuẩn' },
                     { id: 'c3', name: 'Hạng C', price: 21500000, duration: '5 tháng', desc: 'Khóa C tải' }
                 ],
-                steps: DEFAULT_STEPS,
                 installments: DEFAULT_INSTALLMENTS,
-                extraFees: DEFAULT_EXTRA_FEES,
-                bonuses: { receive: 1500000 },
-                costs: { exam: 680000, rent: 15000000 }
+                opCosts: DEFAULT_OP_COSTS,
+                bonuses: { receive: 1500000 }
             };
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
         }
         if(!sysSettings.installments) sysSettings.installments = DEFAULT_INSTALLMENTS;
-        if(!sysSettings.extraFees) sysSettings.extraFees = DEFAULT_EXTRA_FEES;
+        if(!sysSettings.opCosts) sysSettings.opCosts = DEFAULT_OP_COSTS;
 
         let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS)) || [];
         if (teachers.length === 0) {
@@ -728,10 +727,8 @@
                 </tr>`).join('');
 
             document.getElementById('cfgBonusReceive').value = sysSettings.bonuses.receive;
-            document.getElementById('cfgCostExam').value = sysSettings.costs.exam;
-            document.getElementById('cfgCostRent').value = sysSettings.costs.rent;
-
             renderInstallmentsConfigInputs();
+            renderOpCostsConfigInputs();
         }
 
         function renderInstallmentsConfigInputs() {
@@ -756,6 +753,32 @@
             sysSettings.installments.splice(idx, 1);
             renderInstallmentsConfigInputs();
         }
+
+        // --- CÁC HÀM XỬ LÝ ĐỘNG CHO CHI PHÍ VẬN HÀNH ---
+        function renderOpCostsConfigInputs() {
+            const container = document.getElementById('cfgOpCostsConfigContainer');
+            if(!container) return;
+            if(!sysSettings.opCosts) sysSettings.opCosts = [];
+            container.innerHTML = sysSettings.opCosts.map((item, idx) => `
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 bg-white p-2.5 rounded-lg border shadow-sm items-center">
+                    <div class="sm:col-span-6"><input type="text" id="cfgOpName_${idx}" value="${item.name}" placeholder="Tên chi phí..." class="border p-1.5 rounded w-full text-xs font-bold outline-none"></div>
+                    <div class="sm:col-span-4"><input type="number" id="cfgOpAmount_${idx}" value="${item.amount}" placeholder="Số tiền" class="border p-1.5 rounded w-full text-xs font-black text-red-700 text-right outline-none"></div>
+                    <div class="sm:col-span-2 text-center"><button onclick="removeOpCostConfig(${idx})" class="bg-red-100 text-red-600 px-2.5 py-1 rounded text-xs font-bold hover:bg-red-200">Xóa</button></div>
+                </div>
+            `).join('');
+        }
+
+        function addOpCostConfigRow() {
+            if(!sysSettings.opCosts) sysSettings.opCosts = [];
+            sysSettings.opCosts.push({ name: "Khoản chi phí mới", amount: 0 });
+            renderOpCostsConfigInputs();
+        }
+
+        function removeOpCostConfig(idx) {
+            sysSettings.opCosts.splice(idx, 1);
+            renderOpCostsConfigInputs();
+        }
+        // ----------------------------------------------
 
         let currentEditCourseId = null;
         function resetCourseForm() {
@@ -795,11 +818,21 @@
                 }
             }
             if(newInsts.length > 0) sysSettings.installments = newInsts;
+
+            let newOpCosts = [];
+            for(let i=0; i<sysSettings.opCosts.length; i++) {
+                let nameEl = document.getElementById(`cfgOpName_${i}`);
+                let amtEl = document.getElementById(`cfgOpAmount_${i}`);
+                if(nameEl && amtEl) {
+                    newOpCosts.push({ name: nameEl.value.trim(), amount: Number(amtEl.value)||0 });
+                }
+            }
+            sysSettings.opCosts = newOpCosts;
             sysSettings.bonuses = { receive: Number(document.getElementById('cfgBonusReceive').value) };
-            sysSettings.costs = { exam: Number(document.getElementById('cfgCostExam').value), rent: Number(document.getElementById('cfgCostRent').value) };
+
             saveAndSync(); 
             updateServicesChecklist();
-            alert("💾 Đã lưu cấu hình tài chính dòng tiền!");
+            alert("💾 Đã lưu cấu hình tài chính & chi phí vận hành mới thành công!");
         }
 
         function togglePaymentTypeUI() {
@@ -1013,17 +1046,36 @@
                 return `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}` === selectedMonth;
             }).length;
 
-            const totalVariableCost = activeCount * (sysSettings.costs.exam || 680000); 
-            const totalFixedCost = selectedMonth === 'all' ? (sysSettings.costs.rent || 15000000) * 12 : (sysSettings.costs.rent || 15000000); 
-            const totalAllCost = totalTeacherBonus + totalVariableCost + totalFixedCost;
+            // Tính toán chi phí động dựa trên cấu hình opCosts
+            let opCostsSummary = {};
+            let totalOpCosts = 0;
+            if(sysSettings.opCosts) {
+                sysSettings.opCosts.forEach(item => {
+                    // Nếu tên có chữ (VNĐ/HV) hoặc dạng biến đổi theo học viên thì nhân với số lượng học viên mới trong tháng, ngược lại tính một lần cố định
+                    let costVal = 0;
+                    if(item.name.toLowerCase().includes('hv') || item.name.toLowerCase().includes('học viên') || item.name.toLowerCase().includes('thi')) {
+                        costVal = activeCount * (item.amount || 0);
+                    } else {
+                        costVal = (selectedMonth === 'all' ? (item.amount || 0) * 12 : (item.amount || 0));
+                    }
+                    opCostsSummary[item.name] = costVal;
+                    totalOpCosts += costVal;
+                });
+            }
+
+            const totalAllCost = totalTeacherBonus + totalOpCosts;
             const netProfit = totalRev - totalAllCost;
             let margin = totalRev > 0 ? ((netProfit / totalRev) * 100).toFixed(1) : 0;
 
             document.getElementById('finTotalRevenue').innerText = totalRev.toLocaleString() + 'đ';
-            document.getElementById('finTotalTeacherBonus').innerText = totalTeacherBonus.toLocaleString() + 'đ';
-            document.getElementById('finTotalVariableCost').innerText = totalVariableCost.toLocaleString() + 'đ';
-            document.getElementById('finTotalFixedCost').innerText = totalFixedCost.toLocaleString() + 'đ';
             document.getElementById('finTotalAllCost').innerText = Math.round(totalAllCost).toLocaleString() + 'đ';
+
+            // Render chi tiết các khoản chi phí ra màn hình P&L
+            let breakdownHtml = `<div class="flex justify-between border-b border-red-200/50 pb-1"><span>Quỹ Lương Giáo Viên:</span><strong>${totalTeacherBonus.toLocaleString()}đ</strong></div>`;
+            for(let key in opCostsSummary) {
+                breakdownHtml += `<div class="flex justify-between border-b border-red-200/50 pb-1"><span>${key}:</span><strong>${opCostsSummary[key].toLocaleString()}đ</strong></div>`;
+            }
+            document.getElementById('finCostBreakdownContainer').innerHTML = breakdownHtml;
 
             const pf = document.getElementById('finNetProfit'); 
             pf.innerText = Math.round(netProfit).toLocaleString() + 'đ';
@@ -1035,7 +1087,17 @@
             let sortedMonths = Object.keys(monthlyMap).sort();
             sortedMonths.forEach(m => {
                 let data = monthlyMap[m];
-                let estCost = data.count * (sysSettings.costs.exam || 680000) + (sysSettings.costs.rent || 15000000);
+                let monthOpCost = 0;
+                if(sysSettings.opCosts) {
+                    sysSettings.opCosts.forEach(item => {
+                        if(item.name.toLowerCase().includes('hv') || item.name.toLowerCase().includes('học viên') || item.name.toLowerCase().includes('thi')) {
+                            monthOpCost += data.count * (item.amount || 0);
+                        } else {
+                            monthOpCost += (item.amount || 0);
+                        }
+                    });
+                }
+                let estCost = monthOpCost; // Có thể cộng thêm lương phân bổ nếu muốn
                 let estProfit = data.rev - estCost;
                 mTableBody.innerHTML += `
                     <tr class="hover:bg-slate-50 border-b">
