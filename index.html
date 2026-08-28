@@ -11,7 +11,6 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
         .tab-btn.active { background-color: #2563eb; color: white; }
-        input[type="date"] { position: relative; }
         input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(0.2); }
     </style>
 </head>
@@ -152,7 +151,7 @@
 
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh * (dd/mm/yy)</label>
-                                    <input type="date" id="addDob" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                    <input type="text" id="addDob" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Địa chỉ thường trú</label>
@@ -160,11 +159,11 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ * (dd/mm/yy)</label>
-                                    <input type="date" id="addReceiveDate" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 text-amber-900 font-bold w-full focus:border-blue-500 outline-none">
+                                    <input type="text" id="addReceiveDate" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 text-amber-900 font-bold w-full focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Ngày bắt đầu học * (dd/mm/yy)</label>
-                                    <input type="date" id="addStartDate" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                    <input type="text" id="addStartDate" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
 
                                 <div>
@@ -180,9 +179,37 @@
                                 </div>
                             </div>
 
-                            <div id="packageCartContainer" class="bg-blue-50 p-4 rounded-xl border border-blue-200 mt-3">
+                            <div id="packageCartContainer" class="bg-blue-50 p-4 rounded-xl border border-blue-200 mt-3 space-y-3">
                                 <label class="block text-xs font-black text-blue-900 mb-2 uppercase">🛒 Chọn Các Gói Đào Tạo / Dịch Vụ Khóa Học (Chọn nhiều loại):</label>
                                 <div id="addServicesChecklist" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-40 overflow-y-auto pr-1"></div>
+                                
+                                <!-- Phần các khoản chi phí bổ sung / phát sinh để tính vào báo giá học viên -->
+                                <div class="bg-white p-3 rounded-xl border border-blue-200 space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="block text-xs font-black text-blue-900 uppercase">📋 Các Khoản Chi Phí / Dịch Vụ Phụ (Tính Vào Báo Giá):</span>
+                                        <button onclick="addExtraFeeRow()" class="bg-blue-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold hover:bg-blue-700 transition">➕ Thêm Khoản</button>
+                                    </div>
+                                    <div id="addExtraFeesContainer" class="space-y-2 max-h-36 overflow-y-auto pr-1"></div>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-xl border border-blue-200 space-y-2">
+                                    <span class="block text-xs font-black text-blue-900 uppercase">💳 Tình Trạng Thanh Toán Các Kỳ (Theo % Cấu Hình):</span>
+                                    <div class="grid grid-cols-3 gap-3 text-xs font-bold">
+                                        <label class="flex items-center gap-2 bg-slate-50 p-2 rounded-lg border cursor-pointer">
+                                            <input type="checkbox" id="checkFee1" onchange="updateInitialPaymentFromInstallments()" class="w-4 h-4 accent-blue-600">
+                                            <span>Kỳ 1 (<span id="labelRatio1">50</span>%): <strong id="amountRatio1" class="text-blue-700">0đ</strong></span>
+                                        </label>
+                                        <label class="flex items-center gap-2 bg-slate-50 p-2 rounded-lg border cursor-pointer">
+                                            <input type="checkbox" id="checkFee2" onchange="updateInitialPaymentFromInstallments()" class="w-4 h-4 accent-blue-600">
+                                            <span>Kỳ 2 (<span id="labelRatio2">25</span>%): <strong id="amountRatio2" class="text-blue-700">0đ</strong></span>
+                                        </label>
+                                        <label class="flex items-center gap-2 bg-slate-50 p-2 rounded-lg border cursor-pointer">
+                                            <input type="checkbox" id="checkFee3" onchange="updateInitialPaymentFromInstallments()" class="w-4 h-4 accent-blue-600">
+                                            <span>Kỳ 3 (<span id="labelRatio3">25</span>%): <strong id="amountRatio3" class="text-blue-700">0đ</strong></span>
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <div class="mt-3 pt-2 border-t border-blue-200 flex flex-wrap justify-between items-center text-sm gap-2">
                                     <label class="flex items-center font-bold text-slate-700 cursor-pointer"><input type="checkbox" id="addIsStudent" onchange="calculateCartTotal()" class="w-4 h-4 mr-2 accent-blue-600"> Giảm 1tr (HSSV)</label>
                                     <div class="flex items-center gap-2">
@@ -244,10 +271,10 @@
                                 <select id="newTeacherGender" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-indigo-500 outline-none"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
 
                                 <div class="col-span-1 sm:col-span-2 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-4 mt-2">
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn GPLX (dd/mm/yy)</label><input type="date" id="newTeacherLicenseExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn Chứng chỉ SP (dd/mm/yy)</label><input type="date" id="newTeacherCertExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn GPLX (dd/mm/yy)</label><input type="text" id="newTeacherLicenseExp" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn Chứng chỉ SP (dd/mm/yy)</label><input type="text" id="newTeacherCertExp" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
                                     <div><label class="text-xs font-bold text-slate-500 mb-1 block">Biển số xe tập</label><input type="text" id="newTeacherCarPlate" placeholder="VD: 64A-123.45" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold text-blue-700 uppercase focus:border-indigo-500 outline-none"></div>
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn KĐ Xe (dd/mm/yy)</label><input type="date" id="newTeacherCarExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn KĐ Xe (dd/mm/yy)</label><input type="text" id="newTeacherCarExp" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
                                 </div>
                             </div>
 
@@ -379,7 +406,10 @@
                             <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-2">💰 Cấu Hình Chi Phí & Tùy Chỉnh Lộ Trình</h3>
 
                             <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100 space-y-3 text-sm">
-                                <strong class="text-blue-900 block mb-2 font-black uppercase text-xs">⏰ Điều Chỉnh Thời Gian / Số Ngày Các Bước Lộ Trình Khóa Học</strong>
+                                <div class="flex justify-between items-center mb-2">
+                                    <strong class="text-blue-900 font-black uppercase text-xs">⏰ Điều Chỉnh Nội Dung & Thời Gian Các Bước Lộ Trình Khóa Học</strong>
+                                    <button onclick="addStepConfigRow()" class="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-blue-700 transition">➕ Thêm Bước</button>
+                                </div>
                                 <div id="cfgStepsConfigContainer" class="space-y-2"></div>
                             </div>
 
@@ -401,9 +431,11 @@
                             </div>
 
                             <div class="bg-red-50 p-5 rounded-2xl border border-red-100 space-y-3 text-sm">
-                                <strong class="text-red-800 font-black uppercase text-xs">B. Chi phí Biến đổi & Cố định / Tháng</strong>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Lệ phí thi/khám sk (VNĐ/1 HV)</span> <input type="number" id="cfgCostExam" class="border-2 p-2 rounded-lg w-32 text-right font-black text-red-700 focus:border-red-500 outline-none"></div>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Chi phí Mặt bằng/Tháng</span> <input type="number" id="cfgCostRent" class="border-2 p-2 rounded-lg w-32 text-right font-black text-red-700 focus:border-red-500 outline-none"></div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <strong class="text-red-800 font-black uppercase text-xs">B. Danh Mục Chi Phí & Lệ Phí / Báo Giá Mặc Định</strong>
+                                    <button onclick="addDefaultExtraFeeConfig()" class="bg-red-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-red-700 transition">➕ Thêm Mục</button>
+                                </div>
+                                <div id="cfgExtraFeesConfigContainer" class="space-y-2"></div>
                             </div>
 
                             <button onclick="saveSysFinancials()" class="w-full bg-emerald-600 text-white p-4 rounded-xl font-black text-lg shadow-lg hover:bg-emerald-700 transition">💾 LƯU TOÀN BỘ CẤU HÌNH HỆ THỐNG</button>
@@ -474,20 +506,56 @@
             "7. Thi sát hạch (1 ngày)"
         ];
 
+        let DEFAULT_EXTRA_FEES = [
+            { name: 'Lệ phí thi/khám sk (VNĐ/1 HV)', price: 680000 },
+            { name: 'Chi phí Mặt bằng/Tháng', price: 15000000 }
+        ];
+
         const STORAGE_KEY_STUDENTS = 'driving_erp_students_v19';
         const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v19';
         const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v19';
         const STORAGE_KEY_AUDIT = 'driving_erp_audit_v19';
 
+        function setupDateInputMask(id) {
+            const input = document.getElementById(id);
+            if(!input) return;
+            input.setAttribute('placeholder', 'dd/mm/yy');
+            input.setAttribute('maxlength', '8');
+            input.addEventListener('input', function(e) {
+                let v = this.value.replace(/\D/g, '');
+                if (v.length >= 2 && v.length < 4) {
+                    v = v.slice(0, 2) + '/' + v.slice(2);
+                } else if (v.length >= 4) {
+                    v = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4, 6);
+                }
+                this.value = v;
+            });
+        }
+
+        function parseDDMMYYToISO(val) {
+            if(!val) return '';
+            let parts = val.split('/');
+            if(parts.length === 3) {
+                let dd = parts[0];
+                let mm = parts[1];
+                let yy = parts[2];
+                if(yy.length === 2) yy = '20' + yy;
+                return `${yy}-${mm}-${dd}`;
+            }
+            return val;
+        }
+
         function formatDateDDMMYY(dateStr) {
             if(!dateStr) return 'N/A';
-            let parts = dateStr.split('-');
-            if(parts.length === 3) {
-                let yyyy = parts[0];
-                let mm = parts[1];
-                let dd = parts[2];
-                let yy = yyyy.slice(-2);
-                return `${dd}/${mm}/${yy}`;
+            if(dateStr.includes('-')) {
+                let parts = dateStr.split('-');
+                if(parts.length === 3) {
+                    let yyyy = parts[0];
+                    let mm = parts[1];
+                    let dd = parts[2];
+                    let yy = yyyy.slice(-2);
+                    return `${dd}/${mm}/${yy}`;
+                }
             }
             return dateStr;
         }
@@ -509,6 +577,7 @@
                     { id: 'c3', name: 'Hạng C', price: 21500000, duration: '5 tháng', desc: 'Khóa C tải' }
                 ],
                 steps: DEFAULT_STEPS,
+                extraFees: DEFAULT_EXTRA_FEES,
                 ratios: { fee1: 50, fee2: 25, fee3: 25 },
                 bonuses: { theory: 300000, sahinh: 80000, dat: 1500, receive: 1500000 },
                 costs: { exam: 680000, rent: 15000000 }
@@ -516,6 +585,7 @@
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
         }
         if(!sysSettings.steps) sysSettings.steps = DEFAULT_STEPS;
+        if(!sysSettings.extraFees) sysSettings.extraFees = DEFAULT_EXTRA_FEES;
         if(!sysSettings.ratios) sysSettings.ratios = { fee1: 50, fee2: 25, fee3: 25 };
 
         let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS)) || [];
@@ -529,7 +599,7 @@
             students.push({ 
                 id: 1, code: 'HV2608001', name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', 
                 receiveDate: '2026-08-10', pass: '123', startDate: '2026-08-15', stepIndex: 1, course: 'Hạng B (Số tự động)',
-                enrolledServices: ['Hạng B (Số tự động)'], totalPrice: 19500000, paymentType: 'package', initialPayment: 9750000,
+                enrolledServices: ['Hạng B (Số tự động)'], extraFeesSelected: [], totalPrice: 19500000, paymentType: 'package', initialPayment: 9750000,
                 fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', notes: [], teacherCode: 'GV01'
             });
             localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
@@ -588,22 +658,35 @@
         }
 
         function initAdminDashboard() {
+            setupDateInputMask('addDob');
+            setupDateInputMask('addReceiveDate');
+            setupDateInputMask('addStartDate');
+            setupDateInputMask('newTeacherLicenseExp');
+            setupDateInputMask('newTeacherCertExp');
+            setupDateInputMask('newTeacherCarExp');
+
             populateMonthFilters();
             updateTeacherSelect();
             updateServicesChecklist();
             switchAdminTab('student');
             checkRisks();
 
-            const todayStr = new Date().toISOString().split('T')[0];
-            if(document.getElementById('addReceiveDate')) document.getElementById('addReceiveDate').value = todayStr;
-            if(document.getElementById('addStartDate')) document.getElementById('addStartDate').value = todayStr;
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yy = String(today.getFullYear()).slice(-2);
+            const todayStr = `${dd}/${mm}/${yy}`;
+
+            if(document.getElementById('addReceiveDate') && !document.getElementById('addReceiveDate').value) document.getElementById('addReceiveDate').value = todayStr;
+            if(document.getElementById('addStartDate') && !document.getElementById('addStartDate').value) document.getElementById('addStartDate').value = todayStr;
         }
 
         function populateMonthFilters() {
             let monthsSet = new Set();
             students.forEach(s => {
                 if(s.receiveDate) {
-                    let d = new Date(s.receiveDate);
+                    let isoDate = parseDDMMYYToISO(s.receiveDate);
+                    let d = new Date(isoDate);
                     if(!isNaN(d.getTime())) {
                         monthsSet.add(`${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`);
                     }
@@ -638,7 +721,8 @@
             let alerts = []; const today = new Date();
             teachers.forEach(t => {
                 if(t.carExp) {
-                    let diff = Math.floor((new Date(t.carExp) - today) / 86400000);
+                    let isoCarExp = parseDDMMYYToISO(t.carExp);
+                    let diff = Math.floor((new Date(isoCarExp) - today) / 86400000);
                     if (diff < 0) alerts.push(`❌ Xe ${t.carPlate||'Chưa ĐK'} (GV: ${t.name}) HẾT HẠN KĐ!`);
                     else if (diff <= 15) alerts.push(`⚠️ Xe ${t.carPlate} sắp hết hạn KĐ.`);
                 }
@@ -671,26 +755,76 @@
             if(document.getElementById('cfgRatioFee2')) document.getElementById('cfgRatioFee2').value = sysSettings.ratios.fee2;
             if(document.getElementById('cfgRatioFee3')) document.getElementById('cfgRatioFee3').value = sysSettings.ratios.fee3;
 
-            const stepsContainer = document.getElementById('cfgStepsConfigContainer');
-            if(stepsContainer) {
-                stepsContainer.innerHTML = sysSettings.steps.map((step, idx) => `
-                    <div class="flex items-center gap-2 bg-white p-2 rounded-lg border shadow-sm">
-                        <span class="font-bold text-xs text-slate-600 w-6">#${idx+1}</span>
-                        <input type="text" id="cfgStepInput_${idx}" value="${step}" class="border p-1.5 rounded w-full text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
-                    </div>
-                `).join('') + '<button onclick="saveCustomSteps()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-xs shadow hover:bg-blue-700">Cập Nhật Thời Gian Lộ Trình</button>';
-            }
+            renderStepsConfigInputs();
+            renderExtraFeesConfigInputs();
         }
 
-        function saveCustomSteps() {
+        function renderStepsConfigInputs() {
+            const stepsContainer = document.getElementById('cfgStepsConfigContainer');
+            if(!stepsContainer) return;
+            stepsContainer.innerHTML = sysSettings.steps.map((step, idx) => `
+                <div class="flex items-center gap-2 bg-white p-2 rounded-lg border shadow-sm">
+                    <span class="font-bold text-xs text-slate-600 w-6">#${idx+1}</span>
+                    <input type="text" id="cfgStepInput_${idx}" value="${step}" class="border p-1.5 rounded w-full text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
+                    <button onclick="removeStepConfigRow(${idx})" class="bg-red-100 text-red-600 px-2.5 py-1 rounded text-xs font-bold hover:bg-red-200">Xóa</button>
+                </div>
+            `).join('');
+        }
+
+        function addStepConfigRow() {
+            sysSettings.steps.push(`${sysSettings.steps.length + 1}. Bước mới (1 ngày)`);
+            renderStepsConfigInputs();
+        }
+
+        function removeStepConfigRow(idx) {
+            sysSettings.steps.splice(idx, 1);
+            renderStepsConfigInputs();
+        }
+
+        function renderExtraFeesConfigInputs() {
+            const container = document.getElementById('cfgExtraFeesConfigContainer');
+            if(!container) return;
+            container.innerHTML = sysSettings.extraFees.map((fee, idx) => `
+                <div class="flex items-center gap-2 bg-white p-2 rounded-lg border shadow-sm">
+                    <input type="text" id="cfgExtraName_${idx}" value="${fee.name}" placeholder="Tên khoản phí..." class="border p-1.5 rounded w-full text-xs font-bold text-slate-800 outline-none">
+                    <input type="number" id="cfgExtraPrice_${idx}" value="${fee.price}" placeholder="Số tiền" class="border p-1.5 rounded w-32 text-xs font-black text-red-700 text-right outline-none">
+                    <button onclick="removeExtraFeeConfig(${idx})" class="bg-red-100 text-red-600 px-2.5 py-1 rounded text-xs font-bold hover:bg-red-200">Xóa</button>
+                </div>
+            `).join('');
+        }
+
+        function addDefaultExtraFeeConfig() {
+            sysSettings.extraFees.push({ name: 'Khoản phí mới', price: 0 });
+            renderExtraFeesConfigInputs();
+        }
+
+        function removeExtraFeeConfig(idx) {
+            sysSettings.extraFees.splice(idx, 1);
+            renderExtraFeesConfigInputs();
+        }
+
+        function saveCustomStepsAndFees() {
             let newSteps = [];
             for(let i=0; i<sysSettings.steps.length; i++) {
-                let val = document.getElementById(`cfgStepInput_${i}`).value.trim();
-                if(val) newSteps.push(val);
+                let el = document.getElementById(`cfgStepInput_${i}`);
+                if(el) {
+                    let val = el.value.trim();
+                    if(val) newSteps.push(val);
+                }
             }
             sysSettings.steps = newSteps;
-            saveAndSync();
-            alert("Đã cập nhật thời gian lộ trình khóa học thành công!");
+
+            let newExtraFees = [];
+            for(let i=0; i<sysSettings.extraFees.length; i++) {
+                let nameEl = document.getElementById(`cfgExtraName_${i}`);
+                let priceEl = document.getElementById(`cfgExtraPrice_${i}`);
+                if(nameEl && priceEl) {
+                    let name = nameEl.value.trim();
+                    let price = Number(priceEl.value) || 0;
+                    if(name) newExtraFees.push({ name, price });
+                }
+            }
+            sysSettings.extraFees = newExtraFees;
         }
 
         let currentEditCourseId = null;
@@ -721,6 +855,7 @@
         function deleteSysCourse(id) { if(confirm("Xóa Gói Dịch Vụ?")) { sysSettings.courses = sysSettings.courses.filter(c => c.id !== id); saveAndSync(); renderSettingsTab(); updateServicesChecklist(); } }
 
         function saveSysFinancials() {
+            saveCustomStepsAndFees();
             sysSettings.ratios = {
                 fee1: Number(document.getElementById('cfgRatioFee1').value) || 50,
                 fee2: Number(document.getElementById('cfgRatioFee2').value) || 25,
@@ -728,7 +863,9 @@
             };
             sysSettings.bonuses = { theory: Number(document.getElementById('cfgBonusTheory').value), sahinh: Number(document.getElementById('cfgBonusSahinh').value), dat: Number(document.getElementById('cfgBonusDat').value), receive: Number(document.getElementById('cfgBonusReceive').value) };
             sysSettings.costs = { exam: Number(document.getElementById('cfgCostExam').value), rent: Number(document.getElementById('cfgCostRent').value) };
-            saveAndSync(); alert("Đã lưu Cấu hình Kế toán & Tài chính!");
+            saveAndSync(); 
+            updateServicesChecklist();
+            alert("Đã lưu Cấu hình Kế toán & Tài chính!");
         }
 
         function togglePaymentTypeUI() {
@@ -758,22 +895,112 @@
                     <span class="text-blue-600 font-black text-sm">${Number(s.price).toLocaleString()}đ</span>
                 </label>
             `).join('');
+
+            renderExtraFeesStudentForm();
+            calculateCartTotal();
+        }
+
+        function renderExtraFeesStudentForm(selectedFees = []) {
+            const container = document.getElementById('addExtraFeesContainer');
+            if(!container) return;
+            if(!sysSettings.extraFees || sysSettings.extraFees.length === 0) {
+                container.innerHTML = '<span class="text-xs text-slate-400 italic">Chưa có khoản phí phụ nào được cấu hình.</span>';
+                return;
+            }
+            container.innerHTML = sysSettings.extraFees.map((fee, idx) => {
+                let isChecked = selectedFees.some(f => f.name === fee.name);
+                let currentPrice = isChecked ? (selectedFees.find(f => f.name === fee.name).price ?? fee.price) : fee.price;
+                return `
+                    <div class="flex items-center justify-between bg-slate-50 p-2 rounded-lg border">
+                        <label class="flex items-center gap-2 cursor-pointer flex-1">
+                            <input type="checkbox" value="${idx}" ${isChecked ? 'checked' : ''} onchange="calculateCartTotal()" class="extra-fee-chk w-4 h-4 accent-blue-600">
+                            <span class="font-bold text-xs text-slate-700">${fee.name}</span>
+                        </label>
+                        <input type="number" value="${currentPrice}" oninput="calculateCartTotal()" class="extra-fee-price border p-1 rounded w-28 text-xs font-black text-red-700 text-right bg-white outline-none">
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addExtraFeeRow() {
+            if(!sysSettings.extraFees) sysSettings.extraFees = [];
+            sysSettings.extraFees.push({ name: 'Khoản phí mới', price: 0 });
+            renderExtraFeesStudentForm();
             calculateCartTotal();
         }
 
         function calculateCartTotal(el) {
-            if(el && el.checked) el.parentElement.parentElement.classList.add('border-blue-500', 'bg-blue-50');
-            else if (el) el.parentElement.parentElement.classList.remove('border-blue-500', 'bg-blue-50');
+            if(el && el.checked && el.classList?.contains('w-5')) {
+                el.parentElement.parentElement.classList.add('border-blue-500', 'bg-blue-50');
+            } else if (el && el.classList?.contains('w-5')) {
+                el.parentElement.parentElement.classList.remove('border-blue-500', 'bg-blue-50');
+            }
 
             const container = document.getElementById('addServicesChecklist');
             if(!container) return;
             let total = 0;
             container.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => { total += Number(cb.getAttribute('data-price')); });
+            
+            // Cộng thêm các khoản phí phụ đã chọn
+            const extraRows = document.querySelectorAll('#addExtraFeesContainer > div');
+            extraRows.forEach(row => {
+                let chk = row.querySelector('.extra-fee-chk');
+                let prcInput = row.querySelector('.extra-fee-price');
+                if(chk && chk.checked && prcInput) {
+                    total += Number(prcInput.value) || 0;
+                }
+            });
+
             if (document.getElementById('addIsStudent').checked) total -= 1000000;
+            
             document.getElementById('addCartTotal').innerText = total.toLocaleString() + ' VNĐ';
-            if(document.getElementById('addInitialPayment')) {
-                document.getElementById('addInitialPayment').value = Math.round(total * (sysSettings.ratios.fee1 / 100));
-            }
+
+            const r1 = sysSettings.ratios.fee1;
+            const r2 = sysSettings.ratios.fee2;
+            const r3 = sysSettings.ratios.fee3;
+
+            document.getElementById('labelRatio1').innerText = r1;
+            document.getElementById('labelRatio2').innerText = r2;
+            document.getElementById('labelRatio3').innerText = r3;
+
+            const amt1 = Math.round(total * (r1 / 100));
+            const amt2 = Math.round(total * (r2 / 100));
+            const amt3 = Math.round(total * (r3 / 100));
+
+            document.getElementById('amountRatio1').innerText = amt1.toLocaleString() + 'đ';
+            document.getElementById('amountRatio2').innerText = amt2.toLocaleString() + 'đ';
+            document.getElementById('amountRatio3').innerText = amt3.toLocaleString() + 'đ';
+
+            updateInitialPaymentFromInstallments();
+        }
+
+        function updateInitialPaymentFromInstallments() {
+            const container = document.getElementById('addServicesChecklist');
+            if(!container) return;
+            let total = 0;
+            container.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => { total += Number(cb.getAttribute('data-price')); });
+            
+            const extraRows = document.querySelectorAll('#addExtraFeesContainer > div');
+            extraRows.forEach(row => {
+                let chk = row.querySelector('.extra-fee-chk');
+                let prcInput = row.querySelector('.extra-fee-price');
+                if(chk && chk.checked && prcInput) {
+                    total += Number(prcInput.value) || 0;
+                }
+            });
+
+            if (document.getElementById('addIsStudent').checked) total -= 1000000;
+
+            const r1 = sysSettings.ratios.fee1;
+            const r2 = sysSettings.ratios.fee2;
+            const r3 = sysSettings.ratios.fee3;
+
+            let sumInitial = 0;
+            if(document.getElementById('checkFee1').checked) sumInitial += Math.round(total * (r1 / 100));
+            if(document.getElementById('checkFee2').checked) sumInitial += Math.round(total * (r2 / 100));
+            if(document.getElementById('checkFee3').checked) sumInitial += Math.round(total * (r3 / 100));
+
+            document.getElementById('addInitialPayment').value = sumInitial;
         }
 
         function updateTeacherSelect() {
@@ -797,13 +1024,28 @@
                 totalRaw += sPrice;
             });
 
-            if(selectedItems.length === 0) return alert('Vui lòng tích chọn ít nhất 1 gói dịch vụ để lập bảng báo giá!');
+            // Thu thập các khoản phí phụ đã chọn
+            const extraRows = document.querySelectorAll('#addExtraFeesContainer > div');
+            extraRows.forEach(row => {
+                let chk = row.querySelector('.extra-fee-chk');
+                let prcInput = row.querySelector('.extra-fee-price');
+                let nameSpan = row.querySelector('span');
+                if(chk && chk.checked && prcInput && nameSpan) {
+                    let feeName = nameSpan.innerText;
+                    let feePrice = Number(prcInput.value) || 0;
+                    selectedItems.push({ name: feeName, price: feePrice, duration: 'Phát sinh' });
+                    totalRaw += feePrice;
+                }
+            });
+
+            if(selectedItems.length === 0) return alert('Vui lòng tích chọn ít nhất 1 gói dịch vụ hoặc khoản phí để lập bảng báo giá!');
             let finalTotal = totalRaw - (isHssv ? 1000000 : 0);
 
             const printWin = window.open('', '_blank');
             if(!printWin) return alert('Trình duyệt đã chặn cửa sổ bật lên (Pop-up blocker). Hãy cho phép popup để xuất PDF!');
 
-            let todayFormatted = formatDateDDMMYY(new Date().toISOString().split('T')[0]);
+            const todayObj = new Date();
+            const todayFormatted = `${String(todayObj.getDate()).padStart(2,'0')}/${String(todayObj.getMonth()+1).padStart(2,'0')}/${String(todayObj.getFullYear()).slice(-2)}`;
 
             let htmlContent = `
                 <html>
@@ -853,8 +1095,8 @@
                         <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Tên Gói Dịch Vụ / Khóa Học</th>
-                                <th>Thời Gian Đào Tạo</th>
+                                <th>Tên Gói Dịch Vụ / Khoản Phí</th>
+                                <th>Thời Gian / Chi Tiết</th>
                                 <th class="text-right">Đơn Giá (VNĐ)</th>
                             </tr>
                         </thead>
@@ -910,7 +1152,8 @@
             let monthlyMap = {};
 
             students.forEach(s => {
-                let rDate = s.receiveDate ? new Date(s.receiveDate) : null;
+                let isoReceiveDate = parseDDMMYYToISO(s.receiveDate);
+                let rDate = isoReceiveDate ? new Date(isoReceiveDate) : null;
                 let mYear = rDate && !isNaN(rDate.getTime()) ? `${String(rDate.getMonth()+1).padStart(2,'0')}/${rDate.getFullYear()}` : 'Khác';
 
                 const p = Number(s.totalPrice) || 0;
@@ -932,7 +1175,8 @@
 
             let activeCount = selectedMonth === 'all' ? students.length : students.filter(s => {
                 if(!s.receiveDate) return false;
-                let d = new Date(s.receiveDate);
+                let isoReceiveDate = parseDDMMYYToISO(s.receiveDate);
+                let d = new Date(isoReceiveDate);
                 return `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}` === selectedMonth;
             }).length;
 
@@ -992,9 +1236,9 @@
                             phone: document.getElementById('newTeacherPhone').value.trim(),
                             gender: document.getElementById('newTeacherGender').value,
                             carPlate: document.getElementById('newTeacherCarPlate').value.trim(),
-                            carExp: document.getElementById('newTeacherCarExp').value,
-                            licenseExp: document.getElementById('newTeacherLicenseExp').value,
-                            certExp: document.getElementById('newTeacherCertExp').value
+                            carExp: document.getElementById('newTeacherCarExp').value.trim(),
+                            licenseExp: document.getElementById('newTeacherLicenseExp').value.trim(),
+                            certExp: document.getElementById('newTeacherCertExp').value.trim()
                         };
                     }
                     return t;
@@ -1002,7 +1246,7 @@
                 alert('Cập nhật thông tin giáo viên thành công!');
             } else {
                 const code = 'GV' + String(teachers.length + 1).padStart(2, '0');
-                teachers.push({ id: Date.now(), name, code, phone: document.getElementById('newTeacherPhone').value.trim(), gender: 'Nam', carPlate: document.getElementById('newTeacherCarPlate').value.trim(), carExp: document.getElementById('newTeacherCarExp').value, licenseExp: document.getElementById('newTeacherLicenseExp').value, certExp: document.getElementById('newTeacherCertExp').value, deductions: 0 });
+                teachers.push({ id: Date.now(), name, code, phone: document.getElementById('newTeacherPhone').value.trim(), gender: 'Nam', carPlate: document.getElementById('newTeacherCarPlate').value.trim(), carExp: document.getElementById('newTeacherCarExp').value.trim(), licenseExp: document.getElementById('newTeacherLicenseExp').value.trim(), certExp: document.getElementById('newTeacherCertExp').value.trim(), deductions: 0 });
                 alert(`Thêm GV thành công: ${code}`);
             }
             saveAndSync(); renderAdminTeacherTable(); updateTeacherSelect(); checkRisks(); resetTeacherForm();
@@ -1072,7 +1316,7 @@
         function deleteTeacher(id) { teachers = teachers.filter(x => x.id !== id); saveAndSync(); renderAdminTeacherTable(); updateTeacherSelect(); }
 
         function saveStudentRecord() {
-            const name = document.getElementById('addName').value.trim(), cccd = document.getElementById('addCCCD').value.trim(), receiveDate = document.getElementById('addReceiveDate').value, startDate = document.getElementById('addStartDate').value;
+            const name = document.getElementById('addName').value.trim(), cccd = document.getElementById('addCCCD').value.trim(), receiveDate = document.getElementById('addReceiveDate').value.trim(), startDate = document.getElementById('addStartDate').value.trim();
             if (!name || !cccd || !startDate || !receiveDate) return alert('Điền đủ thông tin bắt buộc!');
 
             const editId = document.getElementById('editStudentId').value;
@@ -1082,14 +1326,36 @@
             if(paymentType === 'package') {
                 const checkboxes = document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]:checked');
                 checkboxes.forEach(cb => { enrolledServices.push(cb.getAttribute('data-name')); basePrice += Number(cb.getAttribute('data-price')); });
-                if(enrolledServices.length === 0) return alert('Phải chọn ít nhất 1 Gói Dịch Vụ ở Giỏ Hàng!');
             } else {
                 enrolledServices = ['Học Lẻ / Từng Phần'];
                 basePrice = 10000000;
             }
 
+            // Thu thập các khoản phí phụ đã chọn kèm số tiền thực tế
+            let extraFeesSelected = [];
+            const extraRows = document.querySelectorAll('#addExtraFeesContainer > div');
+            extraRows.forEach(row => {
+                let chk = row.querySelector('.extra-fee-chk');
+                let prcInput = row.querySelector('.extra-fee-price');
+                let nameSpan = row.querySelector('span');
+                if(chk && chk.checked && prcInput && nameSpan) {
+                    let feeName = nameSpan.innerText;
+                    let feePrice = Number(prcInput.value) || 0;
+                    extraFeesSelected.push({ name: feeName, price: feePrice });
+                    basePrice += feePrice;
+                }
+            });
+
+            if(paymentType === 'package' && enrolledServices.length === 0 && extraFeesSelected.length === 0) {
+                return alert('Phải chọn ít nhất 1 Gói Dịch Vụ hoặc Khoản Phí ở bảng báo giá!');
+            }
+
             let totalPrice = basePrice - (document.getElementById('addIsStudent').checked ? 1000000 : 0);
             let initialPayment = Number(document.getElementById('addInitialPayment').value) || 0;
+
+            let f1 = document.getElementById('checkFee1').checked ? 'Đã đóng' : 'Chưa đóng';
+            let f2 = document.getElementById('checkFee2').checked ? 'Đã đóng' : 'Chưa đóng';
+            let f3 = document.getElementById('checkFee3').checked ? 'Đã đóng' : 'Chưa đóng';
 
             if(editId) {
                 students = students.map(s => {
@@ -1099,11 +1365,12 @@
                             name, cccd,
                             phone: document.getElementById('addPhone').value.trim(),
                             gender: document.getElementById('addGender').value,
-                            dob: document.getElementById('addDob').value,
+                            dob: document.getElementById('addDob').value.trim(),
                             address: document.getElementById('addAddress').value.trim(),
                             receiveDate, startDate,
-                            course: enrolledServices.join(', '),
-                            enrolledServices, totalPrice, paymentType, initialPayment,
+                            course: enrolledServices.join(', ') + (extraFeesSelected.length > 0 ? ' + Phụ phí' : ''),
+                            enrolledServices, extraFeesSelected, totalPrice, paymentType, initialPayment,
+                            fee1: f1, fee2: f2, fee3: f3,
                             teacherCode: document.getElementById('addTeacher').value
                         };
                     }
@@ -1113,11 +1380,11 @@
             } else {
                 const code = generateStudentCode();
                 students.push({ 
-                    id: Date.now(), code, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value, address: document.getElementById('addAddress').value.trim(), receiveDate, pass: '123', 
-                    startDate, course: enrolledServices.join(', '), enrolledServices, stepIndex: 0, totalPrice, paymentType, initialPayment,
-                    fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', notes: [], teacherCode: document.getElementById('addTeacher').value
+                    id: Date.now(), code, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value.trim(), address: document.getElementById('addAddress').value.trim(), receiveDate, pass: '123', 
+                    startDate, course: enrolledServices.join(', ') + (extraFeesSelected.length > 0 ? ' + Phụ phí' : ''), enrolledServices, extraFeesSelected, stepIndex: 0, totalPrice, paymentType, initialPayment,
+                    fee1: f1, fee2: f2, fee3: f3, notes: [], teacherCode: document.getElementById('addTeacher').value
                 });
-                alert(`Tạo hồ sơ thành công (Ngày nhận: ${formatDateDDMMYY(receiveDate)})!\nMã HV: ${code}`);
+                alert(`Tạo hồ sơ thành công (Ngày nhận: ${receiveDate})!\nMã HV: ${code}`);
             }
             saveAndSync(); populateMonthFilters(); renderAdminStudentTable(); resetStudentForm();
         }
@@ -1138,6 +1405,10 @@
             document.getElementById('addTeacher').value = s.teacherCode || '';
             document.getElementById('addInitialPayment').value = s.initialPayment || 0;
 
+            document.getElementById('checkFee1').checked = (s.fee1 === 'Đã đóng');
+            document.getElementById('checkFee2').checked = (s.fee2 === 'Đã đóng');
+            document.getElementById('checkFee3').checked = (s.fee3 === 'Đã đóng');
+
             togglePaymentTypeUI();
             if(s.enrolledServices) {
                 const cbs = document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]');
@@ -1147,6 +1418,8 @@
                     else cb.parentElement.parentElement.classList.remove('border-blue-500', 'bg-blue-50');
                 });
             }
+
+            renderExtraFeesStudentForm(s.extraFeesSelected || []);
             calculateCartTotal();
 
             document.getElementById('studentFormTitle').innerText = '✏️ Cập Nhật Hồ Sơ Học Viên';
@@ -1161,6 +1434,9 @@
             document.getElementById('addPhone').value = '';
             document.getElementById('addAddress').value = '';
             document.getElementById('addInitialPayment').value = '0';
+            document.getElementById('checkFee1').checked = false;
+            document.getElementById('checkFee2').checked = false;
+            document.getElementById('checkFee3').checked = false;
             document.getElementById('studentFormTitle').innerText = '➕ Tiếp Nhận Hồ Sơ Học Viên Mới';
             document.getElementById('btnCancelEditStudent').classList.add('hidden');
             updateServicesChecklist();
@@ -1176,14 +1452,18 @@
             let filteredStudents = students.filter(s => {
                 if(selectedMonth === 'all') return true;
                 if(!s.receiveDate) return false;
-                let d = new Date(s.receiveDate);
+                let isoReceiveDate = parseDDMMYYToISO(s.receiveDate);
+                let d = new Date(isoReceiveDate);
                 return `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}` === selectedMonth;
             });
 
             document.getElementById('studentCountBadge').innerText = filteredStudents.length;
 
             tbody.innerHTML = filteredStudents.map(s => {
-                let paid = (Number(s.initialPayment)||0) + (s.fee1==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee1/100):0) + (s.fee2==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee2/100):0) + (s.fee3==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee3/100):0);
+                let paid = (Number(s.initialPayment)||0) + 
+                           (s.fee1==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee1/100):0) + 
+                           (s.fee2==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee2/100):0) + 
+                           (s.fee3==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee3/100):0);
                 return `
                     <tr class="hover:bg-slate-50 border-b">
                         <td class="p-5">
@@ -1213,7 +1493,10 @@
             document.getElementById('modalPhoneDisplay').innerText = s.phone || 'N/A';
             document.getElementById('modalCourseBadge').innerText = s.course;
 
-            let paid = (Number(s.initialPayment)||0) + (s.fee1 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee1/100) : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee2/100) : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee3/100) : 0);
+            let paid = (Number(s.initialPayment)||0) + 
+                       (s.fee1 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee1/100) : 0) + 
+                       (s.fee2 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee2/100) : 0) + 
+                       (s.fee3 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee3/100) : 0);
             document.getElementById('modalTotalPrice').innerText = s.totalPrice.toLocaleString() + ' VNĐ';
             document.getElementById('modalPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
             document.getElementById('modalRemainingPrice').innerText = (s.totalPrice - paid).toLocaleString() + ' VNĐ';
