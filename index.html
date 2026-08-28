@@ -191,8 +191,26 @@
                                 </div>
 
                                 <div class="bg-white p-3 rounded-xl border border-blue-200 space-y-2">
-                                    <span class="block text-xs font-black text-blue-900 uppercase">💳 Chọn Tích Các Kỳ Thanh Toán Để Tính Đã Đóng & Kiểm Soát Nợ:</span>
-                                    <div id="installmentsFormContainer" class="space-y-2"></div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="block text-xs font-black text-blue-900 uppercase">💳 Chọn Kiểu Thanh Toán:</span>
+                                        <div class="flex items-center gap-4 text-xs font-bold">
+                                            <label class="cursor-pointer flex items-center gap-1"><input type="radio" name="paymentMode" value="percent" checked onchange="togglePaymentMode()" class="accent-blue-600"> Theo tỷ lệ % các kỳ</label>
+                                            <label class="cursor-pointer flex items-center gap-1"><input type="radio" name="paymentMode" value="custom" onchange="togglePaymentMode()" class="accent-blue-600"> Nhập số tiền tùy chọn</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Khung chia theo % -->
+                                    <div id="percentPaymentBox" class="space-y-2">
+                                        <div id="installmentsFormContainer" class="space-y-2"></div>
+                                    </div>
+
+                                    <!-- Khung nhập số tiền tùy chọn -->
+                                    <div id="customPaymentBox" class="hidden space-y-2">
+                                        <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border">
+                                            <span class="text-xs font-bold text-slate-700">Số tiền thanh toán lần đầu (VNĐ):</span>
+                                            <input type="number" id="customInitialAmount" value="0" oninput="calculateCartTotal()" class="border-2 border-slate-300 p-2 rounded-lg w-48 text-right font-black text-emerald-700 bg-white outline-none text-base">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="mt-3 pt-2 border-t border-blue-200 flex flex-wrap justify-between items-center text-sm gap-2">
@@ -608,7 +626,7 @@
             students.push({ 
                 id: 1, code: 'HV2608001', name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', 
                 receiveDate: '2026-08-10', pass: '123', startDate: '2026-08-15', stepIndex: 1, course: 'Hạng B (Số tự động)',
-                enrolledServices: ['Hạng B (Số tự động)'], extraFeesSelected: [], installmentsStatus: [true, false, false], totalPrice: 19500000, paymentType: 'package', initialPayment: 9750000,
+                enrolledServices: ['Hạng B (Số tự động)'], extraFeesSelected: [], paymentMode: 'percent', installmentsStatus: [true, false, false], totalPrice: 19500000, initialPayment: 9750000,
                 notes: [], teacherCode: 'GV01'
             });
             localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
@@ -915,6 +933,27 @@
             }
         }
 
+        function togglePaymentMode() {
+            const mode = document.querySelector('input[name="paymentMode"]:checked').value;
+            const percentBox = document.getElementById('percentPaymentBox');
+            const customBox = document.getElementById('customPaymentBox');
+            const initialPaymentInput = document.getElementById('addInitialPayment');
+
+            if(mode === 'percent') {
+                percentBox.classList.remove('hidden');
+                customBox.classList.add('hidden');
+                initialPaymentInput.setAttribute('readonly', true);
+                initialPaymentInput.classList.add('bg-slate-100');
+            } else {
+                percentBox.classList.add('hidden');
+                customBox.classList.remove('hidden');
+                initialPaymentInput.removeAttribute('readonly');
+                initialPaymentInput.classList.remove('bg-slate-100');
+                initialPaymentInput.classList.add('bg-white');
+            }
+            calculateCartTotal();
+        }
+
         function updateServicesChecklist() {
             const container = document.getElementById('addServicesChecklist');
             if(!container) return;
@@ -1013,18 +1052,24 @@
             if (document.getElementById('addIsStudent').checked) total -= 1000000;
             document.getElementById('addCartTotal').innerText = total.toLocaleString() + ' VNĐ';
 
+            const mode = document.querySelector('input[name="paymentMode"]:checked')?.value || 'percent';
             let sumInitial = 0;
-            const instRows = document.querySelectorAll('#installmentsFormContainer > div');
-            instRows.forEach((row, idx) => {
-                let chk = row.querySelector('.inst-chk');
-                let amtSpan = row.querySelector('.inst-amount');
-                let instObj = sysSettings.installments[idx];
-                let amt = Math.round(total * ((instObj ? instObj.percent : 0) / 100));
-                if(amtSpan) amtSpan.innerText = amt.toLocaleString() + 'đ';
-                if(chk && chk.checked) {
-                    sumInitial += amt;
-                }
-            });
+
+            if(mode === 'percent') {
+                const instRows = document.querySelectorAll('#installmentsFormContainer > div');
+                instRows.forEach((row, idx) => {
+                    let chk = row.querySelector('.inst-chk');
+                    let amtSpan = row.querySelector('.inst-amount');
+                    let instObj = sysSettings.installments[idx];
+                    let amt = Math.round(total * ((instObj ? instObj.percent : 0) / 100));
+                    if(amtSpan) amtSpan.innerText = amt.toLocaleString() + 'đ';
+                    if(chk && chk.checked) {
+                        sumInitial += amt;
+                    }
+                });
+            } else {
+                sumInitial = Number(document.getElementById('customInitialAmount').value) || 0;
+            }
 
             document.getElementById('addInitialPayment').value = sumInitial;
         }
@@ -1184,16 +1229,12 @@
                 const p = Number(s.totalPrice) || 0;
                 let sRev = Number(s.initialPayment) || 0;
                 
-                if(s.installmentsStatus && sysSettings.installments) {
+                if(s.paymentMode === 'percent' && s.installmentsStatus && sysSettings.installments) {
                     sysSettings.installments.forEach((inst, idx) => {
                         if(s.installmentsStatus[idx] === true) {
                             sRev += Math.round(p * (inst.percent / 100));
                         }
                     });
-                } else {
-                    if(s.fee1==='Đã đóng') sRev += p*0.5; 
-                    if(s.fee2==='Đã đóng') sRev += p*0.25; 
-                    if(s.fee3==='Đã đóng') sRev += p*0.25;
                 }
 
                 if(!monthlyMap[mYear]) monthlyMap[mYear] = { count: 0, rev: 0 };
@@ -1385,6 +1426,7 @@
 
             let totalPrice = basePrice - (document.getElementById('addIsStudent').checked ? 1000000 : 0);
             let initialPayment = Number(document.getElementById('addInitialPayment').value) || 0;
+            const paymentMode = document.querySelector('input[name="paymentMode"]:checked')?.value || 'percent';
 
             let installmentsStatus = [];
             const instRows = document.querySelectorAll('#installmentsFormContainer > div');
@@ -1405,7 +1447,7 @@
                             address: document.getElementById('addAddress').value.trim(),
                             receiveDate, startDate,
                             course: enrolledServices.join(', ') + (extraFeesSelected.length > 0 ? ' + Phụ phí' : ''),
-                            enrolledServices, extraFeesSelected, installmentsStatus, totalPrice, paymentType, initialPayment,
+                            enrolledServices, extraFeesSelected, paymentMode, installmentsStatus, totalPrice, paymentType, initialPayment,
                             teacherCode: document.getElementById('addTeacher').value
                         };
                     }
@@ -1416,7 +1458,7 @@
                 const code = generateStudentCode();
                 students.push({ 
                     id: Date.now(), code, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value.trim(), address: document.getElementById('addAddress').value.trim(), receiveDate, pass: '123', 
-                    startDate, course: enrolledServices.join(', ') + (extraFeesSelected.length > 0 ? ' + Phụ phí' : ''), enrolledServices, extraFeesSelected, installmentsStatus, stepIndex: 0, totalPrice, paymentType, initialPayment,
+                    startDate, course: enrolledServices.join(', ') + (extraFeesSelected.length > 0 ? ' + Phụ phí' : ''), enrolledServices, extraFeesSelected, paymentMode, installmentsStatus, stepIndex: 0, totalPrice, paymentType, initialPayment,
                     notes: [], teacherCode: document.getElementById('addTeacher').value
                 });
                 alert(`Tạo hồ sơ thành công (Ngày nhận: ${receiveDate})!\nMã HV: ${code}`);
@@ -1439,6 +1481,15 @@
             document.getElementById('addPaymentType').value = s.paymentType || 'package';
             document.getElementById('addTeacher').value = s.teacherCode || '';
             document.getElementById('addInitialPayment').value = s.initialPayment || 0;
+
+            const mode = s.paymentMode || 'percent';
+            const radio = document.querySelector(`input[name="paymentMode"][value="${mode}"]`);
+            if(radio) { radio.checked = true; }
+            togglePaymentMode();
+
+            if(mode === 'custom') {
+                document.getElementById('customInitialAmount').value = s.initialPayment || 0;
+            }
 
             togglePaymentTypeUI();
             if(s.enrolledServices) {
@@ -1466,6 +1517,10 @@
             document.getElementById('addPhone').value = '';
             document.getElementById('addAddress').value = '';
             document.getElementById('addInitialPayment').value = '0';
+            document.getElementById('customInitialAmount').value = '0';
+            const defaultRadio = document.querySelector('input[name="paymentMode"][value="percent"]');
+            if(defaultRadio) defaultRadio.checked = true;
+            togglePaymentMode();
             document.getElementById('studentFormTitle').innerText = '➕ Tiếp Nhận Hồ Sơ Học Viên Mới';
             document.getElementById('btnCancelEditStudent').classList.add('hidden');
             updateServicesChecklist();
@@ -1490,16 +1545,12 @@
 
             tbody.innerHTML = filteredStudents.map(s => {
                 let paid = Number(s.initialPayment) || 0;
-                if(s.installmentsStatus && sysSettings.installments) {
+                if(s.paymentMode === 'percent' && s.installmentsStatus && sysSettings.installments) {
                     sysSettings.installments.forEach((inst, idx) => {
                         if(s.installmentsStatus[idx] === true) {
                             paid += Math.round(s.totalPrice * (inst.percent / 100));
                         }
                     });
-                } else {
-                    if(s.fee1==='Đã đóng') paid += s.totalPrice*0.5; 
-                    if(s.fee2==='Đã đóng') paid += s.totalPrice*0.25; 
-                    if(s.fee3==='Đã đóng') paid += s.totalPrice*0.25;
                 }
 
                 return `
@@ -1532,16 +1583,12 @@
             document.getElementById('modalCourseBadge').innerText = s.course;
 
             let paid = Number(s.initialPayment) || 0;
-            if(s.installmentsStatus && sysSettings.installments) {
+            if(s.paymentMode === 'percent' && s.installmentsStatus && sysSettings.installments) {
                 sysSettings.installments.forEach((inst, idx) => {
                     if(s.installmentsStatus[idx] === true) {
                         paid += Math.round(s.totalPrice * (inst.percent / 100));
                     }
                 });
-            } else {
-                if(s.fee1 === 'Đã đóng') paid += s.totalPrice * 0.5; 
-                if(s.fee2 === 'Đã đóng') paid += s.totalPrice * 0.25; 
-                if(s.fee3 === 'Đã đóng') paid += s.totalPrice * 0.25;
             }
 
             let remaining = s.totalPrice - paid;
@@ -1551,27 +1598,37 @@
             document.getElementById('modalRemainingPrice').innerText = remaining.toLocaleString() + ' VNĐ';
 
             const instModalBody = document.getElementById('modalInstallmentsTableBody');
-            if(instModalBody && sysSettings.installments) {
-                instModalBody.innerHTML = sysSettings.installments.map((inst, idx) => {
-                    let isPaid = s.installmentsStatus && s.installmentsStatus[idx] === true;
-                    let amt = Math.round(s.totalPrice * (inst.percent / 100));
-                    let debtThisInst = isPaid ? 0 : amt;
-                    return `
-                        <tr class="hover:bg-slate-50 border-b">
-                            <td class="p-3 font-bold text-slate-800">${inst.name}</td>
-                            <td class="p-3 text-xs text-indigo-600 font-medium">${inst.condition}</td>
-                            <td class="p-3 text-right font-bold">${inst.percent}%</td>
-                            <td class="p-3 text-right font-bold text-blue-600">${amt.toLocaleString()}đ</td>
-                            <td class="p-3 text-center">
-                                <label class="cursor-pointer inline-flex items-center gap-2">
-                                    <input type="checkbox" ${isPaid ? 'checked' : ''} onchange="toggleStudentInstallment(${s.id}, ${idx})" class="w-4 h-4 accent-emerald-600">
-                                    <span class="px-2.5 py-1 rounded-full text-xs font-bold ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${isPaid ? 'Đã đóng ✅' : 'Chưa đóng ❌'}</span>
-                                </span>
+            if(instModalBody) {
+                if(s.paymentMode === 'custom') {
+                    instModalBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="p-4 text-center text-slate-600 font-bold">
+                                Học viên này đóng học phí theo <strong>Số tiền tùy chọn</strong> (Đã đóng thực tế: <span class="text-emerald-600">${(Number(s.initialPayment)||0).toLocaleString()}đ</span>).
                             </td>
-                            <td class="p-3 text-right font-black ${debtThisInst > 0 ? 'text-red-600' : 'text-slate-500'}">${debtThisInst.toLocaleString()}đ</td>
                         </tr>
                     `;
-                }).join('');
+                } else if(sysSettings.installments) {
+                    instModalBody.innerHTML = sysSettings.installments.map((inst, idx) => {
+                        let isPaid = s.installmentsStatus && s.installmentsStatus[idx] === true;
+                        let amt = Math.round(s.totalPrice * (inst.percent / 100));
+                        let debtThisInst = isPaid ? 0 : amt;
+                        return `
+                            <tr class="hover:bg-slate-50 border-b">
+                                <td class="p-3 font-bold text-slate-800">${inst.name}</td>
+                                <td class="p-3 text-xs text-indigo-600 font-medium">${inst.condition}</td>
+                                <td class="p-3 text-right font-bold">${inst.percent}%</td>
+                                <td class="p-3 text-right font-bold text-blue-600">${amt.toLocaleString()}đ</td>
+                                <td class="p-3 text-center">
+                                    <label class="cursor-pointer inline-flex items-center gap-2">
+                                        <input type="checkbox" ${isPaid ? 'checked' : ''} onchange="toggleStudentInstallment(${s.id}, ${idx})" class="w-4 h-4 accent-emerald-600">
+                                        <span class="px-2.5 py-1 rounded-full text-xs font-bold ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${isPaid ? 'Đã đóng ✅' : 'Chưa đóng ❌'}</span>
+                                    </label>
+                                </td>
+                                <td class="p-3 text-right font-black ${debtThisInst > 0 ? 'text-red-600' : 'text-slate-500'}">${debtThisInst.toLocaleString()}đ</td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
             }
 
             document.getElementById('modalStepsContainer').innerHTML = sysSettings.steps.map((stepName, idx) => {
@@ -1596,7 +1653,7 @@
 
         function closeStudentModal() { document.getElementById('studentModal').classList.add('hidden'); }
         function studentCompleteStepAdmin(id) {
-            let s = students.find(x => s.id === id); if(!s) return;
+            let s = students.find(x => x.id === id); if(!s) return;
             if (s.stepIndex < sysSettings.steps.length - 1) { s.stepIndex++; saveAndSync(); renderAdminStudentTable(); openStudentModal(window.currentActiveCccd); }
         }
 
