@@ -1552,7 +1552,6 @@
             document.getElementById('modalPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
             document.getElementById('modalRemainingPrice').innerText = remaining.toLocaleString() + ' VNĐ';
 
-            // Hiển thị chi tiết từng kỳ trong modal với trạng thái nợ của kỳ đó
             const instModalBody = document.getElementById('modalInstallmentsTableBody');
             if(instModalBody && sysSettings.installments) {
                 instModalBody.innerHTML = sysSettings.installments.map((inst, idx) => {
@@ -1579,7 +1578,7 @@
             }).join('');
             document.getElementById('studentModal').classList.remove('hidden');
         }
-        function closeStudentModal() { document.getElementById('studentModal'].classList.add('hidden'); }
+        function closeStudentModal() { document.getElementById('studentModal').classList.add('hidden'); }
         function studentCompleteStepAdmin(id) {
             let s = students.find(x => x.id === id); if(!s) return;
             if (s.stepIndex < sysSettings.steps.length - 1) { s.stepIndex++; saveAndSync(); renderAdminStudentTable(); openStudentModal(window.currentActiveCccd); }
