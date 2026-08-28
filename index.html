@@ -1684,17 +1684,15 @@
             }
             s.installmentsStatus[instIdx] = !s.installmentsStatus[instIdx];
             
-            // Tự động cập nhật lại initialPayment (tổng tiền đã đóng) dựa trên các kỳ được tích chọn để bảng báo cáo P&L tự khớp chính xác
-            let newPaid = Number(s.initialPayment) || 0;
+            let calculatedPaid = 0;
             if(s.paymentMode === 'percent' && sysSettings.installments) {
-                let calculatedPaid = 0;
                 sysSettings.installments.forEach((inst, idx) => {
                     if(s.installmentsStatus[idx] === true) {
                         calculatedPaid += Math.round(s.totalPrice * (inst.percent / 100));
                     }
                 });
-                s.initialPayment = calculatedPaid;
             }
+            s.initialPayment = calculatedPaid;
 
             saveAndSync();
             renderAdminStudentTable();
