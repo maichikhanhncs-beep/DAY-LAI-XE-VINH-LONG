@@ -11,7 +11,6 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
         .tab-btn.active { background-color: #2563eb; color: white; }
-        /* Tùy chỉnh input date để hiển thị trực quan hơn */
         input[type="date"] { position: relative; }
         input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(0.2); }
     </style>
@@ -112,7 +111,7 @@
             </div>
 
             <div class="p-6 md:p-8 max-w-[1600px] mx-auto">
-                
+
                 <!-- 2.1 TAB HỌC VIÊN -->
                 <div id="adminStudentSection" class="space-y-6">
                     <!-- BỘ LỌC PHÂN LUỒNG THEO THÁNG -->
@@ -130,8 +129,9 @@
 
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
                         <div class="xl:col-span-2 space-y-4">
-                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3">➕ Tiếp Nhận Hồ Sơ Học Viên Mới</h3>
-                            
+                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3" id="studentFormTitle">➕ Tiếp Nhận Hồ Sơ Học Viên Mới</h3>
+                            <input type="hidden" id="editStudentId" value="">
+
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Họ và tên học viên *</label>
@@ -149,9 +149,9 @@
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Giới tính</label>
                                     <select id="addGender" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
                                 </div>
-                                
+
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh *</label>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh * (dd/mm/yy)</label>
                                     <input type="date" id="addDob" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
@@ -159,14 +159,14 @@
                                     <input type="text" id="addAddress" placeholder="Địa chỉ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ (Lùi ngày tùy ý) *</label>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ * (dd/mm/yy)</label>
                                     <input type="date" id="addReceiveDate" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 text-amber-900 font-bold w-full focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày bắt đầu học *</label>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày bắt đầu học * (dd/mm/yy)</label>
                                     <input type="date" id="addStartDate" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
-                                
+
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Hình thức thanh toán</label>
                                     <select id="addPaymentType" onchange="togglePaymentTypeUI()" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 font-bold text-amber-900 w-full focus:border-blue-500 outline-none">
@@ -179,12 +179,16 @@
                                     <select id="addTeacher" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none"></select>
                                 </div>
                             </div>
-                            
+
                             <div id="packageCartContainer" class="bg-blue-50 p-4 rounded-xl border border-blue-200 mt-3">
                                 <label class="block text-xs font-black text-blue-900 mb-2 uppercase">🛒 Chọn Các Gói Đào Tạo / Dịch Vụ Khóa Học (Chọn nhiều loại):</label>
                                 <div id="addServicesChecklist" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-40 overflow-y-auto pr-1"></div>
-                                <div class="mt-3 pt-2 border-t border-blue-200 flex justify-between items-center text-sm">
+                                <div class="mt-3 pt-2 border-t border-blue-200 flex flex-wrap justify-between items-center text-sm gap-2">
                                     <label class="flex items-center font-bold text-slate-700 cursor-pointer"><input type="checkbox" id="addIsStudent" onchange="calculateCartTotal()" class="w-4 h-4 mr-2 accent-blue-600"> Giảm 1tr (HSSV)</label>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold text-slate-600">Thanh toán lần đầu (VNĐ):</span>
+                                        <input type="number" id="addInitialPayment" value="0" class="border p-1.5 rounded-lg w-32 text-right font-black text-emerald-700 bg-white outline-none">
+                                    </div>
                                     <div class="text-right">
                                         <span class="text-xs font-bold text-slate-500">Tổng Trọn Gói:</span>
                                         <strong id="addCartTotal" class="text-xl text-blue-700 font-black ml-1">0 VNĐ</strong>
@@ -194,7 +198,10 @@
 
                             <div class="flex items-center justify-between pt-2 border-t border-slate-100 mt-4 gap-3">
                                 <button onclick="exportQuotationPDF()" class="bg-indigo-600 text-white px-5 py-3 rounded-xl font-bold text-sm shadow hover:bg-indigo-700 transition">🖨️ Xuất Bảng Báo Giá PDF</button>
-                                <button onclick="addStudent()" class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-blue-700 transition">Lưu Hồ Sơ</button>
+                                <div class="flex gap-2">
+                                    <button onclick="saveStudentRecord()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-blue-700 transition">Lưu Hồ Sơ</button>
+                                    <button onclick="resetStudentForm()" class="bg-slate-300 text-slate-700 px-4 py-3 rounded-xl font-bold text-sm hover:bg-slate-400 transition hidden" id="btnCancelEditStudent">Hủy</button>
+                                </div>
                             </div>
                         </div>
                         <div class="border-t xl:border-t-0 xl:border-l border-slate-200 pl-0 xl:pl-6 pt-4 xl:pt-0 flex flex-col justify-center">
@@ -228,20 +235,22 @@
                 <div id="adminTeacherSection" class="hidden space-y-6">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
-                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3 mb-4">👨‍🏫 Thêm Giáo Viên Mới</h3>
+                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3 mb-4" id="teacherFormTitle">👨‍🏫 Thêm Giáo Viên Mới</h3>
+                            <input type="hidden" id="editTeacherId" value="">
+
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm mb-4">
                                 <input type="text" id="newTeacherName" placeholder="Tên giáo viên *" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 font-bold focus:border-indigo-500 outline-none">
                                 <input type="text" id="newTeacherPhone" placeholder="SĐT liên hệ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-indigo-500 outline-none">
                                 <select id="newTeacherGender" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-indigo-500 outline-none"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
-                                
+
                                 <div class="col-span-1 sm:col-span-2 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-4 mt-2">
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn GPLX</label><input type="date" id="newTeacherLicenseExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn Chứng chỉ SP</label><input type="date" id="newTeacherCertExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn GPLX (dd/mm/yy)</label><input type="date" id="newTeacherLicenseExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn Chứng chỉ SP (dd/mm/yy)</label><input type="date" id="newTeacherCertExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
                                     <div><label class="text-xs font-bold text-slate-500 mb-1 block">Biển số xe tập</label><input type="text" id="newTeacherCarPlate" placeholder="VD: 64A-123.45" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold text-blue-700 uppercase focus:border-indigo-500 outline-none"></div>
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn KĐ Xe</label><input type="date" id="newTeacherCarExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn KĐ Xe (dd/mm/yy)</label><input type="date" id="newTeacherCarExp" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-4">
                                 <span class="block text-xs font-black text-indigo-800 mb-3 uppercase">Cấp Quyền Dạy Tổng Quát & Định Mức (HV/Ngày)</span>
                                 <div class="flex flex-wrap gap-4 text-sm font-bold text-slate-700">
@@ -250,7 +259,10 @@
                                     <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authDAT" checked class="w-5 h-5 accent-indigo-600"> DAT <input type="number" id="quotaDAT" value="2" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
                                 </div>
                             </div>
-                            <button onclick="addTeacher()" class="w-full bg-indigo-600 text-white p-3.5 rounded-xl font-black text-sm shadow-lg hover:bg-indigo-700 transition">LƯU HỒ SƠ & CẤP MÃ GIÁO VIÊN</button>
+                            <div class="flex gap-2">
+                                <button onclick="saveTeacherRecord()" id="btnSaveTeacher" class="flex-1 bg-indigo-600 text-white p-3.5 rounded-xl font-black text-sm shadow-lg hover:bg-indigo-700 transition">LƯU HỒ SƠ & CẤP MÃ GIÁO VIÊN</button>
+                                <button onclick="resetTeacherForm()" class="bg-slate-300 text-slate-700 px-4 py-3.5 rounded-xl font-bold text-sm hover:bg-slate-400 transition hidden" id="btnCancelEditTeacher">Hủy</button>
+                            </div>
                         </div>
 
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex flex-col">
@@ -296,7 +308,7 @@
                                 <strong class="text-blue-900 text-4xl md:text-5xl font-black" id="finTotalRevenue">0đ</strong>
                                 <p class="text-xs text-blue-600 mt-2">Tổng các khoản học phí trọn gói & học lẻ đã thu</p>
                             </div>
-                            
+
                             <div class="bg-red-50 p-6 md:p-8 rounded-3xl border border-red-200 shadow-inner">
                                 <span class="text-sm text-red-600 font-bold uppercase tracking-widest block mb-2">2. Tổng Chi Phí Giải Ngân & Vận Hành (Ra)</span>
                                 <strong class="text-red-700 text-4xl font-black block mb-4" id="finTotalAllCost">0đ</strong>
@@ -365,10 +377,19 @@
 
                         <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
                             <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-2">💰 Cấu Hình Chi Phí & Tùy Chỉnh Lộ Trình</h3>
-                            
+
                             <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100 space-y-3 text-sm">
                                 <strong class="text-blue-900 block mb-2 font-black uppercase text-xs">⏰ Điều Chỉnh Thời Gian / Số Ngày Các Bước Lộ Trình Khóa Học</strong>
                                 <div id="cfgStepsConfigContainer" class="space-y-2"></div>
+                            </div>
+
+                            <div class="bg-purple-50 p-5 rounded-2xl border border-purple-100 space-y-3 text-sm">
+                                <strong class="text-purple-900 block mb-2 font-black uppercase text-xs">📊 Tỷ Lệ Phần Trăm Phân Bổ Thanh Toán Các Kỳ (%)</strong>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div><label class="text-xs font-bold block mb-1">Kỳ 1 (%)</label><input type="number" id="cfgRatioFee1" value="50" class="border p-2 rounded-lg w-full text-center font-bold"></div>
+                                    <div><label class="text-xs font-bold block mb-1">Kỳ 2 (%)</label><input type="number" id="cfgRatioFee2" value="25" class="border p-2 rounded-lg w-full text-center font-bold"></div>
+                                    <div><label class="text-xs font-bold block mb-1">Kỳ 3 (%)</label><input type="number" id="cfgRatioFee3" value="25" class="border p-2 rounded-lg w-full text-center font-bold"></div>
+                                </div>
                             </div>
 
                             <div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 space-y-3 text-sm">
@@ -458,7 +479,6 @@
         const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v19';
         const STORAGE_KEY_AUDIT = 'driving_erp_audit_v19';
 
-        // Hàm chuẩn hóa định dạng ngày tháng hiển thị thành dd/mm/yy (ví dụ: 24/08/26)
         function formatDateDDMMYY(dateStr) {
             if(!dateStr) return 'N/A';
             let parts = dateStr.split('-');
@@ -489,25 +509,27 @@
                     { id: 'c3', name: 'Hạng C', price: 21500000, duration: '5 tháng', desc: 'Khóa C tải' }
                 ],
                 steps: DEFAULT_STEPS,
+                ratios: { fee1: 50, fee2: 25, fee3: 25 },
                 bonuses: { theory: 300000, sahinh: 80000, dat: 1500, receive: 1500000 },
                 costs: { exam: 680000, rent: 15000000 }
             };
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
         }
         if(!sysSettings.steps) sysSettings.steps = DEFAULT_STEPS;
+        if(!sysSettings.ratios) sysSettings.ratios = { fee1: 50, fee2: 25, fee3: 25 };
 
         let teachers = JSON.parse(localStorage.getItem(STORAGE_KEY_TEACHERS)) || [];
         if (teachers.length === 0) {
             teachers.push({ id: 1, name: 'Thầy Nguyễn Văn Nam', code: 'GV01', phone: '0901234567', gender: 'Nam', deductions: 0, carPlate: '64A-123.45', licenseExp: '2030-01-01', certExp: '2028-01-01', carExp: '2028-06-01' });
             localStorage.setItem(STORAGE_KEY_TEACHERS, JSON.stringify(teachers));
         }
-        
+
         let students = JSON.parse(localStorage.getItem(STORAGE_KEY_STUDENTS)) || [];
         if (students.length === 0) {
             students.push({ 
                 id: 1, code: 'HV2608001', name: 'Mai Chí Khanh', cccd: '12345', phone: '0988777666', gender: 'Nam', dob: '1995-01-01', address: 'Vĩnh Long', 
                 receiveDate: '2026-08-10', pass: '123', startDate: '2026-08-15', stepIndex: 1, course: 'Hạng B (Số tự động)',
-                enrolledServices: ['Hạng B (Số tự động)'], totalPrice: 19500000, paymentType: 'package',
+                enrolledServices: ['Hạng B (Số tự động)'], totalPrice: 19500000, paymentType: 'package', initialPayment: 9750000,
                 fee1: 'Đã đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', notes: [], teacherCode: 'GV01'
             });
             localStorage.setItem(STORAGE_KEY_STUDENTS, JSON.stringify(students));
@@ -557,7 +579,7 @@
             document.getElementById(`admin${tab.charAt(0).toUpperCase() + tab.slice(1)}Section`)?.classList.remove('hidden');
             let btn = document.getElementById(`nav${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
             if(btn) { btn.classList.replace('hover:bg-slate-800', 'bg-blue-600'); if(tab==='audit') btn.classList.replace('text-red-400','text-white'); }
-            
+
             if (tab === 'student') renderAdminStudentTable();
             else if (tab === 'teacher') renderAdminTeacherTable();
             else if (tab === 'finance') renderFinanceTab();
@@ -571,7 +593,7 @@
             updateServicesChecklist();
             switchAdminTab('student');
             checkRisks();
-            
+
             const todayStr = new Date().toISOString().split('T')[0];
             if(document.getElementById('addReceiveDate')) document.getElementById('addReceiveDate').value = todayStr;
             if(document.getElementById('addStartDate')) document.getElementById('addStartDate').value = todayStr;
@@ -588,7 +610,7 @@
                 }
             });
             let sortedMonths = Array.from(monthsSet).sort();
-            
+
             const filterSel = document.getElementById('filterStudentMonth');
             if(filterSel) {
                 let curVal = filterSel.value;
@@ -637,13 +659,17 @@
                     <td class="p-3"><span class="text-xs text-slate-600 block">${c.desc||''}</span><strong class="text-blue-600 font-black">${Number(c.price).toLocaleString()}đ</strong></td>
                     <td class="p-3 text-center"><button onclick="editSysCourse('${c.id}')" class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs font-bold mr-1">Sửa</button><button onclick="deleteSysCourse('${c.id}')" class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">Xóa</button></td>
                 </tr>`).join('');
-            
+
             document.getElementById('cfgBonusTheory').value = sysSettings.bonuses.theory;
             document.getElementById('cfgBonusSahinh').value = sysSettings.bonuses.sahinh;
             document.getElementById('cfgBonusDat').value = sysSettings.bonuses.dat;
             document.getElementById('cfgBonusReceive').value = sysSettings.bonuses.receive;
             document.getElementById('cfgCostExam').value = sysSettings.costs.exam;
             document.getElementById('cfgCostRent').value = sysSettings.costs.rent;
+
+            if(document.getElementById('cfgRatioFee1')) document.getElementById('cfgRatioFee1').value = sysSettings.ratios.fee1;
+            if(document.getElementById('cfgRatioFee2')) document.getElementById('cfgRatioFee2').value = sysSettings.ratios.fee2;
+            if(document.getElementById('cfgRatioFee3')) document.getElementById('cfgRatioFee3').value = sysSettings.ratios.fee3;
 
             const stepsContainer = document.getElementById('cfgStepsConfigContainer');
             if(stepsContainer) {
@@ -693,8 +719,13 @@
             saveAndSync(); resetCourseForm(); renderSettingsTab(); updateServicesChecklist();
         }
         function deleteSysCourse(id) { if(confirm("Xóa Gói Dịch Vụ?")) { sysSettings.courses = sysSettings.courses.filter(c => c.id !== id); saveAndSync(); renderSettingsTab(); updateServicesChecklist(); } }
-        
+
         function saveSysFinancials() {
+            sysSettings.ratios = {
+                fee1: Number(document.getElementById('cfgRatioFee1').value) || 50,
+                fee2: Number(document.getElementById('cfgRatioFee2').value) || 25,
+                fee3: Number(document.getElementById('cfgRatioFee3').value) || 25
+            };
             sysSettings.bonuses = { theory: Number(document.getElementById('cfgBonusTheory').value), sahinh: Number(document.getElementById('cfgBonusSahinh').value), dat: Number(document.getElementById('cfgBonusDat').value), receive: Number(document.getElementById('cfgBonusReceive').value) };
             sysSettings.costs = { exam: Number(document.getElementById('cfgCostExam').value), rent: Number(document.getElementById('cfgCostRent').value) };
             saveAndSync(); alert("Đã lưu Cấu hình Kế toán & Tài chính!");
@@ -740,6 +771,9 @@
             container.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => { total += Number(cb.getAttribute('data-price')); });
             if (document.getElementById('addIsStudent').checked) total -= 1000000;
             document.getElementById('addCartTotal').innerText = total.toLocaleString() + ' VNĐ';
+            if(document.getElementById('addInitialPayment')) {
+                document.getElementById('addInitialPayment').value = Math.round(total * (sysSettings.ratios.fee1 / 100));
+            }
         }
 
         function updateTeacherSelect() {
@@ -747,13 +781,12 @@
             teachers.forEach(t => sel.innerHTML += `<option value="${t.code}">${t.name} (${t.code})</option>`);
         }
 
-        // XUẤT BẢNG BÁO GIÁ PDF VỚI ĐỊNH DẠNG NGÀY THÁNG DD/MM/YY
         function exportQuotationPDF() {
             const name = document.getElementById('addName').value.trim() || 'Khách hàng';
             const phone = document.getElementById('addPhone').value.trim() || 'Chưa cập nhật';
             const cccd = document.getElementById('addCCCD').value.trim() || 'Chưa cập nhật';
             const isHssv = document.getElementById('addIsStudent').checked;
-            
+
             let selectedItems = [];
             let totalRaw = 0;
             document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
@@ -770,7 +803,7 @@
             const printWin = window.open('', '_blank');
             if(!printWin) return alert('Trình duyệt đã chặn cửa sổ bật lên (Pop-up blocker). Hãy cho phép popup để xuất PDF!');
 
-            let todayFormatted = formatDateDDMMYY(new Date().toISOString().split('T')[0]); // dd/mm/yy
+            let todayFormatted = formatDateDDMMYY(new Date().toISOString().split('T')[0]);
 
             let htmlContent = `
                 <html>
@@ -868,9 +901,7 @@
             printWin.document.open();
             printWin.document.write(htmlContent);
             printWin.document.close();
-            setTimeout(() => {
-                printWin.print();
-            }, 500);
+            setTimeout(() => { printWin.print(); }, 500);
         }
 
         function renderFinanceTab() {
@@ -883,9 +914,11 @@
                 let mYear = rDate && !isNaN(rDate.getTime()) ? `${String(rDate.getMonth()+1).padStart(2,'0')}/${rDate.getFullYear()}` : 'Khác';
 
                 const p = Number(s.totalPrice) || 0;
-                let sRev = 0;
-                if(s.fee1==='Đã đóng') sRev += p*0.5; if(s.fee2==='Đã đóng') sRev += p*0.25; if(s.fee3==='Đã đóng') sRev += p*0.25;
-                
+                let sRev = Number(s.initialPayment) || 0;
+                if(s.fee1==='Đã đóng') sRev += p*(sysSettings.ratios.fee1/100); 
+                if(s.fee2==='Đã đóng') sRev += p*(sysSettings.ratios.fee2/100); 
+                if(s.fee3==='Đã đóng') sRev += p*(sysSettings.ratios.fee3/100);
+
                 if(!monthlyMap[mYear]) monthlyMap[mYear] = { count: 0, rev: 0 };
                 monthlyMap[mYear].count++;
                 monthlyMap[mYear].rev += sRev;
@@ -896,7 +929,7 @@
             });
 
             teachers.forEach(t => { totalTeacherBonus += calculateTeacherIncome(t).total; });
-            
+
             let activeCount = selectedMonth === 'all' ? students.length : students.filter(s => {
                 if(!s.receiveDate) return false;
                 let d = new Date(s.receiveDate);
@@ -914,7 +947,7 @@
             document.getElementById('finTotalVariableCost').innerText = totalVariableCost.toLocaleString() + 'đ';
             document.getElementById('finTotalFixedCost').innerText = totalFixedCost.toLocaleString() + 'đ';
             document.getElementById('finTotalAllCost').innerText = Math.round(totalAllCost).toLocaleString() + 'đ';
-            
+
             const pf = document.getElementById('finNetProfit'); 
             pf.innerText = Math.round(netProfit).toLocaleString() + 'đ';
             pf.className = netProfit >= 0 ? 'text-emerald-700 text-4xl lg:text-5xl font-black block' : 'text-red-600 text-4xl lg:text-5xl font-black block';
@@ -945,13 +978,67 @@
             }
         }
 
-        function addTeacher() {
+        function saveTeacherRecord() {
             const name = document.getElementById('newTeacherName').value.trim();
             if (!name) return alert('Nhập tên giáo viên!');
-            const code = 'GV' + String(teachers.length + 1).padStart(2, '0');
-            teachers.push({ id: Date.now(), name, code, phone: document.getElementById('newTeacherPhone').value.trim(), gender: 'Nam', carPlate: document.getElementById('newTeacherCarPlate').value.trim(), carExp: document.getElementById('newTeacherCarExp').value, licenseExp: document.getElementById('newTeacherLicenseExp').value, certExp: document.getElementById('newTeacherCertExp').value, deductions: 0 });
-            saveAndSync(); renderAdminTeacherTable(); updateTeacherSelect(); checkRisks(); alert(`Thêm GV thành công: ${code}`);
+            const editId = document.getElementById('editTeacherId').value;
+
+            if(editId) {
+                teachers = teachers.map(t => {
+                    if(t.id == editId) {
+                        return {
+                            ...t,
+                            name,
+                            phone: document.getElementById('newTeacherPhone').value.trim(),
+                            gender: document.getElementById('newTeacherGender').value,
+                            carPlate: document.getElementById('newTeacherCarPlate').value.trim(),
+                            carExp: document.getElementById('newTeacherCarExp').value,
+                            licenseExp: document.getElementById('newTeacherLicenseExp').value,
+                            certExp: document.getElementById('newTeacherCertExp').value
+                        };
+                    }
+                    return t;
+                });
+                alert('Cập nhật thông tin giáo viên thành công!');
+            } else {
+                const code = 'GV' + String(teachers.length + 1).padStart(2, '0');
+                teachers.push({ id: Date.now(), name, code, phone: document.getElementById('newTeacherPhone').value.trim(), gender: 'Nam', carPlate: document.getElementById('newTeacherCarPlate').value.trim(), carExp: document.getElementById('newTeacherCarExp').value, licenseExp: document.getElementById('newTeacherLicenseExp').value, certExp: document.getElementById('newTeacherCertExp').value, deductions: 0 });
+                alert(`Thêm GV thành công: ${code}`);
+            }
+            saveAndSync(); renderAdminTeacherTable(); updateTeacherSelect(); checkRisks(); resetTeacherForm();
         }
+
+        function editTeacher(id) {
+            const t = teachers.find(x => x.id === id);
+            if(!t) return;
+            document.getElementById('editTeacherId').value = t.id;
+            document.getElementById('newTeacherName').value = t.name;
+            document.getElementById('newTeacherPhone').value = t.phone || '';
+            document.getElementById('newTeacherGender').value = t.gender || 'Nam';
+            document.getElementById('newTeacherCarPlate').value = t.carPlate || '';
+            document.getElementById('newTeacherCarExp').value = t.carExp || '';
+            document.getElementById('newTeacherLicenseExp').value = t.licenseExp || '';
+            document.getElementById('newTeacherCertExp').value = t.certExp || '';
+
+            document.getElementById('teacherFormTitle').innerText = '✏️ Cập Nhật Thông Tin Giáo Viên';
+            document.getElementById('btnSaveTeacher').innerText = 'CẬP NHẬT GIÁO VIÊN';
+            document.getElementById('btnCancelEditTeacher').classList.remove('hidden');
+        }
+
+        function resetTeacherForm() {
+            document.getElementById('editTeacherId').value = '';
+            document.getElementById('newTeacherName').value = '';
+            document.getElementById('newTeacherPhone').value = '';
+            document.getElementById('newTeacherCarPlate').value = '';
+            document.getElementById('newTeacherCarExp').value = '';
+            document.getElementById('newTeacherLicenseExp').value = '';
+            document.getElementById('newTeacherCertExp').value = '';
+
+            document.getElementById('teacherFormTitle').innerText = '👨‍🏫 Thêm Giáo Viên Mới';
+            document.getElementById('btnSaveTeacher').innerText = 'LƯU HỒ SƠ & CẤP MÃ GIÁO VIÊN';
+            document.getElementById('btnCancelEditTeacher').classList.add('hidden');
+        }
+
         function calculateTeacherIncome(t) {
             const myStudents = students.filter(s => s.teacherCode === t.code);
             const receiveStudent = myStudents.length * (sysSettings.bonuses.receive || 1500000);
@@ -974,20 +1061,24 @@
                         </td>
                         <td class="p-5"><input type="number" value="${t.deductions || 0}" onchange="updateDeduction(${t.id}, this.value)" class="w-32 border-2 p-2 rounded-xl text-lg text-red-600 font-bold"></td>
                         <td class="p-5 text-emerald-600 font-black text-2xl">${inc.total.toLocaleString()}đ</td>
-                        <td class="p-5 text-center"><button onclick="deleteTeacher(${t.id})" class="text-red-500 font-bold hover:text-red-700">Xóa</button></td>
+                        <td class="p-5 text-center flex flex-col gap-1 justify-center">
+                            <button onclick="editTeacher(${t.id})" class="text-amber-600 font-bold hover:underline text-xs">Sửa</button>
+                            <button onclick="deleteTeacher(${t.id})" class="text-red-500 font-bold hover:underline text-xs">Xóa</button>
+                        </td>
                     </tr>`;
             }).join('');
         }
         function updateDeduction(id, val) { const t = teachers.find(x => x.id === id); t.deductions = Number(val); saveAndSync(); renderAdminTeacherTable(); }
         function deleteTeacher(id) { teachers = teachers.filter(x => x.id !== id); saveAndSync(); renderAdminTeacherTable(); updateTeacherSelect(); }
 
-        function addStudent() {
+        function saveStudentRecord() {
             const name = document.getElementById('addName').value.trim(), cccd = document.getElementById('addCCCD').value.trim(), receiveDate = document.getElementById('addReceiveDate').value, startDate = document.getElementById('addStartDate').value;
             if (!name || !cccd || !startDate || !receiveDate) return alert('Điền đủ thông tin bắt buộc!');
-            
+
+            const editId = document.getElementById('editStudentId').value;
             const paymentType = document.getElementById('addPaymentType').value;
             let enrolledServices = []; let basePrice = 0;
-            
+
             if(paymentType === 'package') {
                 const checkboxes = document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]:checked');
                 checkboxes.forEach(cb => { enrolledServices.push(cb.getAttribute('data-name')); basePrice += Number(cb.getAttribute('data-price')); });
@@ -997,18 +1088,86 @@
                 basePrice = 10000000;
             }
 
-            const code = generateStudentCode();
             let totalPrice = basePrice - (document.getElementById('addIsStudent').checked ? 1000000 : 0);
-            
-            students.push({ 
-                id: Date.now(), code, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value, address: document.getElementById('addAddress').value.trim(), receiveDate, pass: '123', 
-                startDate, course: enrolledServices.join(', '), enrolledServices, stepIndex: 0, totalPrice, paymentType,
-                fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', notes: [], teacherCode: document.getElementById('addTeacher').value
-            });
-            saveAndSync(); populateMonthFilters(); renderAdminStudentTable(); alert(`Tạo hồ sơ thành công (Ngày nhận: ${formatDateDDMMYY(receiveDate)})!\nMã HV: ${code}`);
+            let initialPayment = Number(document.getElementById('addInitialPayment').value) || 0;
+
+            if(editId) {
+                students = students.map(s => {
+                    if(s.id == editId) {
+                        return {
+                            ...s,
+                            name, cccd,
+                            phone: document.getElementById('addPhone').value.trim(),
+                            gender: document.getElementById('addGender').value,
+                            dob: document.getElementById('addDob').value,
+                            address: document.getElementById('addAddress').value.trim(),
+                            receiveDate, startDate,
+                            course: enrolledServices.join(', '),
+                            enrolledServices, totalPrice, paymentType, initialPayment,
+                            teacherCode: document.getElementById('addTeacher').value
+                        };
+                    }
+                    return s;
+                });
+                alert('Cập nhật hồ sơ học viên thành công!');
+            } else {
+                const code = generateStudentCode();
+                students.push({ 
+                    id: Date.now(), code, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value, address: document.getElementById('addAddress').value.trim(), receiveDate, pass: '123', 
+                    startDate, course: enrolledServices.join(', '), enrolledServices, stepIndex: 0, totalPrice, paymentType, initialPayment,
+                    fee1: 'Chưa đóng', fee2: 'Chưa đóng', fee3: 'Chưa đóng', notes: [], teacherCode: document.getElementById('addTeacher').value
+                });
+                alert(`Tạo hồ sơ thành công (Ngày nhận: ${formatDateDDMMYY(receiveDate)})!\nMã HV: ${code}`);
+            }
+            saveAndSync(); populateMonthFilters(); renderAdminStudentTable(); resetStudentForm();
         }
+
+        function editStudent(id) {
+            const s = students.find(x => x.id === id);
+            if(!s) return;
+            document.getElementById('editStudentId').value = s.id;
+            document.getElementById('addName').value = s.name;
+            document.getElementById('addCCCD').value = s.cccd;
+            document.getElementById('addPhone').value = s.phone || '';
+            document.getElementById('addGender').value = s.gender || 'Nam';
+            document.getElementById('addDob').value = s.dob || '';
+            document.getElementById('addAddress').value = s.address || '';
+            document.getElementById('addReceiveDate').value = s.receiveDate || '';
+            document.getElementById('addStartDate').value = s.startDate || '';
+            document.getElementById('addPaymentType').value = s.paymentType || 'package';
+            document.getElementById('addTeacher').value = s.teacherCode || '';
+            document.getElementById('addInitialPayment').value = s.initialPayment || 0;
+
+            togglePaymentTypeUI();
+            if(s.enrolledServices) {
+                const cbs = document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]');
+                cbs.forEach(cb => {
+                    cb.checked = s.enrolledServices.includes(cb.getAttribute('data-name'));
+                    if(cb.checked) cb.parentElement.parentElement.classList.add('border-blue-500', 'bg-blue-50');
+                    else cb.parentElement.parentElement.classList.remove('border-blue-500', 'bg-blue-50');
+                });
+            }
+            calculateCartTotal();
+
+            document.getElementById('studentFormTitle').innerText = '✏️ Cập Nhật Hồ Sơ Học Viên';
+            document.getElementById('btnCancelEditStudent').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetStudentForm() {
+            document.getElementById('editStudentId').value = '';
+            document.getElementById('addName').value = '';
+            document.getElementById('addCCCD').value = '';
+            document.getElementById('addPhone').value = '';
+            document.getElementById('addAddress').value = '';
+            document.getElementById('addInitialPayment').value = '0';
+            document.getElementById('studentFormTitle').innerText = '➕ Tiếp Nhận Hồ Sơ Học Viên Mới';
+            document.getElementById('btnCancelEditStudent').classList.add('hidden');
+            updateServicesChecklist();
+        }
+
         function importExcel() { alert('Import Excel mẫu.'); }
-        
+
         function renderAdminStudentTable() {
             const tbody = document.getElementById('adminStudentTableBody');
             if(!tbody) return;
@@ -1024,7 +1183,7 @@
             document.getElementById('studentCountBadge').innerText = filteredStudents.length;
 
             tbody.innerHTML = filteredStudents.map(s => {
-                let paid = (s.fee1==='Đã đóng'?s.totalPrice*0.5:0) + (s.fee2==='Đã đóng'?s.totalPrice*0.25:0) + (s.fee3==='Đã đóng'?s.totalPrice*0.25:0);
+                let paid = (Number(s.initialPayment)||0) + (s.fee1==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee1/100):0) + (s.fee2==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee2/100):0) + (s.fee3==='Đã đóng'?s.totalPrice*(sysSettings.ratios.fee3/100):0);
                 return `
                     <tr class="hover:bg-slate-50 border-b">
                         <td class="p-5">
@@ -1036,7 +1195,10 @@
                         <td class="p-5 text-center"><span class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full text-xs font-bold">Bước ${s.stepIndex+1}/${sysSettings.steps.length}</span></td>
                         <td class="p-5 font-black text-emerald-600">${paid.toLocaleString()}đ / ${s.totalPrice.toLocaleString()}đ</td>
                         <td class="p-5 text-red-600 font-bold">Đã phân bổ</td>
-                        <td class="p-5 text-center"><button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold hover:underline text-xs">Xóa</button></td>
+                        <td class="p-5 text-center flex flex-col gap-1 justify-center">
+                            <button onclick="editStudent(${s.id})" class="text-amber-600 font-bold hover:underline text-xs">Sửa</button>
+                            <button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold hover:underline text-xs">Xóa</button>
+                        </td>
                     </tr>
                 `;
             }).join('');
@@ -1050,8 +1212,8 @@
             document.getElementById('modalNameDisplay').innerText = s.name; document.getElementById('modalCccdDisplay').innerText = s.cccd;
             document.getElementById('modalPhoneDisplay').innerText = s.phone || 'N/A';
             document.getElementById('modalCourseBadge').innerText = s.course;
-            
-            const paid = (s.fee1 === 'Đã đóng' ? s.totalPrice * 0.5 : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * 0.25 : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * 0.25 : 0);
+
+            let paid = (Number(s.initialPayment)||0) + (s.fee1 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee1/100) : 0) + (s.fee2 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee2/100) : 0) + (s.fee3 === 'Đã đóng' ? s.totalPrice * (sysSettings.ratios.fee3/100) : 0);
             document.getElementById('modalTotalPrice').innerText = s.totalPrice.toLocaleString() + ' VNĐ';
             document.getElementById('modalPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
             document.getElementById('modalRemainingPrice').innerText = (s.totalPrice - paid).toLocaleString() + ' VNĐ';
