@@ -151,14 +151,12 @@
 
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh * (dd/mm/yy)</label>
-                                   <input type="text" id="addStartDate" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                    <input type="text" id="addDob" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
                                 </div>
-
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Địa chỉ thường trú</label>
-                                   <input type="text" id="addStartDate" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                    <input type="text" id="addAddress" placeholder="Địa chỉ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
-
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ * (dd/mm/yy)</label>
                                     <input type="text" id="addReceiveDate" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 text-amber-900 font-bold w-full focus:border-blue-500 outline-none">
@@ -194,14 +192,14 @@
                                 </div>
 
                                 <div class="bg-white p-3 rounded-xl border border-blue-200 space-y-2">
-                                    <span class="block text-xs font-black text-blue-900 uppercase">💳 Quản Lý Các Kỳ Thanh Toán (Đã Cấu Hình):</span>
+                                    <span class="block text-xs font-black text-blue-900 uppercase">💳 Chọn Tích Các Kỳ Thanh Toán Để Tính Đã Đóng & Kiểm Soát Nợ:</span>
                                     <div id="installmentsFormContainer" class="space-y-2"></div>
                                 </div>
 
                                 <div class="mt-3 pt-2 border-t border-blue-200 flex flex-wrap justify-between items-center text-sm gap-2">
                                     <label class="flex items-center font-bold text-slate-700 cursor-pointer"><input type="checkbox" id="addIsStudent" onchange="calculateCartTotal()" class="w-4 h-4 mr-2 accent-blue-600"> Giảm 1tr (HSSV)</label>
                                     <div class="flex items-center gap-2">
-                                        <span class="text-xs font-bold text-slate-600">Tổng thanh toán đã chọn (VNĐ):</span>
+                                        <span class="text-xs font-bold text-slate-600">Đã đóng thực tế (VNĐ):</span>
                                         <input type="number" id="addInitialPayment" value="0" readonly class="border p-1.5 rounded-lg w-32 text-right font-black text-emerald-700 bg-slate-100 outline-none">
                                     </div>
                                     <div class="text-right">
@@ -470,7 +468,27 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 bg-white/10 backdrop-blur p-5 md:p-6 rounded-2xl border border-white/20 text-base md:text-lg mt-6">
                     <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Tổng học phí thu:</span><strong class="text-white text-2xl md:text-3xl" id="modalTotalPrice">--</strong></div>
                     <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Đã thanh toán:</span><strong class="text-emerald-300 text-2xl md:text-3xl" id="modalPaidPrice">--</strong></div>
-                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Còn lại phải đóng:</span><strong class="text-red-300 text-2xl md:text-3xl" id="modalRemainingPrice">--</strong></div>
+                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Còn lại phải đóng (Nợ):</span><strong class="text-red-300 text-2xl md:text-3xl" id="modalRemainingPrice">--</strong></div>
+                </div>
+            </div>
+
+            <!-- BẢNG THEO DÕI TỪNG KỲ THANH TOÁN CHI TIẾT TRONG MODAL -->
+            <div class="bg-slate-50 rounded-3xl p-6 md:p-8 border-2 space-y-4">
+                <h3 class="text-2xl font-black text-slate-900">💳 Kiểm Soát Chi Tiết Các Kỳ Thanh Toán & Nợ</h3>
+                <div class="overflow-x-auto border rounded-2xl bg-white">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 uppercase text-xs font-bold">
+                                <th class="p-3">Tên Kỳ</th>
+                                <th class="p-3">Điều Kiện Tiên Quyết</th>
+                                <th class="p-3 text-right">Tỷ Lệ (%)</th>
+                                <th class="p-3 text-right">Số Tiền (VNĐ)</th>
+                                <th class="p-3 text-center">Trạng Thái Đóng</th>
+                                <th class="p-3 text-right">Còn Nợ Kỳ Này</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalInstallmentsTableBody" class="divide-y"></tbody>
+                    </table>
                 </div>
             </div>
 
@@ -997,7 +1015,6 @@
             if (document.getElementById('addIsStudent').checked) total -= 1000000;
             document.getElementById('addCartTotal').innerText = total.toLocaleString() + ' VNĐ';
 
-            // Cập nhật số tiền từng kỳ và tính tổng tiền đã đóng từ các kỳ được tích chọn
             let sumInitial = 0;
             const instRows = document.querySelectorAll('#installmentsFormContainer > div');
             instRows.forEach((row, idx) => {
@@ -1169,7 +1186,6 @@
                 const p = Number(s.totalPrice) || 0;
                 let sRev = Number(s.initialPayment) || 0;
                 
-                // Tính cộng dồn các kỳ đã đóng dựa trên cấu hình động
                 if(s.installmentsStatus && sysSettings.installments) {
                     sysSettings.installments.forEach((inst, idx) => {
                         if(s.installmentsStatus[idx] === true) {
@@ -1530,9 +1546,31 @@
                 if(s.fee3 === 'Đã đóng') paid += s.totalPrice * 0.25;
             }
 
+            let remaining = s.totalPrice - paid;
+
             document.getElementById('modalTotalPrice').innerText = s.totalPrice.toLocaleString() + ' VNĐ';
             document.getElementById('modalPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
-            document.getElementById('modalRemainingPrice').innerText = (s.totalPrice - paid).toLocaleString() + ' VNĐ';
+            document.getElementById('modalRemainingPrice').innerText = remaining.toLocaleString() + ' VNĐ';
+
+            // Hiển thị chi tiết từng kỳ trong modal với trạng thái nợ của kỳ đó
+            const instModalBody = document.getElementById('modalInstallmentsTableBody');
+            if(instModalBody && sysSettings.installments) {
+                instModalBody.innerHTML = sysSettings.installments.map((inst, idx) => {
+                    let isPaid = s.installmentsStatus && s.installmentsStatus[idx] === true;
+                    let amt = Math.round(s.totalPrice * (inst.percent / 100));
+                    let debtThisInst = isPaid ? 0 : amt;
+                    return `
+                        <tr class="hover:bg-slate-50 border-b">
+                            <td class="p-3 font-bold text-slate-800">${inst.name}</td>
+                            <td class="p-3 text-xs text-indigo-600 font-medium">${inst.condition}</td>
+                            <td class="p-3 text-right font-bold">${inst.percent}%</td>
+                            <td class="p-3 text-right font-bold text-blue-600">${amt.toLocaleString()}đ</td>
+                            <td class="p-3 text-center"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${isPaid ? 'Đã đóng ✅' : 'Chưa đóng ❌'}</span></td>
+                            <td class="p-3 text-right font-black ${debtThisInst > 0 ? 'text-red-600' : 'text-slate-500'}">${debtThisInst.toLocaleString()}đ</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
 
             document.getElementById('modalStepsContainer').innerHTML = sysSettings.steps.map((stepName, idx) => {
                 let badge = idx < s.stepIndex ? 'Đã xong ✅' : (idx === s.stepIndex ? 'Đang học 🎯' : 'Khóa 🔒');
@@ -1541,7 +1579,7 @@
             }).join('');
             document.getElementById('studentModal').classList.remove('hidden');
         }
-        function closeStudentModal() { document.getElementById('studentModal').classList.add('hidden'); }
+        function closeStudentModal() { document.getElementById('studentModal'].classList.add('hidden'); }
         function studentCompleteStepAdmin(id) {
             let s = students.find(x => x.id === id); if(!s) return;
             if (s.stepIndex < sysSettings.steps.length - 1) { s.stepIndex++; saveAndSync(); renderAdminStudentTable(); openStudentModal(window.currentActiveCccd); }
