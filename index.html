@@ -1600,21 +1600,45 @@
                 if(s.paymentMode === 'custom') {
                     instModalBody.innerHTML = `
                         <tr>
-                            <td colspan="6" class="p-4 text-center text-slate-700 font-bold space-y-2">
-                                <div>Học viên này đóng học phí theo hình thức: <span class="text-blue-600">Nhập số tiền tùy chọn</span></div>
-                                <div class="flex items-center justify-center gap-3 mt-2">
-                                    <span>Nhập số tiền thực tế đã đóng thêm (VNĐ):</span>
-                                    <input type="number" id="modalCustomAddInput" value="${Number(s.initialPayment) || 0}" class="border-2 border-slate-300 p-2 rounded-lg w-40 text-right font-black text-emerald-700 bg-white outline-none text-base">
-                                    <button onclick="updateStudentCustomPayment(${s.id})" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-emerald-700 transition">Cập Nhật</button>
+                            <td colspan="6" class="p-4 bg-slate-50 space-y-3">
+                                <div class="text-center font-bold text-slate-700">
+                                    Học viên này đóng học phí theo hình thức: <span class="text-blue-600 font-black">Nhập số tiền tùy chọn</span>
+                                </div>
+                                <div class="flex flex-wrap items-center justify-center gap-3">
+                                    <span class="text-xs font-bold text-slate-600">Cập nhật tổng số tiền đã đóng thực tế (VNĐ):</span>
+                                    <input type="number" id="modalCustomAddInput" value="${Number(s.initialPayment) || 0}" class="border-2 border-slate-300 p-2 rounded-lg w-48 text-right font-black text-emerald-700 bg-white outline-none text-base">
+                                    <button onclick="updateStudentCustomPayment(${s.id})" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-emerald-700 transition">Lưu Số Tiền</button>
                                 </div>
                             </td>
                         </tr>
                     `;
                 } else if(sysSettings.installments) {
+                    let cumulativePaid = Number(s.initialPayment) || 0;
+                    let runningTotalPaid = 0;
+
                     instModalBody.innerHTML = sysSettings.installments.map((inst, idx) => {
                         let isPaid = s.installmentsStatus && s.installmentsStatus[idx] === true;
                         let amt = Math.round(s.totalPrice * (inst.percent / 100));
-                        let debtThisInst = isPaid ? 0 : amt;
+                        
+                        // Tính chính xác số tiền còn nợ của kỳ này dựa trên tổng số tiền thực tế đã đóng (cumulativePaid) trừ lũy kế các kỳ trước
+                        let debtThisInst = 0;
+                        if(isPaid) {
+                            debtThisInst = 0;
+                        } else {
+                            let neededBeforeThis = 0;
+                            for(let i=0; i<idx; i++) {
+                                neededBeforeThis += Math.round(s.totalPrice * (sysSettings.installments[i].percent / 100));
+                            }
+                            let remainingCoverage = cumulativePaid - neededBeforeThis;
+                            if(remainingCoverage >= amt) {
+                                debtThisInst = 0;
+                            } else if(remainingCoverage > 0) {
+                                debtThisInst = amt - remainingCoverage;
+                            } else {
+                                debtThisInst = amt;
+                            }
+                        }
+
                         return `
                             <tr class="hover:bg-slate-50 border-b">
                                 <td class="p-3 font-bold text-slate-800">${inst.name}</td>
