@@ -11,7 +11,6 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 8px; }
         .tab-btn.active { background-color: #2563eb; color: white; }
-        input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(0.2); }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen font-sans text-slate-800">
@@ -150,20 +149,20 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh * (dd/mm/yy)</label>
-                                    <input type="text" id="addDob" placeholder="dd/mm/yyyy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh * (dd/mm/yyyy)</label>
+                                    <input type="text" id="addDob" placeholder="dd/mm/yyyy" maxlength="10" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Địa chỉ thường trú</label>
                                     <input type="text" id="addAddress" placeholder="Địa chỉ" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ * (dd/mm/yy)</label>
-                                    <input type="text" id="addReceiveDate" placeholder="dd/mm/yyyy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 text-amber-900 font-bold w-full focus:border-blue-500 outline-none">
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày nhận hồ sơ * (dd/mm/yyyy)</label>
+                                    <input type="text" id="addReceiveDate" placeholder="dd/mm/yyyy" maxlength="10" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 text-amber-900 font-bold w-full focus:border-blue-500 outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày bắt đầu học * (dd/mm/yy)</label>
-                                    <input type="text" id="addStartDate" placeholder="dd/mm/yyyy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Ngày bắt đầu học * (dd/mm/yyyy)</label>
+                                    <input type="text" id="addStartDate" placeholder="dd/mm/yyyy" maxlength="10" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
 
                                 <div>
@@ -257,10 +256,10 @@
                                 <select id="newTeacherGender" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 focus:border-indigo-500 outline-none"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
 
                                 <div class="col-span-1 sm:col-span-2 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-4 mt-2">
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn GPLX (dd/mm/yy)</label><input type="text" id="newTeacherLicenseExp" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn Chứng chỉ SP (dd/mm/yy)</label><input type="text" id="newTeacherCertExp" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn GPLX (dd/mm/yyyy)</label><input type="text" id="newTeacherLicenseExp" placeholder="dd/mm/yyyy" maxlength="10" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn Chứng chỉ SP (dd/mm/yyyy)</label><input type="text" id="newTeacherCertExp" placeholder="dd/mm/yyyy" maxlength="10" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
                                     <div><label class="text-xs font-bold text-slate-500 mb-1 block">Biển số xe tập</label><input type="text" id="newTeacherCarPlate" placeholder="VD: 64A-123.45" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold text-blue-700 uppercase focus:border-indigo-500 outline-none"></div>
-                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn KĐ Xe (dd/mm/yy)</label><input type="text" id="newTeacherCarExp" placeholder="dd/mm/yy" maxlength="8" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
+                                    <div><label class="text-xs font-bold text-slate-500 mb-1 block">Hạn KĐ Xe (dd/mm/yyyy)</label><input type="text" id="newTeacherCarExp" placeholder="dd/mm/yyyy" maxlength="10" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-indigo-500 outline-none"></div>
                                 </div>
                             </div>
 
@@ -530,14 +529,14 @@
         function setupDateInputMask(id) {
             const input = document.getElementById(id);
             if(!input) return;
-            input.setAttribute('placeholder', 'dd/mm/yy');
-            input.setAttribute('maxlength', '8');
+            input.setAttribute('placeholder', 'dd/mm/yyyy');
+            input.setAttribute('maxlength', '10');
             input.addEventListener('input', function(e) {
                 let v = this.value.replace(/\D/g, '');
                 if (v.length >= 2 && v.length < 4) {
                     v = v.slice(0, 2) + '/' + v.slice(2);
                 } else if (v.length >= 4) {
-                    v = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4, 6);
+                    v = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4, 8);
                 }
                 this.value = v;
             });
@@ -564,8 +563,7 @@
                     let yyyy = parts[0];
                     let mm = parts[1];
                     let dd = parts[2];
-                    let yy = yyyy.slice(-2);
-                    return `${dd}/${mm}/${yy}`;
+                    return `${dd}/${mm}/${yyyy}`;
                 }
             }
             return dateStr;
@@ -685,8 +683,8 @@
             const today = new Date();
             const dd = String(today.getDate()).padStart(2, '0');
             const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const yy = String(today.getFullYear()).slice(-2);
-            const todayStr = `${dd}/${mm}/${yy}`;
+            const yyyy = today.getFullYear();
+            const todayStr = `${dd}/${mm}/${yyyy}`;
 
             if(document.getElementById('addReceiveDate') && !document.getElementById('addReceiveDate').value) document.getElementById('addReceiveDate').value = todayStr;
             if(document.getElementById('addStartDate') && !document.getElementById('addStartDate').value) document.getElementById('addStartDate').value = todayStr;
@@ -711,7 +709,7 @@
                 filterSel.innerHTML = '<option value="all">-- Tất cả các tháng --</option>';
                 sortedMonths.forEach(m => {
                     let parts = m.split('/');
-                    filterSel.innerHTML += `<option value="${m}">Tháng ${parts[0]}/${parts[1].slice(-2)}</option>`;
+                    filterSel.innerHTML += `<option value="${m}">Tháng ${parts[0]}/${parts[1]}</option>`;
                 });
                 filterSel.value = curVal || 'all';
             }
@@ -722,7 +720,7 @@
                 finSel.innerHTML = '<option value="all">-- Cả năm / Toàn thời gian --</option>';
                 sortedMonths.forEach(m => {
                     let parts = m.split('/');
-                    finSel.innerHTML += `<option value="${m}">Tháng ${parts[0]}/${parts[1].slice(-2)}</option>`;
+                    finSel.innerHTML += `<option value="${m}">Tháng ${parts[0]}/${parts[1]}</option>`;
                 });
                 finSel.value = curVal || 'all';
             }
@@ -794,16 +792,16 @@
             if(!container) return;
             container.innerHTML = sysSettings.installments.map((item, idx) => `
                 <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 bg-white p-2.5 rounded-lg border shadow-sm items-center">
-                    <div class="sm:col-span-5"><input type="text" id="cfgInstName_${idx}" value="${item.name}" placeholder="Tên kỳ (VD: Kỳ 1)..." class="border p-1.5 rounded w-full text-xs font-bold outline-none"></div>
+                    <div class="sm:col-span-4"><input type="text" id="cfgInstName_${idx}" value="${item.name}" placeholder="Tên kỳ (VD: Kỳ 1)..." class="border p-1.5 rounded w-full text-xs font-bold outline-none"></div>
                     <div class="sm:col-span-2 flex items-center gap-1"><input type="number" id="cfgInstPercent_${idx}" value="${item.percent}" class="border p-1.5 rounded w-full text-xs font-black text-center text-purple-700 outline-none"><span class="text-xs font-bold">%</span></div>
-                    <div class="sm:col-span-4"><input type="text" id="cfgInstCond_${idx}" value="${item.condition}" placeholder="Điều kiện tiên quyết..." class="border p-1.5 rounded w-full text-xs outline-none"></div>
+                    <div class="sm:col-span-5"><input type="text" id="cfgInstCond_${idx}" value="${item.condition}" placeholder="Nội dung hoàn thành để thanh toán..." class="border p-1.5 rounded w-full text-xs outline-none"></div>
                     <div class="sm:col-span-1 text-center"><button onclick="removeInstallmentConfig(${idx})" class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-bold hover:bg-red-200">Xóa</button></div>
                 </div>
             `).join('');
         }
 
         function addInstallmentConfigRow() {
-            sysSettings.installments.push({ name: `Kỳ ${sysSettings.installments.length + 1}`, percent: 0, condition: "Điều kiện..." });
+            sysSettings.installments.push({ name: `Kỳ ${sysSettings.installments.length + 1}`, percent: 0, condition: "Nội dung hoàn thành..." });
             renderInstallmentsConfigInputs();
         }
 
@@ -975,7 +973,7 @@
                             <input type="checkbox" value="${idx}" ${isChecked ? 'checked' : ''} onchange="calculateCartTotal()" class="inst-chk w-4 h-4 accent-blue-600">
                             <div>
                                 <span class="font-bold text-xs text-slate-800 block">${inst.name} (${inst.percent}%)</span>
-                                <span class="text-[11px] text-indigo-600 font-medium">Tiên quyết: ${inst.condition}</span>
+                                <span class="text-[11px] text-indigo-600 font-medium">Nội dung hoàn thành: ${inst.condition}</span>
                             </div>
                         </label>
                         <span class="font-black text-xs text-blue-700 inst-amount">0đ</span>
@@ -1072,7 +1070,7 @@
             if(!printWin) return alert('Trình duyệt đã chặn cửa sổ bật lên (Pop-up blocker). Hãy cho phép popup để xuất PDF!');
 
             const todayObj = new Date();
-            const todayFormatted = `${String(todayObj.getDate()).padStart(2,'0')}/${String(todayObj.getMonth()+1).padStart(2,'0')}/${String(todayObj.getFullYear()).slice(-2)}`;
+            const todayFormatted = `${String(todayObj.getDate()).padStart(2,'0')}/${String(todayObj.getMonth()+1).padStart(2,'0')}/${todayObj.getFullYear()}`;
 
             let htmlContent = `
                 <html>
@@ -1242,7 +1240,7 @@
                 sortedMonths.forEach(m => {
                     let data = monthlyMap[m];
                     let parts = m.split('/');
-                    let displayMonthYear = parts.length === 2 ? `Tháng ${parts[0]}/${parts[1].slice(-2)}` : m;
+                    let displayMonthYear = parts.length === 2 ? `Tháng ${parts[0]}/${parts[1]}` : m;
                     let estCost = data.count * (sysSettings.costs.exam || 680000) + (totalTeacherBonus / (students.length||1)) * data.count + (sysSettings.costs.rent || 15000000);
                     let estProfit = data.rev - estCost;
                     mTableBody.innerHTML += `
@@ -1552,7 +1550,6 @@
             document.getElementById('modalPaidPrice').innerText = paid.toLocaleString() + ' VNĐ';
             document.getElementById('modalRemainingPrice').innerText = remaining.toLocaleString() + ' VNĐ';
 
-            // Hiển thị bảng chi tiết các kỳ trong modal, cho phép bấm checkbox trực tiếp để đổi trạng thái đóng/chưa đóng
             const instModalBody = document.getElementById('modalInstallmentsTableBody');
             if(instModalBody && sysSettings.installments) {
                 instModalBody.innerHTML = sysSettings.installments.map((inst, idx) => {
