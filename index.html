@@ -854,7 +854,7 @@
                 let el = document.getElementById(`cfgStepInput_${i}`);
                 if(el) { let val = el.value.trim(); if(val) newSteps.push(val); }
             }
-            sysSettings.steps = newSteps;
+            if(newSteps.length > 0) sysSettings.steps = newSteps;
 
             let newInsts = [];
             for(let i=0; i<sysSettings.installments.length; i++) {
@@ -868,7 +868,7 @@
                     if(name) newInsts.push({ name, percent, condition });
                 }
             }
-            sysSettings.installments = newInsts;
+            if(newInsts.length > 0) sysSettings.installments = newInsts;
 
             let newExtraFees = [];
             for(let i=0; i<sysSettings.extraFees.length; i++) {
@@ -880,7 +880,7 @@
                     if(name) newExtraFees.push({ name, price });
                 }
             }
-            sysSettings.extraFees = newExtraFees;
+            if(newExtraFees.length > 0) sysSettings.extraFees = newExtraFees;
         }
 
         let currentEditCourseId = null;
@@ -916,7 +916,7 @@
             sysSettings.costs = { exam: Number(document.getElementById('cfgCostExam').value), rent: Number(document.getElementById('cfgCostRent').value) };
             saveAndSync(); 
             updateServicesChecklist();
-            alert("Đã lưu Cấu hình Kế toán & Tài chính!");
+            alert("💾 Đã lưu thành công toàn bộ cấu hình hệ thống!");
         }
 
         function togglePaymentTypeUI() {
