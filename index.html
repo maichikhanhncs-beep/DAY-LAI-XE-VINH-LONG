@@ -20,11 +20,11 @@
         <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-6 md:p-12 flex flex-col justify-between text-white shadow-2xl z-10">
             <div class="mb-8 md:mb-0">
                 <span class="text-5xl md:text-6xl">🚘</span>
-                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v6.5 Enterprise</span>
+                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v6.6 Cashflow Optimized</span>
             </div>
             <div class="space-y-4 md:space-y-6 my-auto">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">HỆ THỐNG QUẢN TRỊ ĐÀO TẠO LÁI XE</h1>
-                <p class="text-indigo-200 text-base md:text-xl leading-relaxed">Nền tảng quản trị tự động hóa, quy trình tài chính khép kín và phân quyền bảo mật cấp cao.</p>
+                <p class="text-indigo-200 text-base md:text-xl leading-relaxed">Nền tảng quản trị tự động hóa dòng tiền, tài chính kế toán chuẩn doanh nghiệp.</p>
                 <div class="pt-4 text-lg md:text-xl font-bold text-amber-300">Nhà sáng lập: Mai Chí Khanh</div>
             </div>
             <div class="text-sm md:text-base text-slate-400 mt-8 md:mt-0">© 2026 Enterprise SaaS Architecture. All rights reserved.</div>
@@ -34,7 +34,7 @@
             <div class="max-w-xl mx-auto w-full">
                 <div class="mb-8">
                     <h2 class="text-3xl md:text-4xl font-black text-slate-900">Đăng Nhập Hệ Thống</h2>
-                    <p class="text-sm md:text-base text-slate-500 mt-2">Hệ thống giám sát phân quyền độc lập và bảo mật thông tin tuyệt đối.</p>
+                    <p class="text-sm md:text-base text-slate-500 mt-2">Hệ thống giám sát dòng tiền và phân quyền kiểm toán độc lập.</p>
                 </div>
                 <div class="space-y-5">
                     <div>
@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="pt-4">
-                        <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-4 rounded-xl hover:bg-blue-700 font-black shadow-xl shadow-blue-500/30 text-xl transition-all">🚀 ĐĂNG NHẬP</button>
+                        <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-4 rounded-xl hover:bg-blue-700 font-black shadow-xl shadow-blue-500/30 text-xl transition-all">🚀 ĐĂNG NHẬP HỆ THỐNG</button>
                         <button onclick="resetSystemMemory()" class="w-full bg-slate-100 text-slate-500 border border-slate-300 p-3 rounded-xl font-bold text-sm mt-4 hover:bg-slate-200 transition-all">⚠️ Khôi phục dữ liệu gốc (Khi kẹt bộ nhớ)</button>
                     </div>
                 </div>
@@ -76,14 +76,14 @@
         <div class="md:w-72 lg:w-80 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 shadow-2xl z-10 relative">
             <div class="p-6 space-y-6 overflow-y-auto">
                 <div>
-                    <h2 class="text-white font-black text-2xl md:text-3xl">DriveERP <span class="text-xs bg-red-600 text-white px-2 py-0.5 rounded align-top">SECURE</span></h2>
-                    <p class="text-xs md:text-sm text-indigo-400 font-bold mt-1">Hệ Thống Phân Quyền Giám Đốc</p>
+                    <h2 class="text-white font-black text-2xl md:text-3xl">DriveERP <span class="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded align-top">CASHFLOW</span></h2>
+                    <p class="text-xs md:text-sm text-indigo-400 font-bold mt-1">Hệ Thống Kiểm Soát Dòng Tiền</p>
                 </div>
                 <nav class="space-y-1.5 text-base font-bold">
-                    <button onclick="switchAdminTab('student')" id="navStudent" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition active">🎓 Quản Lý Học Viên</button>
-                    <button onclick="switchAdminTab('teacher')" id="navTeacher" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">👨‍🏫 Nhân Sự & Phương Tiện</button>
-                    <button onclick="switchAdminTab('finance')" id="navFinance" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">💰 Báo Cáo Tài Chính & Dòng Tiền</button>
-                    <button onclick="switchAdminTab('settings')" id="navSettings" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">⚙️ Cấu Hình Khóa & Định Mức Chi</button>
+                    <button onclick="switchAdminTab('student')" id="navStudent" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition active">🎓 Quản Lý Học Viên & Thu</button>
+                    <button onclick="switchAdminTab('teacher')" id="navTeacher" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">👨‍🏫 Nhân Sự & Chi Lương</button>
+                    <button onclick="switchAdminTab('finance')" id="navFinance" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">💰 Báo Cáo Dòng Tiền & P&L</button>
+                    <button onclick="switchAdminTab('settings')" id="navSettings" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 transition">⚙️ Cấu Hình Định Mức & Chi Phí</button>
                     <button onclick="switchAdminTab('audit')" id="navAudit" class="tab-btn w-full text-left px-5 py-3.5 rounded-xl hover:bg-slate-800 text-red-400 transition">🛡️ Nhật Ký Kiểm Toán (Audit)</button>
                 </nav>
             </div>
@@ -112,10 +112,9 @@
 
                 <!-- 2.1 TAB HỌC VIÊN -->
                 <div id="adminStudentSection" class="space-y-6">
-                    <!-- BỘ LỌC PHÂN LUỒNG THEO THÁNG -->
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap gap-4 items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <span class="font-black text-sm uppercase text-slate-700">📅 Phân Luồng / Lọc Theo Tháng:</span>
+                            <span class="font-black text-sm uppercase text-slate-700">📅 Phân Luồng Dòng Tiền Theo Tháng:</span>
                             <select id="filterStudentMonth" onchange="renderAdminStudentTable()" class="border-2 border-slate-200 p-2.5 rounded-xl bg-slate-50 font-bold text-sm outline-none focus:border-blue-500">
                                 <option value="all">-- Tất cả các tháng --</option>
                             </select>
@@ -127,7 +126,7 @@
 
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
                         <div class="xl:col-span-2 space-y-4">
-                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3" id="studentFormTitle">➕ Tiếp Nhận Hồ Sơ Học Viên Mới</h3>
+                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3" id="studentFormTitle">➕ Tiếp Nhận Hồ Sơ Học Viên & Thiết Lập Thu</h3>
                             <input type="hidden" id="editStudentId" value="">
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm">
@@ -147,7 +146,6 @@
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Giới tính</label>
                                     <select id="addGender" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
                                 </div>
-
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Ngày sinh * (dd/mm/yyyy)</label>
                                     <input type="text" id="addDob" placeholder="dd/mm/yyyy" maxlength="10" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full font-bold focus:border-blue-500 outline-none">
@@ -164,12 +162,11 @@
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Ngày bắt đầu học * (dd/mm/yyyy)</label>
                                     <input type="text" id="addStartDate" placeholder="dd/mm/yyyy" maxlength="10" class="border-2 border-slate-200 p-3 rounded-xl bg-slate-50 w-full focus:border-blue-500 outline-none">
                                 </div>
-
                                 <div>
                                     <label class="block text-xs font-bold text-slate-600 mb-1">Hình thức thanh toán</label>
                                     <select id="addPaymentType" onchange="togglePaymentTypeUI()" class="border-2 border-slate-200 p-3 rounded-xl bg-amber-50 font-bold text-amber-900 w-full focus:border-blue-500 outline-none">
                                         <option value="package">📦 Đóng Trọn Gói</option>
-                                        <option value="itemized">🛒 Đóng Từng Phần / Học Lẻ</option>
+                                        <option value="itemized">🛒 Học Lẻ / Từng Phần</option>
                                     </select>
                                 </div>
                                 <div class="md:col-span-2">
@@ -179,12 +176,12 @@
                             </div>
 
                             <div id="packageCartContainer" class="bg-blue-50 p-4 rounded-xl border border-blue-200 mt-3 space-y-3">
-                                <label class="block text-xs font-black text-blue-900 mb-2 uppercase">🛒 Chọn Các Gói Đào Tạo / Dịch Vụ Khóa Học (Chọn nhiều loại):</label>
+                                <label class="block text-xs font-black text-blue-900 mb-2 uppercase">🛒 Chọn Các Gói Đào Tạo / Dịch Vụ Khóa Học:</label>
                                 <div id="addServicesChecklist" class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-40 overflow-y-auto pr-1"></div>
                                 
                                 <div class="bg-white p-3 rounded-xl border border-blue-200 space-y-2">
                                     <div class="flex justify-between items-center">
-                                        <span class="block text-xs font-black text-blue-900 uppercase">📋 Các Khoản Chi Phí / Dịch Vụ Phụ (Tính Vào Báo Giá):</span>
+                                        <span class="block text-xs font-black text-blue-900 uppercase">📋 Các Khoản Chi Phí Phụ / Lệ Phí Kèm Theo:</span>
                                         <button onclick="addExtraFeeRow()" class="bg-blue-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold hover:bg-blue-700 transition">➕ Thêm Khoản</button>
                                     </div>
                                     <div id="addExtraFeesContainer" class="space-y-2 max-h-36 overflow-y-auto pr-1"></div>
@@ -192,10 +189,10 @@
 
                                 <div class="bg-white p-3 rounded-xl border border-blue-200 space-y-2">
                                     <div class="flex justify-between items-center">
-                                        <span class="block text-xs font-black text-blue-900 uppercase">💳 Chọn Kiểu Thanh Toán:</span>
+                                        <span class="block text-xs font-black text-blue-900 uppercase">💳 Chọn Kiểu Hạch Toán Thu Tiền:</span>
                                         <div class="flex items-center gap-4 text-xs font-bold">
                                             <label class="cursor-pointer flex items-center gap-1"><input type="radio" name="paymentMode" value="percent" checked onchange="togglePaymentMode()" class="accent-blue-600"> Theo tỷ lệ % các kỳ</label>
-                                            <label class="cursor-pointer flex items-center gap-1"><input type="radio" name="paymentMode" value="custom" onchange="togglePaymentMode()" class="accent-blue-600"> Nhập số tiền tùy chọn</label>
+                                            <label class="cursor-pointer flex items-center gap-1"><input type="radio" name="paymentMode" value="custom" onchange="togglePaymentMode()" class="accent-blue-600"> Nhập số tiền thực thu ngay</label>
                                         </div>
                                     </div>
 
@@ -205,16 +202,16 @@
 
                                     <div id="customPaymentBox" class="hidden space-y-2">
                                         <div class="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border">
-                                            <span class="text-xs font-bold text-slate-700">Số tiền thanh toán lần đầu (VNĐ):</span>
+                                            <span class="text-xs font-bold text-slate-700">Số tiền thực thu ngay lần đầu (VNĐ):</span>
                                             <input type="number" id="customInitialAmount" value="0" oninput="calculateCartTotal()" class="border-2 border-slate-300 p-2 rounded-lg w-48 text-right font-black text-emerald-700 bg-white outline-none text-base">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="mt-3 pt-2 border-t border-blue-200 flex flex-wrap justify-between items-center text-sm gap-2">
-                                    <label class="flex items-center font-bold text-slate-700 cursor-pointer"><input type="checkbox" id="addIsStudent" onchange="calculateCartTotal()" class="w-4 h-4 mr-2 accent-blue-600"> Giảm 1tr (HSSV)</label>
+                                    <label class="flex items-center font-bold text-slate-700 cursor-pointer"><input type="checkbox" id="addIsStudent" onchange="calculateCartTotal()" class="w-4 h-4 mr-2 accent-blue-600"> Giảm trừ 1tr (HSSV)</label>
                                     <div class="flex items-center gap-2">
-                                        <span class="text-xs font-bold text-slate-600">Đã đóng thực tế (VNĐ):</span>
+                                        <span class="text-xs font-bold text-slate-600">Đã thu thực tế (VNĐ):</span>
                                         <input type="number" id="addInitialPayment" value="0" readonly class="border p-1.5 rounded-lg w-32 text-right font-black text-emerald-700 bg-slate-100 outline-none">
                                     </div>
                                     <div class="text-right">
@@ -227,7 +224,7 @@
                             <div class="flex items-center justify-between pt-2 border-t border-slate-100 mt-4 gap-3">
                                 <button onclick="exportQuotationPDF()" class="bg-indigo-600 text-white px-5 py-3 rounded-xl font-bold text-sm shadow hover:bg-indigo-700 transition">🖨️ Xuất Bảng Báo Giá PDF</button>
                                 <div class="flex gap-2">
-                                    <button onclick="saveStudentRecord()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-blue-700 transition">Lưu Hồ Sơ</button>
+                                    <button onclick="saveStudentRecord()" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-blue-700 transition">Lưu Hồ Sơ & Dòng Tiền</button>
                                     <button onclick="resetStudentForm()" class="bg-slate-300 text-slate-700 px-4 py-3 rounded-xl font-bold text-sm hover:bg-slate-400 transition hidden" id="btnCancelEditStudent">Hủy</button>
                                 </div>
                             </div>
@@ -248,8 +245,8 @@
                                         <th class="p-5 w-1/4 font-black">Học viên & Định danh</th>
                                         <th class="p-5 font-black">Khóa & Hình thức</th>
                                         <th class="p-5 text-center font-black">Tiến độ Học</th>
-                                        <th class="p-5 font-black">Thu Học Phí (Vào)</th>
-                                        <th class="p-5 font-black">Chi Giải Ngân (Ra)</th>
+                                        <th class="p-5 font-black">Dòng Tiền Thực Thu / Tổng (Vào)</th>
+                                        <th class="p-5 font-black">Công Nợ Còn Lại</th>
                                         <th class="p-5 text-center font-black">Thao tác</th>
                                     </tr>
                                 </thead>
@@ -263,7 +260,7 @@
                 <div id="adminTeacherSection" class="hidden space-y-6">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="lg:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
-                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3 mb-4" id="teacherFormTitle">👨‍🏫 Thêm Giáo Viên Mới</h3>
+                            <h3 class="font-black text-slate-800 text-xl border-b border-slate-100 pb-3 mb-4" id="teacherFormTitle">👨‍🏫 Thêm Giáo Viên & Cơ Cấu Lương</h3>
                             <input type="hidden" id="editTeacherId" value="">
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-sm mb-4">
@@ -279,14 +276,6 @@
                                 </div>
                             </div>
 
-                            <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 mb-4">
-                                <span class="block text-xs font-black text-indigo-800 mb-3 uppercase">Cấp Quyền Dạy Tổng Quát & Định Mức (HV/Ngày)</span>
-                                <div class="flex flex-wrap gap-4 text-sm font-bold text-slate-700">
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authTheory" checked class="w-5 h-5 accent-indigo-600"> Lý thuyết <input type="number" id="quotaTheory" value="10" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authSahinh" checked class="w-5 h-5 accent-indigo-600"> Sa hình <input type="number" id="quotaSahinh" value="5" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
-                                    <label class="flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border shadow-sm"><input type="checkbox" id="authDAT" checked class="w-5 h-5 accent-indigo-600"> DAT <input type="number" id="quotaDAT" value="2" class="w-14 border rounded-md px-1 text-center font-black text-indigo-600"></label>
-                                </div>
-                            </div>
                             <div class="flex gap-2">
                                 <button onclick="saveTeacherRecord()" id="btnSaveTeacher" class="flex-1 bg-indigo-600 text-white p-3.5 rounded-xl font-black text-sm shadow-lg hover:bg-indigo-700 transition">LƯU HỒ SƠ & CẤP MÃ GIÁO VIÊN</button>
                                 <button onclick="resetTeacherForm()" class="bg-slate-300 text-slate-700 px-4 py-3.5 rounded-xl font-bold text-sm hover:bg-slate-400 transition hidden" id="btnCancelEditTeacher">Hủy</button>
@@ -305,9 +294,9 @@
                                 <thead>
                                     <tr class="bg-slate-100 text-slate-600 uppercase tracking-wider border-b-2 border-slate-200 text-xs">
                                         <th class="p-5 w-1/4 font-black">Giáo viên & Phương tiện</th>
-                                        <th class="p-5 font-black">Quyền & Phụ trách</th>
-                                        <th class="p-5 font-black">Chi tiết Lương Thực Tế</th>
-                                        <th class="p-5 text-right font-black">Tổng Lương & Khấu trừ</th>
+                                        <th class="p-5 font-black">Phụ trách HV</th>
+                                        <th class="p-5 font-black">Lương / Thưởng Thực Tế (Ra)</th>
+                                        <th class="p-5 text-right font-black">Khấu trừ khác</th>
                                         <th class="p-5 text-center font-black">Thao tác</th>
                                     </tr>
                                 </thead>
@@ -317,13 +306,13 @@
                     </div>
                 </div>
 
-                <!-- 2.3 TAB KẾ TOÁN (BÁO CÁO P&L THEO THÁNG) -->
+                <!-- 2.3 TAB KẾ TOÁN (BÁO CÁO P&L DÒNG TIỀN) -->
                 <div id="adminFinanceSection" class="hidden space-y-6">
                     <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
                         <div class="flex flex-wrap items-center justify-between border-b-4 border-blue-600 pb-4 mb-8 gap-4">
-                            <h2 class="text-3xl font-black text-slate-900">📈 Báo Cáo Kết Quả Kinh Doanh & Dòng Tiền (P&L)</h2>
+                            <h2 class="text-3xl font-black text-slate-900">📈 Báo Cáo Dòng Tiền & Kết Quả Kinh Doanh (Cash Flow & P&L)</h2>
                             <div class="flex items-center gap-3">
-                                <label class="font-bold text-sm">Chọn Tháng:</label>
+                                <label class="font-bold text-sm">Chọn Tháng Quản Trị:</label>
                                 <select id="finMonthSelect" onchange="renderFinanceTab()" class="border-2 border-slate-300 p-2.5 rounded-xl font-bold text-sm bg-slate-50 outline-none focus:border-blue-500">
                                     <option value="all">-- Cả năm / Toàn thời gian --</option>
                                 </select>
@@ -332,40 +321,40 @@
 
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                             <div class="bg-blue-50 p-6 md:p-8 rounded-3xl border border-blue-200 flex flex-col justify-center shadow-inner">
-                                <span class="text-sm text-blue-600 font-bold uppercase tracking-widest block mb-2">1. Tổng Doanh Thu Thực Thu (Vào)</span>
+                                <span class="text-sm text-blue-600 font-bold uppercase tracking-widest block mb-2">1. Dòng Tiền Thu Thực Tế (Cash Inflow)</span>
                                 <strong class="text-blue-900 text-4xl md:text-5xl font-black" id="finTotalRevenue">0đ</strong>
-                                <p class="text-xs text-blue-600 mt-2">Tổng các khoản học phí trọn gói & học lẻ đã thu</p>
+                                <p class="text-xs text-blue-600 mt-2">Tổng tiền mặt/chuyển khoản thực tế đã thu từ học viên</p>
                             </div>
 
                             <div class="bg-red-50 p-6 md:p-8 rounded-3xl border border-red-200 shadow-inner">
-                                <span class="text-sm text-red-600 font-bold uppercase tracking-widest block mb-2">2. Tổng Chi Phí Giải Ngân & Vận Hành (Ra)</span>
+                                <span class="text-sm text-red-600 font-bold uppercase tracking-widest block mb-2">2. Dòng Tiền Chi Thực Tế (Cash Outflow)</span>
                                 <strong class="text-red-700 text-4xl font-black block mb-4" id="finTotalAllCost">0đ</strong>
                                 <div class="space-y-2 text-sm text-red-800 font-medium">
-                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Quỹ Lương & Thưởng GV:</span><strong id="finTotalTeacherBonus">0đ</strong></div>
-                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Chi phí Biến đổi (Khámsk, Thi...):</span><strong id="finTotalVariableCost">0đ</strong></div>
+                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Quỹ Lương Giáo Viên:</span><strong id="finTotalTeacherBonus">0đ</strong></div>
+                                    <div class="flex justify-between border-b border-red-200/50 pb-1"><span>Chi phí Biến đổi (Khám SK, Thi...):</span><strong id="finTotalVariableCost">0đ</strong></div>
                                     <div class="flex justify-between pb-1"><span>Chi phí Cố định (Mặt bằng, MKT...):</span><strong id="finTotalFixedCost">0đ</strong></div>
                                 </div>
                             </div>
 
                             <div class="bg-emerald-50 p-6 md:p-8 rounded-3xl border border-emerald-300 shadow-lg flex flex-col justify-center">
-                                <span class="text-sm text-emerald-700 font-bold uppercase tracking-widest block mb-2">3. Lợi Nhuận Ròng (Net Profit)</span>
+                                <span class="text-sm text-emerald-700 font-bold uppercase tracking-widest block mb-2">3. Lợi Nhuận Ròng & Tồn Quỹ (Net Cashflow)</span>
                                 <strong class="text-emerald-700 text-5xl lg:text-6xl font-black block" id="finNetProfit">0đ</strong>
-                                <div class="mt-4"><span class="bg-emerald-200 text-emerald-800 px-3 py-1.5 rounded-lg text-sm font-black">Biên lợi nhuận ròng: <span id="finMargin">0%</span></span></div>
+                                <div class="mt-4"><span class="bg-emerald-200 text-emerald-800 px-3 py-1.5 rounded-lg text-sm font-black">Biên dòng tiền: <span id="finMargin">0%</span></span></div>
                             </div>
                         </div>
 
                         <!-- BẢNG BÁO CÁO TÀI CHÍNH CHI TIẾT THEO THÁNG -->
                         <div class="mt-8 border-t pt-6">
-                            <h3 class="text-xl font-black text-slate-800 mb-4">📊 Bảng Tổng Hợp Tài Chính Theo Từng Tháng</h3>
+                            <h3 class="text-xl font-black text-slate-800 mb-4">📊 Bảng Tổng Hợp Dòng Tiền & Công Nợ Theo Tháng</h3>
                             <div class="overflow-x-auto border rounded-2xl">
                                 <table class="w-full text-left text-sm border-collapse">
                                     <thead>
                                         <tr class="bg-slate-100 text-slate-700 uppercase text-xs font-bold">
                                             <th class="p-4">Tháng/Năm</th>
-                                            <th class="p-4 text-center">Số lượng HV</th>
-                                            <th class="p-4 text-right">Doanh Thu Thu Vào</th>
-                                            <th class="p-4 text-right">Tổng Chi Phí</th>
-                                            <th class="p-4 text-right">Lợi Nhuận Ròng</th>
+                                            <th class="p-4 text-center">Số lượng HV Mới</th>
+                                            <th class="p-4 text-right">Thực Thu Vào (Cash In)</th>
+                                            <th class="p-4 text-right">Tổng Chi Phí (Cash Out)</th>
+                                            <th class="p-4 text-right">Dòng Tiền Thuần (Net Cash)</th>
                                         </tr>
                                     </thead>
                                     <tbody id="monthlyReportTableBody" class="divide-y"></tbody>
@@ -404,19 +393,11 @@
                         </div>
 
                         <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
-                            <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-2">💰 Cấu Hình Chi Phí & Tùy Chỉnh Lộ Trình</h3>
-
-                            <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100 space-y-3 text-sm">
-                                <div class="flex justify-between items-center mb-2">
-                                    <strong class="text-blue-900 font-black uppercase text-xs">⏰ Điều Chỉnh Nội Dung & Thời Gian Các Bước Lộ Trình Khóa Học</strong>
-                                    <button onclick="addStepConfigRow()" class="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-blue-700 transition">➕ Thêm Bước</button>
-                                </div>
-                                <div id="cfgStepsConfigContainer" class="space-y-2"></div>
-                            </div>
+                            <h3 class="font-black text-slate-800 text-2xl border-b-2 border-slate-100 pb-3 mb-2">💰 Cấu Hình Định Mức & Kỳ Thanh Toán</h3>
 
                             <div class="bg-purple-50 p-5 rounded-2xl border border-purple-100 space-y-3 text-sm">
                                 <div class="flex justify-between items-center mb-2">
-                                    <strong class="text-purple-900 font-black uppercase text-xs">📊 Cấu Hình Các Kỳ Thanh Toán (Tỷ Lệ % & Nội Dung Hoàn Thành)</strong>
+                                    <strong class="text-purple-900 font-black uppercase text-xs">📊 Cấu Hình Các Kỳ Thanh Toán (Tỷ Lệ % Thu Dòng Tiền)</strong>
                                     <button onclick="addInstallmentConfigRow()" class="bg-purple-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-purple-700 transition">➕ Thêm Kỳ</button>
                                 </div>
                                 <div id="cfgInstallmentsConfigContainer" class="space-y-2"></div>
@@ -424,18 +405,13 @@
 
                             <div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100 space-y-3 text-sm">
                                 <strong class="text-indigo-800 block mb-2 font-black uppercase text-xs">A. Đơn giá Lương / Thưởng Giáo viên</strong>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Lý thuyết (VNĐ/1 HV)</span> <input type="number" id="cfgBonusTheory" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Sa hình (VNĐ/1 Buổi)</span> <input type="number" id="cfgBonusSahinh" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">DAT (VNĐ/1 Km)</span> <input type="number" id="cfgBonusDat" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
-                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Thưởng nhận HV mới</span> <input type="number" id="cfgBonusReceive" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Thưởng nhận HV mới (VNĐ)</span> <input type="number" id="cfgBonusReceive" class="border-2 p-2 rounded-lg w-32 text-right font-black text-indigo-700 focus:border-indigo-500 outline-none"></div>
                             </div>
 
                             <div class="bg-red-50 p-5 rounded-2xl border border-red-100 space-y-3 text-sm">
-                                <div class="flex justify-between items-center mb-2">
-                                    <strong class="text-red-800 font-black uppercase text-xs">B. Danh Mục Chi Phí & Lệ Phí / Báo Giá Mặc Định</strong>
-                                    <button onclick="addDefaultExtraFeeConfig()" class="bg-red-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-red-700 transition">➕ Thêm Mục</button>
-                                </div>
-                                <div id="cfgExtraFeesConfigContainer" class="space-y-2"></div>
+                                <strong class="text-red-800 block mb-2 font-black uppercase text-xs">B. Chi Phí Vận Hành (Cố định & Biến đổi)</strong>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Lệ phí thi / Khám SK (VNĐ/HV)</span> <input type="number" id="cfgCostExam" class="border-2 p-2 rounded-lg w-32 text-right font-black text-red-700 focus:border-red-500 outline-none"></div>
+                                <div class="flex justify-between items-center bg-white p-2 rounded-lg border shadow-sm"><span class="font-bold">Chi phí mặt bằng / Tháng (VNĐ)</span> <input type="number" id="cfgCostRent" class="border-2 p-2 rounded-lg w-32 text-right font-black text-red-700 focus:border-red-500 outline-none"></div>
                             </div>
 
                             <button onclick="saveSysFinancials()" class="w-full bg-emerald-600 text-white p-4 rounded-xl font-black text-lg shadow-lg hover:bg-emerald-700 transition">💾 LƯU TOÀN BỘ CẤU HÌNH HỆ THỐNG</button>
@@ -481,35 +457,29 @@
                     <p class="text-base md:text-xl text-indigo-200 font-mono mt-2">Mã HV: <span id="modalStudentCodeDisplay" class="font-bold text-white tracking-wider">--</span> | CCCD: <span id="modalCccdDisplay" class="font-bold text-white">--</span> | SĐT: <span id="modalPhoneDisplay" class="font-bold text-white">--</span></p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 bg-white/10 backdrop-blur p-5 md:p-6 rounded-2xl border border-white/20 text-base md:text-lg mt-6">
-                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Tổng học phí thu:</span><strong class="text-white text-2xl md:text-3xl" id="modalTotalPrice">--</strong></div>
-                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Đã thanh toán:</span><strong class="text-emerald-300 text-2xl md:text-3xl" id="modalPaidPrice">--</strong></div>
-                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Còn lại phải đóng (Nợ):</span><strong class="text-red-300 text-2xl md:text-3xl" id="modalRemainingPrice">--</strong></div>
+                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Tổng học phí ký hợp đồng:</span><strong class="text-white text-2xl md:text-3xl" id="modalTotalPrice">--</strong></div>
+                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Đã thu thực tế (Cash In):</span><strong class="text-emerald-300 text-2xl md:text-3xl" id="modalPaidPrice">--</strong></div>
+                    <div><span class="text-sm md:text-base text-indigo-200 block mb-1">Công nợ còn lại (AR):</span><strong class="text-red-300 text-2xl md:text-3xl" id="modalRemainingPrice">--</strong></div>
                 </div>
             </div>
 
-            <!-- BẢNG THEO DÕI TỪNG KỲ THANH TOÁN CHI TIẾT TRONG MODAL -->
             <div class="bg-slate-50 rounded-3xl p-6 md:p-8 border-2 space-y-4">
-                <h3 class="text-2xl font-black text-slate-900">💳 Kiểm Soát Chi Tiết Các Kỳ Thanh Toán & Nợ</h3>
+                <h3 class="text-2xl font-black text-slate-900">💳 Kiểm Soát Dòng Tiền Thu Từng Kỳ & Công Nợ Học Viên</h3>
                 <div class="overflow-x-auto border rounded-2xl bg-white">
                     <table class="w-full text-left text-sm border-collapse">
                         <thead>
                             <tr class="bg-slate-100 text-slate-700 uppercase text-xs font-bold">
-                                <th class="p-3">Tên Kỳ</th>
-                                <th class="p-3">Nội Dung Hoàn Thành Để Thanh Toán (Cấu Hình)</th>
+                                <th class="p-3">Tên Kỳ Thu</th>
+                                <th class="p-3">Điều Kiện Thu Tiền</th>
                                 <th class="p-3 text-right">Tỷ Lệ (%)</th>
-                                <th class="p-3 text-right">Số Tiền (VNĐ)</th>
-                                <th class="p-3 text-center">Trạng Thái Đóng</th>
+                                <th class="p-3 text-right">Số Tiền Kỳ (VNĐ)</th>
+                                <th class="p-3 text-center">Trạng Thái Thu</th>
                                 <th class="p-3 text-right">Còn Nợ Kỳ Này</th>
                             </tr>
                         </thead>
                         <tbody id="modalInstallmentsTableBody" class="divide-y"></tbody>
                     </table>
                 </div>
-            </div>
-
-            <div class="bg-slate-50 rounded-3xl p-6 md:p-8 border-2">
-                <h3 class="text-2xl font-black text-slate-900 mb-6">📚 Lộ Trình Đào Tạo & Mở Khóa</h3>
-                <div id="modalStepsContainer" class="space-y-4"></div>
             </div>
         </div>
     </div>
@@ -537,10 +507,10 @@
             { name: 'Chi phí Mặt bằng/Tháng', price: 15000000 }
         ];
 
-        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v19';
-        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v19';
-        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v19';
-        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v19';
+        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v20';
+        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v20';
+        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v20';
+        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v20';
 
         function setupDateInputMask(id) {
             const input = document.getElementById(id);
@@ -562,11 +532,7 @@
             if(!val) return '';
             let parts = val.split('/');
             if(parts.length === 3) {
-                let dd = parts[0];
-                let mm = parts[1];
-                let yyyy = parts[2];
-                if(yyyy.length === 2) yyyy = '20' + yyyy;
-                return `${yyyy}-${mm}-${dd}`;
+                return `${parts[2]}-${parts[1]}-${parts[0]}`;
             }
             return val;
         }
@@ -576,10 +542,7 @@
             if(dateStr.includes('-')) {
                 let parts = dateStr.split('-');
                 if(parts.length === 3) {
-                    let yyyy = parts[0];
-                    let mm = parts[1];
-                    let dd = parts[2];
-                    return `${dd}/${mm}/${yyyy}`;
+                    return `${parts[2]}/${parts[1]}/${parts[0]}`;
                 }
             }
             return dateStr;
@@ -604,12 +567,11 @@
                 steps: DEFAULT_STEPS,
                 installments: DEFAULT_INSTALLMENTS,
                 extraFees: DEFAULT_EXTRA_FEES,
-                bonuses: { theory: 300000, sahinh: 80000, dat: 1500, receive: 1500000 },
+                bonuses: { receive: 1500000 },
                 costs: { exam: 680000, rent: 15000000 }
             };
             localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(sysSettings));
         }
-        if(!sysSettings.steps) sysSettings.steps = DEFAULT_STEPS;
         if(!sysSettings.installments) sysSettings.installments = DEFAULT_INSTALLMENTS;
         if(!sysSettings.extraFees) sysSettings.extraFees = DEFAULT_EXTRA_FEES;
 
@@ -658,7 +620,7 @@
                 document.getElementById('loginScreen').classList.add('hidden'); document.getElementById('adminDashboard').classList.remove('hidden'); 
                 initAdminDashboard();
             } else {
-                alert('Vui lòng sử dụng tài khoản Quản trị viên (Admin) để quản lý toàn diện hệ thống.');
+                alert('Vui lòng sử dụng tài khoản Quản trị viên (Admin) để quản lý dòng tiền.');
             }
         }
         function logout() { sessionStorage.clear(); location.reload(); }
@@ -697,10 +659,7 @@
             checkRisks();
 
             const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const yyyy = today.getFullYear();
-            const todayStr = `${dd}/${mm}/${yyyy}`;
+            const todayStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
 
             if(document.getElementById('addReceiveDate') && !document.getElementById('addReceiveDate').value) document.getElementById('addReceiveDate').value = todayStr;
             if(document.getElementById('addStartDate') && !document.getElementById('addStartDate').value) document.getElementById('addStartDate').value = todayStr;
@@ -749,7 +708,6 @@
                     let isoCarExp = parseDDMMYYToISO(t.carExp);
                     let diff = Math.floor((new Date(isoCarExp) - today) / 86400000);
                     if (diff < 0) alerts.push(`❌ Xe ${t.carPlate||'Chưa ĐK'} (GV: ${t.name}) HẾT HẠN KĐ!`);
-                    else if (diff <= 15) alerts.push(`⚠️ Xe ${t.carPlate} sắp hết hạn KĐ.`);
                 }
             });
             const b = document.getElementById('riskAlertBanner');
@@ -769,38 +727,11 @@
                     <td class="p-3 text-center"><button onclick="editSysCourse('${c.id}')" class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs font-bold mr-1">Sửa</button><button onclick="deleteSysCourse('${c.id}')" class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">Xóa</button></td>
                 </tr>`).join('');
 
-            document.getElementById('cfgBonusTheory').value = sysSettings.bonuses.theory;
-            document.getElementById('cfgBonusSahinh').value = sysSettings.bonuses.sahinh;
-            document.getElementById('cfgBonusDat').value = sysSettings.bonuses.dat;
             document.getElementById('cfgBonusReceive').value = sysSettings.bonuses.receive;
             document.getElementById('cfgCostExam').value = sysSettings.costs.exam;
             document.getElementById('cfgCostRent').value = sysSettings.costs.rent;
 
-            renderStepsConfigInputs();
             renderInstallmentsConfigInputs();
-            renderExtraFeesConfigInputs();
-        }
-
-        function renderStepsConfigInputs() {
-            const stepsContainer = document.getElementById('cfgStepsConfigContainer');
-            if(!stepsContainer) return;
-            stepsContainer.innerHTML = sysSettings.steps.map((step, idx) => `
-                <div class="flex items-center gap-2 bg-white p-2 rounded-lg border shadow-sm">
-                    <span class="font-bold text-xs text-slate-600 w-6">#${idx+1}</span>
-                    <input type="text" id="cfgStepInput_${idx}" value="${step}" class="border p-1.5 rounded w-full text-xs font-bold text-slate-800 outline-none focus:border-blue-500">
-                    <button onclick="removeStepConfigRow(${idx})" class="bg-red-100 text-red-600 px-2.5 py-1 rounded text-xs font-bold hover:bg-red-200">Xóa</button>
-                </div>
-            `).join('');
-        }
-
-        function addStepConfigRow() {
-            sysSettings.steps.push(`${sysSettings.steps.length + 1}. Bước mới (1 ngày)`);
-            renderStepsConfigInputs();
-        }
-
-        function removeStepConfigRow(idx) {
-            sysSettings.steps.splice(idx, 1);
-            renderStepsConfigInputs();
         }
 
         function renderInstallmentsConfigInputs() {
@@ -808,79 +739,22 @@
             if(!container) return;
             container.innerHTML = sysSettings.installments.map((item, idx) => `
                 <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 bg-white p-2.5 rounded-lg border shadow-sm items-center">
-                    <div class="sm:col-span-4"><input type="text" id="cfgInstName_${idx}" value="${item.name}" placeholder="Tên kỳ (VD: Kỳ 1)..." class="border p-1.5 rounded w-full text-xs font-bold outline-none"></div>
+                    <div class="sm:col-span-4"><input type="text" id="cfgInstName_${idx}" value="${item.name}" placeholder="Tên kỳ..." class="border p-1.5 rounded w-full text-xs font-bold outline-none"></div>
                     <div class="sm:col-span-2 flex items-center gap-1"><input type="number" id="cfgInstPercent_${idx}" value="${item.percent}" class="border p-1.5 rounded w-full text-xs font-black text-center text-purple-700 outline-none"><span class="text-xs font-bold">%</span></div>
-                    <div class="sm:col-span-5"><input type="text" id="cfgInstCond_${idx}" value="${item.condition}" placeholder="Nội dung hoàn thành để thanh toán..." class="border p-1.5 rounded w-full text-xs outline-none"></div>
+                    <div class="sm:col-span-5"><input type="text" id="cfgInstCond_${idx}" value="${item.condition}" placeholder="Điều kiện thu..." class="border p-1.5 rounded w-full text-xs outline-none"></div>
                     <div class="sm:col-span-1 text-center"><button onclick="removeInstallmentConfig(${idx})" class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-bold hover:bg-red-200">Xóa</button></div>
                 </div>
             `).join('');
         }
 
         function addInstallmentConfigRow() {
-            sysSettings.installments.push({ name: `Kỳ ${sysSettings.installments.length + 1}`, percent: 0, condition: "Nội dung hoàn thành..." });
+            sysSettings.installments.push({ name: `Kỳ ${sysSettings.installments.length + 1}`, percent: 0, condition: "Điều kiện..." });
             renderInstallmentsConfigInputs();
         }
 
         function removeInstallmentConfig(idx) {
             sysSettings.installments.splice(idx, 1);
             renderInstallmentsConfigInputs();
-        }
-
-        function renderExtraFeesConfigInputs() {
-            const container = document.getElementById('cfgExtraFeesConfigContainer');
-            if(!container) return;
-            container.innerHTML = sysSettings.extraFees.map((fee, idx) => `
-                <div class="flex items-center gap-2 bg-white p-2 rounded-lg border shadow-sm">
-                    <input type="text" id="cfgExtraName_${idx}" value="${fee.name}" placeholder="Tên khoản phí..." class="border p-1.5 rounded w-full text-xs font-bold text-slate-800 outline-none">
-                    <input type="number" id="cfgExtraPrice_${idx}" value="${fee.price}" placeholder="Số tiền" class="border p-1.5 rounded w-32 text-xs font-black text-red-700 text-right outline-none">
-                    <button onclick="removeExtraFeeConfig(${idx})" class="bg-red-100 text-red-600 px-2.5 py-1 rounded text-xs font-bold hover:bg-red-200">Xóa</button>
-                </div>
-            `).join('');
-        }
-
-        function addDefaultExtraFeeConfig() {
-            sysSettings.extraFees.push({ name: 'Khoản phí mới', price: 0 });
-            renderExtraFeesConfigInputs();
-        }
-
-        function removeExtraFeeConfig(idx) {
-            sysSettings.extraFees.splice(idx, 1);
-            renderExtraFeesConfigInputs();
-        }
-
-        function saveCustomConfigs() {
-            let newSteps = [];
-            for(let i=0; i<sysSettings.steps.length; i++) {
-                let el = document.getElementById(`cfgStepInput_${i}`);
-                if(el) { let val = el.value.trim(); if(val) newSteps.push(val); }
-            }
-            if(newSteps.length > 0) sysSettings.steps = newSteps;
-
-            let newInsts = [];
-            for(let i=0; i<sysSettings.installments.length; i++) {
-                let nameEl = document.getElementById(`cfgInstName_${i}`);
-                let percEl = document.getElementById(`cfgInstPercent_${i}`);
-                let condEl = document.getElementById(`cfgInstCond_${i}`);
-                if(nameEl && percEl && condEl) {
-                    let name = nameEl.value.trim();
-                    let percent = Number(percEl.value) || 0;
-                    let condition = condEl.value.trim();
-                    if(name) newInsts.push({ name, percent, condition });
-                }
-            }
-            if(newInsts.length > 0) sysSettings.installments = newInsts;
-
-            let newExtraFees = [];
-            for(let i=0; i<sysSettings.extraFees.length; i++) {
-                let nameEl = document.getElementById(`cfgExtraName_${i}`);
-                let priceEl = document.getElementById(`cfgExtraPrice_${i}`);
-                if(nameEl && priceEl) {
-                    let name = nameEl.value.trim();
-                    let price = Number(priceEl.value) || 0;
-                    if(name) newExtraFees.push({ name, price });
-                }
-            }
-            if(newExtraFees.length > 0) sysSettings.extraFees = newExtraFees;
         }
 
         let currentEditCourseId = null;
@@ -911,12 +785,21 @@
         function deleteSysCourse(id) { if(confirm("Xóa Gói Dịch Vụ?")) { sysSettings.courses = sysSettings.courses.filter(c => c.id !== id); saveAndSync(); renderSettingsTab(); updateServicesChecklist(); } }
 
         function saveSysFinancials() {
-            saveCustomConfigs();
-            sysSettings.bonuses = { theory: Number(document.getElementById('cfgBonusTheory').value), sahinh: Number(document.getElementById('cfgBonusSahinh').value), dat: Number(document.getElementById('cfgBonusDat').value), receive: Number(document.getElementById('cfgBonusReceive').value) };
+            let newInsts = [];
+            for(let i=0; i<sysSettings.installments.length; i++) {
+                let nameEl = document.getElementById(`cfgInstName_${i}`);
+                let percEl = document.getElementById(`cfgInstPercent_${i}`);
+                let condEl = document.getElementById(`cfgInstCond_${i}`);
+                if(nameEl && percEl && condEl) {
+                    newInsts.push({ name: nameEl.value.trim(), percent: Number(percEl.value)||0, condition: condEl.value.trim() });
+                }
+            }
+            if(newInsts.length > 0) sysSettings.installments = newInsts;
+            sysSettings.bonuses = { receive: Number(document.getElementById('cfgBonusReceive').value) };
             sysSettings.costs = { exam: Number(document.getElementById('cfgCostExam').value), rent: Number(document.getElementById('cfgCostRent').value) };
             saveAndSync(); 
             updateServicesChecklist();
-            alert("💾 Đã lưu thành công toàn bộ cấu hình hệ thống!");
+            alert("💾 Đã lưu cấu hình tài chính dòng tiền!");
         }
 
         function togglePaymentTypeUI() {
@@ -926,8 +809,7 @@
                 cartContainer.style.display = 'block';
                 updateServicesChecklist();
             } else {
-                cartContainer.style.display = 'none';
-                document.getElementById('addCartTotal').innerText = '0 VNĐ (Nhập học phí sau)';
+                cartContainer.style.display = 'block';
             }
         }
 
@@ -958,7 +840,7 @@
             container.innerHTML = sysSettings.courses.map(s => `
                 <label class="relative flex items-center justify-between p-3 border-2 rounded-xl cursor-pointer hover:bg-slate-50 transition bg-white">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" value="${s.id}" data-price="${s.price}" data-duration="${s.duration||'N/A'}" data-name="${s.name}" onchange="calculateCartTotal(this)" class="w-5 h-5 accent-blue-600">
+                        <input type="checkbox" value="${s.id}" data-price="${s.price}" data-name="${s.name}" onchange="calculateCartTotal(this)" class="w-5 h-5 accent-blue-600">
                         <div>
                             <span class="font-bold text-slate-800 text-sm block">${s.name}</span>
                             <span class="text-xs text-slate-500">TG: ${s.duration||'N/A'}</span>
@@ -976,10 +858,6 @@
         function renderExtraFeesStudentForm(selectedFees = []) {
             const container = document.getElementById('addExtraFeesContainer');
             if(!container) return;
-            if(!sysSettings.extraFees || sysSettings.extraFees.length === 0) {
-                container.innerHTML = '<span class="text-xs text-slate-400 italic">Chưa có khoản phí phụ nào được cấu hình.</span>';
-                return;
-            }
             container.innerHTML = sysSettings.extraFees.map((fee, idx) => {
                 let isChecked = selectedFees.some(f => f.name === fee.name);
                 let currentPrice = isChecked ? (selectedFees.find(f => f.name === fee.name).price ?? fee.price) : fee.price;
@@ -998,10 +876,6 @@
         function renderInstallmentsStudentForm(statusArr = []) {
             const container = document.getElementById('installmentsFormContainer');
             if(!container) return;
-            if(!sysSettings.installments || sysSettings.installments.length === 0) {
-                container.innerHTML = '<span class="text-xs text-slate-400 italic">Chưa cấu hình các kỳ thanh toán.</span>';
-                return;
-            }
             container.innerHTML = sysSettings.installments.map((inst, idx) => {
                 let isChecked = statusArr[idx] === true;
                 return `
@@ -1010,7 +884,7 @@
                             <input type="checkbox" value="${idx}" ${isChecked ? 'checked' : ''} onchange="calculateCartTotal()" class="inst-chk w-4 h-4 accent-blue-600">
                             <div>
                                 <span class="font-bold text-xs text-slate-800 block">${inst.name} (${inst.percent}%)</span>
-                                <span class="text-[11px] text-indigo-600 font-medium">Nội dung hoàn thành: ${inst.condition}</span>
+                                <span class="text-[11px] text-indigo-600 font-medium">Điều kiện: ${inst.condition}</span>
                             </div>
                         </label>
                         <span class="font-black text-xs text-blue-700 inst-amount">0đ</span>
@@ -1088,128 +962,15 @@
             document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
                 let sName = cb.getAttribute('data-name');
                 let sPrice = Number(cb.getAttribute('data-price'));
-                let sDuration = cb.getAttribute('data-duration');
-                selectedItems.push({ name: sName, price: sPrice, duration: sDuration });
+                selectedItems.push({ name: sName, price: sPrice });
                 totalRaw += sPrice;
             });
 
-            const extraRows = document.querySelectorAll('#addExtraFeesContainer > div');
-            extraRows.forEach(row => {
-                let chk = row.querySelector('.extra-fee-chk');
-                let prcInput = row.querySelector('.extra-fee-price');
-                let nameSpan = row.querySelector('span');
-                if(chk && chk.checked && prcInput && nameSpan) {
-                    let feeName = nameSpan.innerText;
-                    let feePrice = Number(prcInput.value) || 0;
-                    selectedItems.push({ name: feeName, price: feePrice, duration: 'Phát sinh' });
-                    totalRaw += feePrice;
-                }
-            });
-
-            if(selectedItems.length === 0) return alert('Vui lòng tích chọn ít nhất 1 gói dịch vụ hoặc khoản phí để lập bảng báo giá!');
             let finalTotal = totalRaw - (isHssv ? 1000000 : 0);
-
             const printWin = window.open('', '_blank');
-            if(!printWin) return alert('Trình duyệt đã chặn cửa sổ bật lên (Pop-up blocker). Hãy cho phép popup để xuất PDF!');
+            if(!printWin) return alert('Cho phép popup để xuất PDF!');
 
-            const todayObj = new Date();
-            const todayFormatted = `${String(todayObj.getDate()).padStart(2,'0')}/${String(todayObj.getMonth()+1).padStart(2,'0')}/${todayObj.getFullYear()}`;
-
-            let htmlContent = `
-                <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Bảng Báo Giá Dịch Vụ Đào Tạo Lái Xe</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; color: #1e293b; padding: 40px; }
-                        .header { text-align: center; border-bottom: 3px solid #2563eb; padding-bottom: 20px; margin-bottom: 30px; }
-                        .header h1 { color: #1e3a8a; margin: 0; font-size: 26px; text-transform: uppercase; }
-                        .header p { margin: 5px 0 0; color: #64748b; font-size: 14px; }
-                        .info-box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; }
-                        .info-box table { width: 100%; font-size: 14px; }
-                        .info-box td { padding: 4px 0; }
-                        table.invoice { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
-                        table.invoice th, table.invoice td { border: 1px solid #cbd5e1; padding: 12px 15px; font-size: 14px; }
-                        table.invoice th { background: #2563eb; color: white; text-align: left; }
-                        .text-right { text-align: right; }
-                        .total-section { text-align: right; margin-top: 15px; font-size: 16px; }
-                        .total-section h3 { color: #1e3a8a; font-size: 20px; margin: 5px 0; }
-                        .footer { margin-top: 50px; display: flex; justify-content: space-between; text-align: center; }
-                        .footer div { width: 45%; }
-                        .sign-space { height: 80px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <h1>TRUNG TÂM ĐÀO TẠO LÁI XE - DRIVEERP</h1>
-                        <p>Giám đốc: Mai Chí Khanh | Hotline: 0988.777.666</p>
-                        <h2 style="margin-top: 15px; color: #2563eb;">BẢNG BÁO GIÁ DỊCH VỤ ĐÀO TẠO</h2>
-                    </div>
-
-                    <div class="info-box">
-                        <table>
-                            <tr>
-                                <td><strong>Họ và tên khách hàng:</strong> ${name}</td>
-                                <td><strong>Ngày báo giá:</strong> ${todayFormatted}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Số CCCD:</strong> ${cccd}</td>
-                                <td><strong>Số điện thoại:</strong> ${phone}</td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <table class="invoice">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Tên Gói Dịch Vụ / Khoản Phí</th>
-                                <th>Thời Gian / Chi Tiết</th>
-                                <th class="text-right">Đơn Giá (VNĐ)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-
-            selectedItems.forEach((item, index) => {
-                htmlContent += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td><strong>${item.name}</strong></td>
-                        <td>${item.duration}</td>
-                        <td class="text-right">${item.price.toLocaleString()}đ</td>
-                    </tr>
-                `;
-            });
-
-            htmlContent += `
-                        </tbody>
-                    </table>
-
-                    <div class="total-section">
-                        <p>Tổng học phí dịch vụ: <strong>${totalRaw.toLocaleString()}đ</strong></p>
-                        ${isHssv ? '<p style="color: #16a34a;">Giảm trừ Học sinh/Sinh viên: <strong>-1,000,000đ</strong></p>' : ''}
-                        <h3>TỔNG CHI PHÍ THANH TOÁN: ${finalTotal.toLocaleString()} VNĐ</h3>
-                    </div>
-
-                    <div class="footer">
-                        <div>
-                            <p><strong>Người lập báo giá</strong></p>
-                            <div class="sign-space"></div>
-                            <p>(Ký, ghi rõ họ tên)</p>
-                        </div>
-                        <div>
-                            <p><strong>Xác nhận của Khách hàng</strong></p>
-                            <div class="sign-space"></div>
-                            <p>(Ký, ghi rõ họ tên)</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-            `;
-
-            printWin.document.open();
-            printWin.document.write(htmlContent);
+            printWin.document.write(`<html><body style="font-family:Arial;padding:40px;"><h2>BẢNG BÁO GIÁ DỊCH VỤ - DRIVEERP</h2><p>Khách hàng: <b>${name}</b> | CCCD: ${cccd}</p><h3>Tổng chi phí thanh toán: ${finalTotal.toLocaleString()} VNĐ</h3></body></html>`);
             printWin.document.close();
             setTimeout(() => { printWin.print(); }, 500);
         }
@@ -1248,19 +1009,18 @@
 
             let activeCount = selectedMonth === 'all' ? students.length : students.filter(s => {
                 if(!s.receiveDate) return false;
-                let isoReceiveDate = parseDDMMYYToISO(s.receiveDate);
-                let d = new Date(isoReceiveDate);
+                let d = new Date(parseDDMMYYToISO(s.receiveDate));
                 return `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}` === selectedMonth;
             }).length;
 
             const totalVariableCost = activeCount * (sysSettings.costs.exam || 680000); 
             const totalFixedCost = selectedMonth === 'all' ? (sysSettings.costs.rent || 15000000) * 12 : (sysSettings.costs.rent || 15000000); 
-            const totalAllCost = (totalTeacherBonus / (students.length||1) * activeCount) + totalVariableCost + totalFixedCost;
+            const totalAllCost = totalTeacherBonus + totalVariableCost + totalFixedCost;
             const netProfit = totalRev - totalAllCost;
             let margin = totalRev > 0 ? ((netProfit / totalRev) * 100).toFixed(1) : 0;
 
             document.getElementById('finTotalRevenue').innerText = totalRev.toLocaleString() + 'đ';
-            document.getElementById('finTotalTeacherBonus').innerText = Math.round(totalTeacherBonus / (students.length||1) * activeCount).toLocaleString() + 'đ';
+            document.getElementById('finTotalTeacherBonus').innerText = totalTeacherBonus.toLocaleString() + 'đ';
             document.getElementById('finTotalVariableCost').innerText = totalVariableCost.toLocaleString() + 'đ';
             document.getElementById('finTotalFixedCost').innerText = totalFixedCost.toLocaleString() + 'đ';
             document.getElementById('finTotalAllCost').innerText = Math.round(totalAllCost).toLocaleString() + 'đ';
@@ -1273,26 +1033,20 @@
             const mTableBody = document.getElementById('monthlyReportTableBody');
             mTableBody.innerHTML = '';
             let sortedMonths = Object.keys(monthlyMap).sort();
-            if(sortedMonths.length === 0) {
-                mTableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500 italic">Chưa có dữ liệu học viên theo tháng.</td></tr>';
-            } else {
-                sortedMonths.forEach(m => {
-                    let data = monthlyMap[m];
-                    let parts = m.split('/');
-                    let displayMonthYear = parts.length === 2 ? `Tháng ${parts[0]}/${parts[1]}` : m;
-                    let estCost = data.count * (sysSettings.costs.exam || 680000) + (totalTeacherBonus / (students.length||1)) * data.count + (sysSettings.costs.rent || 15000000);
-                    let estProfit = data.rev - estCost;
-                    mTableBody.innerHTML += `
-                        <tr class="hover:bg-slate-50 border-b">
-                            <td class="p-4 font-bold font-mono text-blue-700">${displayMonthYear}</td>
-                            <td class="p-4 text-center font-bold">${data.count} học viên</td>
-                            <td class="p-4 text-right font-bold text-emerald-600">${data.rev.toLocaleString()}đ</td>
-                            <td class="p-4 text-right font-bold text-red-600">${Math.round(estCost).toLocaleString()}đ</td>
-                            <td class="p-4 text-right font-black ${estProfit>=0?'text-emerald-700':'text-red-700'}">${Math.round(estProfit).toLocaleString()}đ</td>
-                        </tr>
-                    `;
-                });
-            }
+            sortedMonths.forEach(m => {
+                let data = monthlyMap[m];
+                let estCost = data.count * (sysSettings.costs.exam || 680000) + (sysSettings.costs.rent || 15000000);
+                let estProfit = data.rev - estCost;
+                mTableBody.innerHTML += `
+                    <tr class="hover:bg-slate-50 border-b">
+                        <td class="p-4 font-bold font-mono text-blue-700">Tháng ${m}</td>
+                        <td class="p-4 text-center font-bold">${data.count} HV</td>
+                        <td class="p-4 text-right font-bold text-emerald-600">${data.rev.toLocaleString()}đ</td>
+                        <td class="p-4 text-right font-bold text-red-600">${Math.round(estCost).toLocaleString()}đ</td>
+                        <td class="p-4 text-right font-black ${estProfit>=0?'text-emerald-700':'text-red-700'}">${Math.round(estProfit).toLocaleString()}đ</td>
+                    </tr>
+                `;
+            });
         }
 
         function saveTeacherRecord() {
@@ -1301,26 +1055,10 @@
             const editId = document.getElementById('editTeacherId').value;
 
             if(editId) {
-                teachers = teachers.map(t => {
-                    if(t.id == editId) {
-                        return {
-                            ...t,
-                            name,
-                            phone: document.getElementById('newTeacherPhone').value.trim(),
-                            gender: document.getElementById('newTeacherGender').value,
-                            carPlate: document.getElementById('newTeacherCarPlate').value.trim(),
-                            carExp: document.getElementById('newTeacherCarExp').value.trim(),
-                            licenseExp: document.getElementById('newTeacherLicenseExp').value.trim(),
-                            certExp: document.getElementById('newTeacherCertExp').value.trim()
-                        };
-                    }
-                    return t;
-                });
-                alert('Cập nhật thông tin giáo viên thành công!');
+                teachers = teachers.map(t => t.id == editId ? { ...t, name, phone: document.getElementById('newTeacherPhone').value.trim(), gender: document.getElementById('newTeacherGender').value, carPlate: document.getElementById('newTeacherCarPlate').value.trim(), carExp: document.getElementById('newTeacherCarExp').value.trim(), licenseExp: document.getElementById('newTeacherLicenseExp').value.trim(), certExp: document.getElementById('newTeacherCertExp').value.trim() } : t);
             } else {
                 const code = 'GV' + String(teachers.length + 1).padStart(2, '0');
                 teachers.push({ id: Date.now(), name, code, phone: document.getElementById('newTeacherPhone').value.trim(), gender: 'Nam', carPlate: document.getElementById('newTeacherCarPlate').value.trim(), carExp: document.getElementById('newTeacherCarExp').value.trim(), licenseExp: document.getElementById('newTeacherLicenseExp').value.trim(), certExp: document.getElementById('newTeacherCertExp').value.trim(), deductions: 0 });
-                alert(`Thêm GV thành công: ${code}`);
             }
             saveAndSync(); renderAdminTeacherTable(); updateTeacherSelect(); checkRisks(); resetTeacherForm();
         }
@@ -1331,13 +1069,10 @@
             document.getElementById('editTeacherId').value = t.id;
             document.getElementById('newTeacherName').value = t.name;
             document.getElementById('newTeacherPhone').value = t.phone || '';
-            document.getElementById('newTeacherGender').value = t.gender || 'Nam';
             document.getElementById('newTeacherCarPlate').value = t.carPlate || '';
             document.getElementById('newTeacherCarExp').value = t.carExp || '';
             document.getElementById('newTeacherLicenseExp').value = t.licenseExp || '';
             document.getElementById('newTeacherCertExp').value = t.certExp || '';
-
-            document.getElementById('teacherFormTitle').innerText = '✏️ Cập Nhật Thông Tin Giáo Viên';
             document.getElementById('btnSaveTeacher').innerText = 'CẬP NHẬT GIÁO VIÊN';
             document.getElementById('btnCancelEditTeacher').classList.remove('hidden');
         }
@@ -1347,11 +1082,6 @@
             document.getElementById('newTeacherName').value = '';
             document.getElementById('newTeacherPhone').value = '';
             document.getElementById('newTeacherCarPlate').value = '';
-            document.getElementById('newTeacherCarExp').value = '';
-            document.getElementById('newTeacherLicenseExp').value = '';
-            document.getElementById('newTeacherCertExp').value = '';
-
-            document.getElementById('teacherFormTitle').innerText = '👨‍🏫 Thêm Giáo Viên Mới';
             document.getElementById('btnSaveTeacher').innerText = 'LƯU HỒ SƠ & CẤP MÃ GIÁO VIÊN';
             document.getElementById('btnCancelEditTeacher').classList.add('hidden');
         }
@@ -1359,8 +1089,9 @@
         function calculateTeacherIncome(t) {
             const myStudents = students.filter(s => s.teacherCode === t.code);
             const receiveStudent = myStudents.length * (sysSettings.bonuses.receive || 1500000);
-            return { count: myStudents.length, theory: 0, sahinh: 0, receiveStudent, dat: 0, deductions: t.deductions || 0, total: receiveStudent - (t.deductions || 0) };
+            return { count: myStudents.length, receiveStudent, deductions: t.deductions || 0, total: receiveStudent - (t.deductions || 0) };
         }
+
         function renderAdminTeacherTable() {
             const tbody = document.getElementById('adminTeacherTableBody'); if(!tbody) return;
             tbody.innerHTML = teachers.map(t => {
@@ -1369,15 +1100,11 @@
                     <tr class="border-b-2 hover:bg-slate-50 transition">
                         <td class="p-5 font-mono font-bold text-indigo-600">
                             <strong class="text-slate-800 font-sans text-xl">${t.name}</strong> (${t.code})<br>
-                            <span class="text-base text-slate-500">SĐT: ${t.phone || 'N/A'}</span><br>
-                            <span class="text-xs text-slate-500">Hạn GPLX: ${formatDateDDMMYY(t.licenseExp)} | Hạn KĐ Xe: ${formatDateDDMMYY(t.carExp)}</span>
+                            <span class="text-base text-slate-500">SĐT: ${t.phone || 'N/A'} | Xe: ${t.carPlate || 'Chưa đăng ký'}</span>
                         </td>
-                        <td class="p-5 font-bold text-indigo-600 text-xl">${inc.count} học viên phụ trách</td>
-                        <td class="p-5 text-base space-y-2 leading-relaxed">
-                            <div>- Thưởng nhận HV (1.5tr x ${inc.count}): <strong>${inc.receiveStudent.toLocaleString()}đ</strong></div>
-                        </td>
-                        <td class="p-5"><input type="number" value="${t.deductions || 0}" onchange="updateDeduction(${t.id}, this.value)" class="w-32 border-2 p-2 rounded-xl text-lg text-red-600 font-bold"></td>
-                        <td class="p-5 text-emerald-600 font-black text-2xl">${inc.total.toLocaleString()}đ</td>
+                        <td class="p-5 font-bold text-indigo-600 text-xl">${inc.count} học viên</td>
+                        <td class="p-5 text-base space-y-2">Thưởng nhận HV (${inc.count} x 1.5tr): <strong>${inc.receiveStudent.toLocaleString()}đ</strong></td>
+                        <td class="p-5 text-right"><input type="number" value="${t.deductions || 0}" onchange="updateDeduction(${t.id}, this.value)" class="w-32 border-2 p-2 rounded-xl text-lg text-red-600 font-bold text-right"></td>
                         <td class="p-5 text-center flex flex-col gap-1 justify-center">
                             <button onclick="editTeacher(${t.id})" class="text-amber-600 font-bold hover:underline text-xs">Sửa</button>
                             <button onclick="deleteTeacher(${t.id})" class="text-red-500 font-bold hover:underline text-xs">Xóa</button>
@@ -1393,73 +1120,40 @@
             if (!name || !cccd || !startDate || !receiveDate) return alert('Điền đủ thông tin bắt buộc!');
 
             const editId = document.getElementById('editStudentId').value;
-            const paymentType = document.getElementById('addPaymentType').value;
             let enrolledServices = []; let basePrice = 0;
 
-            if(paymentType === 'package') {
-                const checkboxes = document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]:checked');
-                checkboxes.forEach(cb => { enrolledServices.push(cb.getAttribute('data-name')); basePrice += Number(cb.getAttribute('data-price')); });
-            } else {
-                enrolledServices = ['Học Lẻ / Từng Phần'];
-                basePrice = 10000000;
-            }
+            document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                enrolledServices.push(cb.getAttribute('data-name')); basePrice += Number(cb.getAttribute('data-price'));
+            });
 
             let extraFeesSelected = [];
-            const extraRows = document.querySelectorAll('#addExtraFeesContainer > div');
-            extraRows.forEach(row => {
+            document.querySelectorAll('#addExtraFeesContainer > div').forEach(row => {
                 let chk = row.querySelector('.extra-fee-chk');
                 let prcInput = row.querySelector('.extra-fee-price');
                 let nameSpan = row.querySelector('span');
                 if(chk && chk.checked && prcInput && nameSpan) {
-                    let feeName = nameSpan.innerText;
-                    let feePrice = Number(prcInput.value) || 0;
-                    extraFeesSelected.push({ name: feeName, price: feePrice });
-                    basePrice += feePrice;
+                    extraFeesSelected.push({ name: nameSpan.innerText, price: Number(prcInput.value) || 0 });
+                    basePrice += Number(prcInput.value) || 0;
                 }
             });
-
-            if(paymentType === 'package' && enrolledServices.length === 0 && extraFeesSelected.length === 0) {
-                return alert('Phải chọn ít nhất 1 Gói Dịch Vụ hoặc Khoản Phí ở bảng báo giá!');
-            }
 
             let totalPrice = basePrice - (document.getElementById('addIsStudent').checked ? 1000000 : 0);
             let initialPayment = Number(document.getElementById('addInitialPayment').value) || 0;
             const paymentMode = document.querySelector('input[name="paymentMode"]:checked')?.value || 'percent';
 
             let installmentsStatus = [];
-            const instRows = document.querySelectorAll('#installmentsFormContainer > div');
-            instRows.forEach(row => {
+            document.querySelectorAll('#installmentsFormContainer > div').forEach(row => {
                 let chk = row.querySelector('.inst-chk');
                 installmentsStatus.push(chk ? chk.checked : false);
             });
 
             if(editId) {
-                students = students.map(s => {
-                    if(s.id == editId) {
-                        return {
-                            ...s,
-                            name, cccd,
-                            phone: document.getElementById('addPhone').value.trim(),
-                            gender: document.getElementById('addGender').value,
-                            dob: document.getElementById('addDob').value.trim(),
-                            address: document.getElementById('addAddress').value.trim(),
-                            receiveDate, startDate,
-                            course: enrolledServices.join(', ') + (extraFeesSelected.length > 0 ? ' + Phụ phí' : ''),
-                            enrolledServices, extraFeesSelected, paymentMode, installmentsStatus, totalPrice, paymentType, initialPayment,
-                            teacherCode: document.getElementById('addTeacher').value
-                        };
-                    }
-                    return s;
-                });
+                students = students.map(s => s.id == editId ? { ...s, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value.trim(), address: document.getElementById('addAddress').value.trim(), receiveDate, startDate, course: enrolledServices.join(', '), enrolledServices, extraFeesSelected, paymentMode, installmentsStatus, totalPrice, initialPayment, teacherCode: document.getElementById('addTeacher').value } : s);
                 alert('Cập nhật hồ sơ học viên thành công!');
             } else {
                 const code = generateStudentCode();
-                students.push({ 
-                    id: Date.now(), code, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value.trim(), address: document.getElementById('addAddress').value.trim(), receiveDate, pass: '123', 
-                    startDate, course: enrolledServices.join(', ') + (extraFeesSelected.length > 0 ? ' + Phụ phí' : ''), enrolledServices, extraFeesSelected, paymentMode, installmentsStatus, stepIndex: 0, totalPrice, paymentType, initialPayment,
-                    notes: [], teacherCode: document.getElementById('addTeacher').value
-                });
-                alert(`Tạo hồ sơ thành công (Ngày nhận: ${receiveDate})!\nMã HV: ${code}`);
+                students.push({ id: Date.now(), code, name, cccd, phone: document.getElementById('addPhone').value.trim(), gender: document.getElementById('addGender').value, dob: document.getElementById('addDob').value.trim(), address: document.getElementById('addAddress').value.trim(), receiveDate, startDate, course: enrolledServices.join(', '), enrolledServices, extraFeesSelected, paymentMode, installmentsStatus, stepIndex: 0, totalPrice, initialPayment, notes: [], teacherCode: document.getElementById('addTeacher').value });
+                alert(`Tạo hồ sơ thành công! Mã HV: ${code}`);
             }
             saveAndSync(); populateMonthFilters(); renderAdminStudentTable(); resetStudentForm();
         }
@@ -1470,41 +1164,23 @@
             document.getElementById('editStudentId').value = s.id;
             document.getElementById('addName').value = s.name;
             document.getElementById('addCCCD').value = s.cccd;
-            document.getElementById('addPhone').value = s.phone || '';
-            document.getElementById('addGender').value = s.gender || 'Nam';
-            document.getElementById('addDob').value = s.dob || '';
-            document.getElementById('addAddress').value = s.address || '';
             document.getElementById('addReceiveDate').value = s.receiveDate || '';
             document.getElementById('addStartDate').value = s.startDate || '';
-            document.getElementById('addPaymentType').value = s.paymentType || 'package';
             document.getElementById('addTeacher').value = s.teacherCode || '';
             document.getElementById('addInitialPayment').value = s.initialPayment || 0;
 
             const mode = s.paymentMode || 'percent';
-            const radio = document.querySelector(`input[name="paymentMode"][value="${mode}"]`);
-            if(radio) { radio.checked = true; }
+            document.querySelector(`input[name="paymentMode"][value="${mode}"]`).checked = true;
             togglePaymentMode();
 
-            if(mode === 'custom') {
-                document.getElementById('customInitialAmount').value = s.initialPayment || 0;
-            }
-
-            togglePaymentTypeUI();
             if(s.enrolledServices) {
-                const cbs = document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]');
-                cbs.forEach(cb => {
+                document.getElementById('addServicesChecklist').querySelectorAll('input[type="checkbox"]').forEach(cb => {
                     cb.checked = s.enrolledServices.includes(cb.getAttribute('data-name'));
-                    if(cb.checked) cb.parentElement.parentElement.classList.add('border-blue-500', 'bg-blue-50');
-                    else cb.parentElement.parentElement.classList.remove('border-blue-500', 'bg-blue-50');
                 });
             }
-
             renderExtraFeesStudentForm(s.extraFeesSelected || []);
             renderInstallmentsStudentForm(s.installmentsStatus || []);
             calculateCartTotal();
-
-            document.getElementById('studentFormTitle').innerText = '✏️ Cập Nhật Hồ Sơ Học Viên';
-            document.getElementById('btnCancelEditStudent').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1512,19 +1188,11 @@
             document.getElementById('editStudentId').value = '';
             document.getElementById('addName').value = '';
             document.getElementById('addCCCD').value = '';
-            document.getElementById('addPhone').value = '';
-            document.getElementById('addAddress').value = '';
             document.getElementById('addInitialPayment').value = '0';
-            document.getElementById('customInitialAmount').value = '0';
-            const defaultRadio = document.querySelector('input[name="paymentMode"][value="percent"]');
-            if(defaultRadio) defaultRadio.checked = true;
-            togglePaymentMode();
-            document.getElementById('studentFormTitle').innerText = '➕ Tiếp Nhận Hồ Sơ Học Viên Mới';
-            document.getElementById('btnCancelEditStudent').classList.add('hidden');
             updateServicesChecklist();
         }
 
-        function importExcel() { alert('Import Excel mẫu.'); }
+        function importExcel() { alert('Chức năng import Excel mẫu.'); }
 
         function renderAdminStudentTable() {
             const tbody = document.getElementById('adminStudentTableBody');
@@ -1534,8 +1202,7 @@
             let filteredStudents = students.filter(s => {
                 if(selectedMonth === 'all') return true;
                 if(!s.receiveDate) return false;
-                let isoReceiveDate = parseDDMMYYToISO(s.receiveDate);
-                let d = new Date(isoReceiveDate);
+                let d = new Date(parseDDMMYYToISO(s.receiveDate));
                 return `${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}` === selectedMonth;
             });
 
@@ -1550,18 +1217,18 @@
                         }
                     });
                 }
+                let remaining = s.totalPrice - paid;
 
                 return `
                     <tr class="hover:bg-slate-50 border-b">
                         <td class="p-5">
                             <a href="#" onclick="openStudentModal('${s.cccd}'); return false;" class="font-black text-blue-600 text-lg hover:underline">${s.name}</a><br>
-                            <span class="font-mono text-xs text-slate-500">Mã: ${s.code} | CCCD: ${s.cccd}</span><br>
-                            <span class="text-xs text-amber-700 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">📅 Ngày nhận: ${formatDateDDMMYY(s.receiveDate)}</span>
+                            <span class="font-mono text-xs text-slate-500">Mã: ${s.code} | CCCD: ${s.cccd}</span>
                         </td>
                         <td class="p-5 font-bold">${s.course}</td>
                         <td class="p-5 text-center"><span class="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full text-xs font-bold">Bước ${s.stepIndex+1}/${sysSettings.steps.length}</span></td>
                         <td class="p-5 font-black text-emerald-600">${paid.toLocaleString()}đ / ${s.totalPrice.toLocaleString()}đ</td>
-                        <td class="p-5 text-red-600 font-bold">Đã phân bổ</td>
+                        <td class="p-5 font-bold ${remaining>0?'text-red-600':'text-slate-500'}">${remaining.toLocaleString()}đ</td>
                         <td class="p-5 text-center flex flex-col gap-1 justify-center">
                             <button onclick="editStudent(${s.id})" class="text-amber-600 font-bold hover:underline text-xs">Sửa</button>
                             <button onclick="deleteStudent(${s.id})" class="text-red-500 font-bold hover:underline text-xs">Xóa</button>
@@ -1588,7 +1255,6 @@
                     }
                 });
             }
-
             let remaining = s.totalPrice - paid;
 
             document.getElementById('modalTotalPrice').innerText = s.totalPrice.toLocaleString() + ' VNĐ';
@@ -1596,114 +1262,41 @@
             document.getElementById('modalRemainingPrice').innerText = remaining.toLocaleString() + ' VNĐ';
 
             const instModalBody = document.getElementById('modalInstallmentsTableBody');
-            if(instModalBody) {
-                if(s.paymentMode === 'custom') {
-                    instModalBody.innerHTML = `
-                        <tr>
-                            <td colspan="6" class="p-4 bg-slate-50 space-y-3">
-                                <div class="text-center font-bold text-slate-700">
-                                    Học viên này đóng học phí theo hình thức: <span class="text-blue-600 font-black">Nhập số tiền tùy chọn</span>
-                                </div>
-                                <div class="flex flex-wrap items-center justify-center gap-3">
-                                    <span class="text-xs font-bold text-slate-600">Cập nhật tổng số tiền đã đóng thực tế (VNĐ):</span>
-                                    <input type="number" id="modalCustomAddInput" value="${Number(s.initialPayment) || 0}" class="border-2 border-slate-300 p-2 rounded-lg w-48 text-right font-black text-emerald-700 bg-white outline-none text-base">
-                                    <button onclick="updateStudentCustomPayment(${s.id})" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-emerald-700 transition">Lưu Số Tiền</button>
-                                </div>
+            if(instModalBody && sysSettings.installments) {
+                instModalBody.innerHTML = sysSettings.installments.map((inst, idx) => {
+                    let isPaid = s.installmentsStatus && s.installmentsStatus[idx] === true;
+                    let amt = Math.round(s.totalPrice * (inst.percent / 100));
+                    return `
+                        <tr class="hover:bg-slate-50 border-b">
+                            <td class="p-3 font-bold text-slate-800">${inst.name}</td>
+                            <td class="p-3 text-xs text-indigo-600 font-medium">${inst.condition}</td>
+                            <td class="p-3 text-right font-bold">${inst.percent}%</td>
+                            <td class="p-3 text-right font-bold text-blue-600">${amt.toLocaleString()}đ</td>
+                            <td class="p-3 text-center">
+                                <label class="cursor-pointer inline-flex items-center gap-2">
+                                    <input type="checkbox" ${isPaid ? 'checked' : ''} onchange="toggleStudentInstallment(${s.id}, ${idx})" class="w-4 h-4 accent-emerald-600">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-bold ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${isPaid ? 'Đã thu ✅' : 'Chưa thu ❌'}</span>
+                                </label>
                             </td>
+                            <td class="p-3 text-right font-black ${isPaid?'text-slate-400':'text-red-600'}">${isPaid?'0đ':amt.toLocaleString()+'đ'}</td>
                         </tr>
                     `;
-                } else if(sysSettings.installments) {
-                    let cumulativePaid = Number(s.initialPayment) || 0;
-                    instModalBody.innerHTML = sysSettings.installments.map((inst, idx) => {
-                        let isPaid = s.installmentsStatus && s.installmentsStatus[idx] === true;
-                        let amt = Math.round(s.totalPrice * (inst.percent / 100));
-                        
-                        let debtThisInst = 0;
-                        if(isPaid) {
-                            debtThisInst = 0;
-                        } else {
-                            let neededBeforeThis = 0;
-                            for(let i=0; i<idx; i++) {
-                                neededBeforeThis += Math.round(s.totalPrice * (sysSettings.installments[i].percent / 100));
-                            }
-                            let remainingCoverage = cumulativePaid - neededBeforeThis;
-                            if(remainingCoverage >= amt) {
-                                debtThisInst = 0;
-                            } else if(remainingCoverage > 0) {
-                                debtThisInst = amt - remainingCoverage;
-                            } else {
-                                debtThisInst = amt;
-                            }
-                        }
-
-                        return `
-                            <tr class="hover:bg-slate-50 border-b">
-                                <td class="p-3 font-bold text-slate-800">${inst.name}</td>
-                                <td class="p-3 text-xs text-indigo-600 font-medium">${inst.condition}</td>
-                                <td class="p-3 text-right font-bold">${inst.percent}%</td>
-                                <td class="p-3 text-right font-bold text-blue-600">${amt.toLocaleString()}đ</td>
-                                <td class="p-3 text-center">
-                                    <label class="cursor-pointer inline-flex items-center gap-2">
-                                        <input type="checkbox" ${isPaid ? 'checked' : ''} onchange="toggleStudentInstallment(${s.id}, ${idx})" class="w-4 h-4 accent-emerald-600">
-                                        <span class="px-2.5 py-1 rounded-full text-xs font-bold ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">${isPaid ? 'Đã đóng ✅' : 'Chưa đóng ❌'}</span>
-                                    </label>
-                                </td>
-                                <td class="p-3 text-right font-black ${debtThisInst > 0 ? 'text-red-600' : 'text-slate-500'}">${debtThisInst.toLocaleString()}đ</td>
-                            </tr>
-                        `;
-                    }).join('');
-                }
+                }).join('');
             }
-
-            document.getElementById('modalStepsContainer').innerHTML = sysSettings.steps.map((stepName, idx) => {
-                let badge = idx < s.stepIndex ? 'Đã xong ✅' : (idx === s.stepIndex ? 'Đang học 🎯' : 'Khóa 🔒');
-                let action = idx === s.stepIndex ? `<button onclick="studentCompleteStepAdmin(${s.id})" class="bg-emerald-600 text-white px-4 py-2 rounded text-xs font-bold">Xong bước này</button>` : '';
-                return `<div class="p-4 rounded-xl border bg-slate-50 flex justify-between items-center text-sm"><div><b>${stepName}</b> (${badge})</div>${action}</div>`;
-            }).join('');
             document.getElementById('studentModal').classList.remove('hidden');
-        }
-
-        function updateStudentCustomPayment(studentId) {
-            let s = students.find(x => x.id === studentId);
-            if(!s) return;
-            let valInput = document.getElementById('modalCustomAddInput');
-            if(valInput) {
-                s.initialPayment = Number(valInput.value) || 0;
-                saveAndSync();
-                renderAdminStudentTable();
-                openStudentModal(s.cccd);
-                alert("Đã cập nhật số tiền đã đóng của học viên thành công!");
-            }
         }
 
         function toggleStudentInstallment(studentId, instIdx) {
             let s = students.find(x => x.id === studentId);
             if(!s) return;
-            if(!s.installmentsStatus) {
-                s.installmentsStatus = sysSettings.installments.map((_, i) => i === 0);
-            }
+            if(!s.installmentsStatus) s.installmentsStatus = [false, false, false];
             s.installmentsStatus[instIdx] = !s.installmentsStatus[instIdx];
-            
-            let calculatedPaid = 0;
-            if(s.paymentMode === 'percent' && sysSettings.installments) {
-                sysSettings.installments.forEach((inst, idx) => {
-                    if(s.installmentsStatus[idx] === true) {
-                        calculatedPaid += Math.round(s.totalPrice * (inst.percent / 100));
-                    }
-                });
-            }
-            s.initialPayment = calculatedPaid;
-
             saveAndSync();
             renderAdminStudentTable();
             openStudentModal(s.cccd);
         }
 
         function closeStudentModal() { document.getElementById('studentModal').classList.add('hidden'); }
-        function studentCompleteStepAdmin(id) {
-            let s = students.find(x => x.id === id); if(!s) return;
-            if (s.stepIndex < sysSettings.steps.length - 1) { s.stepIndex++; saveAndSync(); renderAdminStudentTable(); openStudentModal(window.currentActiveCccd); }
-        }
 
         window.onload = function() {
             const role = sessionStorage.getItem('current_role');
