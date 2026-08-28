@@ -20,7 +20,7 @@
         <div class="md:w-1/2 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 p-6 md:p-12 flex flex-col justify-between text-white shadow-2xl z-10">
             <div class="mb-8 md:mb-0">
                 <span class="text-5xl md:text-6xl">🚘</span>
-                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v6.7 Cashflow Dynamic</span>
+                <span class="ml-2 font-bold tracking-wider uppercase text-sm md:text-lg bg-white/10 px-3 py-1.5 rounded-full">DriveERP v6.8 Enterprise Fix</span>
             </div>
             <div class="space-y-4 md:space-y-6 my-auto">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">HỆ THỐNG QUẢN TRỊ ĐÀO TẠO LÁI XE</h1>
@@ -34,7 +34,7 @@
             <div class="max-w-xl mx-auto w-full">
                 <div class="mb-8">
                     <h2 class="text-3xl md:text-4xl font-black text-slate-900">Đăng Nhập Hệ Thống</h2>
-                    <p class="text-sm md:text-base text-slate-500 mt-2">Hệ thống giám sát dòng tiền và phân quyền kiểm toán độc lập.</p>
+                    <p class="text-sm md:text-base text-slate-500 mt-2">Hệ thống kiểm soát dòng tiền và bảo mật thông tin tuyệt đối.</p>
                 </div>
                 <div class="space-y-5">
                     <div>
@@ -504,14 +504,14 @@
         ];
 
         let DEFAULT_OP_COSTS = [
-            { name: "Lệ phí thi / Khám SK (VNĐ/HV)", amount: 680000, type: "per_student" },
-            { name: "Chi phí mặt bằng / Tháng (VNĐ)", amount: 15000000, type: "monthly" }
+            { name: "Lệ phí thi / Khám SK (VNĐ/HV)", amount: 680000 },
+            { name: "Chi phí mặt bằng / Tháng (VNĐ)", amount: 15000000 }
         ];
 
-        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v21';
-        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v21';
-        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v21';
-        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v21';
+        const STORAGE_KEY_STUDENTS = 'driving_erp_students_v22';
+        const STORAGE_KEY_TEACHERS = 'driving_erp_teachers_v22';
+        const STORAGE_KEY_SETTINGS = 'driving_erp_settings_v22';
+        const STORAGE_KEY_AUDIT = 'driving_erp_audit_v22';
 
         function setupDateInputMask(id) {
             const input = document.getElementById(id);
@@ -809,26 +809,28 @@
 
         function saveSysFinancials() {
             let newInsts = [];
-            for(let i=0; i<sysSettings.installments.length; i++) {
+            let instRows = document.querySelectorAll('#cfgInstallmentsConfigContainer > div');
+            instRows.forEach((row, i) => {
                 let nameEl = document.getElementById(`cfgInstName_${i}`);
                 let percEl = document.getElementById(`cfgInstPercent_${i}`);
                 let condEl = document.getElementById(`cfgInstCond_${i}`);
                 if(nameEl && percEl && condEl) {
                     newInsts.push({ name: nameEl.value.trim(), percent: Number(percEl.value)||0, condition: condEl.value.trim() });
                 }
-            }
+            });
             if(newInsts.length > 0) sysSettings.installments = newInsts;
 
             let newOpCosts = [];
-            for(let i=0; i<sysSettings.opCosts.length; i++) {
+            let opRows = document.querySelectorAll('#cfgOpCostsConfigContainer > div');
+            opRows.forEach((row, i) => {
                 let nameEl = document.getElementById(`cfgOpName_${i}`);
                 let amtEl = document.getElementById(`cfgOpAmount_${i}`);
                 if(nameEl && amtEl) {
                     newOpCosts.push({ name: nameEl.value.trim(), amount: Number(amtEl.value)||0 });
                 }
-            }
+            });
             sysSettings.opCosts = newOpCosts;
-            sysSettings.bonuses = { receive: Number(document.getElementById('cfgBonusReceive').value) };
+            sysSettings.bonuses = { receive: Number(document.getElementById('cfgBonusReceive').value) || 0 };
 
             saveAndSync(); 
             updateServicesChecklist();
@@ -1051,9 +1053,9 @@
             let totalOpCosts = 0;
             if(sysSettings.opCosts) {
                 sysSettings.opCosts.forEach(item => {
-                    // Nếu tên có chữ (VNĐ/HV) hoặc dạng biến đổi theo học viên thì nhân với số lượng học viên mới trong tháng, ngược lại tính một lần cố định
                     let costVal = 0;
-                    if(item.name.toLowerCase().includes('hv') || item.name.toLowerCase().includes('học viên') || item.name.toLowerCase().includes('thi')) {
+                    let nameLower = item.name.toLowerCase();
+                    if(nameLower.includes('hv') || nameLower.includes('học viên') || nameLower.includes('thi') || nameLower.includes('sk')) {
                         costVal = activeCount * (item.amount || 0);
                     } else {
                         costVal = (selectedMonth === 'all' ? (item.amount || 0) * 12 : (item.amount || 0));
@@ -1070,7 +1072,6 @@
             document.getElementById('finTotalRevenue').innerText = totalRev.toLocaleString() + 'đ';
             document.getElementById('finTotalAllCost').innerText = Math.round(totalAllCost).toLocaleString() + 'đ';
 
-            // Render chi tiết các khoản chi phí ra màn hình P&L
             let breakdownHtml = `<div class="flex justify-between border-b border-red-200/50 pb-1"><span>Quỹ Lương Giáo Viên:</span><strong>${totalTeacherBonus.toLocaleString()}đ</strong></div>`;
             for(let key in opCostsSummary) {
                 breakdownHtml += `<div class="flex justify-between border-b border-red-200/50 pb-1"><span>${key}:</span><strong>${opCostsSummary[key].toLocaleString()}đ</strong></div>`;
@@ -1085,30 +1086,35 @@
             const mTableBody = document.getElementById('monthlyReportTableBody');
             mTableBody.innerHTML = '';
             let sortedMonths = Object.keys(monthlyMap).sort();
-            sortedMonths.forEach(m => {
-                let data = monthlyMap[m];
-                let monthOpCost = 0;
-                if(sysSettings.opCosts) {
-                    sysSettings.opCosts.forEach(item => {
-                        if(item.name.toLowerCase().includes('hv') || item.name.toLowerCase().includes('học viên') || item.name.toLowerCase().includes('thi')) {
-                            monthOpCost += data.count * (item.amount || 0);
-                        } else {
-                            monthOpCost += (item.amount || 0);
-                        }
-                    });
-                }
-                let estCost = monthOpCost; // Có thể cộng thêm lương phân bổ nếu muốn
-                let estProfit = data.rev - estCost;
-                mTableBody.innerHTML += `
-                    <tr class="hover:bg-slate-50 border-b">
-                        <td class="p-4 font-bold font-mono text-blue-700">Tháng ${m}</td>
-                        <td class="p-4 text-center font-bold">${data.count} HV</td>
-                        <td class="p-4 text-right font-bold text-emerald-600">${data.rev.toLocaleString()}đ</td>
-                        <td class="p-4 text-right font-bold text-red-600">${Math.round(estCost).toLocaleString()}đ</td>
-                        <td class="p-4 text-right font-black ${estProfit>=0?'text-emerald-700':'text-red-700'}">${Math.round(estProfit).toLocaleString()}đ</td>
-                    </tr>
-                `;
-            });
+            if(sortedMonths.length === 0) {
+                mTableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500 italic">Chưa có dữ liệu học viên theo tháng.</td></tr>';
+            } else {
+                sortedMonths.forEach(m => {
+                    let data = monthlyMap[m];
+                    let monthOpCost = 0;
+                    if(sysSettings.opCosts) {
+                        sysSettings.opCosts.forEach(item => {
+                            let nameLower = item.name.toLowerCase();
+                            if(nameLower.includes('hv') || nameLower.includes('học viên') || nameLower.includes('thi') || nameLower.includes('sk')) {
+                                monthOpCost += data.count * (item.amount || 0);
+                            } else {
+                                monthOpCost += (item.amount || 0);
+                            }
+                        });
+                    }
+                    let estCost = monthOpCost;
+                    let estProfit = data.rev - estCost;
+                    mTableBody.innerHTML += `
+                        <tr class="hover:bg-slate-50 border-b">
+                            <td class="p-4 font-bold font-mono text-blue-700">Tháng ${m}</td>
+                            <td class="p-4 text-center font-bold">${data.count} HV</td>
+                            <td class="p-4 text-right font-bold text-emerald-600">${data.rev.toLocaleString()}đ</td>
+                            <td class="p-4 text-right font-bold text-red-600">${Math.round(estCost).toLocaleString()}đ</td>
+                            <td class="p-4 text-right font-black ${estProfit>=0?'text-emerald-700':'text-red-700'}">${Math.round(estProfit).toLocaleString()}đ</td>
+                        </tr>
+                    `;
+                });
+            }
         }
 
         function saveTeacherRecord() {
